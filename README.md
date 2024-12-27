@@ -44,7 +44,7 @@ Etadoor is a modern e-commerce platform specialized in door sales, connecting bu
 
 1. Clone the repository
 ```bash
-git clone https://github.com/yourusername/etadoor.git
+git clone https://github.com/neKamita/etadoor.git
 cd etadoor
 ```
 
@@ -96,7 +96,7 @@ Main entities:
 This project is licensed under the MIT License - see the LICENSE.md file for details
 
 ## Contact
-Project Link: https://github.com/yourusername/etadoor
+Project Link: https://github.com/neKamita/etadoor
 
 ## Acknowledgments
 - Spring Boot Documentation
