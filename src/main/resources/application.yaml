@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/modul_10
+    username: postgres
+    password: root123
+  jpa:
+    hibernate:
+      ddl-auto: create
+jwt:
+  expire-timeout: 86400000
+  #expire-timeout: 20000
+  secret-key: "hbsfghbsdhbghksjdhfjkbdshbsdjkfjksdbgksfbskdjb"
+
+
