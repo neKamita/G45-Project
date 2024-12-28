@@ -1,5 +1,7 @@
 # Etadoor - Online Door Marketplace
 
+[![Changelog](https://img.shields.io/badge/changelog-View%20Recent%20Changes-blue.svg)](CHANGELOG.md)
+
 ## Overview
 Etadoor is a modern e-commerce platform specialized in door sales, connecting buyers with sellers in a seamless marketplace environment. The platform enables users to browse, purchase doors, leave reviews, and even become sellers themselves.
 
@@ -102,3 +104,6 @@ Project Link: https://github.com/neKamita/etadoor
 - Spring Boot Documentation
 - PostgreSQL Documentation
 - Maven Documentation
+
+## Recent Changes
+See our [CHANGELOG](CHANGELOG.md) for detailed version history and updates.
