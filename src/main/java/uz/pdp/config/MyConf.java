@@ -1,78 +1,98 @@
 package uz.pdp.config;
 
 import lombok.RequiredArgsConstructor;
+import uz.pdp.config.filtr.MyFilter;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
-import uz.pdp.config.filtr.MyFilter;
-import uz.pdp.repository.UserRepository;
-
-
-import java.util.List;
-
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 @Configuration
-@RequiredArgsConstructor
+@EnableWebSecurity
+@EnableMethodSecurity(prePostEnabled = true)
 public class MyConf {
-    final UserRepository userRepository;
-    final MyFilter myFilter;
 
+    private final MyFilter myFilter;
+
+    
+
+    public MyConf(MyFilter myFilter) {
+        this.myFilter = myFilter;
+    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        return httpSecurity
-                .cors(c -> corsConfigurationSource())
-                .csrf(c ->c.disable())
-                .authorizeHttpRequests(
-                        auth->
-                                auth
-                                        .requestMatchers(new String[]{"/api/auth/**","swagger-ui/**","/v3/api-docs/**"})
-                                        .permitAll()
-                                        .requestMatchers(HttpMethod.GET,"/product/**")
-                                        .permitAll()
-                                        .requestMatchers(HttpMethod.DELETE,"/product/**")
-                                        .hasRole("ADMIN")
-                                        .anyRequest()
-                                        .authenticated()
-                )
-                .addFilterBefore(myFilter, UsernamePasswordAuthenticationFilter.class)
-                .build();
+        httpSecurity
+            .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+            .csrf(csrf -> csrf.disable())
+            .authorizeHttpRequests(auth -> auth
+                .requestMatchers(
+                    "/api/auth/**",
+                    "/swagger-ui/**",
+                    "/swagger-ui.html",
+                    "/v3/api-docs/**",
+                    "/webjars/**"
+                ).permitAll()
+                .anyRequest().authenticated()
+            )
+            .addFilterBefore(myFilter, UsernamePasswordAuthenticationFilter.class)
+            .authenticationProvider(authenticationProvider())
+            .httpBasic(Customizer.withDefaults());
+
+        return httpSecurity.build();
     }
-
-
 
     @Bean
-    UserDetailsService userDetailsService(){
-        return (username)->{
-            return userRepository.findByUsername(username).orElseThrow();
-        };
+    public UserDetailsService userDetailsService() {
+        UserDetails user = User.builder()
+            .username("user")
+            .password(passwordEncoder().encode("password"))
+            .roles("USER")
+            .build();
+
+        UserDetails admin = User.builder()
+            .username("admin")
+            .password(passwordEncoder().encode("admin"))
+            .roles("ADMIN")
+            .build();
+
+        return new InMemoryUserDetailsManager(user, admin);
     }
+
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOriginPatterns(List.of("*"
-//                "http://localhost:8080",
-//                "http://localhost:5173"
-        ));
-        configuration.setAllowedHeaders(List.of("*"
-                /*"Accept",
-                "Content-Type",
-                "Authorization"*/
-        ));
-        configuration.setAllowedMethods(List.of(
-                "GET", "POST", "DELETE", "PUT", "PATCH"
-        ));
-
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-        /*source.registerCorsConfiguration("/api/v2/**", configuration2);
-        source.registerCorsConfiguration("/api/v3/**", configuration3);*/
+        // Configure CORS settings here
         return source;
     }
+
+    @Bean
+    public AuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+        provider.setUserDetailsService(userDetailsService());
+        provider.setPasswordEncoder(passwordEncoder());
+        return provider;
+    }
+
+    @Bean 
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
 }

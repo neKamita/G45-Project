@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-ProjectModul10Application<Project-Modul-10>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "uz.pdp.projectmodul10.ProjectModul10Application",
+            "projectName": "Project-Modul-10",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

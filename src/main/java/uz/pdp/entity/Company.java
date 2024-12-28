@@ -23,6 +23,7 @@ public class Company {
     private String email;
     private String phone;
     private LocalDate workTime;
-    @OneToOne(cascade = CascadeType.ALL)
+    @ElementCollection
+    @Enumerated(EnumType.STRING)
     private List<Socials> socialsList;
 }
