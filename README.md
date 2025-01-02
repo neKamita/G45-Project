@@ -13,7 +13,7 @@ Etadoor is a door marketplace platform built with Spring Boot, offering both RES
 - Door catalog with customization options
 - Dynamic price calculation system
 - User authentication with JWT
-- Role-based access control (USER, ADMIN)
+- Role-based access control (USER, ADMIN,SELLER)
 - GraphQL API support
 
 ### Technical Features
@@ -34,14 +34,15 @@ Etadoor is a door marketplace platform built with Spring Boot, offering both RES
 ## Getting Started
 
 ### Prerequisites
-- JDK 17
+- JDK 17+
 - PostgreSQL 12+
-- Maven
+- Maven 3.6+
+- Docker (optional)
 
 ### Setup
 1. Clone the repository
 ```bash
-git clone https://github.com/yourusername/etadoor.git
+git clone https://github.com/neKamita/G45-Project.git
 cd etadoor
 ```
 
