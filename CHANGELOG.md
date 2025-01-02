@@ -3,7 +3,26 @@
 All notable changes to this project will be documented in this file.
 
 <details open>
-<summary><strong>Version 1.0.0 (2024-28-12)</strong></summary>
+<summary><strong>Version 1.0.1 (2024-01-02)</strong></summary>
+
+### 🔄 Changes
+- Switched from username to name-based authentication in [`User`](src/main/java/uz/pdp/entity/User.java)
+- Added lastname field support in user registration
+- Implemented [`CustomUserDetailsService`](src/main/java/uz/pdp/config/CustomUserDetailsService.java) for database authentication
+- Enhanced JWT token generation to use name instead of username
+
+### 🐛 Bug Fixes
+- Fixed userRepository null pointer exception in CustomUserDetailsService
+- Resolved JWT token validation with name-based lookup
+- Fixed user authentication flow in [`AuthService`](src/main/java/uz/pdp/service/AuthService.java)
+
+### 🔒 Security
+- Enhanced user lookup security with proper name-based queries
+- Improved token generation with proper user identification
+</details>
+
+<details>
+<summary><strong>Version 1.0.0 (2023-12-28)</strong></summary>
 
 ### 🚀 New Features
 - JWT authentication with Bearer token support
@@ -12,7 +31,7 @@ All notable changes to this project will be documented in this file.
 - User entity with role-based authorization
 - Company entity with social media list support
 - Door catalog basic structure
-- Basic security configuration in `MyConf`
+- Basic security configuration in [`MyConf`](src/main/java/uz/pdp/config/MyConf.java)
 - PostgreSQL database integration
 
 ### 🔄 Changes

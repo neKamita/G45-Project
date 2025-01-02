@@ -9,7 +9,8 @@ import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import uz.pdp.role .*;
+import uz.pdp.enums.Color;
+import uz.pdp.enums.Size;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

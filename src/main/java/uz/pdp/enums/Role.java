@@ -1,4 +1,4 @@
-package uz.pdp.role;
+package uz.pdp.enums;
 
 public enum Role {
     USER,

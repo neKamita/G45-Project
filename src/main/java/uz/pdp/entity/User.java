@@ -4,10 +4,11 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import uz.pdp.enums.Role;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import uz.pdp.role.Role;
 
 import java.util.Collection;
 import java.util.List;
@@ -21,12 +22,16 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    
     private String name;
-    private String username; // Add this field
+    private String lastname;
     private String email;
     private String password;
-    private Role role;
     private String phone;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role = Role.USER;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -35,7 +40,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return username; // Return the username field
+        return name; // Use name as username
     }
 
     @Override
@@ -56,10 +61,5 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
-    }
-
-    @Override
-    public String getPassword() {
-        return password;
     }
 }
