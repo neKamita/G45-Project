@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 
 <details open>
+<summary><strong>Version 1.0.2 (2024-01-02)</strong></summary>
+
+### 🔄 Changes
+- Simplified [`Door`](src/main/java/uz/pdp/entity/Door.java) entity structure
+- Enhanced [`Size`](src/main/java/uz/pdp/enums/Size.java) enum with dimension data
+- Added price calculation logic for custom orders
+- Improved door configuration system
+
+### 🛠 Technical Updates
+- Removed redundant width/height fields from Door entity
+- Added standard size definitions in Size enum
+- Implemented dynamic price calculation based on customizations
+- Optimized door customization workflow
+</details>
+
+
+
+<details>
 <summary><strong>Version 1.0.1 (2024-01-02)</strong></summary>
 
 ### 🔄 Changes
