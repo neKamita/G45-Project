@@ -24,7 +24,7 @@ Etadoor is a door marketplace platform built with Spring Boot, offering both RES
 - PostgreSQL database integration
 
 ## Technology Stack
-- Java Spring Boot 3.0.0
+- Java Spring Boot 3.4.1
 - Spring Security with JWT
 - Spring GraphQL
 - Spring Data JPA
