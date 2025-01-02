@@ -1,109 +1,107 @@
 # Etadoor - Online Door Marketplace
 
-[![Changelog](https://img.shields.io/badge/changelog-View%20Recent%20Changes-blue.svg)](CHANGELOG.md)
+[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.0.0-brightgreen.svg)](https://spring.io/projects/spring-boot)
+[![GraphQL](https://img.shields.io/badge/GraphQL-Enabled-e10098.svg)](https://graphql.org)
+[![Version](https://img.shields.io/badge/version-1.0.3-blue.svg)](CHANGELOG.md)
 
 ## Overview
-Etadoor is a modern e-commerce platform specialized in door sales, connecting buyers with sellers in a seamless marketplace environment. The platform enables users to browse, purchase doors, leave reviews, and even become sellers themselves.
+Etadoor is a door marketplace platform built with Spring Boot, offering both REST and GraphQL APIs. The platform allows users to browse and configure custom doors with various specifications.
 
-## Features
+## Key Features
 
-### For Buyers
-- Browse extensive door catalog with detailed specifications
-- Advanced search and filtering options
-- Secure checkout process
-- Review system for purchased products
-- User profile management
-- Order tracking and history
+### Core Functionality
+- Door catalog with customization options
+- Dynamic price calculation system
+- User authentication with JWT
+- Role-based access control (USER, ADMIN)
+- GraphQL API support
 
-### For Sellers
-- Seller account registration and verification
-- Product listing management
-- Order management dashboard
-- Sales analytics and reporting
-- Inventory management
+### Technical Features
+- REST API with Swagger documentation
+- GraphQL API with GraphiQL interface
+- JWT-based authentication
+- Name-based user identification
+- PostgreSQL database integration
 
 ## Technology Stack
+- Java Spring Boot 3.0.0
+- Spring Security with JWT
+- Spring GraphQL
+- Spring Data JPA
+- PostgreSQL
+- Swagger UI
 
-### Backend
-- Java Spring Boot
-- Spring Security for authentication
-- Spring Data JPA for data persistence
-- PostgreSQL database
+## Getting Started
 
-### Security
-- JWT based authentication
-- Role-based access control (RBAC)
-- Password encryption
-- Secure API endpoints
+### Prerequisites
+- JDK 17
+- PostgreSQL 12+
+- Maven
 
-## Prerequisites
-- JDK 17 or higher
-- PostgreSQL 12 or higher
-- Maven 3.6+
-- Git
-
-## Installation and Setup
-
+### Setup
 1. Clone the repository
 ```bash
-git clone https://github.com/neKamita/etadoor.git
+git clone https://github.com/yourusername/etadoor.git
 cd etadoor
 ```
 
-2. Configure PostgreSQL
-```bash
-# Create database
-createdb etadoor
-
-# Update application.properties with your database credentials
+2. Configure database connection in `application.properties`
+```properties
 spring.datasource.url=jdbc:postgresql://localhost:5432/etadoor
 spring.datasource.username=your_username
 spring.datasource.password=your_password
 ```
 
-3. Build the project
+3. Build and run
 ```bash
 mvn clean install
-```
-
-4. Run the application
-```bash
 mvn spring-boot:run
 ```
 
-The application will be available at `http://localhost:8080`
-
 ## API Documentation
-Once the application is running, access the Swagger UI documentation at:
-`http://localhost:8080/swagger-ui.html`
+- REST API: `/swagger-ui.html`
+- GraphQL API: `/graphiql`
 
-## Database Schema
+### GraphQL Example Queries
+```graphql
+# Get door details
+query GetDoor {
+  door(id: 1) {
+    id
+    name
+    size
+    color
+    finalPrice
+  }
+}
 
-Main entities:
-- Users (Buyers/Sellers)
-- Products (Doors)
-- Orders
-- Reviews
-- Categories
-- Cart Items
+# Configure door
+mutation ConfigureDoor {
+  configureDoor(input: {
+    id: 1
+    size: CUSTOM
+    color: BLACK
+    width: 250
+    height: 220
+  }) {
+    id
+    finalPrice
+  }
+}
+```
 
-## Contributing
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+## Project Structure
+- `src/main/java/uz/pdp/controller` - REST and GraphQL controllers
+- `src/main/java/uz/pdp/entity` - Domain entities
+- `src/main/java/uz/pdp/service` - Business logic
+- `src/main/java/uz/pdp/config` - Configuration classes
+- `src/main/resources/graphql` - GraphQL schema
+
+## Recent Updates
+See [CHANGELOG.md](CHANGELOG.md) for detailed version history.
 
 ## License
-This project is licensed under the MIT License - see the LICENSE.md file for details
+MIT License
 
 ## Contact
-Project Link: https://github.com/neKamita/etadoor
-
-## Acknowledgments
-- Spring Boot Documentation
-- PostgreSQL Documentation
-- Maven Documentation
-
-## Recent Changes
-See our [CHANGELOG](CHANGELOG.md) for detailed version history and updates.
+For support or queries, please open an issue in the repository.

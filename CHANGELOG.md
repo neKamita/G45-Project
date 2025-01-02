@@ -1,8 +1,57 @@
 # Etadoor Changelog
 
-All notable changes to this project will be documented in this file.
+All notable changes to this project
+ will be documented in this file.
 
 <details open>
+<summary><strong>Version 1.0.3 (2024-01-02)</strong></summary>
+
+### 🚀 New Features
+- Added GraphQL API support with Spring GraphQL
+- Implemented Door entity queries and mutations
+- Added GraphiQL UI for testing at `/graphiql`
+- Added schema-based type definitions
+
+### 🛠 Technical Updates
+- Added GraphQL schema in [schema.graphqls](src/main/resources/graphql/schema.graphqls)
+- Enhanced [`DoorController`](src/main/java/uz/pdp/controller/DoorController.java) with GraphQL support
+- Implemented query resolvers for door management
+- Added mutation support for door configuration
+
+### 📝 Documentation
+- Added GraphQL query examples below
+- Updated API documentation with GraphQL section
+
+#### GraphQL Query Examples:
+```graphql
+# Get door details
+query GetDoor {
+  door(id: 1) {
+    id
+    name
+    size
+    color
+    finalPrice
+  }
+}
+
+# Configure door
+mutation ConfigureDoor {
+  configureDoor(input: {
+    id: 1
+    size: CUSTOM
+    color: BLACK
+    width: 250
+    height: 220
+  }) {
+    id
+    finalPrice
+  }
+}
+```
+</details>
+
+<details>
 <summary><strong>Version 1.0.2 (2025-01-02)</strong></summary>
 
 ### 🔄 Changes

@@ -1,9 +1,20 @@
 spring:
+  graphql:
+    graphiql:
+      enabled: true      
+      path: /graphiql    
+    path: /graphql       
+    schema:
+      printer:
+        enabled: true
+    cors:
+      allowed-origins: "*"
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/modul_10
     username: postgres
     password: root123
+  
   jpa:
     hibernate:
       ddl-auto: update

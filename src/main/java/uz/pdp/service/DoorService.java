@@ -1,5 +1,7 @@
 package uz.pdp.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import uz.pdp.entity.Door;
@@ -17,6 +19,10 @@ public class DoorService {
     public Door getDoor(Long id) {
         return doorRepository.findById(id)
             .orElseThrow(() -> new EntityNotFoundException("Door not found with id: " + id));
+    }
+    
+    public List<Door> getAllDoors() {
+        return doorRepository.findAll();
     }
 
     public Door configureDoor(Long id, Size size, Color color, Double width, Double height) {

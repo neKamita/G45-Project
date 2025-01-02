@@ -1,0 +1,47 @@
+type Door {
+    id: ID!
+    name: String!
+    description: String
+    price: Float!
+    images: [String]
+    size: Size!
+    color: Color!
+    material: String
+    manufacturer: String
+    warrantyYears: Int
+    customWidth: Float
+    customHeight: Float
+    isCustomColor: Boolean!
+    finalPrice: Float!
+}
+
+enum Size {
+    STANDARD
+    MEDIUM
+    LARGE
+    CUSTOM
+}
+
+enum Color {
+    WHITE
+    BROWN
+    BLACK
+    CUSTOM
+}
+
+type Query {
+    door(id: ID!): Door
+    doors: [Door]!
+}
+
+type Mutation {
+    configureDoor(input: DoorConfigInput!): Door!
+}
+
+input DoorConfigInput {
+    id: ID!
+    size: Size
+    color: Color
+    width: Float
+    height: Float
+}
