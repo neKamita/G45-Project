@@ -101,8 +101,6 @@ mutation ConfigureDoor {
 ## Recent Updates
 See [CHANGELOG.md](CHANGELOG.md) for detailed version history.
 
-## License
-MIT License
 
 ## Contact
 For support or queries, please open an issue in the repository.
