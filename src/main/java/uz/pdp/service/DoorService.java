@@ -24,17 +24,15 @@ public class DoorService {
         
         if (size != null) {
             door.setSize(size);
-            door.setIsCustomSize(size == Size.CUSTOM);
+            if (size == Size.CUSTOM && width != null && height != null) {
+                door.setCustomWidth(width);
+                door.setCustomHeight(height);
+            }
         }
         
         if (color != null) {
             door.setColor(color);
             door.setIsCustomColor(color == Color.CUSTOM);
-        }
-        
-        if (width != null && height != null && size == Size.CUSTOM) {
-            door.setWidth(width);
-            door.setHeight(height);
         }
         
         return doorRepository.save(door);
