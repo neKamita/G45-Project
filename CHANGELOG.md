@@ -3,7 +3,7 @@
 All notable changes to this project will be documented in this file.
 
 <details open>
-<summary><strong>Version 1.0.1 (2024-01-02)</strong></summary>
+<summary><strong>Version 1.0.1 (2025-01-02)</strong></summary>
 
 ### 🔄 Changes
 - Switched from username to name-based authentication in [`User`](src/main/java/uz/pdp/entity/User.java)
