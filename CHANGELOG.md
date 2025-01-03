@@ -3,7 +3,22 @@
 All notable changes to this project
  will be documented in this file.
 
- <details open>
+<details open>
+<summary><strong>Version 1.0.5 (2025-01-03)</strong></summary>
+
+### 🚀 New Features
+- Added Docker support for the application
+
+### 🛠 Technical Updates
+- Created a Dockerfile for building and running the application
+- Updated `application.yaml` with hardcoded database connection details
+
+### 📝 Documentation
+- Updated `README.md` with Docker setup instructions
+
+</details>
+
+ <details>
 <summary><strong>Version 1.0.4 (2025-01-03)</strong></summary>
 
 ### 🚀 New Features

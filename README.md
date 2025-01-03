@@ -1,8 +1,8 @@
 # Etadoor - Online Door Marketplace
 
-[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.0.0-brightgreen.svg)](https://spring.io/projects/spring-boot)
+[![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.4.1-brightgreen.svg)](https://spring.io/projects/spring-boot)
 [![GraphQL](https://img.shields.io/badge/GraphQL-Enabled-e10098.svg)](https://graphql.org)
-[![Version](https://img.shields.io/badge/version-1.0.3-blue.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-1.0.5-blue.svg)](CHANGELOG.md)
 
 ## Overview
 Etadoor is a door marketplace platform built with Spring Boot, offering both REST and GraphQL APIs. The platform allows users to browse and configure custom doors with various specifications.
@@ -13,7 +13,7 @@ Etadoor is a door marketplace platform built with Spring Boot, offering both RES
 - Door catalog with customization options
 - Dynamic price calculation system
 - User authentication with JWT
-- Role-based access control (USER, ADMIN,SELLER)
+- Role-based access control (USER, ADMIN, SELLER)
 - GraphQL API support
 
 ### Technical Features
@@ -30,6 +30,7 @@ Etadoor is a door marketplace platform built with Spring Boot, offering both RES
 - Spring Data JPA
 - PostgreSQL
 - Swagger UI
+- Docker
 
 ## Getting Started
 
@@ -37,7 +38,7 @@ Etadoor is a door marketplace platform built with Spring Boot, offering both RES
 - JDK 17+
 - PostgreSQL 12+
 - Maven 3.6+
-- Docker (optional)
+- Docker
 
 ### Setup
 1. Clone the repository
@@ -59,9 +60,17 @@ mvn clean install
 mvn spring-boot:run
 ```
 
+4. Docker Setup
+```bash
+docker build -t etadoor:latest . 
+docker run -p 8080:8080 etadoor:latest
+
+```
+
 ## API Documentation
 - REST API: `/swagger-ui.html`
 - GraphQL API: `/graphiql`
+- Render Web App: `/https://g45-project.onrender.com`
 
 ### GraphQL Example Queries
 ```graphql
