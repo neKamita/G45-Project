@@ -3,7 +3,21 @@
 All notable changes to this project
  will be documented in this file.
 
-<details open>
+ <details open>
+<summary><strong>Version 1.0.4 (2025-01-03)</strong></summary>
+
+### 🚀 New Features
+- Added Render PostgreSQL database configuration
+
+### 🛠 Technical Updates
+- Updated `application.yaml` with Render database connection details
+
+### 📝 Documentation
+- Updated `README.md` with Render PostgreSQL setup instructions
+
+</details>
+
+<details>
 <summary><strong>Version 1.0.3 (2024-01-02)</strong></summary>
 
 ### 🚀 New Features
