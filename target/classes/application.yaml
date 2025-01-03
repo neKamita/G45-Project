@@ -11,9 +11,9 @@ spring:
       allowed-origins: "*"
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: ${SPRING_DATASOURCE_URL}
-    username: ${SPRING_DATASOURCE_USERNAME}
-    password: ${SPRING_DATASOURCE_PASSWORD}
+    url: jdbc:postgresql://dpg-ctrrlibqf0us73djv36g-a.oregon-postgres.render.com:5432/g45_project
+    username: g45_project_user
+    password: XkeRzoJ9JDKblFXb2tV8vFZG4WYyoLUV
 
   jpa:
     hibernate:
@@ -32,6 +32,6 @@ springdoc:
 
 jwt:
   expire-timeout: 86400000
-  secret-key: ${JWT_SECRET_KEY}
+  secret-key: "hbsfghbsdhbghksjdhfjkbdshbsdjkfjksdbgksfbskdjb"
 
 
