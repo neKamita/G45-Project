@@ -6,4 +6,5 @@ import uz.pdp.entity.Door;
 
 @Repository
 public interface DoorRepository extends JpaRepository<Door, Long> {
+    
 }

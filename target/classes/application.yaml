@@ -11,10 +11,10 @@ spring:
       allowed-origins: "*"
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/modul_10
-    username: postgres
-    password: root123
-  
+    url: jdbc:postgresql://dpg-ctrrlibqf0us73djv36g-a.oregon-postgres.render.com:5432/g45_project
+    username: g45_project_user
+    password: XkeRzoJ9JDKblFXb2tV8vFZG4WYyoLUV
+
   jpa:
     hibernate:
       ddl-auto: update
@@ -32,7 +32,6 @@ springdoc:
 
 jwt:
   expire-timeout: 86400000
-  #expire-timeout: 20000
   secret-key: "hbsfghbsdhbghksjdhfjkbdshbsdjkfjksdbgksfbskdjb"
 
 
