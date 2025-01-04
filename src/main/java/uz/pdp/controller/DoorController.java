@@ -14,6 +14,8 @@ import uz.pdp.enums.Size;
 import uz.pdp.mutations.DoorConfigInput;
 import uz.pdp.service.DoorService;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/doors")
 @Tag(name = "Door Management", description = "APIs for managing doors")
@@ -26,6 +28,31 @@ public class DoorController {
     @Operation(summary = "Get door details by ID")
     public ResponseEntity<Door> getDoor(@PathVariable Long id) {
         return ResponseEntity.ok(doorService.getDoor(id));
+    }
+
+    @GetMapping
+    @Operation(summary = "Get all doors")
+    public ResponseEntity<List<Door>> getAllDoors() {
+        return ResponseEntity.ok(doorService.getAllDoors());
+    }
+
+    @PostMapping
+    @Operation(summary = "Create a new door")
+    public ResponseEntity<Door> createDoor(@RequestBody Door door) {
+        return ResponseEntity.ok(doorService.createDoor(door));
+    }
+
+    @PutMapping("/{id}")
+    @Operation(summary = "Update door details")
+    public ResponseEntity<Door> updateDoor(@PathVariable Long id, @RequestBody Door updatedDoor) {
+        return ResponseEntity.ok(doorService.updateDoor(id, updatedDoor));
+    }
+
+    @DeleteMapping("/{id}")
+    @Operation(summary = "Delete a door")
+    public ResponseEntity<Void> deleteDoor(@PathVariable Long id) {
+        doorService.deleteDoor(id);
+        return ResponseEntity.noContent().build();
     }
 
     @PostMapping("/{id}/configure")

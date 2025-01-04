@@ -25,6 +25,32 @@ public class DoorService {
         return doorRepository.findAll();
     }
 
+    public Door createDoor(Door door) {
+        return doorRepository.save(door);
+    }
+
+    public Door updateDoor(Long id, Door updatedDoor) {
+        Door door = getDoor(id);
+        door.setName(updatedDoor.getName());
+        door.setDescription(updatedDoor.getDescription());
+        door.setPrice(updatedDoor.getPrice());
+        door.setImages(updatedDoor.getImages());
+        door.setSize(updatedDoor.getSize());
+        door.setColor(updatedDoor.getColor());
+        door.setMaterial(updatedDoor.getMaterial());
+        door.setManufacturer(updatedDoor.getManufacturer());
+        door.setWarrantyYears(updatedDoor.getWarrantyYears());
+        door.setCustomWidth(updatedDoor.getCustomWidth());
+        door.setCustomHeight(updatedDoor.getCustomHeight());
+        door.setIsCustomColor(updatedDoor.getIsCustomColor());
+        return doorRepository.save(door);
+    }
+
+    public void deleteDoor(Long id) {
+        Door door = getDoor(id);
+        doorRepository.delete(door);
+    }
+
     public Door configureDoor(Long id, Size size, Color color, Double width, Double height) {
         Door door = getDoor(id);
         

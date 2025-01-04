@@ -2,8 +2,17 @@
 
 All notable changes to this project
  will be documented in this file.
-
 <details open>
+<summary><strong>Version 1.0.6 (2025-01-04)</strong></summary>
+
+### New Features
+- Implemented full CRUD operations for the `Door` entity
+
+### Technical Updates
+- Added endpoints for creating, reading, updating, and deleting doors
+
+### Documentation
+<details>
 <summary><strong>Version 1.0.5 (2025-01-03)</strong></summary>
 
 ### 🚀 New Features
