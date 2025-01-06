@@ -53,9 +53,9 @@ cd etadoor
 
 2. Configure database connection in `application.properties`
 ```properties
-spring.datasource.url=jdbc:postgresql://localhost:5432/etadoor
-spring.datasource.username=your_username
-spring.datasource.password=your_password
+spring.datasource.url=jdbc:postgresql://localhost:5432/etadoor # Change to your database URL for local setup
+spring.datasource.username=your_username # Change to your database username for local setup
+spring.datasource.password=your_password # Change to your database password for local setup
 ```
 
 3. Build and run
