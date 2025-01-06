@@ -162,6 +162,11 @@ To run the tests:
 ```bash
 ./mvnw test
 ```
+# Build the project
+.\mvnw.cmd clean install
+
+# Run the application
+.\mvnw.cmd spring-boot:run
 
 ## Recent Updates
 See [CHANGELOG.md](CHANGELOG.md) for detailed version history.
@@ -169,3 +174,5 @@ See [CHANGELOG.md](CHANGELOG.md) for detailed version history.
 
 ## Contact
 For support or queries, please open an issue in the repository.
+
+
