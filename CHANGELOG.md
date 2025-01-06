@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file.
 
 ### Technical Updates
 - Updated `application.yaml` to change the base URL to `https://g45-project.onrender.com`
+- Updated Swagger configuration to use the new base URL
 
 </details>
 
