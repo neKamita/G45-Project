@@ -2,7 +2,7 @@
 
 [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.4.1-brightgreen.svg)](https://spring.io/projects/spring-boot)
 [![GraphQL](https://img.shields.io/badge/GraphQL-Enabled-e10098.svg)](https://graphql.org)
-[![Version](https://img.shields.io/badge/version-1.0.5-blue.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-1.0.8-blue.svg)](CHANGELOG.md)
 
 ## Overview
 Etadoor is a door marketplace platform built with Spring Boot, offering both REST and GraphQL APIs. The platform allows users to browse and configure custom doors with various specifications.
