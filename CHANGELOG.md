@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file.
 <details open>
+<summary><strong>Version 1.0.8 (2025-01-06)</strong></summary>
+
+### New Features
+- Added unit tests for `AuthService` and `DoorService`
+
+### Technical Updates
+- Implemented unit tests for `AuthService` covering sign-in and sign-up scenarios
+- Implemented unit tests for `DoorService` covering CRUD operations and failure scenarios
+
+### Documentation
+- Updated `README.md` with instructions on running unit tests
+
+</details>
+
+<details>
 <summary><strong>Version 1.0.7 (2025-01-05)</strong></summary>
 
 ### Technical Updates
