@@ -1,17 +1,28 @@
 # Etadoor Changelog
 
-All notable changes to this project
- will be documented in this file.
+All notable changes to this project will be documented in this file.
 <details open>
+<summary><strong>Version 1.0.7 (2025-01-05)</strong></summary>
+
+### Technical Updates
+- Updated `application.yaml` to change the base URL to `https://g45-project.onrender.com`
+
+</details>
+
+<details>
 <summary><strong>Version 1.0.6 (2025-01-04)</strong></summary>
 
 ### New Features
-- Implemented full CRUD operations for the `Door` entity
+- Implemented full CRUD operations for the `Door` entity  
 
 ### Technical Updates
 - Added endpoints for creating, reading, updating, and deleting doors
 
 ### Documentation
+- Updated `README.md` with new API endpoints for door management
+
+</details>
+
 <details>
 <summary><strong>Version 1.0.5 (2025-01-03)</strong></summary>
 
@@ -27,7 +38,7 @@ All notable changes to this project
 
 </details>
 
- <details>
+<details>
 <summary><strong>Version 1.0.4 (2025-01-03)</strong></summary>
 
 ### 🚀 New Features
