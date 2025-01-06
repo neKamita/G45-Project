@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file.
 <details open>
+<summary><strong>Version 1.0.9 (2025-01-07)</strong></summary>
+
+### New Features
+- Added Redis caching support
+
+### Technical Updates
+- Implemented Redis caching for door operations
+- Added Redis configuration
+- Updated DoorService with caching annotations
+
+### Documentation
+- Updated README.md with Redis setup instructions
+
+</details>
+
+<details open>
 <summary><strong>Version 1.0.8 (2025-01-06)</strong></summary>
 
 ### New Features

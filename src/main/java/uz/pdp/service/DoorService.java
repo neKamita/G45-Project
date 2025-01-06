@@ -3,6 +3,9 @@ package uz.pdp.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import uz.pdp.entity.Door;
 import uz.pdp.enums.Color;
@@ -16,19 +19,23 @@ public class DoorService {
     @Autowired
     private DoorRepository doorRepository;
 
+    @Cacheable(value = "doors", key = "#id")
     public Door getDoor(Long id) {
         return doorRepository.findById(id)
             .orElseThrow(() -> new EntityNotFoundException("Door not found with id: " + id));
     }
     
+    @Cacheable(value = "allDoors")
     public List<Door> getAllDoors() {
         return doorRepository.findAll();
     }
 
+    @CachePut(value = "doors", key = "#door.id")
     public Door createDoor(Door door) {
         return doorRepository.save(door);
     }
 
+    @CachePut(value = "doors", key = "#id")
     public Door updateDoor(Long id, Door updatedDoor) {
         Door door = getDoor(id);
         door.setName(updatedDoor.getName());
@@ -46,6 +53,7 @@ public class DoorService {
         return doorRepository.save(door);
     }
 
+    @CacheEvict(value = {"doors", "allDoors"}, allEntries = true)
     public void deleteDoor(Long id) {
         Door door = getDoor(id);
         doorRepository.delete(door);

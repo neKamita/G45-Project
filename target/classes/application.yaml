@@ -11,9 +11,14 @@ spring:
       allowed-origins: "*"
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://dpg-ctrrlibqf0us73djv36g-a.oregon-postgres.render.com:5432/g45_project
-    username: g45_project_user
-    password: XkeRzoJ9JDKblFXb2tV8vFZG4WYyoLUV
+    url: jdbc:postgresql://dpg-ctrrlibqf0us73djv36g-a.oregon-postgres.render.com:5432/g45_project # Change this to your database URL for testing
+    username: g45_project_user  # Change this to your database username for testing
+    password: XkeRzoJ9JDKblFXb2tV8vFZG4WYyoLUV # Change this to your database password for testing
+  cache:
+    type: redis
+    redis:
+      time-to-live: 3600000 # 1 hour in milliseconds
+      cache-null-values: false
 
   jpa:
     hibernate:
@@ -22,6 +27,10 @@ spring:
     properties:
       hibernate:
         format_sql: true
+  data:
+    redis:
+      host: localhost
+      port: 6379
         
 springdoc:
   api-docs:

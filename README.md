@@ -71,6 +71,37 @@ docker run -p 8080:8080 etadoor:latest
 
 ```
 
+### Redis Cache Setup Arch Linux
+1. Install Redis:
+```bash
+sudo pacman -S redis
+```
+2. Start Redis:
+```bash
+sudo systemctl start redis
+sudo systemctl enable redis
+```
+3. Veirfy Redis:
+```bash
+redis-cli ping # SHOULD RETURN PONG
+```
+
+#### For Windows Users:
+1. Download Redis for Windows:
+   - Download the latest Redis version for Windows from [GitHub Releases](https://github.com/microsoftarchive/redis/releases)
+   - Download the `.msi` file (e.g., `Redis-x64-3.0.504.msi`)
+   - Run the installer
+
+2. Start Redis:
+   - Redis will be installed as a Windows service and start automatically
+   - To manually start: `net start Redis`
+   - To manually stop: `net stop Redis`
+
+3. Verify Redis:
+```cmd
+redis-cli ping # SHOULD RETURN PONG
+```
+
 ## API Documentation
 - REST API: `/swagger-uI/index.html`
 - GraphQL API: `/graphiql`
