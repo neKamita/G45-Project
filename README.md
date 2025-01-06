@@ -68,7 +68,7 @@ docker run -p 8080:8080 etadoor:latest
 ```
 
 ## API Documentation
-- REST API: `/swagger-ui.html`
+- REST API: `/swagger-uI/index.html`
 - GraphQL API: `/graphiql`
 - Render Web App: `/https://g45-project.onrender.com`
 
@@ -106,6 +106,27 @@ mutation ConfigureDoor {
 - `src/main/java/uz/pdp/service` - Business logic
 - `src/main/java/uz/pdp/config` - Configuration classes
 - `src/main/resources/graphql` - GraphQL schema
+- `src/test/java/uz/pdp/service` - Unit tests for services
+
+## Testing
+The project includes comprehensive unit tests for core services:
+
+### AuthService Tests
+- Sign-in functionality
+- Sign-up process
+- Authentication validation
+- JWT token generation
+
+### DoorService Tests
+- CRUD operations (Create, Read, Update, Delete)
+- Door configuration
+- Custom size handling
+- Error scenarios
+
+To run the tests:
+```bash
+./mvnw test
+```
 
 ## Recent Updates
 See [CHANGELOG.md](CHANGELOG.md) for detailed version history.
