@@ -1,7 +1,18 @@
 # Etadoor Changelog
 
 All notable changes to this project will be documented in this file.
+
 <details open>
+<summary><strong>Version 1.1.0 (2025-01-07)</strong></summary>
+
+### Technical Updates
+- Refactored the `configureDoor` REST endpoint in [`DoorController`](src/main/java/uz/pdp/controller/DoorController.java) to accept a `DoorConfigInput` DTO instead of individual parameters.
+- Added SLF4j logging to the `signIn` and `signUp` methods in [`AuthService`](src/main/java/uz/pdp/service/AuthService.java) for security auditing.
+- Added SLF4j logging to various methods in [`DoorService`](src/main/java/uz/pdp/service/DoorService.java) to track data operations.
+- Added SLF4j logging to the `signIn` and `signUp` methods in [`AuthController`](src/main/java/uz/pdp/controller/AuthController.java) to track incoming requests.
+
+</details>
+<details >
 <summary><strong>Version 1.0.9 (2025-01-07)</strong></summary>
 
 ### New Features
@@ -17,7 +28,7 @@ All notable changes to this project will be documented in this file.
 
 </details>
 
-<details open>
+<details >
 <summary><strong>Version 1.0.8 (2025-01-06)</strong></summary>
 
 ### New Features
@@ -98,6 +109,7 @@ All notable changes to this project will be documented in this file.
 - Enhanced [`DoorController`](src/main/java/uz/pdp/controller/DoorController.java) with GraphQL support
 - Implemented query resolvers for door management
 - Added mutation support for door configuration
+- **Added SLF4j logging to [`AuthController`](src/main/java/uz/pdp/controller/AuthController.java), [`AuthService`](src/main/java/uz/pdp/service/AuthService.java), and [`DoorController`](src/main/java/uz/pdp/controller/DoorController.java) for improved monitoring and debugging.**
 
 ### 📝 Documentation
 - Added GraphQL query examples below
@@ -199,4 +211,15 @@ mutation ConfigureDoor {
 - Implemented role-based authorization (USER, ADMIN)
 - Secured endpoints with proper authentication
 - Added CORS configuration
+</details>
+
+<details open>
+<summary><strong>Version 1.1.0 (2025-01-07)</strong></summary>
+
+### Technical Updates
+- Refactored the `configureDoor` REST endpoint in [`DoorController`](src/main/java/uz/pdp/controller/DoorController.java) to accept a `DoorConfigInput` DTO instead of individual parameters.
+- Added SLF4j logging to the `signIn` and `signUp` methods in [`AuthService`](src/main/java/uz/pdp/service/AuthService.java) for security auditing.
+- Added SLF4j logging to various methods in [`DoorService`](src/main/java/uz/pdp/service/DoorService.java) to track data operations.
+- Added SLF4j logging to the `signIn` and `signUp` methods in [`AuthController`](src/main/java/uz/pdp/controller/AuthController.java) to track incoming requests.
+
 </details>
