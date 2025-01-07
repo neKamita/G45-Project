@@ -67,7 +67,13 @@ public class AuthService {
         user.setPassword(passwordEncoder.encode(signUpRequest.getPassword()));
         user.setRole(Role.USER);
         userRepository.save(user);
-        logger.info("User '{}' registered successfully.", signUpRequest.getName());
-        return ResponseEntity.ok(Map.of("message", "User registered successfully"));
+        
+        String token = jwtProvider.generateToken(user.getName());
+        logger.info("User '{}' registered successfully and token generated.", signUpRequest.getName());
+        
+        return ResponseEntity.ok(Map.of(
+            "message", "User registered successfully",
+            "token", token
+        ));
     }
 }

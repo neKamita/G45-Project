@@ -57,6 +57,13 @@ spring:
       client-type: lettuce
       database: 0
       
+  security:
+    filter:
+      order: 1
+    user:
+      name: ${SECURITY_USER:admin}
+      password: ${SECURITY_PASSWORD:admin}
+      
 springdoc:
   api-docs:
     path: /v3/api-docs
@@ -66,6 +73,39 @@ springdoc:
     enabled: true
     operations-sorter: method
     tags-sorter: alpha
+    disable-swagger-default-url: true
+    urls:
+      - name: Development
+        url: /v3/api-docs
+      - name: Production
+        url: https://g45-project.onrender.com/v3/api-docs
+  servers:
+    - url: http://localhost:8080
+      description: Local Development Server
+    - url: https://g45-project.onrender.com
+      description: Production Server
+  info:
+    title: Etadoor API
+    version: 1.0.0
+  security-scheme:
+    bearer-auth:
+      type: http
+      scheme: bearer
+      bearer-format: JWT
+      
+security:
+  basic:
+    enabled: true
+  filter:
+    order: 1
+  permitted-paths:
+    - /api/auth/**
+    - /swagger-ui/**
+    - /swagger-ui.html
+    - /v3/api-docs/**
+    - /webjars/**
+    - /graphql/**
+    - /graphiql/**
     
 server:
   port: 8080

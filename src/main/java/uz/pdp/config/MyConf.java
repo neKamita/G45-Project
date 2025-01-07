@@ -28,7 +28,10 @@ import uz.pdp.config.filtr.MyFilter;
 @EnableMethodSecurity(prePostEnabled = true)
 @OpenAPIDefinition(
     info = @Info(title = "Etadoor API", version = "1.0.0"),
-    servers = @Server(url = "https://g45-project.onrender.com"), //for testing use localhost:8080
+    servers = {
+        @Server(url = "https://g45-project.onrender.com", description = "Production Server"),
+        @Server(url = "http://localhost:8080", description = "Local Development Server")
+    },
     security = @SecurityRequirement(name = "bearerAuth")
 )
 @SecurityScheme(
