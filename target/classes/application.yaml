@@ -9,17 +9,32 @@ spring:
         enabled: true
     cors:
       allowed-origins: "*"
+      allowed-methods: GET,POST,PUT,DELETE,OPTIONS
+      allowed-headers: "*"
+      max-age: 3600
+    websocket:
+      path: /graphql-ws
+      
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://dpg-ctrrlibqf0us73djv36g-a.oregon-postgres.render.com:5432/g45_project # Change this to your database URL for testing
-    username: g45_project_user  # Change this to your database username for testing
-    password: XkeRzoJ9JDKblFXb2tV8vFZG4WYyoLUV # Change this to your database password for testing
+    url: jdbc:postgresql://dpg-ctrrlibqf0us73djv36g-a.oregon-postgres.render.com:5432/g45_project
+    username: g45_project_user
+    password: XkeRzoJ9JDKblFXb2tV8vFZG4WYyoLUV
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+      idle-timeout: 300000
+      connection-timeout: 20000
+      max-lifetime: 1200000
+      
   cache:
     type: redis
     redis:
-      time-to-live: 3600000 # 1 hour in milliseconds
+      time-to-live: 3600000
       cache-null-values: false
-
+      use-key-prefix: true
+      key-prefix: "g45:"
+      
   jpa:
     hibernate:
       ddl-auto: update
@@ -27,25 +42,62 @@ spring:
     properties:
       hibernate:
         format_sql: true
+        jdbc:
+          batch_size: 25
+        order_inserts: true
+        order_updates: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        
   data:
     redis:
       host: localhost
       port: 6379
-        
+      timeout: 10000
+      connect-timeout: 10000
+      client-type: lettuce
+      database: 0
+      
 springdoc:
   api-docs:
     path: /v3/api-docs
+    enabled: true
   swagger-ui:
     path: /swagger-ui.html
     enabled: true
-
+    operations-sorter: method
+    tags-sorter: alpha
+    
 server:
   port: 8080
   servlet:
     context-path: /
-
+    session:
+      timeout: 30m
+  compression:
+    enabled: true
+    mime-types: text/html,text/xml,text/plain,text/css,application/javascript,application/json
+    min-response-size: 1024
+  tomcat:
+    max-threads: 200
+    connection-timeout: 5000
+    
 jwt:
   expire-timeout: 86400000
   secret-key: "hbsfghbsdhbghksjdhfjkbdshbsdjkfjksdbgksfbskdjb"
+  
+logging:
+  level:
+    root: INFO
+    uz.pdp: DEBUG
+    org.springframework.security: INFO
+    org.springframework.web: INFO
+    org.hibernate.SQL: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+  file:
+    name: logs/application.log
+    max-size: 10MB
+    max-history: 30
 
 
