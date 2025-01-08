@@ -5,35 +5,40 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
 
+import java.time.LocalDateTime;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class EntityResponse<T> {
-    private int statusCode;
     private String message;
     private T data;
-    private long timestamp;
-
-    public EntityResponse(HttpStatus status, String message, T data) {
-        this.statusCode = status.value();
-        this.message = message;
-        this.data = data;
-        this.timestamp = System.currentTimeMillis();
-    }
+    private boolean success;
+    private LocalDateTime timestamp = LocalDateTime.now();
 
     public static <T> EntityResponse<T> success(T data) {
-        return new EntityResponse<>(HttpStatus.OK, "Success", data);
+        return new EntityResponse<T>("Success", data, true, LocalDateTime.now());
     }
 
     public static <T> EntityResponse<T> success(String message, T data) {
-        return new EntityResponse<>(HttpStatus.OK, message, data);
+        return new EntityResponse<>(message, data, true, LocalDateTime.now()); 
     }
 
     public static <T> EntityResponse<T> created(T data) {
-        return new EntityResponse<>(HttpStatus.CREATED, "Created successfully", data);
+        return new EntityResponse<>("Created successfully", data, true, LocalDateTime.now());
+    }
+
+    public static <T> EntityResponse<T> created(String message, T data) {
+        return new EntityResponse<>(message, data, true, LocalDateTime.now());
     }
 
     public static EntityResponse<Void> deleted() {
-        return new EntityResponse<>(HttpStatus.NO_CONTENT, "Deleted successfully", null);
+        return new EntityResponse<>("Deleted successfully", null, true, LocalDateTime.now());
     }
-} 
+
+    public static Object error(String message2) {
+        
+        return new EntityResponse<>(message2, null, false, LocalDateTime.now());
+
+    }
+}

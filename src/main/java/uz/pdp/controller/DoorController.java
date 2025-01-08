@@ -35,27 +35,21 @@ public class DoorController {
     @GetMapping("/{id}")
     @Operation(summary = "Get door details by ID")
     public ResponseEntity<EntityResponse<Door>> getDoor(@PathVariable Long id) {
-        logger.info("Fetching door with ID: {}", id);
         Door door = doorService.getDoor(id);
-        logger.info("Retrieved door: {}", door);
         return ResponseEntity.ok(EntityResponse.success(door));
     }
 
     @GetMapping
     @Operation(summary = "Get all doors")
     public ResponseEntity<EntityResponse<List<Door>>> getAllDoors() {
-        logger.info("Fetching all doors");
         List<Door> doors = doorService.getAllDoors();
-        logger.info("Retrieved {} doors", doors.size());
         return ResponseEntity.ok(EntityResponse.success(doors));
     }
 
     @PostMapping
     @Operation(summary = "Create a new door")
     public ResponseEntity<EntityResponse<Door>> createDoor(@RequestBody Door door) {
-        logger.info("Creating a new door: {}", door);
         Door createdDoor = doorService.createDoor(door);
-        logger.info("Created door with ID: {}", createdDoor.getId());
         return ResponseEntity.status(HttpStatus.CREATED)
             .body(EntityResponse.created(createdDoor));
     }
@@ -65,18 +59,14 @@ public class DoorController {
     public ResponseEntity<EntityResponse<Door>> updateDoor(
             @PathVariable Long id, 
             @RequestBody Door updatedDoor) {
-        logger.info("Updating door with ID: {}, new data: {}", id, updatedDoor);
-        Door door = doorService.updateDoor(id, updatedDoor);
-        logger.info("Updated door: {}", door);
-        return ResponseEntity.ok(EntityResponse.success("Door updated successfully", door));
+        Door updatedDoor1 = doorService.updateDoor(id, updatedDoor);
+        return ResponseEntity.ok(EntityResponse.success("Door updated successfully", updatedDoor1));
     }
 
     @DeleteMapping("/{id}")
     @Operation(summary = "Delete a door")
     public ResponseEntity<EntityResponse<Void>> deleteDoor(@PathVariable Long id) {
-        logger.info("Deleting door with ID: {}", id);
         doorService.deleteDoor(id);
-        logger.info("Successfully deleted door with ID: {}", id);
         return ResponseEntity.ok(EntityResponse.deleted());
     }
 

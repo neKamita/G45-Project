@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 <details open>
-<summary><strong>Version 1.1.2 (2025-01-09)</strong></summary>
+<summary><strong>Version 1.1.2 (2025-01-08)</strong></summary>
 
 ### 🔄 Changes
 - Introduced standardized API response format with `EntityResponse`
