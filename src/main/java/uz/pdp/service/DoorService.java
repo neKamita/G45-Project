@@ -17,6 +17,8 @@ import uz.pdp.enums.Color;
 import uz.pdp.enums.Size;
 import uz.pdp.repository.DoorRepository;
 import jakarta.persistence.EntityNotFoundException;
+import lombok.SneakyThrows;
+
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
@@ -100,13 +102,21 @@ public class DoorService {
         logger.info("Door with ID {} deleted.", id);
     }
 
+    @Transactional(rollbackFor = Exception.class)
+    @CachePut(key = "#id")
+    @SneakyThrows
     public Door configureDoor(Long id, Size size, Color color, Double width, Double height) {
-        logger.info("Configuring door with ID: {}, size: {}, color: {}, width: {}, height: {}", id, size, color, width, height);
+        logger.info("Configuring door with ID: {}, size: {}, color: {}, width: {}, height: {}", 
+            id, size, color, width, height);
         Door door = getDoor(id);
         
         if (size != null) {
             door.setSize(size);
-            if (size == Size.CUSTOM && width != null && height != null) {
+            if (size == Size.CUSTOM) {
+                if (width == null || height == null) {
+                    throw new Exception(
+                        "Custom size requires both width and height to be specified");
+                }
                 door.setCustomWidth(width);
                 door.setCustomHeight(height);
             }
@@ -118,7 +128,7 @@ public class DoorService {
         }
         
         Door savedDoor = doorRepository.save(door);
-        logger.info("Door with ID {} configured.", id);
+        logger.info("Door with ID {} configured successfully", id);
         return savedDoor;
     }
 }
