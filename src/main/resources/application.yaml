@@ -14,8 +14,6 @@ spring:
       max-age: 3600
     websocket:
       path: /graphql-ws
-  redis:
-    enabled: false    
      
   datasource:
     driver-class-name: org.postgresql.Driver
@@ -29,15 +27,11 @@ spring:
       connection-timeout: 20000
       max-lifetime: 1200000
       
+  # Consolidated cache and Redis configuration
   cache:
-    type: none  # Disable cachingby default
-    redis:
-      enabled: false  # Disable Redis explicitly
-      time-to-live: 3600000
-      cache-null-values: false
-      use-key-prefix: true
-      key-prefix: "g45:"
-      
+    type: none
+  redis:
+    enabled: false
   jpa:
     hibernate:
       ddl-auto: update
