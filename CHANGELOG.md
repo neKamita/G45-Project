@@ -3,6 +3,34 @@
 All notable changes to this project will be documented in this file.
 
 <details open>
+<summary><strong>Version 1.1.1 (2025-01-08)</strong></summary>
+
+### 🔧 Bug Fixes
+- Fixed foreign key constraint issue between `doors` and `door_images` tables
+- Resolved table naming inconsistency (door → doors)
+- Fixed Redis Cloud integration issues with proper connection handling
+- Added proper transaction management for door creation with images
+
+### 🚀 Improvements
+- Enhanced Redis configuration with RESP3 protocol support
+- Added Redis Cloud support for production environment
+- Improved error handling in DoorService for cache failures
+- Added proper database indexing for door_images
+- Implemented automatic final price calculation for doors
+
+### 🔒 Security
+- Secured Redis Cloud connection with SSL/TLS
+- Moved Redis credentials to environment variables
+- Protected sensitive configuration data in documentation
+
+### 📝 Documentation
+- Added Redis Cloud setup instructions for production
+- Updated deployment guide for render.com
+- Added troubleshooting section for common Redis issues
+- Updated environment variables documentation
+
+</details>
+<details >
 <summary><strong>Version 1.1.0 (2025-01-07)</strong></summary>
 
 ### Technical Updates
@@ -211,15 +239,4 @@ mutation ConfigureDoor {
 - Implemented role-based authorization (USER, ADMIN)
 - Secured endpoints with proper authentication
 - Added CORS configuration
-</details>
-
-<details open>
-<summary><strong>Version 1.1.0 (2025-01-07)</strong></summary>
-
-### Technical Updates
-- Refactored the `configureDoor` REST endpoint in [`DoorController`](src/main/java/uz/pdp/controller/DoorController.java) to accept a `DoorConfigInput` DTO instead of individual parameters.
-- Added SLF4j logging to the `signIn` and `signUp` methods in [`AuthService`](src/main/java/uz/pdp/service/AuthService.java) for security auditing.
-- Added SLF4j logging to various methods in [`DoorService`](src/main/java/uz/pdp/service/DoorService.java) to track data operations.
-- Added SLF4j logging to the `signIn` and `signUp` methods in [`AuthController`](src/main/java/uz/pdp/controller/AuthController.java) to track incoming requests.
-
 </details>

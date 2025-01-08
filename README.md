@@ -102,6 +102,20 @@ redis-cli ping # SHOULD RETURN PONG
 redis-cli ping # SHOULD RETURN PONG
 ```
 
+### Redis Cloud Setup (Production)
+1. Using Redis Enterprise Cloud:
+   - Database: cache-M5NOIOBN
+   - Endpoint: redis-15073.crce175.eu-north-1-1.ec2.redns.redis-cloud.com:15073
+   - Password: [Secured]
+
+```bash
+REDIS_HOST=redis-15073.crce175.eu-north-1-1.ec2.redns.redis-cloud.com
+REDIS_PORT=15073
+REDIS_PASSWORD=stdi3YBD24cdrO2zBd0oYrqXhl2xtWML
+```
+
+2. Environment Configuration:
+
 ## API Documentation
 - REST API: `/swagger-uI/index.html`
 - GraphQL API: `/graphiql`
