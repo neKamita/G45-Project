@@ -30,8 +30,9 @@ spring:
       max-lifetime: 1200000
       
   cache:
-    type: redis
+    type: none  # Disable cachingby default
     redis:
+      enabled: false  # Disable Redis explicitly
       time-to-live: 3600000
       cache-null-values: false
       use-key-prefix: true
@@ -54,10 +55,15 @@ spring:
     redis:
       host: localhost
       port: 6379
-      timeout: 10000
-      connect-timeout: 10000
-      client-type: lettuce
+      password:  # Leave empty if no password
+      timeout: 2000
       database: 0
+      lettuce:
+        pool:
+          max-active: 8
+          max-idle: 8
+          min-idle: 0
+          max-wait: -1
       
   security:
     filter:

@@ -5,9 +5,11 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import uz.pdp.entity.Door;
 import uz.pdp.enums.Color;
@@ -16,6 +18,7 @@ import uz.pdp.repository.DoorRepository;
 import jakarta.persistence.EntityNotFoundException;
 
 @Service
+@CacheConfig(cacheNames = "doors")
 public class DoorService {
 
     private static final Logger logger = LoggerFactory.getLogger(DoorService.class);
@@ -23,20 +26,31 @@ public class DoorService {
     @Autowired
     private DoorRepository doorRepository;
 
-    @Cacheable(value = "doors", key = "#id")
+    @Cacheable(key = "#id", unless = "#result == null")
     public Door getDoor(Long id) {
-        logger.info("Fetching door with ID: {}", id);
-        return doorRepository.findById(id)
-            .orElseThrow(() -> {
-                logger.warn("Door not found with ID: {}", id);
-                return new EntityNotFoundException("Door not found with id: " + id);
-            });
+        try {
+            logger.info("Fetching door with ID: {}", id);
+            return doorRepository.findById(id)
+                .orElseThrow(() -> {
+                    logger.warn("Door not found with ID: {}", id);
+                    return new EntityNotFoundException("Door not found with id: " + id);
+                });
+        } catch (DataAccessException e) {
+            logger.error("Error accessing cache for door ID: {}. Falling back to database.", id, e);
+            return doorRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Door not found with id: " + id));
+        }
     }
     
-    @Cacheable(value = "allDoors")
+    @Cacheable(unless = "#result.isEmpty()")
     public List<Door> getAllDoors() {
-        logger.info("Fetching all doors.");
-        return doorRepository.findAll();
+        try {
+            logger.info("Fetching all doors");
+            return doorRepository.findAll();
+        } catch (DataAccessException e) {
+            logger.error("Error accessing cache for all doors. Falling back to database.", e);
+            return doorRepository.findAll();
+        }
     }
 
     @CachePut(value = "doors", key = "#door.id")
