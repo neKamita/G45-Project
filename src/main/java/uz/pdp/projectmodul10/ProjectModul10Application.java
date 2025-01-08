@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication(scanBasePackages = {
     "uz.pdp",
-    "uz.pdp.controller.graphQL"
+    "uz.pdp.controller.graphql"
 })
 @EntityScan(basePackages = "uz.pdp.entity")
 @EnableJpaRepositories(basePackages = "uz.pdp.repository")
