@@ -1,0 +1,20 @@
+name: etadoor
+service:
+  name: etadoor-api
+  ports:
+    - port: 8080
+  env:
+    - name: DATABASE_URL
+      value: "jdbc:postgresql://dpg-ctrrlibqf0us73djv36g-a.oregon-postgres.render.com:5432/g45_project"
+    - name: DATABASE_USERNAME
+      value: "g45_project_user"
+    - name: DATABASE_PASSWORD
+      value: "XkeRzoJ9JDKblFXb2tV8vFZG4WYyoLUV"
+    - name: REDIS_HOST
+      value: "redis-15073.crce175.eu-north-1-1.ec2.redns.redis-cloud.com"
+    - name: REDIS_PORT
+      value: "15073"
+    - name: REDIS_PASSWORD
+      value: "stdi3YBD24cdrO2zBd0oYrqXhl2xtWML"
+    - name: APP_URL
+      value: "https://etadoor.koyeb.app"

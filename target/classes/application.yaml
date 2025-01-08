@@ -16,9 +16,9 @@ spring:
      
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://dpg-ctrrlibqf0us73djv36g-a.oregon-postgres.render.com:5432/g45_project
-    username: g45_project_user
-    password: XkeRzoJ9JDKblFXb2tV8vFZG4WYyoLUV
+    url: ${DATABASE_URL:jdbc:postgresql://dpg-ctrrlibqf0us73djv36g-a.oregon-postgres.render.com:5432/g45_project}
+    username: ${DATABASE_USERNAME:g45_project_user}
+    password: ${DATABASE_PASSWORD:XkeRzoJ9JDKblFXb2tV8vFZG4WYyoLUV}
     hikari:
       maximum-pool-size: 10
       minimum-idle: 5
@@ -46,9 +46,9 @@ spring:
         
   data:
     redis:
-      host: redis-15073.crce175.eu-north-1-1.ec2.redns.redis-cloud.com
-      port: 15073
-      password: stdi3YBD24cdrO2zBd0oYrqXhl2xtWML
+      host: ${REDIS_HOST:redis-15073.crce175.eu-north-1-1.ec2.redns.redis-cloud.com}
+      port: ${REDIS_PORT:15073}
+      password: ${REDIS_PASSWORD:stdi3YBD24cdrO2zBd0oYrqXhl2xtWML}
       database: 0
       timeout: 2000
       client-type: lettuce
@@ -82,11 +82,11 @@ springdoc:
       - name: Development
         url: /v3/api-docs
       - name: Production
-        url: https://g45-project.onrender.com/v3/api-docs
+        url: https://etadoor.koyeb.app/v3/api-docs
   servers:
     - url: http://localhost:8080
       description: Local Development Server
-    - url: https://g45-project.onrender.com
+    - url: https://etadoor.koyeb.app
       description: Production Server
   info:
     title: Etadoor API
