@@ -12,6 +12,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+@Table(name = "doors")
 public class Door {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,8 +22,26 @@ public class Door {
     private String description;
     private Double price;
     
+    @Column(name = "final_price", nullable = false)
+    private Double finalPrice;
+    
+    @PrePersist
+    @PreUpdate
+    public void calculateFinalPrice() {
+        if (this.price == null) {
+            this.price = 0.0;
+        }
+        // Add any additional price calculations based on size, material etc.
+        this.finalPrice = this.price;
+    }
+    
     @ElementCollection
-    @CollectionTable(name = "door_images")
+    @CollectionTable(
+        name = "door_images",
+        joinColumns = @JoinColumn(name = "door_id", referencedColumnName = "id"),
+        foreignKey = @ForeignKey(name = "fk_door_images_doors")
+    )
+    @Column(name = "images")
     private List<String> images;
     
     @Enumerated(EnumType.STRING)

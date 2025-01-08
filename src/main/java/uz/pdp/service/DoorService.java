@@ -1,6 +1,7 @@
 package uz.pdp.service;
 
 import java.util.List;
+import java.util.ArrayList;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +17,7 @@ import uz.pdp.enums.Color;
 import uz.pdp.enums.Size;
 import uz.pdp.repository.DoorRepository;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @CacheConfig(cacheNames = "doors")
@@ -53,10 +55,18 @@ public class DoorService {
         }
     }
 
-    @CachePut(value = "doors", key = "#door.id")
+    @Transactional
+    @CachePut(key = "#door.id")
     public Door createDoor(Door door) {
         logger.info("Creating a new door: {}", door);
-        Door savedDoor = doorRepository.save(door);
+        if (door.getImages() == null) {
+            door.setImages(new ArrayList<>());
+        }
+        if (door.getPrice() == null) {
+            door.setPrice(0.0);
+        }
+        door.calculateFinalPrice();
+        Door savedDoor = doorRepository.saveAndFlush(door);
         logger.info("Door created with ID: {}", savedDoor.getId());
         return savedDoor;
     }
