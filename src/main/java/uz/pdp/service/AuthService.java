@@ -8,13 +8,18 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+
 import uz.pdp.config.filtr.JwtProvider;
 import uz.pdp.dto.SignInRequest;
 import uz.pdp.dto.SignUpRequest;
 import uz.pdp.entity.User;
 import uz.pdp.enums.Role;
 import uz.pdp.repository.UserRepository;
+import uz.pdp.payload.*;
 
+import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
@@ -75,5 +80,41 @@ public class AuthService {
             "message", "User registered successfully",
             "token", token
         ));
+    }
+
+    public EntityResponse<Map<String, String>> handleValidationErrors(MethodArgumentNotValidException ex) {
+        Map<String, String> errors = new HashMap<>();
+        ex.getBindingResult().getFieldErrors()
+            .forEach(error -> errors.put(error.getField(), error.getDefaultMessage()));
+            
+        return new EntityResponse<>(
+            "Validation failed",
+            errors,
+            false,
+            LocalDateTime.now()
+        );
+    }
+
+    public ResponseEntity<Object> processSignUp(SignUpRequest request) {
+        try {
+            ResponseEntity<?> response = signUp(request);
+            return ResponseEntity.status(HttpStatus.CREATED)
+                .body(EntityResponse.created("User registered successfully", response.getBody()));
+        } catch (Exception e) {
+            logger.error("Error during sign up: {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(EntityResponse.error(e.getMessage()));
+        }
+    }
+
+    public ResponseEntity<Object> processSignIn(SignInRequest request) {
+        try {
+            ResponseEntity<?> response = signIn(request);
+            return ResponseEntity.ok(EntityResponse.success("Successfully signed in", response.getBody()));
+        } catch (Exception e) {
+            logger.error("Error during sign in: {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(EntityResponse.error(e.getMessage()));
+        }
     }
 }
