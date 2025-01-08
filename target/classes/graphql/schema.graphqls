@@ -1,10 +1,29 @@
+"""
+Door type representing a door product
+Example query:
+query GetDoor {
+  door(id: "1") {
+    id
+    name
+    price
+    finalPrice
+  }
+}
+"""
 type Door {
+    "Unique identifier for the door"
     id: ID!
+    "Name of the door model"
     name: String!
+    "Detailed description"
     description: String
+    "Base price before customizations"
     price: Float!
+    "List of image URLs"
     images: [String]
+    "Door size (STANDARD, MEDIUM, LARGE, CUSTOM)"
     size: Size!
+    "Door color (WHITE, BROWN, BLACK, CUSTOM)"
     color: Color!
     material: String
     manufacturer: String
@@ -12,9 +31,25 @@ type Door {
     customWidth: Float
     customHeight: Float
     isCustomColor: Boolean!
+    "Final price after all customizations"
     finalPrice: Float!
 }
 
+"""
+Available door sizes
+Example usage:
+mutation ConfigureDoor {
+  configureDoor(input: {
+    id: "1"
+    size: CUSTOM
+    width: 250
+    height: 220
+  }) {
+    id
+    finalPrice
+  }
+}
+"""
 enum Size {
     STANDARD
     MEDIUM
@@ -22,6 +57,19 @@ enum Size {
     CUSTOM
 }
 
+"""
+Available door colors
+Example usage:
+mutation ConfigureDoorColor {
+  configureDoor(input: {
+    id: "1"
+    color: CUSTOM
+  }) {
+    id
+    finalPrice
+  }
+}
+"""
 enum Color {
     WHITE
     BROWN
@@ -29,19 +77,78 @@ enum Color {
     CUSTOM
 }
 
+"""
+Root Query type
+Example queries:
+query GetAllDoors {
+  doors {
+    id
+    name
+    price
+  }
+}
+
+query GetSingleDoor {
+  door(id: "1") {
+    name
+    size
+    color
+    finalPrice
+  }
+}
+"""
 type Query {
+    "Get a door by its ID"
     door(id: ID!): Door
+    "Get all available doors"
     doors: [Door]!
 }
 
+"""
+Root Mutation type
+Example mutation:
+mutation ConfigureDoor {
+  configureDoor(input: {
+    id: "1"
+    size: CUSTOM
+    color: BLACK
+    width: 250
+    height: 220
+  }) {
+    id
+    size
+    color
+    finalPrice
+  }
+}
+"""
 type Mutation {
+    "Configure door properties"
     configureDoor(input: DoorConfigInput!): Door!
 }
 
+"""
+Input type for door configuration
+Example:
+{
+  "input": {
+    "id": "1",
+    "size": "CUSTOM",
+    "color": "BLACK",
+    "width": 250,
+    "height": 220
+  }
+}
+"""
 input DoorConfigInput {
+    "Door ID to configure"
     id: ID!
+    "New size setting"
     size: Size
+    "New color setting"
     color: Color
+    "Custom width in cm"
     width: Float
+    "Custom height in cm"
     height: Float
 }
