@@ -14,7 +14,9 @@ spring:
       max-age: 3600
     websocket:
       path: /graphql-ws
-      
+  redis:
+    enabled: true    
+     
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://dpg-ctrrlibqf0us73djv36g-a.oregon-postgres.render.com:5432/g45_project
@@ -139,5 +141,6 @@ logging:
     name: logs/application.log
     max-size: 10MB
     max-history: 30
+
 
 
