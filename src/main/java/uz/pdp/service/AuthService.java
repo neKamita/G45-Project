@@ -48,7 +48,6 @@ public class AuthService {
         String token = jwtProvider.generateToken(userOptional.get().getName());
         logger.info("User {} successfully signed in.", signInRequest.getName());
         return ResponseEntity.ok(Map.of(
-            "message", "Successfully signed in",
             "token", token
         ));
     }
