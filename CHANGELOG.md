@@ -12,19 +12,16 @@ All notable changes to this project will be documented in this file.
 ### 🛠 Technical Updates
 - Added [`EntityResponse`](src/main/java/uz/pdp/payload/EntityResponse.java) for unified API responses
 - Enhanced [`DoorController`](src/main/java/uz/pdp/controller/DoorController.java) with standardized response format
-- Implemented [`GlobalExceptionHandler`](src/main/java/uz/pdp/exception/GlobalExceptionHandler.java) for centralized error handling
 - Removed redundant exception handlers from controllers
 - Updated all REST endpoints to use the new response format
 
 ### 📝 Documentation
 - Updated API documentation with new response format examples
-- Added error handling documentation
 - Updated Swagger UI documentation
 
 ### 🎯 Improvements
 - Consistent HTTP status codes across all endpoints
 - Standardized success/error message format
-- Enhanced error tracking with proper logging
 - Better client-side error handling support
 </details>
 <details>
