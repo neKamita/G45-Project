@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import uz.pdp.enums.Color;
 import uz.pdp.enums.Size;
 import java.util.List;
+import java.util.ArrayList;
 
 @Data
 @AllArgsConstructor
@@ -35,8 +36,13 @@ public class Door {
         this.finalPrice = this.price;
     }
     
-    @OneToMany(fetch = FetchType.EAGER)
-    private List<String> images;
+    @ElementCollection
+    @CollectionTable(
+        name = "door_images",
+        joinColumns = @JoinColumn(name = "door_id")
+    )
+    @Column(name = "images")
+    private List<String> images = new ArrayList<>();
     
     @Enumerated(EnumType.STRING)
     private Size size;
