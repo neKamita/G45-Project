@@ -117,9 +117,9 @@ REDIS_PASSWORD=stdi3YBD24cdrO2zBd0oYrqXhl2xtWML
 2. Environment Configuration:
 
 ## API Documentation
-- REST API: `/swagger-uI/index.html`
+- REST API: `/swagger-ui/index.html`
 - GraphQL API: `/graphiql`
-- Render Web App: `/https://g45-project.onrender.com`
+- Production URL: `https://etadoor.koyeb.app`
 
 ### GraphQL Example Queries
 ```graphql
