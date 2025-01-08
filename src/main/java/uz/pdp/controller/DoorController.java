@@ -18,6 +18,7 @@ import uz.pdp.enums.Size;
 import uz.pdp.mutations.DoorConfigInput;
 import uz.pdp.service.DoorService;
 import org.springframework.http.HttpStatus;
+import uz.pdp.payload.EntityResponse;
 
 import java.util.List;
 
@@ -33,55 +34,57 @@ public class DoorController {
 
     @GetMapping("/{id}")
     @Operation(summary = "Get door details by ID")
-    public ResponseEntity<Door> getDoor(@PathVariable Long id) {
+    public ResponseEntity<EntityResponse<Door>> getDoor(@PathVariable Long id) {
         logger.info("Fetching door with ID: {}", id);
         Door door = doorService.getDoor(id);
         logger.info("Retrieved door: {}", door);
-        return ResponseEntity.ok(door);
+        return ResponseEntity.ok(EntityResponse.success(door));
     }
 
     @GetMapping
     @Operation(summary = "Get all doors")
-    public ResponseEntity<List<Door>> getAllDoors() {
+    public ResponseEntity<EntityResponse<List<Door>>> getAllDoors() {
         logger.info("Fetching all doors");
         List<Door> doors = doorService.getAllDoors();
         logger.info("Retrieved {} doors", doors.size());
-        return ResponseEntity.ok(doors);
+        return ResponseEntity.ok(EntityResponse.success(doors));
     }
 
     @PostMapping
     @Operation(summary = "Create a new door")
-    public ResponseEntity<Door> createDoor(@RequestBody Door door) {
+    public ResponseEntity<EntityResponse<Door>> createDoor(@RequestBody Door door) {
         logger.info("Creating a new door: {}", door);
         Door createdDoor = doorService.createDoor(door);
         logger.info("Created door with ID: {}", createdDoor.getId());
-        return ResponseEntity.ok(createdDoor);
+        return ResponseEntity.status(HttpStatus.CREATED)
+            .body(EntityResponse.created(createdDoor));
     }
 
     @PutMapping("/{id}")
     @Operation(summary = "Update door details")
-    public ResponseEntity<Door> updateDoor(@PathVariable Long id, @RequestBody Door updatedDoor) {
+    public ResponseEntity<EntityResponse<Door>> updateDoor(
+            @PathVariable Long id, 
+            @RequestBody Door updatedDoor) {
         logger.info("Updating door with ID: {}, new data: {}", id, updatedDoor);
         Door door = doorService.updateDoor(id, updatedDoor);
         logger.info("Updated door: {}", door);
-        return ResponseEntity.ok(door);
+        return ResponseEntity.ok(EntityResponse.success("Door updated successfully", door));
     }
 
     @DeleteMapping("/{id}")
     @Operation(summary = "Delete a door")
-    public ResponseEntity<Void> deleteDoor(@PathVariable Long id) {
+    public ResponseEntity<EntityResponse<Void>> deleteDoor(@PathVariable Long id) {
         logger.info("Deleting door with ID: {}", id);
         doorService.deleteDoor(id);
         logger.info("Successfully deleted door with ID: {}", id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(EntityResponse.deleted());
     }
 
     @PostMapping("/{id}/configure")
     @Operation(summary = "Configure door size and color")
-    public ResponseEntity<Door> configureDoor(
-        @PathVariable Long id,
-        @RequestBody DoorConfigInput configInput
-    ) {
+    public ResponseEntity<EntityResponse<Door>> configureDoor(
+            @PathVariable Long id,
+            @RequestBody DoorConfigInput configInput) {
         logger.info("Configuring door with ID: {}, configuration: {}", id, configInput);
         Door configuredDoor = doorService.configureDoor(
             id,
@@ -91,7 +94,7 @@ public class DoorController {
             configInput.getHeight()
         );
         logger.info("Configured door: {}", configuredDoor);
-        return ResponseEntity.ok(configuredDoor);
+        return ResponseEntity.ok(EntityResponse.success("Door configured successfully", configuredDoor));
     }
 
     @QueryMapping
