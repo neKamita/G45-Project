@@ -1,5 +1,6 @@
 package uz.pdp.controller.graphql;
 
+import org.hibernate.Hibernate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,9 @@ import uz.pdp.service.DoorService;
 
 import java.util.List;
 
+import jakarta.*;
+import graphql.GraphQLException;
+
 @Controller
 public class DoorGraphQLController {
     
@@ -25,10 +29,15 @@ public class DoorGraphQLController {
     public Door door(@Argument Long id) {
         try {
             logger.info("GraphQL query: Fetching door by ID: {}", id);
-            return doorService.getDoor(id);
+            Door door = doorService.getDoor(id);
+            
+            // Initialize the lazy collection
+            Hibernate.initialize(door.getImages());
+            
+            return door;
         } catch (Exception e) {
             logger.error("Error fetching door with ID {}: {}", id, e.getMessage());
-            throw e;
+            throw new GraphQLException("Error fetching door: " + e.getMessage());
         }
     }
 
@@ -36,10 +45,14 @@ public class DoorGraphQLController {
     public List<Door> doors() {
         try {
             logger.info("GraphQL query: Fetching all doors");
-            return doorService.getAllDoors();
+            List<Door> doors = doorService.getAllDoors();
+            
+            doors.forEach(door -> Hibernate.initialize(door.getImages()));
+            
+            return doors;
         } catch (Exception e) {
             logger.error("Error fetching all doors: {}", e.getMessage());
-            throw e;
+            throw new GraphQLException("Error fetching doors: " + e.getMessage());
         }
     }
 }

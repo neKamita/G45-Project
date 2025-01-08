@@ -22,39 +22,22 @@ import lombok.SneakyThrows;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@CacheConfig(cacheNames = "doors")
 public class DoorService {
-
-    private static final Logger logger = LoggerFactory.getLogger(DoorService.class);
 
     @Autowired
     private DoorRepository doorRepository;
 
-    @Cacheable(key = "#id", unless = "#result == null")
+    Logger logger = LoggerFactory.getLogger(DoorService.class);
+
+    @Transactional(readOnly = true)
     public Door getDoor(Long id) {
-        try {
-            logger.info("Fetching door with ID: {}", id);
-            return doorRepository.findById(id)
-                .orElseThrow(() -> {
-                    logger.warn("Door not found with ID: {}", id);
-                    return new EntityNotFoundException("Door not found with id: " + id);
-                });
-        } catch (DataAccessException e) {
-            logger.error("Error accessing cache for door ID: {}. Falling back to database.", id, e);
-            return doorRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Door not found with id: " + id));
-        }
+        return doorRepository.findById(id)
+            .orElseThrow(() -> new EntityNotFoundException("Door not found with id: " + id));
     }
-    
-    @Cacheable(unless = "#result.isEmpty()")
+
+    @Transactional(readOnly = true)
     public List<Door> getAllDoors() {
-        try {
-            logger.info("Fetching all doors");
-            return doorRepository.findAll();
-        } catch (DataAccessException e) {
-            logger.error("Error accessing cache for all doors. Falling back to database.", e);
-            return doorRepository.findAll();
-        }
+        return doorRepository.findAll();
     }
 
     @Transactional

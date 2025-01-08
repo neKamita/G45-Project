@@ -35,13 +35,7 @@ public class Door {
         this.finalPrice = this.price;
     }
     
-    @ElementCollection
-    @CollectionTable(
-        name = "door_images",
-        joinColumns = @JoinColumn(name = "door_id", referencedColumnName = "id"),
-        foreignKey = @ForeignKey(name = "fk_door_images_doors")
-    )
-    @Column(name = "images")
+    @OneToMany(fetch = FetchType.EAGER)
     private List<String> images;
     
     @Enumerated(EnumType.STRING)
