@@ -11,11 +11,10 @@ import org.springframework.stereotype.Controller;
 import uz.pdp.entity.Door;
 import uz.pdp.mutations.DoorConfigInput;
 import uz.pdp.service.DoorService;
+import graphql.GraphQLException;
+import jakarta.transaction.Transactional;
 
 import java.util.List;
-
-import jakarta.*;
-import graphql.GraphQLException;
 
 @Controller
 public class DoorGraphQLController {
@@ -26,14 +25,12 @@ public class DoorGraphQLController {
     private DoorService doorService;
 
     @QueryMapping
+    @Transactional
     public Door door(@Argument Long id) {
         try {
             logger.info("GraphQL query: Fetching door by ID: {}", id);
             Door door = doorService.getDoor(id);
-            
-            // Initialize the lazy collection
             Hibernate.initialize(door.getImages());
-            
             return door;
         } catch (Exception e) {
             logger.error("Error fetching door with ID {}: {}", id, e.getMessage());
@@ -42,13 +39,12 @@ public class DoorGraphQLController {
     }
 
     @QueryMapping
+    @Transactional
     public List<Door> doors() {
         try {
             logger.info("GraphQL query: Fetching all doors");
             List<Door> doors = doorService.getAllDoors();
-            
             doors.forEach(door -> Hibernate.initialize(door.getImages()));
-            
             return doors;
         } catch (Exception e) {
             logger.error("Error fetching all doors: {}", e.getMessage());
