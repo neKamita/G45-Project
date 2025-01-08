@@ -47,18 +47,21 @@ spring:
         
   data:
     redis:
-      host: localhost
-      port: 6379
-      password:  # Leave empty if no password
-      timeout: 2000
+      host: redis-15073.crce175.eu-north-1-1.ec2.redns.redis-cloud.com
+      port: 15073
+      password: stdi3YBD24cdrO2zBd0oYrqXhl2xtWML
       database: 0
+      timeout: 2000
+      client-type: lettuce
+      connect-timeout: 2000
       lettuce:
         pool:
           max-active: 8
           max-idle: 8
           min-idle: 0
           max-wait: -1
-      
+      url: ${REDIS_URL}
+      enabled: true
   security:
     filter:
       order: 1
