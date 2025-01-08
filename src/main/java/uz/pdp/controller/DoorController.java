@@ -3,18 +3,13 @@ package uz.pdp.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.graphql.data.method.annotation.Argument;
-import org.springframework.graphql.data.method.annotation.MutationMapping;
-import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import uz.pdp.entity.Door;
-import uz.pdp.enums.Color;
-import uz.pdp.enums.Size;
 import uz.pdp.mutations.DoorConfigInput;
 import uz.pdp.service.DoorService;
 import org.springframework.http.HttpStatus;
@@ -48,10 +43,12 @@ public class DoorController {
 
     @PostMapping
     @Operation(summary = "Create a new door")
-    public ResponseEntity<EntityResponse<Door>> createDoor(@RequestBody Door door) {
+    public ResponseEntity<EntityResponse<Door>> createDoor(@Valid @RequestBody Door door) { // Add @Valid
+        logger.info("Creating new door: {}", door); // Add logging
         Door createdDoor = doorService.createDoor(door);
+        logger.info("Door created with ID: {}", createdDoor.getId());
         return ResponseEntity.status(HttpStatus.CREATED)
-            .body(EntityResponse.created(createdDoor));
+            .body(EntityResponse.created("Door created successfully", createdDoor)); // Add success message
     }
 
     @PutMapping("/{id}")
@@ -87,27 +84,7 @@ public class DoorController {
         return ResponseEntity.ok(EntityResponse.success("Door configured successfully", configuredDoor));
     }
 
-    @QueryMapping
-    public Door doorById(@Argument Long id) {
-        logger.info("GraphQL query: Fetching door by ID: {}", id);
-        return doorService.getDoor(id);
-    }
+ 
 
-    @QueryMapping
-    public Iterable<Door> doors() {
-        logger.info("GraphQL query: Fetching all doors");
-        return doorService.getAllDoors();
-    }
 
-    @MutationMapping
-    public Door configureDoorGraphQL(@Argument DoorConfigInput input) {
-        logger.info("GraphQL mutation: Configuring door with ID: {}, input: {}", input.getId(), input);
-        return doorService.configureDoor(
-            input.getId(),
-            input.getSize(),
-            input.getColor(),
-            input.getWidth(),
-            input.getHeight()
-        );
-    }
 }

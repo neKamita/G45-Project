@@ -27,7 +27,7 @@ import uz.pdp.config.filtr.MyFilter;
 @EnableWebSecurity
 @EnableMethodSecurity(prePostEnabled = true)
 @OpenAPIDefinition(
-    info = @Info(title = "Etadoor API", version = "1.0.0"),
+    info = @Info(title = "Etadoor API", version = "1.1.2"),
     servers = {
         @Server(url = "https://g45-project.onrender.com", description = "Production Server"),
         @Server(url = "http://localhost:8080", description = "Local Development Server")
@@ -84,7 +84,7 @@ public class MyConf {
     @Bean
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
-        provider.setUserDetailsService(userDetailsService); // Use custom UserDetailsService
+        provider.setUserDetailsService(userDetailsService); 
         provider.setPasswordEncoder(passwordEncoder());
         return provider;
     }
