@@ -15,7 +15,7 @@ spring:
     websocket:
       path: /graphql-ws
   redis:
-    enabled: true    
+    enabled: false    
      
   datasource:
     driver-class-name: org.postgresql.Driver
