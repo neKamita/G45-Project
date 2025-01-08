@@ -29,7 +29,7 @@ spring:
       
   # Consolidated cache and Redis configuration
   cache:
-    type: none
+    type: redis
   redis:
     enabled: false
   jpa:
