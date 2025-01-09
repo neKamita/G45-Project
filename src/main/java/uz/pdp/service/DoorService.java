@@ -6,43 +6,49 @@ import java.util.ArrayList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import uz.pdp.entity.Door;
+import uz.pdp.entity.User;
 import uz.pdp.enums.Color;
 import uz.pdp.enums.Size;
 import uz.pdp.repository.DoorRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.SneakyThrows;
-
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.security.access.prepost.PreAuthorize;
 
 @Service
 public class DoorService {
+    private static final Logger logger = LoggerFactory.getLogger(DoorService.class);
 
     @Autowired
     private DoorRepository doorRepository;
+    
+    @Autowired
+    private UserService userService;
 
-    Logger logger = LoggerFactory.getLogger(DoorService.class);
-
+    // Open to all users - no @PreAuthorize needed
     @Transactional(readOnly = true)
     public Door getDoor(Long id) {
         return doorRepository.findById(id)
             .orElseThrow(() -> new EntityNotFoundException("Door not found with id: " + id));
     }
 
+    // Open to all users - no @PreAuthorize needed
     @Transactional(readOnly = true)
     public List<Door> getAllDoors() {
         return doorRepository.findAll();
     }
 
+    // Restricted operations remain the same
     @Transactional
+    @PreAuthorize("hasRole('SELLER')")
     @CachePut(key = "#door.id")
     public Door createDoor(Door door) {
+        User currentUser = userService.getCurrentUser();
+        door.setSeller(currentUser);
         logger.info("Creating a new door: {}", door);
         if (door.getImages() == null) {
             door.setImages(new ArrayList<>());
@@ -56,6 +62,8 @@ public class DoorService {
         return savedDoor;
     }
 
+    @Transactional
+    @PreAuthorize("hasRole('ADMIN') or (hasRole('SELLER') and @doorSecurityService.isSeller(#id))")
     @CachePut(value = "doors", key = "#id")
     public Door updateDoor(Long id, Door updatedDoor) {
         logger.info("Updating door with ID: {}, data: {}", id, updatedDoor);
@@ -77,6 +85,8 @@ public class DoorService {
         return savedDoor;
     }
 
+    @Transactional
+    @PreAuthorize("hasRole('ADMIN') or (hasRole('SELLER') and @doorSecurityService.isSeller(#id))")
     @CacheEvict(value = {"doors", "allDoors"}, allEntries = true)
     public void deleteDoor(Long id) {
         logger.info("Deleting door with ID: {}", id);
@@ -86,6 +96,7 @@ public class DoorService {
     }
 
     @Transactional(rollbackFor = Exception.class)
+    @PreAuthorize("hasRole('ADMIN') or (hasRole('SELLER') and @doorSecurityService.isSeller(#id))")
     @CachePut(key = "#id")
     @SneakyThrows
     public Door configureDoor(Long id, Size size, Color color, Double width, Double height) {

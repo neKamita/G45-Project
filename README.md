@@ -117,9 +117,8 @@ REDIS_PASSWORD=stdi3YBD24cdrO2zBd0oYrqXhl2xtWML
 2. Environment Configuration:
 
 ## API Documentation
-- REST API: `/swagger-ui/index.html`
-- GraphQL API: `/graphiql`
-- Production URL: `https://etadoor.koyeb.app`
+- REST API: https://etadoor.koyeb.app/swagger-ui/index.html or http://localhost:8080/swagger-ui/index.html
+- GraphQL API: https://etadoor.koyeb.app/graphiql or http://localhost:8080/graphiql
 
 ### GraphQL Example Queries
 ```graphql
@@ -181,6 +180,39 @@ To run the tests:
 
 # Run the application
 .\mvnw.cmd spring-boot:run
+
+## Recent Updates
+- Added comprehensive contact management system
+- Enhanced door management with seller-specific access control
+- Migrated deployment to Koyeb platform
+
+## Contact Management
+The application now includes a full-featured contact management system:
+- Interactive map with location markers
+- Address management with geolocation
+- Contact details storage
+- Search functionality by city/location
+
+## Access Control
+- Sellers can manage only their own doors
+- Admins have full access to all doors
+- Public access to view doors and contact information
+
+## Environment Variables
+```env
+# Database Configuration
+DATABASE_URL=jdbc:postgresql://dpg-ctrrlibqf0us73djv36g-a.oregon-postgres.render.com:5432/g45_project
+DATABASE_USERNAME=g45_project_user
+DATABASE_PASSWORD=XkeRzoJ9JDKblFXb2tV8vFZG4WYyoLUV
+
+# Redis Configuration
+REDIS_HOST=redis-15073.crce175.eu-north-1-1.ec2.redns.redis-cloud.com
+REDIS_PORT=15073
+REDIS_PASSWORD=stdi3YBD24cdrO2zBd0oYrqXhl2xtWML
+
+# Application URL
+APP_URL=https://etadoor.koyeb.app
+```
 
 ## Recent Updates
 See [CHANGELOG.md](CHANGELOG.md) for detailed version history

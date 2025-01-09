@@ -59,6 +59,10 @@ public class Door {
     
     private Boolean isCustomColor = false;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "seller_id")
+    private User seller;
+
     public Double getFinalPrice() {
         double finalPrice = price;
         if (size == Size.CUSTOM) {

@@ -2,6 +2,7 @@ package uz.pdp.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
@@ -56,15 +57,16 @@ public class MyConf {
             .cors(cors -> cors.configurationSource(corsConfigurationSource()))
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers(
-                    "/api/auth/**",
+                .requestMatchers("/api/auth/**").permitAll()
+                .requestMatchers(HttpMethod.GET, 
                     "/swagger-ui/**",
                     "/swagger-ui.html",
-                    "/v3/api-docs/**",
-                    "/webjars/**",
-                    "/graphql/**",    // Allow GraphQL endpoint
-                    "/graphiql/**"    // Allow GraphiQL UI
+                    "/v3/api-docs/**"
                 ).permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/doors/**").permitAll() // Allow GET requests
+                .requestMatchers("/api/doors/**").hasAnyRole("ADMIN", "SELLER")
+                .requestMatchers(HttpMethod.GET, "/api/contacts/**").permitAll() // Allow reading contacts
+                .requestMatchers("/api/contacts/**").hasRole("ADMIN") // Restrict modifications to admin
                 .anyRequest().authenticated()
             )
             .addFilterBefore(myFilter, UsernamePasswordAuthenticationFilter.class)

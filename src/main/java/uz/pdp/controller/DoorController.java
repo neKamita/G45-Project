@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -28,35 +29,35 @@ public class DoorController {
     private DoorService doorService;
 
     @GetMapping("/{id}")
-    @Operation(summary = "Get door details by ID")
+    @Operation(summary = "Get door details by ID", description = "Open to all users")
     public ResponseEntity<EntityResponse<Door>> getDoor(@PathVariable Long id) {
         Door door = doorService.getDoor(id);
         return ResponseEntity.ok(EntityResponse.success(door));
     }
 
     @GetMapping
-    @Operation(summary = "Get all doors")
+    @Operation(summary = "Get all doors", description = "Open to all users")
     public ResponseEntity<EntityResponse<List<Door>>> getAllDoors() {
         List<Door> doors = doorService.getAllDoors();
         return ResponseEntity.ok(EntityResponse.success(doors));
     }
 
     @PostMapping
-    @Operation(summary = "Create a new door")
-    public ResponseEntity<EntityResponse<Door>> createDoor(@Valid @RequestBody Door door) { // Add @Valid
-        logger.info("Creating new door: {}", door); // Add logging
+    @PreAuthorize("hasRole('SELLER')")
+    @Operation(summary = "Create a new door (SELLER only)")
+    public ResponseEntity<EntityResponse<Door>> createDoor(@Valid @RequestBody Door door) {
+        logger.info("Creating new door: {}", door);
         Door createdDoor = doorService.createDoor(door);
         logger.info("Door created with ID: {}", createdDoor.getId());
         return ResponseEntity.status(HttpStatus.CREATED)
-            .body(EntityResponse.created("Door created successfully", createdDoor)); // Add success message
+            .body(EntityResponse.created("Door created successfully", createdDoor));
     }
 
     @PutMapping("/{id}")
-    @Operation(summary = "Update door details")
-    public ResponseEntity<EntityResponse<Door>> updateDoor(
-            @PathVariable Long id, 
-            @RequestBody Door updatedDoor) {
-        Door updatedDoor1 = doorService.updateDoor(id, updatedDoor);
+    @PreAuthorize("hasRole('ADMIN') or (hasRole('SELLER') and @doorSecurityService.isSeller(#id))")
+    @Operation(summary = "Update door details (ADMIN or owner SELLER)")
+    public ResponseEntity<EntityResponse<Door>> updateDoor(@PathVariable Long id, @RequestBody Door door) {
+        Door updatedDoor1 = doorService.updateDoor(id, door);
         return ResponseEntity.ok(EntityResponse.success("Door updated successfully", updatedDoor1));
     }
 

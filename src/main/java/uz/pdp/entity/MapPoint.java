@@ -9,12 +9,18 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Map {
+@Table(name = "map_points")
+public class MapPoint {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    
     private Double latitude;
     private Double longitude;
+    
     @OneToOne
-    private Address adress;
+    @JoinColumn(name = "address_id")
+    private Address address;
+    
+    private String markerTitle;    // Keep this for customizable titles
 }

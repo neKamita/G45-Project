@@ -2,6 +2,37 @@
 
 All notable changes to this project will be documented in this file.
 <details open>
+<summary><strong>Version 1.1.3 (2025-01-09)</strong></summary>
+
+### 🚀 New Features
+- Added Contacts management system with map integration
+- Enhanced access control for Door management (Seller-specific)
+- Added address management with geolocation support
+
+### 🛠 Technical Updates
+- Added [`AddressService`](src/main/java/uz/pdp/service/AddressService.java) for managing contact locations
+- Added [`ContactController`](src/main/java/uz/pdp/controller/ContactController.java) for address endpoints
+- Updated [`DoorService`](src/main/java/uz/pdp/service/DoorService.java) with seller-specific access control
+- Added [`DoorSecurityService`](src/main/java/uz/pdp/service/DoorSecurityService.java) for door access management
+- Simplified map point handling by removing redundant marker storage
+
+### 🔒 Security
+- Implemented role-based access control for door management
+- Added seller-specific permissions for door operations
+- Enhanced security configuration in [`MyConf`](src/main/java/uz/pdp/config/MyConf.java)
+
+### 🔄 Changes
+- Moved from Render to Koyeb deployment platform
+- Updated base URL to etadoor.koyeb.app
+- Enhanced documentation with new deployment details
+
+### 📝 Documentation
+- Added contact management API documentation
+- Updated deployment instructions for Koyeb
+- Added new environment variables documentation
+- Enhanced API documentation with role-based access examples
+</details>
+<details>
 <summary><strong>Version 1.1.2 (2025-01-08)</strong></summary>
 
 ### 🔄 Changes
