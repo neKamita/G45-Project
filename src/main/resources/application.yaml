@@ -17,8 +17,8 @@ spring:
   mail:
     host: smtp.gmail.com
     port: 587
-    username: axrorbekyandashaliyev@gmail.com
-    password: Ax2002ror
+    username: nationalub@gmail.com
+    password: ndfhgroydnrqzbzp
     properties:
       mail.smtp.starttls.enable: true
       mail.smtp.auth: true
@@ -42,7 +42,7 @@ spring:
     enabled: false
   jpa:
     hibernate:
-      ddl-auto: create  
+      ddl-auto: update  
     show-sql: true
     properties:
       hibernate:
