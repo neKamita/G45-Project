@@ -17,6 +17,7 @@ import org.springframework.web.server.ResponseStatusException;
 import uz.pdp.dto.SellerRequestDto;
 import uz.pdp.entity.User;
 import uz.pdp.repository.UserRepository;
+import uz.pdp.service.EmailService;
 import uz.pdp.payload.EntityResponse;
 
 import java.util.List;
@@ -28,14 +29,17 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private EmailService emailService;
+
     @PostMapping("/request-seller")
     @Operation(summary = "Request to become a seller")
     public ResponseEntity<EntityResponse<User>> requestSeller(@Valid @RequestBody SellerRequestDto sellerRequestDto) {
         User user = userRepository.findById(sellerRequestDto.getUserId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
         user.setSellerRequestPending(true);
-        User savedUser = userRepository.save(user);
-        return ResponseEntity.ok(EntityResponse.success("Seller request submitted successfully", savedUser));
+        emailService.sendVerificationEmail(user.getEmail());
+        return ResponseEntity.ok(EntityResponse.success("Seller request submitted successfully"));
     }
 
     @GetMapping

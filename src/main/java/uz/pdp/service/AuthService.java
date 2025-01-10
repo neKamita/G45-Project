@@ -44,9 +44,11 @@ public class AuthService {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                 .body(EntityResponse.error("Invalid name or password"));
         }
-
+    
         String token = jwtProvider.generateToken(userOptional.get().getName());
         logger.info("User {} successfully signed in.", signInRequest.getName());
+        
+        // Return only the token in the data map
         Map<String, String> response = Map.of("token", token);
         return ResponseEntity.ok(EntityResponse.success("Successfully signed in", response));
     }
@@ -75,10 +77,7 @@ public class AuthService {
         String token = jwtProvider.generateToken(user.getName());
         logger.info("User '{}' registered successfully and token generated.", signUpRequest.getName());
         
-        Map<String, String> response = Map.of(
-            "message", "User registered successfully",
-            "token", token
-        );
+        Map<String, String> response = Map.of("token", token);
         return ResponseEntity.status(HttpStatus.CREATED)
             .body(EntityResponse.success("User registered successfully", response));
     }

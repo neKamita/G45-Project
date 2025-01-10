@@ -8,6 +8,7 @@ import uz.pdp.dto.SellerRequestDto;
 import uz.pdp.entity.User;
 import uz.pdp.enums.Role;
 import uz.pdp.repository.UserRepository;
+import uz.pdp.service.EmailService;
 
 @Service
 public class AdminService {
@@ -26,7 +27,7 @@ public class AdminService {
             user.setRole(Role.SELLER);
             user.setSellerRequestPending(false);
             userRepository.save(user);
-            emailService.sendSellerApprovalEmail(user.getEmail());
+            emailService.sendVerificationEmail(user.getEmail());
             logger.info("User approved as seller: {}", user.getEmail());
             return true;
         } catch (Exception e) {

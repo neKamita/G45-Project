@@ -20,8 +20,11 @@ spring:
     username: nationalub@gmail.com
     password: ndfhgroydnrqzbzp
     properties:
-      mail.smtp.starttls.enable: true
-      mail.smtp.auth: true
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 
   datasource:
     driver-class-name: org.postgresql.Driver
