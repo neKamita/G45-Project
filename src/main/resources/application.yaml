@@ -1,8 +1,8 @@
 spring:
   graphql:
     graphiql:
-      enabled: true      
-    path: /graphql       
+      enabled: true
+    path: /graphql
     schema:
       printer:
         enabled: true
@@ -13,7 +13,16 @@ spring:
       max-age: 3600
     websocket:
       path: /graphql-ws
-     
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: axrorbekyandashaliyev@gmail.com
+    password: Ax2002ror
+    properties:
+      mail.smtp.starttls.enable: true
+      mail.smtp.auth: true
+
   datasource:
     driver-class-name: org.postgresql.Driver
     url: ${DATABASE_URL:jdbc:postgresql://dpg-ctrrlibqf0us73djv36g-a.oregon-postgres.render.com:5432/g45_project}
@@ -25,7 +34,7 @@ spring:
       idle-timeout: 300000
       connection-timeout: 20000
       max-lifetime: 1200000
-      
+
   # Consolidated cache and Redis configuration
   cache:
     type: redis
@@ -33,7 +42,7 @@ spring:
     enabled: false
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create  
     show-sql: true
     properties:
       hibernate:
@@ -43,7 +52,7 @@ spring:
         order_inserts: true
         order_updates: true
         dialect: org.hibernate.dialect.PostgreSQLDialect
-        
+
   data:
     redis:
       host: ${REDIS_HOST:redis-15073.crce175.eu-north-1-1.ec2.redns.redis-cloud.com}
@@ -61,13 +70,14 @@ spring:
           max-wait: -1
       url: ${REDIS_URL}
       enabled: true
+
   security:
     filter:
       order: 1
     user:
       name: ${SECURITY_USER:admin}
       password: ${SECURITY_PASSWORD:admin}
-      
+
 springdoc:
   api-docs:
     path: /v3/api-docs
@@ -96,7 +106,7 @@ springdoc:
       type: http
       scheme: bearer
       bearer-format: JWT
-      
+
 security:
   basic:
     enabled: true
@@ -110,7 +120,7 @@ security:
     - /webjars/**
     - /graphql/**
     - /graphiql/**
-    
+
 server:
   port: 8080
   servlet:
@@ -124,11 +134,11 @@ server:
   tomcat:
     max-threads: 200
     connection-timeout: 5000
-    
+
 jwt:
   expire-timeout: 86400000
   secret-key: "hbsfghbsdhbghksjdhfjkbdshbsdjkfjksdbgksfbskdjb"
-  
+
 logging:
   level:
     root: INFO
@@ -143,6 +153,3 @@ logging:
     name: logs/application.log
     max-size: 10MB
     max-history: 30
-
-
-

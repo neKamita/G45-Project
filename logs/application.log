@@ -1060,3 +1060,200 @@
     order by
         a1_0.city
 2025-01-09 13:47:20 [http-nio-8080-exec-5] DEBUG uz.pdp.controller.ContactController - Retrieved 0 map points
+2025-01-10 15:07:58 [main] INFO  u.p.p.ProjectModul10Application - Starting ProjectModul10Application using Java 17.0.13 with PID 73935 (/home/lantanium/Downloads/G45-Project/target/classes started by lantanium in /home/lantanium/Downloads/G45-Project)
+2025-01-10 15:07:58 [main] DEBUG u.p.p.ProjectModul10Application - Running with Spring Boot v3.4.1, Spring v6.2.1
+2025-01-10 15:07:58 [main] INFO  u.p.p.ProjectModul10Application - No active profile set, falling back to 1 default profile: "default"
+2025-01-10 15:07:58 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-01-10 15:07:58 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-01-10 15:07:58 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 133 ms. Found 3 JPA repository interfaces.
+2025-01-10 15:07:59 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-01-10 15:07:59 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-01-10 15:07:59 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 17 ms. Found 0 Redis repository interfaces.
+2025-01-10 15:08:00 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-01-10 15:08:00 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-01-10 15:08:01 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.34]
+2025-01-10 15:08:01 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-01-10 15:08:01 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2896 ms
+2025-01-10 15:08:01 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-01-10 15:08:01 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.6.4.Final
+2025-01-10 15:08:01 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-01-10 15:08:01 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-01-10 15:08:01 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-01-10 15:08:04 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@1d982fbe
+2025-01-10 15:08:04 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-01-10 15:08:04 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-01-10 15:08:05 [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 16.4
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-01-10 15:08:06 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-01-10 15:08:06 [main] DEBUG org.hibernate.SQL - 
+    set client_min_messages = WARNING
+2025-01-10 15:08:06 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists address_social_links 
+       drop constraint if exists FKaac3eva6omc6n5ujwjk05p4kt
+2025-01-10 15:08:07 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists company 
+       drop constraint if exists FKgfifm4874ce6mecwj54wdb3ma
+2025-01-10 15:08:07 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists company_socials_list 
+       drop constraint if exists FKt90ivcl5f3phabfuqw6k3t9ow
+2025-01-10 15:08:07 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists door_images 
+       drop constraint if exists FK33nbb6c7curx5h7rp8479q7ea
+2025-01-10 15:08:07 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists doors 
+       drop constraint if exists FKgbgrx2rwc3wskrr30uptj4tmy
+2025-01-10 15:08:08 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists map_points 
+       drop constraint if exists FKal9alxa1o8h70hab495fwnqg9
+2025-01-10 15:08:08 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists address cascade
+2025-01-10 15:08:08 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists address_social_links cascade
+2025-01-10 15:08:08 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists company cascade
+2025-01-10 15:08:09 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists company_socials_list cascade
+2025-01-10 15:08:09 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists door_images cascade
+2025-01-10 15:08:09 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists doors cascade
+2025-01-10 15:08:09 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists map_points cascade
+2025-01-10 15:08:10 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists ticket cascade
+2025-01-10 15:08:10 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists users cascade
+2025-01-10 15:08:10 [main] DEBUG org.hibernate.SQL - 
+    create table address (
+        id bigint generated by default as identity,
+        city varchar(255),
+        email varchar(255),
+        name varchar(255),
+        phone varchar(255),
+        street varchar(255),
+        working_hours varchar(255),
+        primary key (id)
+    )
+2025-01-10 15:08:11 [main] DEBUG org.hibernate.SQL - 
+    create table address_social_links (
+        social_type smallint not null check (social_type between 0 and 4),
+        address_id bigint not null,
+        social_link varchar(255),
+        primary key (social_type, address_id)
+    )
+2025-01-10 15:08:11 [main] DEBUG org.hibernate.SQL - 
+    create table company (
+        work_time date,
+        address_id bigint unique,
+        id bigint generated by default as identity,
+        email varchar(255),
+        name varchar(255),
+        phone varchar(255),
+        primary key (id)
+    )
+2025-01-10 15:08:11 [main] DEBUG org.hibernate.SQL - 
+    create table company_socials_list (
+        company_id bigint not null,
+        socials_list varchar(255) check (socials_list in ('FACEBOOK','TWITTER','INSTAGRAM','LINKEDIN','TELEGRAM'))
+    )
+2025-01-10 15:08:11 [main] DEBUG org.hibernate.SQL - 
+    create table door_images (
+        door_id bigint not null,
+        images varchar(255)
+    )
+2025-01-10 15:08:12 [main] DEBUG org.hibernate.SQL - 
+    create table doors (
+        custom_height float(53),
+        custom_width float(53),
+        final_price float(53) not null,
+        is_custom_color boolean,
+        price float(53),
+        warranty_years integer,
+        id bigint generated by default as identity,
+        seller_id bigint,
+        color varchar(255) check (color in ('WHITE','BROWN','BLACK','CUSTOM')),
+        description varchar(255),
+        manufacturer varchar(255),
+        material varchar(255),
+        name varchar(255),
+        size varchar(255) check (size in ('STANDARD','MEDIUM','LARGE','CUSTOM')),
+        primary key (id)
+    )
+2025-01-10 15:08:12 [main] DEBUG org.hibernate.SQL - 
+    create table map_points (
+        latitude float(53),
+        longitude float(53),
+        address_id bigint unique,
+        id bigint generated by default as identity,
+        marker_title varchar(255),
+        primary key (id)
+    )
+2025-01-10 15:08:12 [main] DEBUG org.hibernate.SQL - 
+    create table ticket (
+        id bigint generated by default as identity,
+        user_id bigint,
+        primary key (id)
+    )
+2025-01-10 15:08:12 [main] DEBUG org.hibernate.SQL - 
+    create table users (
+        id bigint generated by default as identity,
+        email varchar(255),
+        lastname varchar(255),
+        name varchar(255),
+        password varchar(255),
+        phone varchar(255),
+        role varchar(255) not null check (role in ('USER','SELLER','ADMIN')),
+        primary key (id)
+    )
+2025-01-10 15:08:13 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists address_social_links 
+       add constraint FKaac3eva6omc6n5ujwjk05p4kt 
+       foreign key (address_id) 
+       references address
+2025-01-10 15:08:13 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists company 
+       add constraint FKgfifm4874ce6mecwj54wdb3ma 
+       foreign key (address_id) 
+       references address
+2025-01-10 15:08:14 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists company_socials_list 
+       add constraint FKt90ivcl5f3phabfuqw6k3t9ow 
+       foreign key (company_id) 
+       references company
+2025-01-10 15:08:14 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists door_images 
+       add constraint FK33nbb6c7curx5h7rp8479q7ea 
+       foreign key (door_id) 
+       references doors
+2025-01-10 15:08:14 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists doors 
+       add constraint FKgbgrx2rwc3wskrr30uptj4tmy 
+       foreign key (seller_id) 
+       references users
+2025-01-10 15:08:14 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists map_points 
+       add constraint FKal9alxa1o8h70hab495fwnqg9 
+       foreign key (address_id) 
+       references address
+2025-01-10 15:08:15 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-01-10 15:08:15 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-01-10 15:08:16 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-01-10 15:08:16 [main] INFO  o.s.s.c.a.a.c.InitializeAuthenticationProviderBeanManagerConfigurer$InitializeAuthenticationProviderManagerConfigurer - Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+2025-01-10 15:08:16 [main] WARN  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+2025-01-10 15:08:17 [main] INFO  o.s.g.e.DefaultSchemaResourceGraphQlSourceBuilder - Loaded 1 resource(s) in the GraphQL schema.
+2025-01-10 15:08:17 [main] INFO  o.s.b.a.g.GraphQlAutoConfiguration - GraphQL schema inspection:
+	Unmapped fields: {Mutation=[configureDoor]}
+	Unmapped registrations: {}
+	Unmapped arguments: {}
+	Skipped types: []
+2025-01-10 15:08:17 [main] INFO  o.s.b.a.g.s.GraphQlWebMvcAutoConfiguration - GraphQL endpoint HTTP POST /graphql
+2025-01-10 15:08:18 [main] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 1 endpoint beneath base path '/actuator'
+2025-01-10 15:08:18 [main] WARN  o.s.b.a.t.ThymeleafAutoConfiguration$DefaultTemplateResolverConfiguration - Cannot find template location: classpath:/templates/ (please add some templates, check your Thymeleaf configuration, or set spring.thymeleaf.check-template-location=false)
+2025-01-10 15:08:18 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2025-01-10 15:08:18 [main] INFO  u.p.p.ProjectModul10Application - Started ProjectModul10Application in 21.751 seconds (process running for 22.709)
