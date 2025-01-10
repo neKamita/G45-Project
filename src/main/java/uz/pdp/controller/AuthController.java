@@ -28,11 +28,11 @@ public class AuthController {
 
     @PostMapping("/sign-up")
     @Operation(summary = "Sign up")
-    public ResponseEntity<?> signUp(@Valid @RequestBody SignUpRequest request) {
+    public ResponseEntity<EntityResponse<Object>> signUp(@Valid @RequestBody SignUpRequest request) {
         try {
             ResponseEntity<?> response = authService.signUp(request);
             return ResponseEntity.status(HttpStatus.CREATED)
-                .body(EntityResponse.created("User registered successfully", response.getBody()));
+                .body(EntityResponse.success("User registered successfully", response.getBody()));
         } catch (Exception e) {
             logger.error("Error during sign up: {}", e.getMessage());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
@@ -42,7 +42,7 @@ public class AuthController {
 
     @PostMapping("/sign-in")
     @Operation(summary = "Sign in")
-    public ResponseEntity<?> signIn(@Valid @RequestBody SignInRequest request) {
+    public ResponseEntity<EntityResponse<Object>> signIn(@Valid @RequestBody SignInRequest request) {
         try {
             logger.info("Received sign-in request for user: {}", request.getName());
             ResponseEntity<?> response = authService.signIn(request);

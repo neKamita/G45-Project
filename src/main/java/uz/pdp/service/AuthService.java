@@ -37,31 +37,31 @@ public class AuthService {
     @Autowired
     private JwtProvider jwtProvider;
 
-    public ResponseEntity<?> signIn(@Valid SignInRequest signInRequest) {
+    public ResponseEntity<EntityResponse<Map<String, String>>> signIn(@Valid SignInRequest signInRequest) {
         Optional<User> userOptional = userRepository.findByName(signInRequest.getName());
         if (userOptional.isEmpty() || !passwordEncoder.matches(signInRequest.getPassword(), userOptional.get().getPassword())) {
             logger.warn("Authentication failed for user: {}", signInRequest.getName());
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                .body(Map.of("message", "Invalid name or password"));
+                .body(EntityResponse.error("Invalid name or password"));
         }
 
         String token = jwtProvider.generateToken(userOptional.get().getName());
         logger.info("User {} successfully signed in.", signInRequest.getName());
-        return ResponseEntity.ok(Map.of(
-            "token", token
-        ));
+        Map<String, String> response = Map.of("token", token);
+        return ResponseEntity.ok(EntityResponse.success("Successfully signed in", response));
     }
 
-    public ResponseEntity<?> signUp(@Valid SignUpRequest signUpRequest) {
+    public ResponseEntity<EntityResponse<Map<String, String>>> signUp(@Valid SignUpRequest signUpRequest) {
         if (userRepository.findByName(signUpRequest.getName()).isPresent()) {
             logger.warn("Registration failed: Name '{}' is already taken.", signUpRequest.getName());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(Map.of("message", "Name is already taken"));
+                .body(EntityResponse.error("Name is already taken"));
         }
     
         if (userRepository.findByEmail(signUpRequest.getEmail()).isPresent()) {
+            logger.warn("Registration failed: Email '{}' is already taken.", signUpRequest.getEmail());
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(Map.of("message", "Email is already taken"));
+                .body(EntityResponse.error("Email is already taken"));
         }
     
         User user = new User();
@@ -75,10 +75,12 @@ public class AuthService {
         String token = jwtProvider.generateToken(user.getName());
         logger.info("User '{}' registered successfully and token generated.", signUpRequest.getName());
         
-        return ResponseEntity.ok(Map.of(
+        Map<String, String> response = Map.of(
             "message", "User registered successfully",
             "token", token
-        ));
+        );
+        return ResponseEntity.status(HttpStatus.CREATED)
+            .body(EntityResponse.success("User registered successfully", response));
     }
 
     public EntityResponse<Map<String, String>> handleValidationErrors(MethodArgumentNotValidException ex) {
@@ -86,34 +88,6 @@ public class AuthService {
         ex.getBindingResult().getFieldErrors()
             .forEach(error -> errors.put(error.getField(), error.getDefaultMessage()));
             
-        return new EntityResponse<>(
-            "Validation failed",
-            errors,
-            false,
-            LocalDateTime.now()
-        );
-    }
-
-    public ResponseEntity<Object> processSignUp(SignUpRequest request) {
-        try {
-            ResponseEntity<?> response = signUp(request);
-            return ResponseEntity.status(HttpStatus.CREATED)
-                .body(EntityResponse.created("User registered successfully", response.getBody()));
-        } catch (Exception e) {
-            logger.error("Error during sign up: {}", e.getMessage());
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(EntityResponse.error(e.getMessage()));
-        }
-    }
-
-    public ResponseEntity<Object> processSignIn(SignInRequest request) {
-        try {
-            ResponseEntity<?> response = signIn(request);
-            return ResponseEntity.ok(EntityResponse.success("Successfully signed in", response.getBody()));
-        } catch (Exception e) {
-            logger.error("Error during sign in: {}", e.getMessage());
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                .body(EntityResponse.error(e.getMessage()));
-        }
+        return EntityResponse.error("Validation failed", errors);
     }
 }

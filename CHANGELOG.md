@@ -2,6 +2,37 @@
 
 All notable changes to this project will be documented in this file.
 <details open>
+<summary><strong>Version 1.1.4 (2025-01-10)</strong></summary>
+
+### 🔄 Major Changes
+- Standardized all controller responses with EntityResponse pattern
+- Enhanced error handling across all services
+- Improved authentication response format
+
+### 🛠 Technical Updates
+- Refactored [`AuthService`](src/main/java/uz/pdp/service/AuthService.java) with standardized response format
+- Updated [`DoorController`](src/main/java/uz/pdp/controller/DoorController.java) with improved error handling
+- Enhanced [`ContactController`](src/main/java/uz/pdp/controller/ContactController.java) with consistent response patterns
+- Improved logging across all controllers and services
+
+### 🔒 Security
+- Enhanced authentication error messages
+- Improved token handling in auth responses
+- Added better validation error handling
+
+### 📝 Documentation
+- Updated API documentation with new response formats
+- Added examples for standardized error responses
+- Enhanced authentication endpoint documentation
+
+### 🎯 Improvements
+- Consistent error handling across all endpoints
+- Better logging for debugging and monitoring
+- Standardized success/error message format across all controllers
+- Enhanced validation error responses
+</details>
+
+<details>
 <summary><strong>Version 1.1.3 (2025-01-09)</strong></summary>
 
 ### 🚀 New Features

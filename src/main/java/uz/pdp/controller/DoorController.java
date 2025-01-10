@@ -31,15 +31,18 @@ public class DoorController {
     @GetMapping("/{id}")
     @Operation(summary = "Get door details by ID", description = "Open to all users")
     public ResponseEntity<EntityResponse<Door>> getDoor(@PathVariable Long id) {
+        logger.info("Fetching door with id: {}", id);
         Door door = doorService.getDoor(id);
-        return ResponseEntity.ok(EntityResponse.success(door));
+        return ResponseEntity.ok(EntityResponse.success("Door retrieved successfully", door));
     }
 
     @GetMapping
     @Operation(summary = "Get all doors", description = "Open to all users")
     public ResponseEntity<EntityResponse<List<Door>>> getAllDoors() {
+        logger.info("Fetching all doors");
         List<Door> doors = doorService.getAllDoors();
-        return ResponseEntity.ok(EntityResponse.success(doors));
+        logger.debug("Retrieved {} doors", doors.size());
+        return ResponseEntity.ok(EntityResponse.success("Doors retrieved successfully", doors));
     }
 
     @PostMapping
@@ -47,45 +50,75 @@ public class DoorController {
     @Operation(summary = "Create a new door (SELLER only)")
     public ResponseEntity<EntityResponse<Door>> createDoor(@Valid @RequestBody Door door) {
         logger.info("Creating new door: {}", door);
-        Door createdDoor = doorService.createDoor(door);
-        logger.info("Door created with ID: {}", createdDoor.getId());
-        return ResponseEntity.status(HttpStatus.CREATED)
-            .body(EntityResponse.created("Door created successfully", createdDoor));
+        try {
+            Door createdDoor = doorService.createDoor(door);
+            logger.info("Door created with ID: {}", createdDoor.getId());
+            return ResponseEntity.status(HttpStatus.CREATED)
+                    .body(EntityResponse.success("Door created successfully", createdDoor));
+        } catch (Exception e) {
+            logger.error("Error creating door: {}", e.getMessage());
+            return ResponseEntity.badRequest()
+                    .body(EntityResponse.error("Failed to create door: " + e.getMessage()));
+        }
     }
 
     @PutMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN') or (hasRole('SELLER') and @doorSecurityService.isSeller(#id))")
     @Operation(summary = "Update door details (ADMIN or owner SELLER)")
-    public ResponseEntity<EntityResponse<Door>> updateDoor(@PathVariable Long id, @RequestBody Door door) {
-        Door updatedDoor1 = doorService.updateDoor(id, door);
-        return ResponseEntity.ok(EntityResponse.success("Door updated successfully", updatedDoor1));
+    public ResponseEntity<EntityResponse<Door>> updateDoor(
+            @PathVariable Long id,
+            @Valid @RequestBody Door door
+    ) {
+        logger.info("Updating door with id: {}", id);
+        try {
+            Door updatedDoor = doorService.updateDoor(id, door);
+            logger.info("Successfully updated door with id: {}", id);
+            return ResponseEntity.ok(EntityResponse.success("Door updated successfully", updatedDoor));
+        } catch (Exception e) {
+            logger.error("Error updating door: {}", e.getMessage());
+            return ResponseEntity.badRequest()
+                    .body(EntityResponse.error("Failed to update door: " + e.getMessage()));
+        }
     }
 
     @DeleteMapping("/{id}")
-    @Operation(summary = "Delete a door")
+    @PreAuthorize("hasRole('ADMIN') or (hasRole('SELLER') and @doorSecurityService.isSeller(#id))")
+    @Operation(summary = "Delete a door (ADMIN or owner SELLER)")
     public ResponseEntity<EntityResponse<Void>> deleteDoor(@PathVariable Long id) {
-        doorService.deleteDoor(id);
-        return ResponseEntity.ok(EntityResponse.deleted());
+        logger.info("Deleting door with id: {}", id);
+        try {
+            doorService.deleteDoor(id);
+            logger.info("Successfully deleted door with id: {}", id);
+            return ResponseEntity.ok(EntityResponse.success("Door deleted successfully"));
+        } catch (Exception e) {
+            logger.error("Error deleting door: {}", e.getMessage());
+            return ResponseEntity.badRequest()
+                    .body(EntityResponse.error("Failed to delete door: " + e.getMessage()));
+        }
     }
 
     @PostMapping("/{id}/configure")
-    @Operation(summary = "Configure door size and color")
+    @PreAuthorize("hasRole('ADMIN') or (hasRole('SELLER') and @doorSecurityService.isSeller(#id))")
+    @Operation(summary = "Configure door size and color (ADMIN or owner SELLER)")
     public ResponseEntity<EntityResponse<Door>> configureDoor(
             @PathVariable Long id,
-            @RequestBody DoorConfigInput configInput) {
+            @Valid @RequestBody DoorConfigInput configInput
+    ) {
         logger.info("Configuring door with ID: {}, configuration: {}", id, configInput);
-        Door configuredDoor = doorService.configureDoor(
-            id,
-            configInput.getSize(),
-            configInput.getColor(),
-            configInput.getWidth(),
-            configInput.getHeight()
-        );
-        logger.info("Configured door: {}", configuredDoor);
-        return ResponseEntity.ok(EntityResponse.success("Door configured successfully", configuredDoor));
+        try {
+            Door configuredDoor = doorService.configureDoor(
+                    id,
+                    configInput.getSize(),
+                    configInput.getColor(),
+                    configInput.getWidth(),
+                    configInput.getHeight()
+            );
+            logger.info("Successfully configured door: {}", configuredDoor);
+            return ResponseEntity.ok(EntityResponse.success("Door configured successfully", configuredDoor));
+        } catch (Exception e) {
+            logger.error("Error configuring door: {}", e.getMessage());
+            return ResponseEntity.badRequest()
+                    .body(EntityResponse.error("Failed to configure door: " + e.getMessage()));
+        }
     }
-
- 
-
-
 }

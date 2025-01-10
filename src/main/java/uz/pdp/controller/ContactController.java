@@ -44,7 +44,7 @@ public class ContactController {
         logger.info("Fetching all store addresses");
         List<Address> addresses = addressService.getAllAddresses();
         logger.debug("Retrieved {} addresses", addresses.size());
-        return ResponseEntity.ok(EntityResponse.success(addresses));
+        return ResponseEntity.ok(EntityResponse.success("Addresses retrieved successfully", addresses));
     }
 
     @GetMapping("/addresses/{id}")
@@ -53,7 +53,7 @@ public class ContactController {
         logger.info("Fetching address with id: {}", id);
         Address address = addressService.getAddress(id);
         logger.debug("Retrieved address: {}", address);
-        return ResponseEntity.ok(EntityResponse.success(address));
+        return ResponseEntity.ok(EntityResponse.success("Address retrieved successfully", address));
     }
 
     @GetMapping("/map-points")
@@ -62,23 +62,23 @@ public class ContactController {
         logger.info("Fetching all map points");
         List<MapPoint> points = addressService.getAllMapPoints();
         logger.debug("Retrieved {} map points", points.size());
-        return ResponseEntity.ok(EntityResponse.success(points));
+        return ResponseEntity.ok(EntityResponse.success("Map points retrieved successfully", points));
     }
 
     @PostMapping("/addresses")
     @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Add new address with map point")
-    public ResponseEntity<EntityResponse<Address>> addAddress(
-            @Valid @RequestBody AddressDTO addressDTO) {
+    public ResponseEntity<EntityResponse<Address>> addAddress(@Valid @RequestBody AddressDTO addressDTO) {
         logger.info("Adding new address: {}", addressDTO);
         try {
             Address address = addressService.addAddress(addressDTO);
             logger.info("Successfully added address with id: {}", address.getId());
             return ResponseEntity.status(HttpStatus.CREATED)
-                .body(EntityResponse.created("Address added successfully", address));
+                .body(EntityResponse.success("Address added successfully", address));
         } catch (Exception e) {
             logger.error("Error adding address: {}", e.getMessage());
-            throw e;
+            return ResponseEntity.badRequest()
+                .body(EntityResponse.error("Failed to add address: " + e.getMessage()));
         }
     }
 
@@ -95,7 +95,8 @@ public class ContactController {
             return ResponseEntity.ok(EntityResponse.success("Address updated successfully", address));
         } catch (Exception e) {
             logger.error("Error updating address: {}", e.getMessage());
-            throw e;
+            return ResponseEntity.badRequest()
+                .body(EntityResponse.error("Failed to update address: " + e.getMessage()));
         }
     }
 
@@ -107,21 +108,21 @@ public class ContactController {
         try {
             addressService.deleteAddress(id);
             logger.info("Successfully deleted address with id: {}", id);
-            return ResponseEntity.ok(EntityResponse.deleted());
+            return ResponseEntity.ok(EntityResponse.success("Address deleted successfully"));
         } catch (Exception e) {
             logger.error("Error deleting address: {}", e.getMessage());
-            throw e;
+            return ResponseEntity.badRequest()
+                .body(EntityResponse.error("Failed to delete address: " + e.getMessage()));
         }
     }
 
     @GetMapping("/addresses/search")
     @Operation(summary = "Search addresses by city")
-    public ResponseEntity<EntityResponse<List<Address>>> searchAddresses(
-            @RequestParam String city) {
+    public ResponseEntity<EntityResponse<List<Address>>> searchAddresses(@RequestParam String city) {
         logger.info("Searching addresses in city: {}", city);
         List<Address> addresses = addressService.searchAddressesByCity(city);
         logger.debug("Found {} addresses in {}", addresses.size(), city);
-        return ResponseEntity.ok(EntityResponse.success(addresses));
+        return ResponseEntity.ok(EntityResponse.success("Addresses found successfully", addresses));
     }
 
     @GetMapping("/addresses/nearest")
@@ -131,6 +132,6 @@ public class ContactController {
             @RequestParam Double longitude) {
         logger.info("Finding nearest address to coordinates: {}, {}", latitude, longitude);
         Address address = addressService.findNearestAddress(latitude, longitude);
-        return ResponseEntity.ok(EntityResponse.success(address));
+        return ResponseEntity.ok(EntityResponse.success("Nearest address found successfully", address));
     }
 }
