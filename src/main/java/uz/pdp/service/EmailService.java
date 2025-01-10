@@ -1,5 +1,6 @@
 package uz.pdp.service;
 
+import java.util.Random;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,11 +22,13 @@ public class EmailService {
         this.fromEmail = fromEmail;
     }
 
-
+  private String generateVerificationCode() {
+        return String.format("%06d", new Random().nextInt(999999));
+    }
 
     public void sendVerificationEmail(String toEmail) {
-        String verificationCode = UUID.randomUUID().toString().substring(0, 6);
         try {
+            String verificationCode = generateVerificationCode();
             SimpleMailMessage message = new SimpleMailMessage();
             message.setFrom(fromEmail);
             message.setTo(toEmail);
