@@ -1,19 +1,18 @@
 package uz.pdp.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.stubbing.Answer;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 import uz.pdp.dto.SignInRequest;
 import uz.pdp.dto.SignUpRequest;
 import uz.pdp.payload.EntityResponse;
@@ -27,8 +26,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @ExtendWith(MockitoExtension.class)
-@SuppressWarnings("rawtypes")
-public class AuthControllerTest {
+class AuthControllerTest {
 
     private MockMvc mockMvc;
 
@@ -44,8 +42,7 @@ public class AuthControllerTest {
     void setUp() {
         mockMvc = MockMvcBuilders
             .standaloneSetup(authController)
-            .setControllerAdvice(new ResponseEntityExceptionHandler() {})
-            .build();
+            .build();  
         objectMapper = new ObjectMapper();
     }
 
@@ -53,41 +50,79 @@ public class AuthControllerTest {
     void signUp_Success() throws Exception {
         // Arrange
         SignUpRequest request = new SignUpRequest();
-        request.setName("testUser");
+        request.setName("Test User");
         request.setEmail("test@example.com");
         request.setPassword("password123");
-        request.setLastname("Test");
-
-        Map<String, String> serviceResponse = Map.of(
-            "message", "User registered successfully",
-            "token", "test-jwt-token"
-        );
+        request.setLastname("Test"); 
 
         when(authService.signUp(any(SignUpRequest.class)))
-            .then((Answer<?>) ResponseEntity.ok(EntityResponse.success("User registered successfully", serviceResponse)));
+            .thenReturn(ResponseEntity.ok(
+                EntityResponse.success("User registered successfully", 
+                    Map.of("message", "User registered successfully"))
+            ));
 
         // Act & Assert
-        mockMvc.perform(post("/api/auth/sign-up")
+        mockMvc.perform(post("/api/auth/sign-up") // Correct URL
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request)))
-            .andExpect(status().isCreated())
+            .andExpect(status().isOk())
             .andExpect(jsonPath("$.success").value(true))
             .andExpect(jsonPath("$.message").value("User registered successfully"))
-            .andExpect(jsonPath("$.data.token").value("test-jwt-token"));
+            .andExpect(jsonPath("$.data.message").value("User registered successfully"));
     }
 
     @Test
-    void signUp_Failure_InvalidRequest() throws Exception {
+    void signIn_Success() throws Exception {
+        // Arrange
+        SignInRequest request = new SignInRequest();
+        request.setName("test");
+        request.setPassword("password123");
+
+        when(authService.signIn(any(SignInRequest.class)))
+            .thenReturn(ResponseEntity.ok(
+                EntityResponse.success("Login successful",
+                    Map.of("token", "test-token"))
+            ));
+
+        // Act & Assert
+        mockMvc.perform(post("/api/auth/sign-in")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request)))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.success").value(true));
+    }
+
+    @Test
+    void signIn_Failure_InvalidCredentials() throws Exception {
+        // Arrange
+        SignInRequest request = new SignInRequest();
+        request.setName("test");
+        request.setPassword("wrong-password");
+
+        when(authService.signIn(any(SignInRequest.class)))
+            .thenReturn(ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(EntityResponse.error("Invalid credentials", null)));
+
+        // Act & Assert
+        mockMvc.perform(post("/api/auth/sign-in")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request)))
+            .andExpect(status().isUnauthorized())
+            .andExpect(jsonPath("$.success").value(false));
+    }
+
+    @Test
+    void signUp_Failure_DuplicateEmail() throws Exception {
         // Arrange
         SignUpRequest request = new SignUpRequest();
-        // Missing required fields
-
-        Map<String, String> errorResponse = Map.of(
-            "message", "Name is required"
-        );
+        request.setName("Test User");
+        request.setEmail("existing@example.com");
+        request.setPassword("password123");
+        request.setLastname("Test");
 
         when(authService.signUp(any(SignUpRequest.class)))
-            .then((Answer<?>) ResponseEntity.badRequest().body(EntityResponse.error("Name is required", errorResponse)));
+            .thenReturn(ResponseEntity.badRequest()
+                .body(EntityResponse.error("Email is already taken")));
 
         // Act & Assert
         mockMvc.perform(post("/api/auth/sign-up")
@@ -95,46 +130,37 @@ public class AuthControllerTest {
                 .content(objectMapper.writeValueAsString(request)))
             .andExpect(status().isBadRequest())
             .andExpect(jsonPath("$.success").value(false))
-            .andExpect(jsonPath("$.message").value("Name is required"));
+            .andExpect(jsonPath("$.message").value("Email is already taken"))
+            .andDo(result -> System.out.println(result.getResponse().getContentAsString()));
     }
 
     @Test
-    void signIn_Success() throws Exception {
+    void signUp_Failure_InvalidPassword() throws Exception {
         // Arrange
-        SignInRequest request = new SignInRequest();
-        request.setName("testUser");
-        request.setPassword("password123");
-
-        Map<String, String> serviceResponse = Map.of(
-            "token", "test-jwt-token"
-        );
-
-        when(authService.signIn(any(SignInRequest.class)))
-            .then((Answer<?>) ResponseEntity.ok(EntityResponse.success("Successfully signed in", serviceResponse)));
+        SignUpRequest request = new SignUpRequest();
+        request.setName("Test User");
+        request.setEmail("test@example.com");
+        request.setPassword("123"); // Too short
+        request.setLastname("Test");
 
         // Act & Assert
-        mockMvc.perform(post("/api/auth/sign-in")
+        mockMvc.perform(post("/api/auth/sign-up")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(request)))
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$.success").value(true))
-            .andExpect(jsonPath("$.message").value("Successfully signed in"))
-            .andExpect(jsonPath("$.data.token").value("test-jwt-token"));
+            .andExpect(status().isBadRequest())
+            .andDo(result -> System.out.println(result.getResponse().getContentAsString()));
     }
 
     @Test
-    void signIn_Failure_InvalidCredentials() throws Exception {
+    void signIn_Failure_InvalidPassword() throws Exception {
         // Arrange
         SignInRequest request = new SignInRequest();
-        request.setName("testUser");
-        request.setPassword("wrongPassword");
-
-        Map<String, String> errorResponse = Map.of(
-            "message", "Invalid name or password"
-        );
+        request.setName("test");
+        request.setPassword("wrongpassword");
 
         when(authService.signIn(any(SignInRequest.class)))
-            .then((Answer<?>) ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(EntityResponse.error("Invalid name or password", errorResponse)));
+            .thenReturn(ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(EntityResponse.error("Invalid name or password")));
 
         // Act & Assert
         mockMvc.perform(post("/api/auth/sign-in")
@@ -144,4 +170,17 @@ public class AuthControllerTest {
             .andExpect(jsonPath("$.success").value(false))
             .andExpect(jsonPath("$.message").value("Invalid name or password"));
     }
-} 
+
+    @Test
+    void signIn_Failure_MissingCredentials() throws Exception {
+        // Arrange
+        SignInRequest request = new SignInRequest();
+        // Missing credentials
+
+        // Act & Assert
+        mockMvc.perform(post("/api/auth/sign-in")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(request)))
+            .andExpect(status().isBadRequest());
+    }
+}

@@ -156,3 +156,6 @@ logging:
     name: logs/application.log
     max-size: 10MB
     max-history: 30
+email:
+  validation:
+    enabled: true

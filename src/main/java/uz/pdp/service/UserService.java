@@ -73,6 +73,12 @@ public class UserService {
             return EntityResponse.error("Verification already sent. Please check your email", null);
         }
 
+        // Send verification email using user's email from User entity
+        EntityResponse<String> emailResponse = emailService.sendVerificationEmail(user.getEmail());
+        if (!emailResponse.success()) {
+            return EntityResponse.error(emailResponse.message(), null);
+        }
+
         // Generate verification code and create email verification
         String verificationCode = generateVerificationCode();
         EmailVerification emailVerification = new EmailVerification();
@@ -82,21 +88,10 @@ public class UserService {
         emailVerification.setType(VerificationType.SELLER_REQUEST);
         emailVerificationRepository.save(emailVerification);
 
-        // Update user status
         user.setSellerRequestPending(true);
+        userRepository.save(user);
 
-        try {
-            emailService.sendVerificationEmail(user.getEmail());
-            return EntityResponse.success("Verification code sent to your email");
-        } catch (Exception e) {
-            // Rollback changes
-            user.setSellerRequestPending(false);
-            userRepository.save(user);
-            emailVerificationRepository.delete(emailVerification);
-            
-            log.error("Failed to send verification email: {}", e.getMessage());
-            return EntityResponse.error("Failed to send verification email", null);
-        }
+        return EntityResponse.success("Verification code sent to your email", user);
     }
 
     public EntityResponse<List<User>> getAllUsers() {

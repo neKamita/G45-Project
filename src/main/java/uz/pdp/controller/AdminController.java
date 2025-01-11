@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import uz.pdp.dto.SellerRequestDto;
+import uz.pdp.payload.EntityResponse;
 import uz.pdp.service.AdminService;
 
 @RestController
@@ -25,13 +26,13 @@ public class AdminController {
 
     @PostMapping("/approve-seller")
     @Operation(summary = "Approve a seller request")
-    public ResponseEntity<?> approveSeller(@Valid @RequestBody SellerRequestDto sellerRequestDto) {
+    public ResponseEntity<EntityResponse<Void>> approveSeller(@Valid @RequestBody SellerRequestDto sellerRequestDto) {
         boolean isApproved = adminService.approveSeller(sellerRequestDto);
         if (isApproved) {
-            return ResponseEntity.ok("User approved as seller");
+            return ResponseEntity.ok(EntityResponse.success("User approved as seller"));
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body("Failed to approve user");
+                    .body(EntityResponse.error("Failed to approve user"));
         }
     }
 }

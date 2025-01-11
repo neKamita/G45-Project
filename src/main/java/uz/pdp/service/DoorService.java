@@ -125,4 +125,6 @@ public class DoorService {
         logger.info("Door with ID {} configured successfully", id);
         return savedDoor;
     }
+
+
 }

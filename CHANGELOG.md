@@ -1,7 +1,47 @@
 # Etadoor Changelog
 
 All notable changes to this project will be documented in this file.
+
+# Etadoor Changelog
+
+All notable changes to this project will be documented in this file.
+
 <details open>
+<summary><strong>Version 1.1.5 (2025-01-11)</strong></summary>
+
+### 🔄 Major Changes
+- Standardized response format across all controllers using EntityResponse pattern
+- Enhanced error handling and validation in all services
+- Comprehensive test coverage for Controllers and Services
+- Improved logging and monitoring across application
+
+### 🛠 Technical Updates
+- Refactored controllers to use EntityResponse pattern:
+  - [`AdminController`](src/main/java/uz/pdp/controller/AdminController.java)
+  - [`DoorController`](src/main/java/uz/pdp/controller/DoorController.java)
+  - [`ContactController`](src/main/java/uz/pdp/controller/ContactController.java)
+  - [`AuthController`](src/main/java/uz/pdp/controller/AuthController.java)
+- Added comprehensive test suites:
+  - [`DoorControllerTest`](src/test/java/uz/pdp/controller/DoorControllerTest.java)
+  - [`AdminServiceTest`](src/test/java/uz/pdp/service/AdminServiceTest.java)
+  - [`ContactControllerTest`](src/test/java/uz/pdp/controller/ContactControllerTest.java)
+  - [`AuthControllerTest`](src/test/java/uz/pdp/controller/AuthControllerTest.java)
+- Enhanced service layer error handling:
+  - [`DoorService`](src/main/java/uz/pdp/service/DoorService.java)
+  - [`AdminService`](src/main/java/uz/pdp/service/AdminService.java)
+  - [`AddressService`](src/main/java/uz/pdp/service/AddressService.java)
+- Streamlined DTOs and removed redundant fields
+- Added SLF4J logging across all controllers and services
+
+### 🎯 Improvements
+- Consistent response format across all API endpoints
+- Standardized error handling and messaging
+- Better validation error responses
+- Enhanced logging for debugging and monitoring
+- Increased test coverage for critical components
+- Reduced data redundancy in DTOs
+
+</details>
 <summary><strong>Version 1.1.4 (2025-01-10)</strong></summary>
 
 ### 🔄 Major Changes

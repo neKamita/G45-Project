@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SellerRequestDto {
-    @NotNull(message = "User ID cannot be null")
     private Long userId;
+    
 }

@@ -67,18 +67,11 @@ public class DoorController {
     @Operation(summary = "Update door details (ADMIN or owner SELLER)")
     public ResponseEntity<EntityResponse<Door>> updateDoor(
             @PathVariable Long id,
-            @Valid @RequestBody Door door
-    ) {
+            @Valid @RequestBody Door door) {
         logger.info("Updating door with id: {}", id);
-        try {
-            Door updatedDoor = doorService.updateDoor(id, door);
-            logger.info("Successfully updated door with id: {}", id);
-            return ResponseEntity.ok(EntityResponse.success("Door updated successfully", updatedDoor));
-        } catch (Exception e) {
-            logger.error("Error updating door: {}", e.getMessage());
-            return ResponseEntity.badRequest()
-                    .body(EntityResponse.error("Failed to update door: " + e.getMessage()));
-        }
+        Door updatedDoor = doorService.updateDoor(id, door);
+        logger.info("Successfully updated door with id: {}", id);
+        return ResponseEntity.ok(EntityResponse.success("Door updated successfully", updatedDoor));
     }
 
     @DeleteMapping("/{id}")
@@ -86,15 +79,9 @@ public class DoorController {
     @Operation(summary = "Delete a door (ADMIN or owner SELLER)")
     public ResponseEntity<EntityResponse<Void>> deleteDoor(@PathVariable Long id) {
         logger.info("Deleting door with id: {}", id);
-        try {
-            doorService.deleteDoor(id);
-            logger.info("Successfully deleted door with id: {}", id);
-            return ResponseEntity.ok(EntityResponse.success("Door deleted successfully"));
-        } catch (Exception e) {
-            logger.error("Error deleting door: {}", e.getMessage());
-            return ResponseEntity.badRequest()
-                    .body(EntityResponse.error("Failed to delete door: " + e.getMessage()));
-        }
+        doorService.deleteDoor(id);
+        logger.info("Successfully deleted door with id: {}", id);
+        return ResponseEntity.ok(EntityResponse.success("Door deleted successfully"));
     }
 
     @PostMapping("/{id}/configure")
