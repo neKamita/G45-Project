@@ -9483,3 +9483,787 @@ java.lang.Error: Unresolved compilation problem:
     where
         a1_0.id=?
 2025-01-11 19:04:52 [http-nio-8080-exec-3] ERROR uz.pdp.service.AddressService - Address not found: Address not found with id: 4
+2025-01-11 19:36:42 [main] INFO  u.p.p.ProjectModul10Application - Starting ProjectModul10Application using Java 17.0.13 with PID 142317 (/home/lantanium/Documents/G45-Project/target/classes started by lantanium in /home/lantanium/Documents/G45-Project)
+2025-01-11 19:36:42 [main] DEBUG u.p.p.ProjectModul10Application - Running with Spring Boot v3.4.1, Spring v6.2.1
+2025-01-11 19:36:42 [main] INFO  u.p.p.ProjectModul10Application - No active profile set, falling back to 1 default profile: "default"
+2025-01-11 19:36:42 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-01-11 19:36:42 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-01-11 19:36:42 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 81 ms. Found 4 JPA repository interfaces.
+2025-01-11 19:36:43 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-01-11 19:36:43 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-01-11 19:36:43 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 10 ms. Found 0 Redis repository interfaces.
+2025-01-11 19:36:43 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-01-11 19:36:43 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-01-11 19:36:43 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.34]
+2025-01-11 19:36:43 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-01-11 19:36:43 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1913 ms
+2025-01-11 19:36:44 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-01-11 19:36:44 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.6.4.Final
+2025-01-11 19:36:44 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-01-11 19:36:44 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-01-11 19:36:44 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-01-11 19:36:46 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@4379fe2a
+2025-01-11 19:36:46 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-01-11 19:36:47 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-01-11 19:36:47 [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 16.4
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-01-11 19:36:48 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-01-11 19:36:56 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-01-11 19:36:56 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-01-11 19:36:57 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-01-11 19:36:57 [main] INFO  o.s.s.c.a.a.c.InitializeAuthenticationProviderBeanManagerConfigurer$InitializeAuthenticationProviderManagerConfigurer - Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+2025-01-11 19:36:57 [main] WARN  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+2025-01-11 19:36:58 [main] INFO  o.s.g.e.DefaultSchemaResourceGraphQlSourceBuilder - Loaded 1 resource(s) in the GraphQL schema.
+2025-01-11 19:36:58 [main] INFO  o.s.b.a.g.GraphQlAutoConfiguration - GraphQL schema inspection:
+	Unmapped fields: {Mutation=[configureDoor]}
+	Unmapped registrations: {}
+	Unmapped arguments: {}
+	Skipped types: []
+2025-01-11 19:36:58 [main] INFO  o.s.b.a.g.s.GraphQlWebMvcAutoConfiguration - GraphQL endpoint HTTP POST /graphql
+2025-01-11 19:36:58 [main] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 1 endpoint beneath base path '/actuator'
+2025-01-11 19:36:58 [main] WARN  o.s.b.a.t.ThymeleafAutoConfiguration$DefaultTemplateResolverConfiguration - Cannot find template location: classpath:/templates/ (please add some templates, check your Thymeleaf configuration, or set spring.thymeleaf.check-template-location=false)
+2025-01-11 19:36:58 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2025-01-11 19:36:58 [main] INFO  u.p.p.ProjectModul10Application - Started ProjectModul10Application in 17.209 seconds (process running for 17.56)
+2025-01-11 19:36:59 [main] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.email,
+        u1_0.lastname,
+        u1_0.name,
+        u1_0.password,
+        u1_0.phone,
+        u1_0.role,
+        u1_0.seller_request_pending 
+    from
+        users u1_0 
+    where
+        u1_0.name=?
+2025-01-11 19:37:00 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-01-11 19:37:00 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-01-11 19:37:00 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 2 ms
+2025-01-11 19:37:01 [http-nio-8080-exec-8] INFO  o.s.api.AbstractOpenApiResource - Init duration for springdoc-openapi is: 351 ms
+2025-01-11 19:37:13 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.email,
+        u1_0.lastname,
+        u1_0.name,
+        u1_0.password,
+        u1_0.phone,
+        u1_0.role,
+        u1_0.seller_request_pending 
+    from
+        users u1_0 
+    where
+        u1_0.name=?
+2025-01-11 19:37:14 [http-nio-8080-exec-2] INFO  uz.pdp.service.AuthService - User admin successfully signed in.
+2025-01-11 19:37:23 [http-nio-8080-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.email,
+        u1_0.lastname,
+        u1_0.name,
+        u1_0.password,
+        u1_0.phone,
+        u1_0.role,
+        u1_0.seller_request_pending 
+    from
+        users u1_0 
+    where
+        u1_0.name=?
+2025-01-11 19:37:23 [http-nio-8080-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.email,
+        u1_0.lastname,
+        u1_0.name,
+        u1_0.password,
+        u1_0.phone,
+        u1_0.role,
+        u1_0.seller_request_pending 
+    from
+        users u1_0 
+    where
+        u1_0.name=?
+2025-01-11 19:37:23 [http-nio-8080-exec-6] INFO  uz.pdp.controller.ContactController - Fetching address with id: 2
+2025-01-11 19:37:23 [http-nio-8080-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        a1_0.id,
+        a1_0.city,
+        a1_0.email,
+        l1_0.id,
+        l1_0.latitude,
+        l1_0.longitude,
+        l1_0.marker_title,
+        a1_0.name,
+        a1_0.phone,
+        a1_0.street,
+        a1_0.working_hours 
+    from
+        addresses a1_0 
+    left join
+        locations l1_0 
+            on l1_0.id=a1_0.location_id 
+    where
+        a1_0.id=?
+2025-01-11 19:37:24 [http-nio-8080-exec-6] ERROR uz.pdp.service.AddressService - Address not found: Address not found with id: 2
+2025-01-11 19:37:29 [http-nio-8080-exec-8] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.email,
+        u1_0.lastname,
+        u1_0.name,
+        u1_0.password,
+        u1_0.phone,
+        u1_0.role,
+        u1_0.seller_request_pending 
+    from
+        users u1_0 
+    where
+        u1_0.name=?
+2025-01-11 19:37:30 [http-nio-8080-exec-8] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.email,
+        u1_0.lastname,
+        u1_0.name,
+        u1_0.password,
+        u1_0.phone,
+        u1_0.role,
+        u1_0.seller_request_pending 
+    from
+        users u1_0 
+    where
+        u1_0.name=?
+2025-01-11 19:37:30 [http-nio-8080-exec-8] WARN  o.s.w.s.m.s.DefaultHandlerExceptionResolver - Resolved [org.springframework.http.converter.HttpMessageNotReadableException: JSON parse error: Cannot deserialize Map key of type `uz.pdp.enums.Socials` from String "additionalProp1": not a valid representation, problem: (com.fasterxml.jackson.databind.exc.InvalidFormatException) Cannot deserialize Map key of type `uz.pdp.enums.Socials` from String "additionalProp1": not one of the values accepted for Enum class: [FACEBOOK, INSTAGRAM, LINKEDIN, TWITTER, TELEGRAM]]
+2025-01-11 19:37:30 [http-nio-8080-exec-8] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.email,
+        u1_0.lastname,
+        u1_0.name,
+        u1_0.password,
+        u1_0.phone,
+        u1_0.role,
+        u1_0.seller_request_pending 
+    from
+        users u1_0 
+    where
+        u1_0.name=?
+2025-01-11 19:37:41 [http-nio-8080-exec-9] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.email,
+        u1_0.lastname,
+        u1_0.name,
+        u1_0.password,
+        u1_0.phone,
+        u1_0.role,
+        u1_0.seller_request_pending 
+    from
+        users u1_0 
+    where
+        u1_0.name=?
+2025-01-11 19:37:41 [http-nio-8080-exec-9] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.email,
+        u1_0.lastname,
+        u1_0.name,
+        u1_0.password,
+        u1_0.phone,
+        u1_0.role,
+        u1_0.seller_request_pending 
+    from
+        users u1_0 
+    where
+        u1_0.name=?
+2025-01-11 19:37:42 [http-nio-8080-exec-9] WARN  o.s.w.s.m.s.DefaultHandlerExceptionResolver - Resolved [org.springframework.http.converter.HttpMessageNotReadableException: JSON parse error: Unexpected character ('I' (code 73)): was expecting double-quote to start field name]
+2025-01-11 19:37:42 [http-nio-8080-exec-9] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.email,
+        u1_0.lastname,
+        u1_0.name,
+        u1_0.password,
+        u1_0.phone,
+        u1_0.role,
+        u1_0.seller_request_pending 
+    from
+        users u1_0 
+    where
+        u1_0.name=?
+2025-01-11 19:37:51 [http-nio-8080-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.email,
+        u1_0.lastname,
+        u1_0.name,
+        u1_0.password,
+        u1_0.phone,
+        u1_0.role,
+        u1_0.seller_request_pending 
+    from
+        users u1_0 
+    where
+        u1_0.name=?
+2025-01-11 19:37:52 [http-nio-8080-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.email,
+        u1_0.lastname,
+        u1_0.name,
+        u1_0.password,
+        u1_0.phone,
+        u1_0.role,
+        u1_0.seller_request_pending 
+    from
+        users u1_0 
+    where
+        u1_0.name=?
+2025-01-11 19:37:52 [http-nio-8080-exec-3] WARN  o.s.w.s.m.s.DefaultHandlerExceptionResolver - Resolved [org.springframework.http.converter.HttpMessageNotReadableException: JSON parse error: Unexpected character ('T' (code 84)): was expecting double-quote to start field name]
+2025-01-11 19:37:52 [http-nio-8080-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.email,
+        u1_0.lastname,
+        u1_0.name,
+        u1_0.password,
+        u1_0.phone,
+        u1_0.role,
+        u1_0.seller_request_pending 
+    from
+        users u1_0 
+    where
+        u1_0.name=?
+2025-01-11 19:38:11 [SpringApplicationShutdownHook] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-01-11 19:38:11 [tomcat-shutdown] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-01-11 19:38:11 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-01-11 19:38:11 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-01-11 19:38:13 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-01-11 19:39:11 [main] INFO  u.p.p.ProjectModul10Application - Starting ProjectModul10Application using Java 17.0.13 with PID 154584 (/home/lantanium/Documents/G45-Project/target/classes started by lantanium in /home/lantanium/Documents/G45-Project)
+2025-01-11 19:39:11 [main] DEBUG u.p.p.ProjectModul10Application - Running with Spring Boot v3.4.1, Spring v6.2.1
+2025-01-11 19:39:11 [main] INFO  u.p.p.ProjectModul10Application - No active profile set, falling back to 1 default profile: "default"
+2025-01-11 19:39:11 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-01-11 19:39:11 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-01-11 19:39:11 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 81 ms. Found 4 JPA repository interfaces.
+2025-01-11 19:39:12 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-01-11 19:39:12 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-01-11 19:39:12 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 8 ms. Found 0 Redis repository interfaces.
+2025-01-11 19:39:13 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-01-11 19:39:13 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-01-11 19:39:13 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.34]
+2025-01-11 19:39:13 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-01-11 19:39:13 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2018 ms
+2025-01-11 19:39:13 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-01-11 19:39:13 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.6.4.Final
+2025-01-11 19:39:13 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-01-11 19:39:13 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-01-11 19:39:13 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-01-11 19:39:16 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@7657d29f
+2025-01-11 19:39:16 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-01-11 19:39:16 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-01-11 19:39:17 [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 16.4
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-01-11 19:39:17 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-01-11 19:39:26 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-01-11 19:39:26 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-01-11 19:39:27 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-01-11 19:39:27 [main] INFO  o.s.s.c.a.a.c.InitializeAuthenticationProviderBeanManagerConfigurer$InitializeAuthenticationProviderManagerConfigurer - Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+2025-01-11 19:39:27 [main] WARN  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+2025-01-11 19:39:28 [main] INFO  o.s.g.e.DefaultSchemaResourceGraphQlSourceBuilder - Loaded 1 resource(s) in the GraphQL schema.
+2025-01-11 19:39:28 [main] INFO  o.s.b.a.g.GraphQlAutoConfiguration - GraphQL schema inspection:
+	Unmapped fields: {Mutation=[configureDoor]}
+	Unmapped registrations: {}
+	Unmapped arguments: {}
+	Skipped types: []
+2025-01-11 19:39:28 [main] INFO  o.s.b.a.g.s.GraphQlWebMvcAutoConfiguration - GraphQL endpoint HTTP POST /graphql
+2025-01-11 19:39:28 [main] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 1 endpoint beneath base path '/actuator'
+2025-01-11 19:39:29 [main] WARN  o.s.b.a.t.ThymeleafAutoConfiguration$DefaultTemplateResolverConfiguration - Cannot find template location: classpath:/templates/ (please add some templates, check your Thymeleaf configuration, or set spring.thymeleaf.check-template-location=false)
+2025-01-11 19:39:29 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2025-01-11 19:39:29 [main] INFO  u.p.p.ProjectModul10Application - Started ProjectModul10Application in 18.726 seconds (process running for 19.15)
+2025-01-11 19:39:29 [main] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.email,
+        u1_0.lastname,
+        u1_0.name,
+        u1_0.password,
+        u1_0.phone,
+        u1_0.role,
+        u1_0.seller_request_pending 
+    from
+        users u1_0 
+    where
+        u1_0.name=?
+2025-01-11 19:39:32 [RMI TCP Connection(2)-127.0.0.1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-01-11 19:39:32 [RMI TCP Connection(2)-127.0.0.1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-01-11 19:39:32 [RMI TCP Connection(2)-127.0.0.1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2025-01-11 19:39:33 [http-nio-8080-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.email,
+        u1_0.lastname,
+        u1_0.name,
+        u1_0.password,
+        u1_0.phone,
+        u1_0.role,
+        u1_0.seller_request_pending 
+    from
+        users u1_0 
+    where
+        u1_0.name=?
+2025-01-11 19:39:33 [http-nio-8080-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.email,
+        u1_0.lastname,
+        u1_0.name,
+        u1_0.password,
+        u1_0.phone,
+        u1_0.role,
+        u1_0.seller_request_pending 
+    from
+        users u1_0 
+    where
+        u1_0.name=?
+2025-01-11 19:39:34 [http-nio-8080-exec-1] INFO  uz.pdp.controller.ContactController - Adding new address: AddressDTO(name=string, street=string, city=string, phone=string, workingHours=string, email=string, latitude=0.0, longitude=0.0, socialLinks={TELEGRAM=123})
+2025-01-11 19:39:34 [http-nio-8080-exec-1] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        locations
+        (latitude, longitude, marker_title) 
+    values
+        (?, ?, ?)
+2025-01-11 19:39:34 [http-nio-8080-exec-1] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        addresses
+        (city, email, location_id, name, phone, street, working_hours) 
+    values
+        (?, ?, ?, ?, ?, ?, ?)
+2025-01-11 19:39:34 [http-nio-8080-exec-1] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        address_social_links
+        (address_id, social_type, link) 
+    values
+        (?, ?, ?)
+2025-01-11 19:39:40 [http-nio-8080-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.email,
+        u1_0.lastname,
+        u1_0.name,
+        u1_0.password,
+        u1_0.phone,
+        u1_0.role,
+        u1_0.seller_request_pending 
+    from
+        users u1_0 
+    where
+        u1_0.name=?
+2025-01-11 19:39:41 [http-nio-8080-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.email,
+        u1_0.lastname,
+        u1_0.name,
+        u1_0.password,
+        u1_0.phone,
+        u1_0.role,
+        u1_0.seller_request_pending 
+    from
+        users u1_0 
+    where
+        u1_0.name=?
+2025-01-11 19:39:41 [http-nio-8080-exec-3] INFO  uz.pdp.controller.ContactController - Fetching all map points
+2025-01-11 19:39:41 [http-nio-8080-exec-3] INFO  uz.pdp.service.AddressService - Fetching all addresses ordered by city
+2025-01-11 19:39:41 [http-nio-8080-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        a1_0.id,
+        a1_0.city,
+        a1_0.email,
+        a1_0.location_id,
+        a1_0.name,
+        a1_0.phone,
+        a1_0.street,
+        a1_0.working_hours 
+    from
+        addresses a1_0 
+    order by
+        a1_0.city
+2025-01-11 19:39:41 [http-nio-8080-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        l1_0.id,
+        a1_0.id,
+        a1_0.city,
+        a1_0.email,
+        a1_0.name,
+        a1_0.phone,
+        a1_0.street,
+        a1_0.working_hours,
+        l1_0.latitude,
+        l1_0.longitude,
+        l1_0.marker_title 
+    from
+        locations l1_0 
+    left join
+        addresses a1_0 
+            on l1_0.id=a1_0.location_id 
+    where
+        l1_0.id=?
+2025-01-11 19:39:51 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.email,
+        u1_0.lastname,
+        u1_0.name,
+        u1_0.password,
+        u1_0.phone,
+        u1_0.role,
+        u1_0.seller_request_pending 
+    from
+        users u1_0 
+    where
+        u1_0.name=?
+2025-01-11 19:39:51 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.email,
+        u1_0.lastname,
+        u1_0.name,
+        u1_0.password,
+        u1_0.phone,
+        u1_0.role,
+        u1_0.seller_request_pending 
+    from
+        users u1_0 
+    where
+        u1_0.name=?
+2025-01-11 19:39:51 [http-nio-8080-exec-5] INFO  uz.pdp.controller.ContactController - Searching addresses in city: 1
+2025-01-11 19:39:51 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        a1_0.id,
+        a1_0.city,
+        a1_0.email,
+        a1_0.location_id,
+        a1_0.name,
+        a1_0.phone,
+        a1_0.street,
+        a1_0.working_hours 
+    from
+        addresses a1_0 
+    where
+        upper(a1_0.city) like upper(?) escape '\'
+2025-01-11 19:39:57 [http-nio-8080-exec-7] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.email,
+        u1_0.lastname,
+        u1_0.name,
+        u1_0.password,
+        u1_0.phone,
+        u1_0.role,
+        u1_0.seller_request_pending 
+    from
+        users u1_0 
+    where
+        u1_0.name=?
+2025-01-11 19:39:58 [http-nio-8080-exec-7] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.email,
+        u1_0.lastname,
+        u1_0.name,
+        u1_0.password,
+        u1_0.phone,
+        u1_0.role,
+        u1_0.seller_request_pending 
+    from
+        users u1_0 
+    where
+        u1_0.name=?
+2025-01-11 19:39:58 [http-nio-8080-exec-7] INFO  uz.pdp.controller.ContactController - Fetching all store addresses
+2025-01-11 19:39:58 [http-nio-8080-exec-7] DEBUG org.hibernate.SQL - 
+    select
+        a1_0.id,
+        a1_0.city,
+        a1_0.email,
+        a1_0.location_id,
+        a1_0.name,
+        a1_0.phone,
+        a1_0.street,
+        a1_0.working_hours 
+    from
+        addresses a1_0 
+    order by
+        a1_0.city
+2025-01-11 19:39:58 [http-nio-8080-exec-7] DEBUG org.hibernate.SQL - 
+    select
+        l1_0.id,
+        a1_0.id,
+        a1_0.city,
+        a1_0.email,
+        a1_0.name,
+        a1_0.phone,
+        a1_0.street,
+        a1_0.working_hours,
+        l1_0.latitude,
+        l1_0.longitude,
+        l1_0.marker_title 
+    from
+        locations l1_0 
+    left join
+        addresses a1_0 
+            on l1_0.id=a1_0.location_id 
+    where
+        l1_0.id=?
+2025-01-11 19:39:59 [http-nio-8080-exec-7] DEBUG org.hibernate.SQL - 
+    select
+        sl1_0.address_id,
+        sl1_0.social_type,
+        sl1_0.link 
+    from
+        address_social_links sl1_0 
+    where
+        sl1_0.address_id=?
+2025-01-11 19:49:53 [main] INFO  u.p.p.ProjectModul10ApplicationTests - Starting ProjectModul10ApplicationTests using Java 17.0.13 with PID 207354 (started by lantanium in /home/lantanium/Documents/G45-Project)
+2025-01-11 19:49:53 [main] DEBUG u.p.p.ProjectModul10ApplicationTests - Running with Spring Boot v3.4.1, Spring v6.2.1
+2025-01-11 19:49:53 [main] INFO  u.p.p.ProjectModul10ApplicationTests - No active profile set, falling back to 1 default profile: "default"
+2025-01-11 19:49:54 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-01-11 19:49:54 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-01-11 19:49:54 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 59 ms. Found 4 JPA repository interfaces.
+2025-01-11 19:49:54 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-01-11 19:49:54 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-01-11 19:49:54 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 9 ms. Found 0 Redis repository interfaces.
+2025-01-11 19:49:55 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-01-11 19:49:55 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.6.4.Final
+2025-01-11 19:49:55 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-01-11 19:49:55 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-01-11 19:49:55 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-01-11 19:49:58 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@6c537267
+2025-01-11 19:49:58 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-01-11 19:49:58 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-01-11 19:49:58 [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 16.4
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-01-11 19:49:59 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-01-11 19:50:07 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-01-11 19:50:08 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-01-11 19:50:09 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-01-11 19:50:09 [main] INFO  o.s.s.c.a.a.c.InitializeAuthenticationProviderBeanManagerConfigurer$InitializeAuthenticationProviderManagerConfigurer - Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+2025-01-11 19:50:09 [main] WARN  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+2025-01-11 19:50:09 [main] INFO  o.s.g.e.DefaultSchemaResourceGraphQlSourceBuilder - Loaded 1 resource(s) in the GraphQL schema.
+2025-01-11 19:50:09 [main] INFO  o.s.b.a.g.GraphQlAutoConfiguration - GraphQL schema inspection:
+	Unmapped fields: {Mutation=[configureDoor]}
+	Unmapped registrations: {}
+	Unmapped arguments: {}
+	Skipped types: []
+2025-01-11 19:50:09 [main] INFO  o.s.b.a.g.s.GraphQlWebMvcAutoConfiguration - GraphQL endpoint HTTP POST /graphql
+2025-01-11 19:50:10 [main] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 1 endpoint beneath base path '/actuator'
+2025-01-11 19:50:10 [main] WARN  o.s.b.a.t.ThymeleafAutoConfiguration$DefaultTemplateResolverConfiguration - Cannot find template location: classpath:/templates/ (please add some templates, check your Thymeleaf configuration, or set spring.thymeleaf.check-template-location=false)
+2025-01-11 19:50:10 [main] INFO  u.p.p.ProjectModul10ApplicationTests - Started ProjectModul10ApplicationTests in 17.145 seconds (process running for 17.689)
+2025-01-11 19:50:10 [main] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.email,
+        u1_0.lastname,
+        u1_0.name,
+        u1_0.password,
+        u1_0.phone,
+        u1_0.role,
+        u1_0.seller_request_pending 
+    from
+        users u1_0 
+    where
+        u1_0.name=?
+2025-01-11 19:50:12 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
+2025-01-11 19:50:12 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2025-01-11 19:50:12 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 1 ms
+2025-01-11 19:50:12 [main] INFO  uz.pdp.controller.ContactController - Updating address with id: 1
+2025-01-11 19:50:12 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
+2025-01-11 19:50:12 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2025-01-11 19:50:12 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
+2025-01-11 19:50:12 [main] INFO  uz.pdp.controller.ContactController - Searching addresses in city: Test City
+2025-01-11 19:50:12 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
+2025-01-11 19:50:12 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2025-01-11 19:50:12 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 1 ms
+2025-01-11 19:50:12 [main] INFO  uz.pdp.controller.ContactController - Adding new address: AddressDTO(name=Test Store, street=Test Street, city=Test City, phone=+1234567890, workingHours=null, email=null, latitude=41.123, longitude=69.456, socialLinks=null)
+2025-01-11 19:50:12 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
+2025-01-11 19:50:12 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2025-01-11 19:50:12 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
+2025-01-11 19:50:12 [main] INFO  uz.pdp.controller.ContactController - Fetching all store addresses
+2025-01-11 19:50:12 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
+2025-01-11 19:50:12 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2025-01-11 19:50:12 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 1 ms
+2025-01-11 19:50:12 [main] INFO  uz.pdp.controller.ContactController - Fetching address with id: 1
+2025-01-11 19:50:12 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
+2025-01-11 19:50:12 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2025-01-11 19:50:12 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
+2025-01-11 19:50:12 [main] INFO  uz.pdp.controller.ContactController - Deleting address with id: 1
+2025-01-11 19:50:12 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
+2025-01-11 19:50:12 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2025-01-11 19:50:12 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 1 ms
+2025-01-11 19:50:12 [main] INFO  uz.pdp.controller.DoorController - Configuring door with ID: 1, configuration: DoorConfigInput(size=STANDARD, color=WHITE, width=100.0, height=200.0)
+2025-01-11 19:50:12 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
+2025-01-11 19:50:12 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2025-01-11 19:50:12 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
+2025-01-11 19:50:12 [main] INFO  uz.pdp.controller.DoorController - Deleting door with id: 1
+2025-01-11 19:50:12 [main] INFO  uz.pdp.controller.DoorController - Successfully deleted door with id: 1
+2025-01-11 19:50:12 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
+2025-01-11 19:50:12 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2025-01-11 19:50:12 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
+2025-01-11 19:50:12 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
+2025-01-11 19:50:12 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2025-01-11 19:50:12 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 1 ms
+2025-01-11 19:50:12 [main] INFO  uz.pdp.controller.DoorController - Fetching door with id: 1
+2025-01-11 19:50:12 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
+2025-01-11 19:50:12 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2025-01-11 19:50:12 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
+2025-01-11 19:50:12 [main] INFO  uz.pdp.controller.DoorController - Deleting door with id: 1
+2025-01-11 19:50:12 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
+2025-01-11 19:50:12 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2025-01-11 19:50:12 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
+2025-01-11 19:50:12 [main] INFO  uz.pdp.controller.DoorController - Updating door with id: 1
+2025-01-11 19:50:12 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
+2025-01-11 19:50:12 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2025-01-11 19:50:12 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 1 ms
+2025-01-11 19:50:12 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
+2025-01-11 19:50:12 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2025-01-11 19:50:12 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
+2025-01-11 19:50:12 [main] INFO  uz.pdp.controller.DoorController - Fetching door with id: 1
+2025-01-11 19:50:13 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
+2025-01-11 19:50:13 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2025-01-11 19:50:13 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
+2025-01-11 19:50:13 [main] INFO  uz.pdp.controller.DoorController - Fetching all doors
+2025-01-11 19:50:13 [main] DEBUG uz.pdp.controller.DoorController - Retrieved 2 doors
+2025-01-11 19:50:13 [main] INFO  o.s.mock.web.MockServletContext - Initializing Spring TestDispatcherServlet ''
+2025-01-11 19:50:13 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Initializing Servlet ''
+2025-01-11 19:50:13 [main] INFO  o.s.t.w.s.TestDispatcherServlet - Completed initialization in 0 ms
+2025-01-11 19:50:13 [main] ERROR uz.pdp.service.AdminService - Error approving user as seller: User not found
+2025-01-11 19:50:13 [main] ERROR uz.pdp.service.AdminService - Error approving user as seller: Database error
+2025-01-11 19:50:13 [main] INFO  uz.pdp.service.AdminService - User approved as seller: test@example.com
+2025-01-11 19:50:13 [main] INFO  uz.pdp.service.AdminService - User approved as seller: test@example.com
+2025-01-11 19:50:13 [main] INFO  uz.pdp.service.AddressService - Fetching address with id: 1
+2025-01-11 19:50:13 [main] INFO  uz.pdp.service.AddressService - Finding nearest address to coordinates: 41.123, 69.456
+2025-01-11 19:50:13 [main] INFO  uz.pdp.service.AddressService - Fetching all addresses ordered by city
+2025-01-11 19:50:13 [main] INFO  uz.pdp.service.AddressService - Adding new address: AddressDTO(name=Test Store, street=Test Street, city=Test City, phone=+1234567890, workingHours=null, email=null, latitude=41.123, longitude=69.456, socialLinks=null)
+2025-01-11 19:50:13 [main] INFO  uz.pdp.service.AddressService - Fetching all addresses ordered by city
+2025-01-11 19:50:13 [main] INFO  uz.pdp.service.AddressService - Fetching address with id: 1
+2025-01-11 19:50:13 [main] INFO  uz.pdp.service.AddressService - Searching addresses in city: Test City
+2025-01-11 19:50:13 [main] ERROR uz.pdp.service.EmailService - Failed to send verification email to: test@example.com
+2025-01-11 19:50:13 [main] WARN  uz.pdp.service.EmailService - Invalid email format: not-an-email
+2025-01-11 19:50:13 [main] INFO  uz.pdp.service.EmailService - Verification email sent successfully to: test@example.com
+2025-01-11 19:50:13 [main] INFO  uz.pdp.service.AuthService - User registered successfully: testuser
+2025-01-11 19:50:13 [main] WARN  uz.pdp.service.AuthService - Authentication failed for user: testuser
+2025-01-11 19:50:13 [main] ERROR uz.pdp.service.AuthService - Validation error: {password=Password is required}
+2025-01-11 19:50:13 [main] INFO  uz.pdp.service.AuthService - User testuser successfully signed in.
+2025-01-11 19:50:13 [main] WARN  uz.pdp.service.AuthService - Authentication failed for user: testuser
+2025-01-11 19:50:13 [main] WARN  uz.pdp.service.AuthService - Registration failed: Email already exists - test@example.com
+2025-01-11 19:50:13 [main] WARN  uz.pdp.service.AuthService - Registration failed: Username already exists - testuser
+2025-01-11 19:50:13 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-01-11 19:50:13 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-01-11 19:50:15 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-01-11 19:58:03 [SpringApplicationShutdownHook] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+2025-01-11 19:58:03 [tomcat-shutdown] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+2025-01-11 19:58:03 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-01-11 19:58:03 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-01-11 19:58:04 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-01-11 19:58:05 [main] INFO  u.p.p.ProjectModul10Application - Starting ProjectModul10Application using Java 17.0.13 with PID 247304 (/home/lantanium/Documents/G45-Project/target/classes started by lantanium in /home/lantanium/Documents/G45-Project)
+2025-01-11 19:58:05 [main] DEBUG u.p.p.ProjectModul10Application - Running with Spring Boot v3.4.1, Spring v6.2.1
+2025-01-11 19:58:05 [main] INFO  u.p.p.ProjectModul10Application - No active profile set, falling back to 1 default profile: "default"
+2025-01-11 19:58:06 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-01-11 19:58:06 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-01-11 19:58:06 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 68 ms. Found 4 JPA repository interfaces.
+2025-01-11 19:58:06 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-01-11 19:58:06 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-01-11 19:58:06 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 8 ms. Found 0 Redis repository interfaces.
+2025-01-11 19:58:07 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-01-11 19:58:07 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-01-11 19:58:07 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.34]
+2025-01-11 19:58:07 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-01-11 19:58:07 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1992 ms
+2025-01-11 19:58:07 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-01-11 19:58:07 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.6.4.Final
+2025-01-11 19:58:07 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-01-11 19:58:08 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-01-11 19:58:08 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-01-11 19:58:10 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@52bcfd10
+2025-01-11 19:58:10 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-01-11 19:58:10 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-01-11 19:58:11 [main] INFO  o.hibernate.orm.connections.pooling - HHH10001005: Database info:
+	Database JDBC URL [Connecting through datasource 'HikariDataSource (HikariPool-1)']
+	Database driver: undefined/unknown
+	Database version: 16.4
+	Autocommit mode: undefined/unknown
+	Isolation level: undefined/unknown
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2025-01-11 19:58:11 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-01-11 19:58:19 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-01-11 19:58:20 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-01-11 19:58:20 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-01-11 19:58:21 [main] INFO  o.s.s.c.a.a.c.InitializeAuthenticationProviderBeanManagerConfigurer$InitializeAuthenticationProviderManagerConfigurer - Global AuthenticationManager configured with AuthenticationProvider bean with name authenticationProvider
+2025-01-11 19:58:21 [main] WARN  o.s.s.c.a.a.c.InitializeUserDetailsBeanManagerConfigurer$InitializeUserDetailsManagerConfigurer - Global AuthenticationManager configured with an AuthenticationProvider bean. UserDetailsService beans will not be used by Spring Security for automatically configuring username/password login. Consider removing the AuthenticationProvider bean. Alternatively, consider using the UserDetailsService in a manually instantiated DaoAuthenticationProvider. If the current configuration is intentional, to turn off this warning, increase the logging level of 'org.springframework.security.config.annotation.authentication.configuration.InitializeUserDetailsBeanManagerConfigurer' to ERROR
+2025-01-11 19:58:21 [main] INFO  o.s.g.e.DefaultSchemaResourceGraphQlSourceBuilder - Loaded 1 resource(s) in the GraphQL schema.
+2025-01-11 19:58:21 [main] INFO  o.s.b.a.g.GraphQlAutoConfiguration - GraphQL schema inspection:
+	Unmapped fields: {Mutation=[configureDoor]}
+	Unmapped registrations: {}
+	Unmapped arguments: {}
+	Skipped types: []
+2025-01-11 19:58:21 [main] INFO  o.s.b.a.g.s.GraphQlWebMvcAutoConfiguration - GraphQL endpoint HTTP POST /graphql
+2025-01-11 19:58:21 [main] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 1 endpoint beneath base path '/actuator'
+2025-01-11 19:58:22 [main] WARN  o.s.b.a.t.ThymeleafAutoConfiguration$DefaultTemplateResolverConfiguration - Cannot find template location: classpath:/templates/ (please add some templates, check your Thymeleaf configuration, or set spring.thymeleaf.check-template-location=false)
+2025-01-11 19:58:22 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path '/'
+2025-01-11 19:58:22 [main] INFO  u.p.p.ProjectModul10Application - Started ProjectModul10Application in 17.263 seconds (process running for 17.607)
+2025-01-11 19:58:22 [main] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.email,
+        u1_0.lastname,
+        u1_0.name,
+        u1_0.password,
+        u1_0.phone,
+        u1_0.role,
+        u1_0.seller_request_pending 
+    from
+        users u1_0 
+    where
+        u1_0.name=?
+2025-01-11 19:59:18 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-01-11 19:59:18 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-01-11 19:59:18 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 2 ms
+2025-01-11 19:59:19 [http-nio-8080-exec-9] INFO  o.s.api.AbstractOpenApiResource - Init duration for springdoc-openapi is: 353 ms
+2025-01-11 19:59:32 [http-nio-8080-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.email,
+        u1_0.lastname,
+        u1_0.name,
+        u1_0.password,
+        u1_0.phone,
+        u1_0.role,
+        u1_0.seller_request_pending 
+    from
+        users u1_0 
+    where
+        u1_0.name=?
+2025-01-11 19:59:32 [http-nio-8080-exec-6] WARN  uz.pdp.service.AuthService - Authentication failed for user: string
