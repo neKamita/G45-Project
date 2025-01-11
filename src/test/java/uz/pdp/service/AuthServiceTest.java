@@ -105,7 +105,7 @@ class AuthServiceTest {
         // Assert
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         assertFalse(response.getBody().success());
-        assertEquals("Name is already taken", response.getBody().message());
+        assertEquals("Username is already taken", response.getBody().message());
         verify(userRepository, never()).save(any(User.class));
     }
 
@@ -192,7 +192,7 @@ class AuthServiceTest {
         when(bindingResult.getFieldErrors()).thenReturn(List.of(fieldError));
 
         // Act
-        EntityResponse<Map<String, String>> response = authService.handleValidationErrors(ex);
+        EntityResponse<Map<String, String>> response = authService.handleValidationErrors(ex).getBody();
 
         // Assert
         assertFalse(response.success());

@@ -2,6 +2,7 @@ package uz.pdp.service;
 
 import java.util.Random;
 import java.util.UUID;
+import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -16,6 +17,8 @@ import uz.pdp.payload.EntityResponse;
 @Slf4j
 public class EmailService {
     
+
+
     private final JavaMailSender mailSender;
     private final String fromEmail;
 

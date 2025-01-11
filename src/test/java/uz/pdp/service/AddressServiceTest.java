@@ -9,6 +9,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import jakarta.persistence.EntityNotFoundException;
 import uz.pdp.dto.AddressDTO;
 import uz.pdp.entity.Address;
+import uz.pdp.entity.Location;
 import uz.pdp.entity.MapPoint;
 import uz.pdp.repository.AddressRepository;
 
@@ -146,7 +147,7 @@ class AddressServiceTest {
 
     private Address createTestAddressWithLocation(Long id, String name, Double lat, Double lon) {
         Address address = createTestAddress(id, name, "Test City");
-        MapPoint location = new MapPoint();
+        Location location = new Location();
         location.setLatitude(lat);
         location.setLongitude(lon);
         location.setMarkerTitle(name);

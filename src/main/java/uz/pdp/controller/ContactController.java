@@ -17,14 +17,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.http.converter.HttpMessageNotReadableException;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import uz.pdp.dto.AddressDTO;
 import uz.pdp.entity.Address;
-import uz.pdp.entity.MapPoint;
+import uz.pdp.entity.Location;
 import uz.pdp.payload.EntityResponse;
 import uz.pdp.service.AddressService;
 
@@ -42,27 +42,21 @@ public class ContactController {
     @Operation(summary = "Get all store addresses")
     public ResponseEntity<EntityResponse<List<Address>>> getAllAddresses() {
         logger.info("Fetching all store addresses");
-        List<Address> addresses = addressService.getAllAddresses();
-        logger.debug("Retrieved {} addresses", addresses.size());
-        return ResponseEntity.ok(EntityResponse.success("Addresses retrieved successfully", addresses));
+        return addressService.getAllAddressesResponse();
     }
 
     @GetMapping("/addresses/{id}")
     @Operation(summary = "Get address details by ID")
     public ResponseEntity<EntityResponse<Address>> getAddress(@PathVariable Long id) {
         logger.info("Fetching address with id: {}", id);
-        Address address = addressService.getAddress(id);
-        logger.debug("Retrieved address: {}", address);
-        return ResponseEntity.ok(EntityResponse.success("Address retrieved successfully", address));
+        return addressService.getAddressResponse(id);
     }
 
     @GetMapping("/map-points")
     @Operation(summary = "Get all map points")
-    public ResponseEntity<EntityResponse<List<MapPoint>>> getAllMapPoints() {
+    public ResponseEntity<EntityResponse<List<Location>>> getAllMapPoints() {
         logger.info("Fetching all map points");
-        List<MapPoint> points = addressService.getAllMapPoints();
-        logger.debug("Retrieved {} map points", points.size());
-        return ResponseEntity.ok(EntityResponse.success("Map points retrieved successfully", points));
+        return addressService.getAllMapPointsResponse();
     }
 
     @PostMapping("/addresses")
@@ -70,16 +64,7 @@ public class ContactController {
     @Operation(summary = "Add new address with map point")
     public ResponseEntity<EntityResponse<Address>> addAddress(@Valid @RequestBody AddressDTO addressDTO) {
         logger.info("Adding new address: {}", addressDTO);
-        try {
-            Address address = addressService.addAddress(addressDTO);
-            logger.info("Successfully added address with id: {}", address.getId());
-            return ResponseEntity.status(HttpStatus.CREATED)
-                .body(EntityResponse.success("Address added successfully", address));
-        } catch (Exception e) {
-            logger.error("Error adding address: {}", e.getMessage());
-            return ResponseEntity.badRequest()
-                .body(EntityResponse.error("Failed to add address: " + e.getMessage()));
-        }
+        return addressService.addAddressResponse(addressDTO);
     }
 
     @PutMapping("/addresses/{id}")
@@ -89,15 +74,7 @@ public class ContactController {
             @PathVariable Long id,
             @Valid @RequestBody AddressDTO addressDTO) {
         logger.info("Updating address with id: {}", id);
-        try {
-            Address address = addressService.updateAddress(id, addressDTO);
-            logger.info("Successfully updated address with id: {}", id);
-            return ResponseEntity.ok(EntityResponse.success("Address updated successfully", address));
-        } catch (Exception e) {
-            logger.error("Error updating address: {}", e.getMessage());
-            return ResponseEntity.badRequest()
-                .body(EntityResponse.error("Failed to update address: " + e.getMessage()));
-        }
+        return addressService.updateAddressResponse(id, addressDTO);
     }
 
     @DeleteMapping("/addresses/{id}")
@@ -105,24 +82,14 @@ public class ContactController {
     @Operation(summary = "Delete address")
     public ResponseEntity<EntityResponse<Void>> deleteAddress(@PathVariable Long id) {
         logger.info("Deleting address with id: {}", id);
-        try {
-            addressService.deleteAddress(id);
-            logger.info("Successfully deleted address with id: {}", id);
-            return ResponseEntity.ok(EntityResponse.success("Address deleted successfully"));
-        } catch (Exception e) {
-            logger.error("Error deleting address: {}", e.getMessage());
-            return ResponseEntity.badRequest()
-                .body(EntityResponse.error("Failed to delete address: " + e.getMessage()));
-        }
+        return addressService.deleteAddressResponse(id);
     }
 
     @GetMapping("/addresses/search")
     @Operation(summary = "Search addresses by city")
     public ResponseEntity<EntityResponse<List<Address>>> searchAddresses(@RequestParam String city) {
         logger.info("Searching addresses in city: {}", city);
-        List<Address> addresses = addressService.searchAddressesByCity(city);
-        logger.debug("Found {} addresses in {}", addresses.size(), city);
-        return ResponseEntity.ok(EntityResponse.success("Addresses found successfully", addresses));
+        return addressService.searchAddressesByCityResponse(city);
     }
 
     @GetMapping("/addresses/nearest")
@@ -131,7 +98,6 @@ public class ContactController {
             @RequestParam Double latitude,
             @RequestParam Double longitude) {
         logger.info("Finding nearest address to coordinates: {}, {}", latitude, longitude);
-        Address address = addressService.findNearestAddress(latitude, longitude);
-        return ResponseEntity.ok(EntityResponse.success("Nearest address found successfully", address));
+        return addressService.findNearestAddressResponse(latitude, longitude);
     }
 }

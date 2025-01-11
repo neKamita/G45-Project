@@ -7,8 +7,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import uz.pdp.repository.AddressRepository;
 import uz.pdp.entity.Address;
-import uz.pdp.entity.MapPoint;
+import uz.pdp.entity.Location;
+import uz.pdp.payload.EntityResponse;
 import uz.pdp.dto.AddressDTO;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 import jakarta.persistence.EntityNotFoundException;
 
@@ -35,7 +38,7 @@ public class AddressService {
             .orElseThrow(() -> new EntityNotFoundException("Address not found with id: " + id));
     }
 
-    public List<MapPoint> getAllMapPoints() {
+    public List<Location> getAllMapPoints() {
         logger.info("Fetching all map points");
         return getAllAddresses().stream()
             .map(Address::getLocation)
@@ -75,16 +78,16 @@ public class AddressService {
         address.setEmail(dto.getEmail());
         address.setSocialLinks(dto.getSocialLinks());
 
-        MapPoint point = address.getLocation();
-        if (point == null) {
-            point = new MapPoint();
-            point.setAddress(address);
+        Location location = address.getLocation();
+        if (location == null) {
+            location = new Location();
+            location.setAddress(address);
         }
-        point.setLatitude(dto.getLatitude());
-        point.setLongitude(dto.getLongitude());
-        point.setMarkerTitle(dto.getName());
+        location.setLatitude(dto.getLatitude());
+        location.setLongitude(dto.getLongitude());
+        location.setMarkerTitle(dto.getName());
         
-        address.setLocation(point);
+        address.setLocation(location);
     }
 
     public Address findNearestAddress(Double latitude, Double longitude) {
@@ -92,6 +95,18 @@ public class AddressService {
         return getAllAddresses().stream()
             .min((a1, a2) -> compareDistances(a1, a2, latitude, longitude))
             .orElseThrow(() -> new EntityNotFoundException("No addresses found"));
+    }
+
+    public ResponseEntity<EntityResponse<Address>> findNearestAddressResponse(Double latitude, Double longitude) {
+        try {
+            Address address = findNearestAddress(latitude, longitude);
+            return ResponseEntity.ok(EntityResponse.success(
+                "Nearest address found successfully", address));
+        } catch (Exception e) {
+            logger.error("Error finding nearest address: {}", e.getMessage());
+            return ResponseEntity.badRequest()
+                .body(EntityResponse.error("Failed to find nearest address: " + e.getMessage()));
+        }
     }
 
     private int compareDistances(Address a1, Address a2, Double lat, Double lon) {
@@ -111,4 +126,113 @@ public class AddressService {
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
         return R * c;
     }
+
+    public ResponseEntity<EntityResponse<List<Address>>> getAllAddressesResponse() {
+        try {
+            List<Address> addresses = addressRepository.findAllByOrderByCity();
+            return ResponseEntity.ok(EntityResponse.success(
+                "Addresses retrieved successfully", addresses));
+        } catch (Exception e) {
+            logger.error("Error retrieving addresses: {}", e.getMessage());
+            return ResponseEntity.badRequest()
+                .body(EntityResponse.error("Failed to retrieve addresses: " + e.getMessage()));
+        }
+    }
+
+    public ResponseEntity<EntityResponse<Address>> getAddressResponse(Long id) {
+        try {
+            Address address = addressRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Address not found with id: " + id));
+            return ResponseEntity.ok(EntityResponse.success(
+                "Address retrieved successfully", address));
+        } catch (EntityNotFoundException e) {
+            logger.error("Address not found: {}", e.getMessage());
+            return ResponseEntity.status(404)  // Using direct HTTP status code instead of HttpStatus.NOT_FOUND
+                .body(EntityResponse.error(e.getMessage()));
+        } catch (Exception e) {
+            logger.error("Error retrieving address: {}", e.getMessage());
+            return ResponseEntity.status(400)  // Using direct HTTP status code instead of HttpStatus.BAD_REQUEST
+                .body(EntityResponse.error("Failed to retrieve address: " + e.getMessage()));
+        }
+    }
+
+    public ResponseEntity<EntityResponse<List<Location>>> getAllMapPointsResponse() {
+        try {
+            List<Location> points = getAllAddresses().stream()
+                .map(Address::getLocation)
+                .collect(Collectors.toList());
+            return ResponseEntity.ok(EntityResponse.success(
+                "Map points retrieved successfully", points));
+        } catch (Exception e) {
+            logger.error("Error retrieving map points: {}", e.getMessage());
+            return ResponseEntity.badRequest()
+                .body(EntityResponse.error("Failed to retrieve map points: " + e.getMessage()));
+        }
+    }
+
+    public ResponseEntity<EntityResponse<Address>> addAddressResponse(AddressDTO dto) {
+        try {
+            Address address = new Address();
+            updateAddressFromDTO(address, dto);
+            address = addressRepository.save(address);
+            return ResponseEntity.status(HttpStatus.CREATED)
+                .body(EntityResponse.success("Address added successfully", address));
+        } catch (Exception e) {
+            logger.error("Error adding address: {}", e.getMessage());
+            return ResponseEntity.badRequest()
+                .body(EntityResponse.error("Failed to add address: " + e.getMessage()));
+        }
+    }
+
+    public ResponseEntity<EntityResponse<Address>> updateAddressResponse(Long id, AddressDTO dto) {
+        try {
+            Address address = addressRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Address not found with id: " + id));
+            updateAddressFromDTO(address, dto);
+            address = addressRepository.save(address);
+            return ResponseEntity.ok(EntityResponse.success(
+                "Address updated successfully", address));
+        } catch (EntityNotFoundException e) {
+            logger.error("Address not found: {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(EntityResponse.error(e.getMessage()));
+        } catch (Exception e) {
+            logger.error("Error updating address: {}", e.getMessage());
+            return ResponseEntity.badRequest()
+                .body(EntityResponse.error("Failed to update address: " + e.getMessage()));
+        }
+    }
+
+    public ResponseEntity<EntityResponse<Void>> deleteAddressResponse(Long id) {
+        try {
+            if (!addressRepository.existsById(id)) {
+                throw new EntityNotFoundException("Address not found with id: " + id);
+            }
+            addressRepository.deleteById(id);
+            return ResponseEntity.ok(EntityResponse.success("Address deleted successfully"));
+        } catch (EntityNotFoundException e) {
+            logger.error("Address not found: {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(EntityResponse.error(e.getMessage()));
+        } catch (Exception e) {
+            logger.error("Error deleting address: {}", e.getMessage());
+            return ResponseEntity.badRequest()
+                .body(EntityResponse.error("Failed to delete address: " + e.getMessage()));
+        }
+    }
+
+    public ResponseEntity<EntityResponse<List<Address>>> searchAddressesByCityResponse(String city) {
+        try {
+            List<Address> addresses = addressRepository.findByCityContainingIgnoreCase(city);
+            String message = addresses.isEmpty() 
+                ? String.format("No addresses found in city: %s", city)
+                : String.format("Found %d addresses in %s", addresses.size(), city);
+            return ResponseEntity.ok(EntityResponse.success(message, addresses));
+        } catch (Exception e) {
+            logger.error("Error searching addresses: {}", e.getMessage());
+            return ResponseEntity.badRequest()
+                .body(EntityResponse.error("Failed to search addresses: " + e.getMessage()));
+        }
+    }
+
 }

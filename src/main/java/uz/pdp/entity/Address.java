@@ -1,44 +1,43 @@
 package uz.pdp.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.ElementCollection;
-import jakarta.persistence.CollectionTable;
-import jakarta.persistence.MapKeyColumn;
-import jakarta.persistence.Column;
-import java.util.Map;
-import java.util.HashMap;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import uz.pdp.enums.Socials;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import java.util.Map;
+import java.util.HashMap;
 
+@Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
+@Table(name = "addresses")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    private String name;        // Store or office name
-    private String street;      // Street address
+    private String name;
+    private String street;
     private String city;
     private String phone;
     private String workingHours;
     private String email;
-    
+
     @ElementCollection
-    @CollectionTable(name = "address_social_links")
+    @MapKeyEnumerated(EnumType.STRING)
+    @CollectionTable(name = "address_social_links", 
+        joinColumns = @JoinColumn(name = "address_id"))
+    @Column(name = "link")
     @MapKeyColumn(name = "social_type")
-    @Column(name = "social_link")
     private Map<Socials, String> socialLinks = new HashMap<>();
-    
-    @OneToOne(mappedBy = "address", cascade = CascadeType.ALL)
-    private MapPoint location;  // Geographic coordinates
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "location_id")
+    @JsonManagedReference
+    private Location location;
 }

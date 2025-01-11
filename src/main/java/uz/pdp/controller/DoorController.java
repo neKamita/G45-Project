@@ -5,11 +5,14 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import uz.pdp.dto.DoorDto;
 import uz.pdp.entity.Door;
 import uz.pdp.mutations.DoorConfigInput;
 import uz.pdp.service.DoorService;
@@ -48,18 +51,11 @@ public class DoorController {
     @PostMapping
     @PreAuthorize("hasRole('SELLER')")
     @Operation(summary = "Create a new door (SELLER only)")
-    public ResponseEntity<EntityResponse<Door>> createDoor(@Valid @RequestBody Door door) {
-        logger.info("Creating new door: {}", door);
-        try {
-            Door createdDoor = doorService.createDoor(door);
-            logger.info("Door created with ID: {}", createdDoor.getId());
-            return ResponseEntity.status(HttpStatus.CREATED)
-                    .body(EntityResponse.success("Door created successfully", createdDoor));
-        } catch (Exception e) {
-            logger.error("Error creating door: {}", e.getMessage());
-            return ResponseEntity.badRequest()
-                    .body(EntityResponse.error("Failed to create door: " + e.getMessage()));
-        }
+    public ResponseEntity<EntityResponse<Door>> createDoor(@Valid @RequestBody DoorDto doorDto) {
+        logger.info("Creating new door: {}", doorDto);
+        Door door = doorService.createDoor(doorDto);
+        return ResponseEntity.status(HttpStatus.CREATED)
+            .body(EntityResponse.success("Door created successfully", door));
     }
 
     @PutMapping("/{id}")
@@ -67,9 +63,9 @@ public class DoorController {
     @Operation(summary = "Update door details (ADMIN or owner SELLER)")
     public ResponseEntity<EntityResponse<Door>> updateDoor(
             @PathVariable Long id,
-            @Valid @RequestBody Door door) {
+            @Valid @RequestBody DoorDto doorDto) {
         logger.info("Updating door with id: {}", id);
-        Door updatedDoor = doorService.updateDoor(id, door);
+        Door updatedDoor = doorService.updateDoor(id, doorDto);
         logger.info("Successfully updated door with id: {}", id);
         return ResponseEntity.ok(EntityResponse.success("Door updated successfully", updatedDoor));
     }
@@ -100,7 +96,6 @@ public class DoorController {
                     configInput.getWidth(),
                     configInput.getHeight()
             );
-            logger.info("Successfully configured door: {}", configuredDoor);
             return ResponseEntity.ok(EntityResponse.success("Door configured successfully", configuredDoor));
         } catch (Exception e) {
             logger.error("Error configuring door: {}", e.getMessage());

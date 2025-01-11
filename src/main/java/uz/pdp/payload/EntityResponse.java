@@ -1,4 +1,4 @@
-    package uz.pdp.payload;
+package uz.pdp.payload;
 
 public record EntityResponse<T>(
     String message,

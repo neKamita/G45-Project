@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.stereotype.Service;
+
+import uz.pdp.dto.DoorDto;
 import uz.pdp.entity.Door;
 import uz.pdp.entity.User;
 import uz.pdp.enums.Color;
@@ -45,41 +47,43 @@ public class DoorService {
     // Restricted operations remain the same
     @Transactional
     @PreAuthorize("hasRole('SELLER')")
-    @CachePut(key = "#door.id")
-    public Door createDoor(Door door) {
+    @CachePut(value = "doors", key = "#result.id")
+    public Door createDoor(DoorDto doorDto) {
         User currentUser = userService.getCurrentUser();
+        Door door = new Door();
+        mapDtoToEntity(doorDto, door);
         door.setSeller(currentUser);
-        logger.info("Creating a new door: {}", door);
-        if (door.getImages() == null) {
-            door.setImages(new ArrayList<>());
-        }
-        if (door.getPrice() == null) {
-            door.setPrice(0.0);
-        }
         door.calculateFinalPrice();
         Door savedDoor = doorRepository.saveAndFlush(door);
         logger.info("Door created with ID: {}", savedDoor.getId());
         return savedDoor;
     }
 
+    private void mapDtoToEntity(DoorDto dto, Door door) {
+        door.setName(dto.getName());
+        door.setDescription(dto.getDescription());
+        door.setPrice(dto.getPrice());
+        door.setSize(dto.getSize());
+        door.setColor(dto.getColor());
+        door.setMaterial(dto.getMaterial());
+        door.setManufacturer(dto.getManufacturer());
+        door.setWarrantyYears(dto.getWarrantyYears());
+        door.setCustomWidth(dto.getCustomWidth());
+        door.setCustomHeight(dto.getCustomHeight());
+        door.setIsCustomColor(dto.getIsCustomColor());
+        if (dto.getImages() != null) {
+            door.setImages(dto.getImages());
+        }
+    }
+
     @Transactional
     @PreAuthorize("hasRole('ADMIN') or (hasRole('SELLER') and @doorSecurityService.isSeller(#id))")
     @CachePut(value = "doors", key = "#id")
-    public Door updateDoor(Long id, Door updatedDoor) {
-        logger.info("Updating door with ID: {}, data: {}", id, updatedDoor);
+    public Door updateDoor(Long id, DoorDto doorDto) {
+        logger.info("Updating door with ID: {}, data: {}", id, doorDto);
         Door door = getDoor(id);
-        door.setName(updatedDoor.getName());
-        door.setDescription(updatedDoor.getDescription());
-        door.setPrice(updatedDoor.getPrice());
-        door.setImages(updatedDoor.getImages());
-        door.setSize(updatedDoor.getSize());
-        door.setColor(updatedDoor.getColor());
-        door.setMaterial(updatedDoor.getMaterial());
-        door.setManufacturer(updatedDoor.getManufacturer());
-        door.setWarrantyYears(updatedDoor.getWarrantyYears());
-        door.setCustomWidth(updatedDoor.getCustomWidth());
-        door.setCustomHeight(updatedDoor.getCustomHeight());
-        door.setIsCustomColor(updatedDoor.getIsCustomColor());
+        mapDtoToEntity(doorDto, door);
+        door.calculateFinalPrice();
         Door savedDoor = doorRepository.save(door);
         logger.info("Door with ID {} updated.", id);
         return savedDoor;
@@ -97,7 +101,7 @@ public class DoorService {
 
     @Transactional(rollbackFor = Exception.class)
     @PreAuthorize("hasRole('ADMIN') or (hasRole('SELLER') and @doorSecurityService.isSeller(#id))")
-    @CachePut(key = "#id")
+    @CachePut(value = "doors", key = "#id")
     @SneakyThrows
     public Door configureDoor(Long id, Size size, Color color, Double width, Double height) {
         logger.info("Configuring door with ID: {}, size: {}, color: {}, width: {}, height: {}", 
@@ -121,10 +125,11 @@ public class DoorService {
             door.setIsCustomColor(color == Color.CUSTOM);
         }
         
+        // Initialize the seller to avoid lazy loading issues
+        door.getSeller().getName(); 
+        
         Door savedDoor = doorRepository.save(door);
         logger.info("Door with ID {} configured successfully", id);
         return savedDoor;
     }
-
-
 }
