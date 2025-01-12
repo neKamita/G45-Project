@@ -81,6 +81,19 @@ spring:
       name: ${SECURITY_USER:admin}
       password: ${SECURITY_PASSWORD:admin}
 
+  mvc:
+    static-path-pattern: /images/**
+    async:
+      request-timeout: 3600000
+  web:
+    resources:
+      static-locations: classpath:/static/,file:uploads/
+
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
 springdoc:
   api-docs:
     path: /v3/api-docs
@@ -159,3 +172,11 @@ logging:
 email:
   validation:
     enabled: true
+
+aws:
+  access:
+    key:
+      id: AKIA36E76CYUBBMMYYNG
+      secret: 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
+  s3:
+    bucket: etadoor

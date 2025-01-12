@@ -20,6 +20,8 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.SneakyThrows;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.multipart.MultipartFile;
+import java.io.IOException;
 
 @Service
 public class DoorService {
@@ -30,6 +32,9 @@ public class DoorService {
     
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private ImageStorageService imageStorageService;
 
     // Open to all users - no @PreAuthorize needed
     @Transactional(readOnly = true)
@@ -131,5 +136,26 @@ public class DoorService {
         Door savedDoor = doorRepository.save(door);
         logger.info("Door with ID {} configured successfully", id);
         return savedDoor;
+    }
+
+    @Transactional
+    @PreAuthorize("hasRole('ADMIN') or (hasRole('SELLER') and @doorSecurityService.isSeller(#id))")
+    @CachePut(value = "doors", key = "#id")
+    public Door addImages(Long id, List<MultipartFile> images) {
+        Door door = getDoor(id);
+        List<String> imageUrls = new ArrayList<>();
+        
+        for (MultipartFile image : images) {
+            try {
+                String imageUrl = imageStorageService.storeImage(image);
+                imageUrls.add(imageUrl);
+            } catch (IOException e) {
+                logger.error("Failed to store image for door {}: {}", id, e.getMessage());
+                throw new RuntimeException("Failed to store image", e);
+            }
+        }
+        
+        door.getImages().addAll(imageUrls);
+        return doorRepository.save(door);
     }
 }

@@ -1,5 +1,7 @@
 package uz.pdp.config;
 
+import java.util.List;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -13,6 +15,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
@@ -79,7 +82,12 @@ public class MyConf {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        // Configure CORS settings here
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowedHeaders(List.of("*"));
+        config.setAllowedMethods(List.of("GET", "PUT", "POST"));
+        config.setAllowedOrigins(List.of("http://localhost:8080", "https://etadoor.koyeb.app"));
+        config.setExposedHeaders(List.of());
+        source.registerCorsConfiguration("/**", config);
         return source;
     }
 

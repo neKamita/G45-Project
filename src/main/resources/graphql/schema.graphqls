@@ -9,6 +9,15 @@ query GetDoor {
     finalPrice
   }
 }
+# Example GraphQL query to get door with images
+query GetDoorWithImages {
+  door(id: "1") {
+    id
+    name
+    images
+    finalPrice
+  }
+}
 """
 type Door {
     "Unique identifier for the door"

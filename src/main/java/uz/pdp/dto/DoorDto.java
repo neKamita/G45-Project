@@ -7,6 +7,8 @@ import lombok.Data;
 import uz.pdp.enums.Color;
 import uz.pdp.enums.Size;
 import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.web.multipart.MultipartFile;
 
 @Data
 public class DoorDto {
@@ -18,6 +20,9 @@ public class DoorDto {
     @NotNull(message = "Price is required")
     @Positive(message = "Price must be positive")
     private Double price;
+    
+    @JsonIgnore // Ignore during JSON serialization
+    private List<MultipartFile> imageFiles;
     
     private List<String> images;
     

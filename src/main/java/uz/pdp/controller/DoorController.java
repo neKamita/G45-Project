@@ -8,6 +8,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -17,9 +18,12 @@ import uz.pdp.entity.Door;
 import uz.pdp.mutations.DoorConfigInput;
 import uz.pdp.service.DoorService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+
 import uz.pdp.payload.EntityResponse;
 
 import java.util.List;
+import java.util.Arrays;
 
 @RestController
 @RequestMapping("/api/doors")
@@ -102,5 +106,16 @@ public class DoorController {
             return ResponseEntity.badRequest()
                     .body(EntityResponse.error("Failed to configure door: " + e.getMessage()));
         }
+    }
+
+    @PostMapping(value = "/{id}/images", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PreAuthorize("hasRole('ADMIN') or (hasRole('SELLER') and @doorSecurityService.isSeller(#id))")
+    @Operation(summary = "Upload door images (ADMIN or owner SELLER)")
+    public ResponseEntity<EntityResponse<Door>> uploadImages(
+            @PathVariable Long id,
+            @RequestPart("images") MultipartFile[] images) {
+        logger.info("Uploading {} images for door ID: {}", images.length, id);
+        Door door = doorService.addImages(id, Arrays.asList(images));
+        return ResponseEntity.ok(EntityResponse.success("Images uploaded successfully", door));
     }
 }
