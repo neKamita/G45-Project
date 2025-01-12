@@ -1,7 +1,25 @@
 # Etadoor Changelog
 
 All notable changes to this project will be documented in this file.
+
 <details open>
+<summary><strong>Version 1.1.8 (2025-01-12)</strong></summary>
+
+### 🛠 Technical Updates
+- Fixed circular dependency in pom.xml
+- Fixed Maven build configuration
+- Optimized build process
+
+### 🐛 Bug Fixes
+- Removed self-referencing dependency
+- Fixed Maven build failures
+- Improved build reliability
+
+### 📝 Documentation
+- Updated build instructions
+- Added dependency management documentation
+</details>
+<details>
 <summary><strong>Version 1.1.7 (2025-01-12)</strong></summary>
 
 ### 🔒 Security

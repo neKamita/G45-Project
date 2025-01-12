@@ -176,11 +176,7 @@
             <artifactId>resilience4j-ratelimiter</artifactId>
             <version>2.3.0</version>
         </dependency>
-        <dependency>
-            <groupId>uz.pdp</groupId>
-            <artifactId>Project-Modul-10</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
+    
         <!-- https://mvnrepository.com/artifact/io.github.resilience4j/resilience4j-spring-boot3 -->
         <dependency>
             <groupId>io.github.resilience4j</groupId>
