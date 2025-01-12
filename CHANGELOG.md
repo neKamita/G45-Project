@@ -97,6 +97,7 @@ All notable changes to this project will be documented in this file.
 - Reduced data redundancy in DTOs
 
 </details>
+<details>
 <summary><strong>Version 1.1.4 (2025-01-10)</strong></summary>
 
 ### 🔄 Major Changes
