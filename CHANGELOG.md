@@ -1,12 +1,33 @@
 # Etadoor Changelog
 
 All notable changes to this project will be documented in this file.
-
-# Etadoor Changelog
-
-All notable changes to this project will be documented in this file.
-
 <details open>
+<summary><strong>Version 1.1.6 (2025-01-12)</strong></summary>
+
+### 🚀 New Features
+- Added AWS S3 integration for door image storage
+- Implemented secure image upload functionality
+- Added support for multiple images per door
+
+### 🛠 Technical Updates
+- Added [`ImageStorageService`](src/main/java/uz/pdp/service/ImageStorageService.java) for S3 operations
+- Enhanced [`DoorController`](src/main/java/uz/pdp/controller/DoorController.java) with image upload endpoint
+- Updated [`DoorService`](src/main/java/uz/pdp/service/DoorService.java) with image handling
+- Configured AWS S3 client with proper security settings
+
+### 🔒 Security
+- Implemented secure S3 bucket policies
+- Added proper IAM user permissions
+- Protected S3 credentials using environment variables
+
+### 📝 Documentation
+- Added AWS S3 setup instructions
+- Updated API documentation with image upload endpoints
+- Added environment variables documentation for AWS credentials
+
+</details>
+
+<details>
 <summary><strong>Version 1.1.5 (2025-01-11)</strong></summary>
 
 ### 🔄 Major Changes
