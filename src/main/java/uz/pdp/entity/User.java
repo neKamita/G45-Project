@@ -32,6 +32,7 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role = Role.USER;
+    private boolean active = true;  // New field for account status
 
     @JsonIgnore
     @Override
@@ -59,10 +60,6 @@ public class User implements UserDetails {
         return true;
     }
 
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
 
     @Override
     public String getPassword() {

@@ -49,7 +49,7 @@ public class MyConf {
     private final MyFilter myFilter;
     private final CustomUserDetailsService userDetailsService;
 
-    public MyConf(MyFilter myFilter, CustomUserDetailsService userDetailsService) {
+    public MyConf(MyFilter myFilter, CustomUserDetailsService userDetailsService) { 
         this.myFilter = myFilter;
         this.userDetailsService = userDetailsService;
     }

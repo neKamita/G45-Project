@@ -43,11 +43,13 @@ public class UserService {
 
     private static final String FAILED_ATTEMPTS_PREFIX = "verification_attempts:";
     private static final int MAX_FAILED_ATTEMPTS = 5;
+
     private static final long LOCKOUT_DURATION = 15; // minutes
 
     Logger logger = LoggerFactory.getLogger(UserService.class);
 
-    public UserService(UserRepository userRepository, 
+
+    public UserService(UserRepository userRepository,
                       EmailService emailService,
                       EmailVerificationRepository emailVerificationRepository) {
         this.userRepository = userRepository;
