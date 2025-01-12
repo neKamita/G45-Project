@@ -180,3 +180,11 @@ aws:
       secret: S854+/P+dqw37/k0MPyOJSzHNmCvk25Mi3rMWaBA
   s3:
     bucket: etadoor
+
+resilience4j:
+  ratelimiter:
+    instances:
+      verifySellerLimit:
+        limitForPeriod: 5
+        limitRefreshPeriod: 5m
+        timeoutDuration: 0

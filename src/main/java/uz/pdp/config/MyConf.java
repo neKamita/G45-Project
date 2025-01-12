@@ -60,7 +60,7 @@ public class MyConf {
             .cors(cors -> cors.configurationSource(corsConfigurationSource()))
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/auth/**").permitAll()
+                .requestMatchers("/api/auth/**", "/api/user/verify-seller").permitAll() // Allow verification without auth
                 .requestMatchers(HttpMethod.GET, 
                     "/swagger-ui/**",
                     "/swagger-ui.html",

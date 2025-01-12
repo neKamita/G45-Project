@@ -2,6 +2,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "ProjectModul10Application",
+            "request": "launch",
+            "mainClass": "ProjectModul10Application",
+            "projectName": "Project-Modul-10"
+        },
+        {
+            "type": "java",
             "name": "Spring Boot-ProjectModul10Application<Project-Modul-10>",
             "request": "launch",
             "cwd": "${workspaceFolder}",

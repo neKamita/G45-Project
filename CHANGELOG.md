@@ -2,6 +2,40 @@
 
 All notable changes to this project will be documented in this file.
 <details open>
+<summary><strong>Version 1.1.7 (2025-01-12)</strong></summary>
+
+### 🔒 Security
+- Added email verification requirement for seller registration
+- Enhanced seller approval process with admin-only access
+- Implemented rate limiting for verification attempts
+- Added Redis-based verification tracking
+
+### 🛠 Technical Updates
+- Added [`RedisConfig`](src/main/java/uz/pdp/config/RedisConfig.java) for verification tracking
+- Enhanced [`UserService`](src/main/java/uz/pdp/service/UserService.java) with verification logic
+- Updated [`AdminService`](src/main/java/uz/pdp/service/AdminService.java) with seller approval flow
+- Added verification endpoints in [`UserController`](src/main/java/uz/pdp/controller/UserController.java)
+- Implemented rate limiting with Resilience4j
+
+### 📧 Email Features
+- Added HTML email templates for verification codes
+- Enhanced email service with better formatting
+- Improved email delivery tracking and logging
+
+### 🎯 Improvements
+- Better verification code handling
+- Enhanced security for seller registration
+- Improved error messaging for verification
+- Added proper rate limiting for security
+
+### 📝 Documentation
+- Added seller verification flow documentation
+- Updated API documentation with new endpoints
+- Added Redis configuration guide
+- Enhanced environment variables documentation
+
+</details>
+<details>
 <summary><strong>Version 1.1.6 (2025-01-12)</strong></summary>
 
 ### 🚀 New Features

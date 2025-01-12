@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
 import uz.pdp.entity.User;
 import uz.pdp.enums.Role;
 import uz.pdp.repository.UserRepository;
@@ -19,6 +20,9 @@ import uz.pdp.repository.UserRepository;
 @EnableJpaRepositories(basePackages = "uz.pdp.repository")
 public class ProjectModul10Application {
 
+
+    
+
     public static void main(String[] args) {
         SpringApplication.run(ProjectModul10Application.class, args);
     }
@@ -27,9 +31,9 @@ public class ProjectModul10Application {
     ApplicationRunner applicationRunner(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         return args -> {
             // Check if admin already exists
-            if (!userRepository.findByName("admin").isPresent()) {
+            if (!userRepository.findByName("etadoor").isPresent()) {
                 User admin = new User();
-                admin.setName("admin");
+                admin.setName("etadoor");
                 admin.setEmail("admin@etadoor.com");
                 admin.setPassword(passwordEncoder.encode("admin123"));
                 admin.setRole(Role.ADMIN);
