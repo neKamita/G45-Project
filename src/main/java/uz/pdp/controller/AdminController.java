@@ -9,6 +9,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,15 +29,22 @@ public class AdminController {
     @Autowired
     private AdminService adminService;
 
-    @PostMapping("/approve-seller")
+    @PostMapping("/approve-seller/{userId}")
     @Operation(summary = "Approve a seller request")
-    public ResponseEntity<EntityResponse<Void>> approveSeller(@Valid @RequestBody SellerRequestDto sellerRequestDto) {
-        boolean isApproved = adminService.approveSeller(sellerRequestDto);
+    public ResponseEntity<EntityResponse<Void>> approveSeller(@PathVariable Long userId) {
+        boolean isApproved = adminService.approveSeller(userId);
         if (isApproved) {
             return ResponseEntity.ok(EntityResponse.success("User approved as seller"));
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                     .body(EntityResponse.error("Failed to approve user"));
         }
+    }
+
+    @PostMapping("/deactivate-account/{userId}")
+    @PreAuthorize("hasRole('ADMIN')")
+    @Operation(summary = "Deactivate user account")
+    public ResponseEntity<EntityResponse<Void>> deactivateAccount(@PathVariable Long userId) {
+        return ResponseEntity.ok(adminService.deactivateAccount(userId));
     }
 }

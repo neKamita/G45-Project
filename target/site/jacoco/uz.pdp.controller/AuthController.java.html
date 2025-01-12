@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AuthController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Project-Modul-10</a> &gt; <a href="index.source.html" class="el_package">uz.pdp.controller</a> &gt; <span class="el_source">AuthController.java</span></div><h1>AuthController.java</h1><pre class="source lang-java linenums">package uz.pdp.controller;
+
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.*;
+import uz.pdp.dto.SignInRequest;
+import uz.pdp.dto.SignUpRequest;
+import uz.pdp.payload.EntityResponse;
+import uz.pdp.service.AuthService;
+
+import java.util.Map;
+
+@RestController
+@RequestMapping(&quot;/api/auth&quot;)
+@Tag(name = &quot;Authentication&quot;, description = &quot;APIs for user authentication&quot;)
+public class AuthController {
+
+<span class="fc" id="L24">    private static final Logger logger = LoggerFactory.getLogger(AuthController.class);</span>
+    
+    private final AuthService authService;
+
+    @Autowired
+<span class="fc" id="L29">    public AuthController(AuthService authService) {</span>
+<span class="fc" id="L30">        this.authService = authService;</span>
+<span class="fc" id="L31">    }</span>
+
+    @PostMapping(&quot;/sign-up&quot;)
+    @Operation(summary = &quot;Sign up&quot;)
+    public ResponseEntity&lt;EntityResponse&lt;Map&lt;String, String&gt;&gt;&gt; signUp(@Valid @RequestBody SignUpRequest request) {
+<span class="nc" id="L36">        return authService.signUp(request);</span>
+    }
+
+    @PostMapping(&quot;/sign-in&quot;)
+    @Operation(summary = &quot;Sign in&quot;)
+    public ResponseEntity&lt;EntityResponse&lt;Map&lt;String, String&gt;&gt;&gt; signIn(@Valid @RequestBody SignInRequest request) {
+<span class="nc" id="L42">        return authService.signIn(request);</span>
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity&lt;EntityResponse&lt;Map&lt;String, String&gt;&gt;&gt; handleValidationExceptions(
+            MethodArgumentNotValidException ex) {
+<span class="nc" id="L48">        return authService.handleValidationErrors(ex);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

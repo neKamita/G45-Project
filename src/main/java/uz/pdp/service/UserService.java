@@ -108,6 +108,37 @@ public class UserService {
         return EntityResponse.success("Verification code sent to your email", user);
     }
 
+    public EntityResponse<User> requestSeller(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+
+        if (user.getRole() == Role.ADMIN) {
+            return EntityResponse.error("Admins cannot request to become sellers", null);
+        }
+
+        if (user.getRole() == Role.SELLER) {
+            return EntityResponse.error("User is already a seller", null);
+        }
+
+        String verificationCode = generateVerificationCode();
+        EmailVerification emailVerification = new EmailVerification();
+        emailVerification.setUser(user);
+        emailVerification.setVerificationCode(verificationCode);
+        emailVerification.setExpiryTime(LocalDateTime.now().plusMinutes(15));
+        emailVerification.setType(VerificationType.SELLER_REQUEST);
+        emailVerificationRepository.save(emailVerification);
+
+        EntityResponse<String> emailResponse = emailService.sendVerificationEmail(user.getEmail(), verificationCode);
+        if (!emailResponse.success()) {
+            return EntityResponse.error(emailResponse.message(), null);
+        }
+
+        user.setSellerRequestPending(true);
+        userRepository.save(user);
+
+        return EntityResponse.success("Verification code sent to your email", user);
+    }
+
     @Transactional
     public EntityResponse<User> verifySellerEmail(Long userId, String verificationCode) {
         try {

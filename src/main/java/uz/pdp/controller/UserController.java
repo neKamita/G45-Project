@@ -39,23 +39,24 @@ public class UserController {
 
 
 
-    @PostMapping("/request-seller")
+    @PostMapping("/request-seller/{userId}")
     @Operation(summary = "Request to become a seller")
-    public ResponseEntity<EntityResponse<User>> requestSeller(@Valid @RequestBody SellerRequestDto sellerRequestDto) {
-        return ResponseEntity.ok(userService.requestSeller(sellerRequestDto));
+    public ResponseEntity<EntityResponse<User>> requestSeller(@PathVariable Long userId) {
+        return ResponseEntity.ok(userService.requestSeller(userId));
     }
 
-    @PostMapping("/verify-seller")
+    @PostMapping("/verify-seller/{userId}/{code}")
     @Operation(summary = "Verify seller email code")
     @RateLimiter(name = "verifySellerLimit", fallbackMethod = "verifySellerFallback")
     public ResponseEntity<EntityResponse<User>> verifySellerEmail(
-            @Valid @RequestBody VerificationRequest request) {
-        logger.info("Verifying seller email code for user ID: {}", request.getUserId());
-        return ResponseEntity.ok(userService.verifySellerEmail(request.getUserId(), request.getCode()));
+            @PathVariable Long userId,
+            @PathVariable String code) {
+        logger.info("Verifying seller email code for user ID: {}", userId);
+        return ResponseEntity.ok(userService.verifySellerEmail(userId, code));
     }
 
-    private ResponseEntity<EntityResponse<User>> verifySellerFallback(VerificationRequest request, Exception e) {
-        logger.warn("Rate limit exceeded for seller verification: {}", request.getUserId());
+    private ResponseEntity<EntityResponse<User>> verifySellerFallback(Long userId, String code, Exception e) {
+        logger.warn("Rate limit exceeded for seller verification: {}", userId);
         return ResponseEntity
             .status(HttpStatus.TOO_MANY_REQUESTS)
             .body(EntityResponse.error("Too many verification attempts. Please try again later."));

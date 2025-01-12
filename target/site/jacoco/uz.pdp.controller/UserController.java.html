@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UserController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Project-Modul-10</a> &gt; <a href="index.source.html" class="el_package">uz.pdp.controller</a> &gt; <span class="el_source">UserController.java</span></div><h1>UserController.java</h1><pre class="source lang-java linenums">package uz.pdp.controller;
+
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import uz.pdp.dto.SellerRequestDto;
+import uz.pdp.dto.VerificationRequest;
+import uz.pdp.entity.User;
+import uz.pdp.service.UserService;
+import uz.pdp.payload.EntityResponse;
+
+import java.util.List;
+
+@RestController
+@RequestMapping(&quot;/api/user&quot;)
+@Tag(name = &quot;User Control&quot;, description = &quot;APIs for user operations&quot;)
+public class UserController {
+    
+    private final UserService userService;
+
+<span class="fc" id="L33">    public UserController(UserService userService) {</span>
+<span class="fc" id="L34">        this.userService = userService;</span>
+<span class="fc" id="L35">    }</span>
+
+<span class="fc" id="L37">    Logger logger = LoggerFactory.getLogger(UserController.class);</span>
+
+
+
+
+    @PostMapping(&quot;/request-seller&quot;)
+    @Operation(summary = &quot;Request to become a seller&quot;)
+    public ResponseEntity&lt;EntityResponse&lt;User&gt;&gt; requestSeller(@Valid @RequestBody SellerRequestDto sellerRequestDto) {
+<span class="nc" id="L45">        return ResponseEntity.ok(userService.requestSeller(sellerRequestDto));</span>
+    }
+
+    @PostMapping(&quot;/verify-seller&quot;)
+    @Operation(summary = &quot;Verify seller email code&quot;)
+    @RateLimiter(name = &quot;verifySellerLimit&quot;, fallbackMethod = &quot;verifySellerFallback&quot;)
+    public ResponseEntity&lt;EntityResponse&lt;User&gt;&gt; verifySellerEmail(
+            @Valid @RequestBody VerificationRequest request) {
+<span class="nc" id="L53">        logger.info(&quot;Verifying seller email code for user ID: {}&quot;, request.getUserId());</span>
+<span class="nc" id="L54">        return ResponseEntity.ok(userService.verifySellerEmail(request.getUserId(), request.getCode()));</span>
+    }
+
+    private ResponseEntity&lt;EntityResponse&lt;User&gt;&gt; verifySellerFallback(VerificationRequest request, Exception e) {
+<span class="nc" id="L58">        logger.warn(&quot;Rate limit exceeded for seller verification: {}&quot;, request.getUserId());</span>
+<span class="nc" id="L59">        return ResponseEntity</span>
+<span class="nc" id="L60">            .status(HttpStatus.TOO_MANY_REQUESTS)</span>
+<span class="nc" id="L61">            .body(EntityResponse.error(&quot;Too many verification attempts. Please try again later.&quot;));</span>
+    }
+
+    @GetMapping
+    @Operation(summary = &quot;Get all users&quot;)
+    public ResponseEntity&lt;EntityResponse&lt;List&lt;User&gt;&gt;&gt; getAllUsers() {
+<span class="nc" id="L67">        return ResponseEntity.ok(userService.getAllUsers());</span>
+    }
+
+    @GetMapping(&quot;/{id}&quot;)
+    @Operation(summary = &quot;Get user by ID&quot;)
+    public ResponseEntity&lt;EntityResponse&lt;User&gt;&gt; getUserById(@PathVariable Long id) {
+<span class="nc" id="L73">        return ResponseEntity.ok(userService.getUserById(id));</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

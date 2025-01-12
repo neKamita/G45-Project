@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ImageStorageService.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">Project-Modul-10</a> &gt; <a href="index.source.html" class="el_package">uz.pdp.service</a> &gt; <span class="el_source">ImageStorageService.java</span></div><h1>ImageStorageService.java</h1><pre class="source lang-java linenums">package uz.pdp.service;
+
+import java.io.IOException;
+import java.util.UUID;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.amazonaws.AmazonServiceException;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.ObjectMetadata;
+
+@Service
+<span class="fc" id="L16">public class ImageStorageService {</span>
+    private static final String DOOR_IMAGES_PREFIX = &quot;doors/&quot;;
+    
+    @Autowired
+    private AmazonS3 s3Client;
+    
+    @Value(&quot;${aws.s3.bucket}&quot;)
+    private String bucketName;
+
+    
+    public String storeImage(MultipartFile file) throws IOException {
+<span class="nc" id="L27">        String fileName = DOOR_IMAGES_PREFIX + UUID.randomUUID() + &quot;_&quot; + file.getOriginalFilename();</span>
+        
+        try {
+<span class="nc" id="L30">            ObjectMetadata metadata = new ObjectMetadata();</span>
+<span class="nc" id="L31">            metadata.setContentType(file.getContentType());</span>
+<span class="nc" id="L32">            metadata.setContentLength(file.getSize());</span>
+            
+<span class="nc" id="L34">            s3Client.putObject(bucketName, fileName, file.getInputStream(), metadata);</span>
+            
+<span class="nc" id="L36">            return s3Client.getUrl(bucketName, fileName).toString();</span>
+<span class="nc" id="L37">        } catch (AmazonServiceException e) {</span>
+<span class="nc" id="L38">            throw new IOException(&quot;Failed to upload file to S3&quot;, e);</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.11.202310140853</span></div></body></html>

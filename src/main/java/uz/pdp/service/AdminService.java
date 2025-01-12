@@ -9,13 +9,19 @@ import uz.pdp.dto.SellerRequestDto;
 import uz.pdp.entity.User;
 import uz.pdp.enums.Role;
 import uz.pdp.repository.UserRepository;
+import uz.pdp.repository.DoorRepository;
 import uz.pdp.repository.EmailVerificationRepository;
-import uz.pdp.service.EmailService;
+import uz.pdp.entity.Door;
 import uz.pdp.entity.EmailVerification;
 import uz.pdp.enums.VerificationType;
+import uz.pdp.payload.EntityResponse;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
+import java.util.List;
+
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 
 @Service
 public class AdminService {
@@ -29,6 +35,9 @@ public class AdminService {
 
     @Autowired
     private EmailService emailService;
+
+    @Autowired
+    private DoorRepository doorRepository;
 
     @PreAuthorize("hasRole('ADMIN')")
     public boolean approveSeller(SellerRequestDto sellerRequestDto) {
@@ -64,6 +73,43 @@ public class AdminService {
         } catch (Exception e) {
             logger.error("Error approving user as seller: {}", e.getMessage());
             return false;
+        }
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @Transactional
+    public EntityResponse<Void> deactivateAccount(Long userId) {
+        try {
+            User user = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("User not found"));
+                
+            // Don't allow deactivating other admins
+            if (user.getRole() == Role.ADMIN) {
+                return EntityResponse.error("Cannot deactivate admin accounts");
+            }
+            
+            user.setActive(false);
+            userRepository.save(user);
+            
+            // If user is seller, deactivate all their doors
+            if (user.getRole() == Role.SELLER) {
+                List<Door> sellerDoors = doorRepository.findBySellerId(userId);
+                for (Door door : sellerDoors) {
+                    door.setActive(false);
+                }
+                doorRepository.saveAll(sellerDoors);
+                logger.info("Deactivated {} doors for seller: {}", sellerDoors.size(), userId);
+            }
+            
+            logger.info("Account deactivated successfully: {}", userId);
+            return EntityResponse.success("Account deactivated successfully");
+            
+        } catch (EntityNotFoundException e) {
+            logger.error("User not found: {}", userId);
+            return EntityResponse.error("User not found");
+        } catch (Exception e) {
+            logger.error("Error deactivating account: {}", e.getMessage());
+            return EntityResponse.error("Failed to deactivate account");
         }
     }
 }

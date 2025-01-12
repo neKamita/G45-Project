@@ -49,19 +49,28 @@ public class Door {
     private Double customHeight;
     private Boolean isCustomColor = false;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "seller_id")
     @JsonIdentityReference(alwaysAsId = true)
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private User seller;
 
+    private boolean active = true;
+
     @PrePersist
-    @PreUpdate
     public void calculateFinalPrice() {
         if (this.price == null || this.price <= 0) {
             throw new IllegalArgumentException("Price must be positive");
         }
         this.finalPrice = getFinalPrice();
+    }
+
+    @PreUpdate
+    public void onUpdate() {
+        // Check seller status and update door status if seller is deactivated
+        if (seller != null && !seller.isEnabled()) {
+            this.active = false;
+        }   
     }
 
     public Double getFinalPrice() {

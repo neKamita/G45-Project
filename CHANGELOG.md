@@ -5,21 +5,30 @@ All notable changes to this project will be documented in this file.
 <details open>
 <summary><strong>Version 1.1.8 (2025-01-12)</strong></summary>
 
-### 🛠 Technical Updates
-- Fixed circular dependency in pom.xml
-- Fixed Maven build configuration
-- Optimized build process
-
 ### 🐛 Bug Fixes
-- Removed self-referencing dependency
-- Fixed Maven build failures
-- Improved build reliability
+- Fixed multiple `@PreUpdate` annotations in Door entity
+- Consolidated pre-update logic for door status
+- Fixed JPA entity lifecycle callbacks
+
+### 🔒 Security
+- Added account deactivation functionality
+- Enhanced admin controls for user management
+- Added automatic door deactivation for suspended sellers
+
+### 🛠 Technical Updates
+- Added account status tracking in [`User`](src/main/java/uz/pdp/entity/User.java)
+- Added door status tracking in [`Door`](src/main/java/uz/pdp/entity/Door.java)
+- Enhanced [`AdminService`](src/main/java/uz/pdp/service/AdminService.java) with deactivation logic
+- Updated [`DoorService`](src/main/java/uz/pdp/service/DoorService.java) to handle inactive doors
+- Changed seller request and verification endpoints to use path variables
+- Simplified API endpoints for better REST compliance
+- Improved API usability and documentation
 
 ### 📝 Documentation
-- Updated build instructions
-- Added dependency management documentation
+- Added account deactivation endpoint documentation
+- Updated API documentation with new endpoints
+- Added entity lifecycle documentation
 </details>
-<details>
 <summary><strong>Version 1.1.7 (2025-01-12)</strong></summary>
 
 ### 🔒 Security

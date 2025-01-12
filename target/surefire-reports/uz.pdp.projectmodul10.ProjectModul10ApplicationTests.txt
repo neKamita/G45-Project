@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: uz.pdp.projectmodul10.ProjectModul10ApplicationTests
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 279.2 s -- in uz.pdp.projectmodul10.ProjectModul10ApplicationTests
