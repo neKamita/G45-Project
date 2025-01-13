@@ -57,18 +57,32 @@ public class MyConf {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity
+            .csrf(csrf -> csrf.disable())
             .cors(cors -> cors.configurationSource(corsConfigurationSource()))
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/auth/**", "/api/user/verify-seller").permitAll() // Allow verification without auth
+                // Auth endpoints
+                .requestMatchers("/api/auth/**", "/api/user/verify-seller").permitAll()
+                
+                // GraphQL endpoints
+                .requestMatchers("/graphql/**", "/graphiql/**").permitAll()
+                .requestMatchers("/subscriptions/**").permitAll()
+                
+                // Swagger/OpenAPI endpoints
                 .requestMatchers(HttpMethod.GET, 
                     "/swagger-ui/**",
                     "/swagger-ui.html",
                     "/v3/api-docs/**"
                 ).permitAll()
-                .requestMatchers(HttpMethod.GET, "/api/doors/**").permitAll() // Allow GET requests
+                
+                // Public API endpoints
+                .requestMatchers(HttpMethod.GET, "/api/doors/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/contacts/**").permitAll()
+                
+                // Protected endpoints
                 .requestMatchers("/api/doors/**").hasAnyRole("ADMIN", "SELLER")
-                .requestMatchers(HttpMethod.GET, "/api/contacts/**").permitAll() // Allow reading contacts
-                .requestMatchers("/api/contacts/**").hasRole("ADMIN") // Restrict modifications to admin
+                .requestMatchers("/api/contacts/**").hasRole("ADMIN")
+                
+                // All other requests need authentication
                 .anyRequest().authenticated()
             )
             .addFilterBefore(myFilter, UsernamePasswordAuthenticationFilter.class)
@@ -83,9 +97,12 @@ public class MyConf {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowedHeaders(List.of("*"));
-        config.setAllowedMethods(List.of("GET", "PUT", "POST"));
-        config.setAllowedOrigins(List.of("http://localhost:8080", "https://etadoor.koyeb.app"));
-        config.setExposedHeaders(List.of());
+        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        config.setAllowedOrigins(List.of(
+            "http://localhost:8080", 
+            "https://etadoor.koyeb.app"
+        ));
+        config.setAllowCredentials(true);
         source.registerCorsConfiguration("/**", config);
         return source;
     }

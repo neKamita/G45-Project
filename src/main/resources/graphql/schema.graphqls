@@ -111,6 +111,20 @@ type Query {
     door(id: ID!): Door
     "Get all available doors"
     doors: [Door]!
+    "Get a user by its ID"
+    user(id: ID!): User
+    "Get all available users"
+    users: [User]!
+    "Get the current user"
+    currentUser: User
+    "Get an address by its ID"
+    address(id: ID!): Address
+    "Get all available addresses"
+    addresses: [Address]!
+    "Search addresses by city"
+    searchAddresses(city: String!): [Address]!
+    "Get the nearest address by latitude and longitude"
+    nearestAddress(latitude: Float!, longitude: Float!): Address
 }
 
 """
@@ -132,8 +146,26 @@ mutation ConfigureDoor {
 }
 """
 type Mutation {
-    "Configure door properties"
+    # Door mutations
+    createDoor(input: DoorConfigInput!): Door!
     configureDoor(input: DoorConfigInput!): Door!
+    
+    # Address mutations
+    createAddress(input: AddressConfigInput!): Address!
+    "Update an existing door"
+    updateDoor(id: ID!, input: DoorInput!): Door!
+    "Delete a door by its ID"
+    deleteDoor(id: ID!): Boolean!
+    "Request seller status for a user"
+    requestSeller(userId: ID!): User!
+    "Approve seller status for a user"
+    approveSeller(userId: ID!): Boolean!
+    "Deactivate a user account"
+    deactivateAccount(userId: ID!): Boolean!
+    "Update an existing address"
+    updateAddress(id: ID!, input: AddressInput!): Address!
+    "Delete an address by its ID"
+    deleteAddress(id: ID!): Boolean!
 }
 
 """
@@ -151,7 +183,7 @@ Example:
 """
 input DoorConfigInput {
     "Door ID to configure"
-    id: ID!
+    id: ID
     "New size setting"
     size: Size
     "New color setting"
@@ -160,4 +192,138 @@ input DoorConfigInput {
     width: Float
     "Custom height in cm"
     height: Float
+    "Name of the door model"
+    name: String
+    "Detailed description"
+    description: String
+    "Base price before customizations"
+    price: Float
+    material: String
+    manufacturer: String
+    warrantyYears: Int
 }
+
+"""
+Input type for door creation and update
+"""
+input DoorInput {
+    "Name of the door model"
+    name: String!
+    "Detailed description"
+    description: String
+    "Base price before customizations"
+    price: Float!
+    "Door size (STANDARD, MEDIUM, LARGE, CUSTOM)"
+    size: Size!
+    "Door color (WHITE, BROWN, BLACK, CUSTOM)"
+    color: Color!
+    material: String
+    manufacturer: String
+    warrantyYears: Int
+    customWidth: Float
+    customHeight: Float
+}
+
+"""
+Input type for address creation and update
+"""
+input AddressInput {
+    "Street address"
+    street: String!
+    "City"
+    city: String!
+    "Country"
+    country: String!
+    "Zip code"
+    zipCode: String!
+    "Latitude of the location"
+    latitude: Float!
+    "Longitude of the location"
+    longitude: Float!
+}
+
+"""
+Input type for address configuration
+"""
+input AddressConfigInput {
+    "Name of the address"
+    name: String!
+    "Street address"
+    street: String!
+    "City"
+    city: String!
+    "Phone number"
+    phone: String
+    "Working hours"
+    workingHours: String
+    "Email address"
+    email: String
+    "Latitude of the location"
+    latitude: Float!
+    "Longitude of the location"
+    longitude: Float!
+    "Social links"
+    socialLinks: JSON
+}
+
+"""
+User type representing a user
+"""
+type User {
+    "Unique identifier for the user"
+    id: ID!
+    "Name of the user"
+    name: String!
+    "Email of the user"
+    email: String!
+    "Lastname of the user"
+    lastname: String!
+    "Role of the user (USER, SELLER, ADMIN)"
+    role: Role!
+    "Phone number of the user"
+    phone: String
+    "Indicates if the user has a pending seller request"
+    sellerRequestPending: Boolean
+}
+
+"""
+Address type representing an address
+"""
+type Address {
+    "Unique identifier for the address"
+    id: ID!
+    "Street address"
+    street: String!
+    "City"
+    city: String!
+    "Country"
+    country: String!
+    "Zip code"
+    zipCode: String!
+    "Location of the address"
+    location: Location!
+}
+
+"""
+Location type representing a geographical location
+"""
+type Location {
+    "Latitude of the location"
+    latitude: Float!
+    "Longitude of the location"
+    longitude: Float!
+}
+
+"""
+Available user roles
+"""
+enum Role {
+    USER
+    SELLER
+    ADMIN
+}
+
+"""
+Scalar type for JSON
+"""
+scalar JSON

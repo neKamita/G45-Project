@@ -3,7 +3,9 @@ package uz.pdp.dto;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import uz.pdp.enums.Color;
 import uz.pdp.enums.Size;
 import java.util.List;
@@ -11,6 +13,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.web.multipart.MultipartFile;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class DoorDto {
     @NotBlank(message = "Name is required")
     private String name;

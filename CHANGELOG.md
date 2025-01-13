@@ -1,8 +1,32 @@
 # Etadoor Changelog
 
 All notable changes to this project will be documented in this file.
-
 <details open>
+<summary><strong>Version 1.1.9 (2025-01-13)</strong></summary>
+
+### 🚀 New Features
+- Added GraphQL schema for improved API interactions
+- Implemented comprehensive GraphQL query/mutation support
+- Added GraphiQL interface at `/graphiql` path
+
+### 🛠 Technical Updates
+- Added GraphQL schema with Door, User, and Address types
+- Implemented query resolvers for core entities
+- Enhanced mutation support for door configuration
+- Added support for address geolocation queries
+- Added comprehensive GraphQL documentation
+
+### 🔒 Security
+- Added GraphQL depth limiting
+- Implemented field-level security
+- Added authentication checks for GraphQL endpoints
+
+### 📝 Documentation
+- Added GraphQL query/mutation examples
+- Updated API documentation with GraphQL section
+- Added GraphiQL usage instructions
+</details>
+<details >
 <summary><strong>Version 1.1.8 (2025-01-12)</strong></summary>
 
 ### 🐛 Bug Fixes

@@ -136,6 +136,7 @@ security:
     - /webjars/**
     - /graphql/**
     - /graphiql/**
+    - /subscriptions/**
 
 server:
   port: 8080
