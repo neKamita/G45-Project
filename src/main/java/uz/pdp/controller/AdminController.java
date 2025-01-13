@@ -31,7 +31,7 @@ public class AdminController {
 
     @PostMapping("/approve-seller/{userId}")
     @Operation(summary = "Approve a seller request")
-    public ResponseEntity<EntityResponse<Void>> approveSeller(@PathVariable Long userId) {
+    public ResponseEntity<EntityResponse<Void>> approveSeller(@PathVariable SellerRequestDto userId) {
         boolean isApproved = adminService.approveSeller(userId);
         if (isApproved) {
             return ResponseEntity.ok(EntityResponse.success("User approved as seller"));

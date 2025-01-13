@@ -3,20 +3,15 @@ package uz.pdp.controller;
 import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import uz.pdp.dto.SellerRequestDto;
-import uz.pdp.dto.VerificationRequest;
 import uz.pdp.entity.User;
 import uz.pdp.service.UserService;
 import uz.pdp.payload.EntityResponse;
@@ -53,13 +48,6 @@ public class UserController {
             @PathVariable String code) {
         logger.info("Verifying seller email code for user ID: {}", userId);
         return ResponseEntity.ok(userService.verifySellerEmail(userId, code));
-    }
-
-    private ResponseEntity<EntityResponse<User>> verifySellerFallback(Long userId, String code, Exception e) {
-        logger.warn("Rate limit exceeded for seller verification: {}", userId);
-        return ResponseEntity
-            .status(HttpStatus.TOO_MANY_REQUESTS)
-            .body(EntityResponse.error("Too many verification attempts. Please try again later."));
     }
 
     @GetMapping

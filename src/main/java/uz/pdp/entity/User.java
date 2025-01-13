@@ -32,7 +32,7 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role = Role.USER;
-    private boolean active = true;  // New field for account status
+    private boolean active = true; 
 
     @JsonIgnore
     @Override
