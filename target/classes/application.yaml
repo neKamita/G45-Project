@@ -189,3 +189,9 @@ resilience4j:
         limitForPeriod: 5
         limitRefreshPeriod: 5m
         timeoutDuration: 0
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"

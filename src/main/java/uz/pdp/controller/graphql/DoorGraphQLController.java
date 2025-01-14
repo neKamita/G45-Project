@@ -32,7 +32,7 @@ public class DoorGraphQLController {
     }
 
     @QueryMapping
-    @Transactional(readOnly = true)
+    @Transactional()
     public Door door(@Argument Long id) {
         try {
             logger.info("GraphQL Query: Fetching door {}", id);

@@ -67,7 +67,3 @@ Thumbs.db
 *.tar.gz
 *.rar
 
-# Local configuration
-application-local.properties
-application-local.yml
-.env
