@@ -5,8 +5,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -59,7 +57,7 @@ public class DoorController {
         logger.info("Creating new door: {}", doorDto);
         Door door = doorService.createDoor(doorDto);
         return ResponseEntity.status(HttpStatus.CREATED)
-            .body(EntityResponse.success("Door created successfully", door));
+                .body(EntityResponse.success("Door created successfully", door));
     }
 
     @PutMapping("/{id}")

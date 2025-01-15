@@ -22,7 +22,7 @@ import java.util.List;
 @RequestMapping("/api/user")
 @Tag(name = "User Control", description = "APIs for user operations")
 public class UserController {
-    
+
     private final UserService userService;
 
     public UserController(UserService userService) {
@@ -30,9 +30,6 @@ public class UserController {
     }
 
     Logger logger = LoggerFactory.getLogger(UserController.class);
-
-
-
 
     @PostMapping("/request-seller/{userId}")
     @Operation(summary = "Request to become a seller")
