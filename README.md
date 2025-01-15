@@ -108,11 +108,6 @@ redis-cli ping # SHOULD RETURN PONG
    - Endpoint: redis-15073.crce175.eu-north-1-1.ec2.redns.redis-cloud.com:15073
    - Password: [Secured]
 
-```bash
-REDIS_HOST=redis-15073.crce175.eu-north-1-1.ec2.redns.redis-cloud.com
-REDIS_PORT=15073
-REDIS_PASSWORD=stdi3YBD24cdrO2zBd0oYrqXhl2xtWML
-```
 
 2. Environment Configuration:
 
