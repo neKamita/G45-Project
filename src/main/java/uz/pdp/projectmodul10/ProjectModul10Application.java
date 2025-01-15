@@ -54,9 +54,9 @@ public class ProjectModul10Application {
     }
 
     public static void main(String[] args) {
+        System.setProperty("aws.java.v1.disableDeprecationAnnouncement", "true");
         SpringApplication.run(ProjectModul10Application.class, args);
     }
-
     @Bean
     ApplicationRunner applicationRunner(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         return args -> {

@@ -181,6 +181,9 @@ aws:
       secret: S854+/P+dqw37/k0MPyOJSzHNmCvk25Mi3rMWaBA
   s3:
     bucket: etadoor
+  java:
+    v1:
+          disableDeprecationAnnouncement: true
 
 resilience4j:
   ratelimiter:

@@ -16,7 +16,7 @@ public class S3Config {
     @Value("${aws.access.key.id}")
     private String accessKeyId;
 
-    @Value("${aws.access.key.secret}")  // Match the yaml structure
+    @Value("${aws.access.key.secret}")
     private String secretAccessKey;
 
     @Value("${aws.s3.bucket}")
