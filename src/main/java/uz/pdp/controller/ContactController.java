@@ -31,7 +31,7 @@ import uz.pdp.service.AddressService;
 @RestController
 @RequestMapping("/api/contacts")
 @Tag(name = "Contact Management", description = "APIs for managing contact addresses and map points")
-public class ContactController {
+public class    ContactController {
     
     private static final Logger logger = LoggerFactory.getLogger(ContactController.class);
     
