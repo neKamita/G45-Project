@@ -197,12 +197,12 @@ The application now includes a full-featured contact management system:
 # Database Configuration
 DATABASE_URL=jdbc:postgresql://dpg-ctrrlibqf0us73djv36g-a.oregon-postgres.render.com:5432/g45_project
 DATABASE_USERNAME=g45_project_user
-DATABASE_PASSWORD=XkeRzoJ9JDKblFXb2tV8vFZG4WYyoLUV
+DATABASE_PASSWORD=[Secured]
 
 # Redis Configuration
 REDIS_HOST=redis-15073.crce175.eu-north-1-1.ec2.redns.redis-cloud.com
 REDIS_PORT=15073
-REDIS_PASSWORD=stdi3YBD24cdrO2zBd0oYrqXhl2xtWML
+REDIS_PASSWORD=[Secured]
 
 # Application URL
 APP_URL=https://etadoor.koyeb.app
