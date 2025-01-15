@@ -53,6 +53,7 @@ All notable changes to this project will be documented in this file.
 - Updated API documentation with new endpoints
 - Added entity lifecycle documentation
 </details>
+<details>
 <summary><strong>Version 1.1.7 (2025-01-12)</strong></summary>
 
 ### 🔒 Security
