@@ -150,7 +150,7 @@ mutation ConfigureDoor {
 - `src/main/resources/graphql` - GraphQL schema
 - `src/test/java/uz/pdp/service` - Unit tests for services
 
-## Testing
+## Testing (UPDATE 1.1.9 NO TESTS MORE)
 The project includes comprehensive unit tests for core services:
 
 ### AuthService Tests
