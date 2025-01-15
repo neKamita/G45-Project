@@ -16,13 +16,16 @@ import com.amazonaws.services.s3.model.ObjectMetadata;
 public class ImageStorageService {
     private static final String DOOR_IMAGES_PREFIX = "doors/";
     
-    @Autowired
-    private AmazonS3 s3Client;
+    private final AmazonS3 s3Client;
     
     @Value("${aws.s3.bucket}")
     private String bucketName;
 
-    
+    public ImageStorageService(AmazonS3 s3Client) {
+        this.s3Client = s3Client;
+    }
+
+
     public String storeImage(MultipartFile file) throws IOException {
         String fileName = DOOR_IMAGES_PREFIX + UUID.randomUUID() + "_" + file.getOriginalFilename();
         

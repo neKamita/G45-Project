@@ -49,20 +49,19 @@ public class DoorService {
         return doorRepository.findAll();
     }
 
-    // Restricted operations remain the same
-    @Transactional
-    @PreAuthorize("hasRole('SELLER')")
-    @CachePut(value = "doors", key = "#result.id")
-    public Door createDoor(DoorDto doorDto) {
-        User currentUser = userService.getCurrentUser();
-        Door door = new Door();
-        mapDtoToEntity(doorDto, door);
-        door.setSeller(currentUser);
-        door.calculateFinalPrice();
-        Door savedDoor = doorRepository.saveAndFlush(door);
-        logger.info("Door created with ID: {}", savedDoor.getId());
-        return savedDoor;
-    }
+@Transactional
+@PreAuthorize("hasRole('ADMIN') or hasRole('SELLER')")
+@CachePut(value = "doors", key = "#result.id")
+public Door createDoor(DoorDto doorDto) {
+    User currentUser = userService.getCurrentUser();
+    Door door = new Door();
+    mapDtoToEntity(doorDto, door);
+    door.setSeller(currentUser);
+    door.calculateFinalPrice();
+    Door savedDoor = doorRepository.saveAndFlush(door);
+    logger.info("Door created with ID: {}", savedDoor.getId());
+    return savedDoor;
+}
 
     private void mapDtoToEntity(DoorDto dto, Door door) {
         door.setName(dto.getName());

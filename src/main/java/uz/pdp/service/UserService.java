@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -192,21 +193,24 @@ public class UserService {
         redisTemplate.delete(key);
     }
 
-    public EntityResponse<List<User>> getAllUsers() {
-        List<User> users = userRepository.findAll();
-        return EntityResponse.success("Users retrieved successfully", users);
-    }
+ @PreAuthorize("hasRole('ADMIN')")
+public EntityResponse<List<User>> getAllUsers() {
+    List<User> users = userRepository.findAll();
+    return EntityResponse.success("Users retrieved successfully", users);
+}
 
-    public EntityResponse<User> getUserById(Long id) {
-        try {
-            User user = userRepository.findById(id)
-                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
-            return EntityResponse.success("User retrieved successfully", user);
-        } catch (Exception e) {
-            return EntityResponse.error("User not found", null);
-        }
+@PreAuthorize("hasRole('ADMIN')")
+public EntityResponse<User> getUserById(Long id) {
+    try {
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+        return EntityResponse.success("User retrieved successfully", user);
+    } catch (Exception e) {
+        return EntityResponse.error("User not found", null);
     }
+}
 
+@PreAuthorize("hasRole('ADMIN')")
     private String generateVerificationCode() {
         return String.format("%06d", new Random().nextInt(999999));
     }

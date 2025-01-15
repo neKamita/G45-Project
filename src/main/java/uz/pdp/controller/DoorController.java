@@ -53,8 +53,8 @@ public class DoorController {
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('SELLER')")
-    @Operation(summary = "Create a new door (SELLER only)")
+    @PreAuthorize("hasRole('SELLER') or hasRole('ADMIN')")
+    @Operation(summary = "Create a new door (SELLER and ADMIN only)")
     public ResponseEntity<EntityResponse<Door>> createDoor(@Valid @RequestBody DoorDto doorDto) {
         logger.info("Creating new door: {}", doorDto);
         Door door = doorService.createDoor(doorDto);
