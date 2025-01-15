@@ -13,13 +13,6 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class S3Config {
-
-
-    static {
-        System.setProperty("aws.java.v1.disableDeprecationAnnouncement", "true");
-        System.setProperty("aws.java.v1.printLocation", "true");
-    }
-
     @Value("${aws.access.key.id}")
     private String accessKeyId;
 

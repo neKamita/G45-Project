@@ -52,17 +52,14 @@ public class DoorController {
         return ResponseEntity.ok(EntityResponse.success("Doors retrieved successfully", doors));
     }
 
-    @PostMapping(value = "/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping
     @PreAuthorize("hasRole('SELLER')")
-    @Operation(summary = "Create a new door with images (SELLER only)")
-    public ResponseEntity<EntityResponse<Door>> createDoorWithImages(
-            @Valid @RequestPart("door") DoorDto doorDto,
-            @RequestPart("images") MultipartFile[] images) {
-        logger.info("Creating new door with images: {}", doorDto);
+    @Operation(summary = "Create a new door (SELLER only)")
+    public ResponseEntity<EntityResponse<Door>> createDoor(@Valid @RequestBody DoorDto doorDto) {
+        logger.info("Creating new door: {}", doorDto);
         Door door = doorService.createDoor(doorDto);
-        door = doorService.addImages(door.getId(), Arrays.asList(images));
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(EntityResponse.success("Door created with images successfully", door));
+            .body(EntityResponse.success("Door created successfully", door));
     }
 
     @PutMapping("/{id}")
@@ -111,5 +108,14 @@ public class DoorController {
         }
     }
 
-
+    @PostMapping(value = "/{id}/images", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PreAuthorize("hasRole('ADMIN') or (hasRole('SELLER') and @doorSecurityService.isSeller(#id))")
+    @Operation(summary = "Upload door images (ADMIN or owner SELLER)")
+    public ResponseEntity<EntityResponse<Door>> uploadImages(
+            @PathVariable Long id,
+            @RequestPart("images") MultipartFile[] images) {
+        logger.info("Uploading {} images for door ID: {}", images.length, id);
+        Door door = doorService.addImages(id, Arrays.asList(images));
+        return ResponseEntity.ok(EntityResponse.success("Images uploaded successfully", door));
+    }
 }
