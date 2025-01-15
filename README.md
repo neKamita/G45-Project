@@ -109,7 +109,6 @@ redis-cli ping # SHOULD RETURN PONG
    - Password: [Secured]
 
 
-2. Environment Configuration:
 
 ## API Documentation
 - REST API: https://etadoor.koyeb.app/swagger-ui/index.html or http://localhost:8080/swagger-ui/index.html
