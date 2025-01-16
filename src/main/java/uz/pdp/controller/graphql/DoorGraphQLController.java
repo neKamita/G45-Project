@@ -1,5 +1,7 @@
 package uz.pdp.controller.graphql;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
@@ -44,10 +46,10 @@ public class DoorGraphQLController {
     }
 
     @QueryMapping
-    public List<Door> doors() {
+    public Page<Door> getAllDoors(@Argument int page, @Argument int size) {
         try {
             logger.info("GraphQL Query: Fetching all doors");
-            return doorService.getAllDoors();
+            return doorService.getAllDoors(PageRequest.of(page,size));
         } catch (Exception e) {
             logger.error("Error fetching doors: {}", e.getMessage());
             throw new GraphQLException("Error fetching doors: " + e.getMessage());

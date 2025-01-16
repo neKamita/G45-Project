@@ -3,8 +3,10 @@ package uz.pdp.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -13,12 +15,15 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import uz.pdp.dto.DoorDto;
 import uz.pdp.entity.Door;
+import uz.pdp.entity.DoorHistory;
 import uz.pdp.mutations.DoorConfigInput;
+import uz.pdp.service.DoorHistoryService;
 import uz.pdp.service.DoorService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
 import uz.pdp.payload.EntityResponse;
+import uz.pdp.service.UserService;
 
 import java.util.List;
 import java.util.Arrays;
@@ -30,30 +35,45 @@ public class DoorController {
 
     private static final Logger logger = LoggerFactory.getLogger(DoorController.class);
 
+
     @Autowired
     private DoorService doorService;
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private DoorHistoryService doorHistoryService;
+
+    @GetMapping("/history")
+    @Operation(summary = "Get user door`s history", description = "Open to all users")
+    public List<DoorHistory> getUserDoorHistory() {
+        Long userId = userService.getCurrentUser().getId();
+        return doorHistoryService.getUserDoorHistory(userId);
+    }
 
     @GetMapping("/{id}")
     @Operation(summary = "Get door details by ID", description = "Open to all users")
     public ResponseEntity<EntityResponse<Door>> getDoor(@PathVariable Long id) {
         logger.info("Fetching door with id: {}", id);
         Door door = doorService.getDoor(id);
+        doorHistoryService.saveDoorHistory(door);
         return ResponseEntity.ok(EntityResponse.success("Door retrieved successfully", door));
     }
 
     @GetMapping
     @Operation(summary = "Get all doors", description = "Open to all users")
-    public ResponseEntity<EntityResponse<List<Door>>> getAllDoors() {
-        logger.info("Fetching all doors");
-        List<Door> doors = doorService.getAllDoors();
-        logger.debug("Retrieved {} doors", doors.size());
+    public ResponseEntity<EntityResponse<Page<Door>>> getAllDoors(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "20") int size) {
+        Page<Door> doors = doorService.getAllDoors(page, size);
         return ResponseEntity.ok(EntityResponse.success("Doors retrieved successfully", doors));
     }
 
     @PostMapping
     @PreAuthorize("hasRole('SELLER') or hasRole('ADMIN')")
     @Operation(summary = "Create a new door (SELLER and ADMIN only)")
-    public ResponseEntity<EntityResponse<Door>> createDoor(@Valid @RequestBody DoorDto doorDto) {
+    public ResponseEntity<EntityResponse<Door>> createDoor(@Validated @RequestBody DoorDto doorDto) {
         logger.info("Creating new door: {}", doorDto);
         Door door = doorService.createDoor(doorDto);
         return ResponseEntity.status(HttpStatus.CREATED)

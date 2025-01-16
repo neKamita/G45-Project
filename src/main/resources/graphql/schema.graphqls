@@ -19,6 +19,22 @@ query GetDoorWithImages {
   }
 }
 """
+
+type Page_Door {
+    getAllDoors(page: Int!, size: Int!): Page
+}
+
+type Page {
+    content: [Door]
+    totalPages: Int
+    totalElements: Int
+    size: Int
+    number: Int
+}
+
+
+
+
 type Door {
     "Unique identifier for the door"
     id: ID!
@@ -149,6 +165,7 @@ type Mutation {
     # Door mutations
     createDoor(input: DoorConfigInput!): Door!
     configureDoor(input: DoorConfigInput!): Door!
+    configureDoorDimensions(doorId: ID!, customWidth: Float!, customHeight: Float!): Door!
     
     # Address mutations
     createAddress(input: AddressConfigInput!): Address!
@@ -167,6 +184,8 @@ type Mutation {
     "Delete an address by its ID"
     deleteAddress(id: ID!): Boolean!
 }
+
+
 
 """
 Input type for door configuration

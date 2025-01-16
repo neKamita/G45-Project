@@ -1,6 +1,36 @@
 # Etadoor Changelog
 
 All notable changes to this project will be documented in this file.
+<summary><strong>Version 1.2.0 (2025-01-16)</strong></summary>
+
+### Added
+- Implemented `DoorHistory` entity to track door access history.
+- Added `DoorHistoryRepository` for database operations related to `DoorHistory`.
+- Created `DoorHistoryService` to manage door history logic.
+- Added `DoorHistory` related methods in `DoorService` to save and retrieve door access history.
+- Introduced `DoorDto` for door data transfer object.
+- Added `AddressDTO` for address data transfer object.
+- Implemented `SellerRequestDto` for seller request data transfer object.
+- Added `DoorConfigInput` and `AddressConfigInput` for GraphQL mutations.
+- Introduced `Page_Door` and `Page` types in GraphQL schema for paginated door queries.
+
+### Changed
+- Updated `Door` entity to include `@PrePersist` and `@PreUpdate` methods for price calculation and status updates.
+- Modified `DoorService` to include caching and transactional annotations.
+- Enhanced `EmailService` to support HTML email content and improved email validation.
+- Updated `UserService` to handle seller request verification and email sending.
+- Improved `AuthService` to include detailed validation and error handling for sign-up and sign-in processes.
+- Enhanced `AddressService` to provide detailed logging and error handling for address operations.
+
+### Fixed
+- Resolved issues with email verification logic in `EmailVerificationRepository`.
+- Fixed bugs related to door price calculation and custom size handling in `Door` entity.
+- Corrected validation logic in `SignUpRequest` and `SignInRequest` handling in `AuthService`.
+- Addressed issues with Redis configuration and caching in `application.yaml`.
+
+### Removed
+- Deprecated old email verification methods in `EmailService`.
+- Removed unused imports and redundant code across various service classes.
 <details open>
 <summary><strong>Version 1.1.9 (2025-01-13)</strong></summary>
 
@@ -21,7 +51,6 @@ All notable changes to this project will be documented in this file.
 - Implemented field-level security
 - Added authentication checks for GraphQL endpoints
 
-### 📝 Documentation
 - Added GraphQL query/mutation examples
 - Updated API documentation with GraphQL section
 - Added GraphiQL usage instructions
@@ -53,7 +82,8 @@ All notable changes to this project will be documented in this file.
 - Updated API documentation with new endpoints
 - Added entity lifecycle documentation
 </details>
-<summary><strong>Version 1.1.7 (2025-01-12)</strong></summary>
+<details>
+<summary><strong>Version 1.1.7 (2025-01-12)</strong></summary>_
 
 ### 🔒 Security
 - Added email verification requirement for seller registration

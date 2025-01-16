@@ -8,6 +8,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import uz.pdp.dto.DoorDto;
@@ -45,10 +47,9 @@ public class DoorService {
 
     // Open to all users - no @PreAuthorize needed
     @Transactional(readOnly = true)
-    public List<Door> getAllDoors() {
-        return doorRepository.findAll();
+    public Page<Door> getAllDoors(int page, int size) {
+        return doorRepository.findAll(PageRequest.of(page, size));
     }
-
 @Transactional
 @PreAuthorize("hasRole('ADMIN') or hasRole('SELLER')")
 @CachePut(value = "doors", key = "#result.id")
@@ -75,9 +76,6 @@ public Door createDoor(DoorDto doorDto) {
         door.setCustomWidth(dto.getCustomWidth());
         door.setCustomHeight(dto.getCustomHeight());
         door.setIsCustomColor(dto.getIsCustomColor());
-        if (dto.getImages() != null) {
-            door.setImages(dto.getImages());
-        }
     }
 
     @Transactional
@@ -156,5 +154,25 @@ public Door createDoor(DoorDto doorDto) {
         
         door.getImages().addAll(imageUrls);
         return doorRepository.save(door);
+    }
+
+    @Transactional
+    @PreAuthorize("hasRole('ADMIN') or (hasRole('SELLER') and @doorSecurityService.isSeller(#doorId))")
+    public Door configureDoorDimensions(Long doorId, Double customWidth, Double customHeight) {
+        Door door = getDoor(doorId);
+        if (door.getSize() == Size.CUSTOM) {
+            door.setCustomWidth(customWidth);
+            door.setCustomHeight(customHeight);
+            door.calculateFinalPrice();
+            doorRepository.save(door);
+            logger.info("Configured dimensions for door ID: {}", doorId);
+        } else {
+            throw new IllegalArgumentException("Only doors with CUSTOM size can have custom dimensions");
+        }
+        return door;
+    }
+
+    public Page<Door> getAllDoors(PageRequest pageRequest) {
+        return doorRepository.findAll(pageRequest);
     }
 }
