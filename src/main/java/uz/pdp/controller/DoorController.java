@@ -11,14 +11,16 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import io.swagger.v3.oas.annotations.Operation;
+import uz.pdp.service.DoorService;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import uz.pdp.dto.DoorDto;
+import uz.pdp.dto.UserDoorHistoryDto;
 import uz.pdp.entity.Door;
 import uz.pdp.entity.DoorHistory;
 import uz.pdp.mutations.DoorConfigInput;
 import uz.pdp.service.DoorHistoryService;
-import uz.pdp.service.DoorService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 
@@ -46,19 +48,31 @@ public class DoorController {
     private DoorHistoryService doorHistoryService;
 
     @GetMapping("/history")
-    @Operation(summary = "Get user door`s history", description = "Open to all users")
-    public List<DoorHistory> getUserDoorHistory() {
+    @Operation(summary = "Get user door's history", description = "Open to all users")
+    public ResponseEntity<EntityResponse<UserDoorHistoryDto>> getUserDoorHistory() {
         Long userId = userService.getCurrentUser().getId();
-        return doorHistoryService.getUserDoorHistory(userId);
+        UserDoorHistoryDto history = doorHistoryService.getUserDoorHistoryGrouped(userId);
+        if (history == null || (history.getHistory() != null && history.getHistory().isEmpty())) {
+            return ResponseEntity.ok(EntityResponse.success("No history found for this user", null));
+        }
+        return ResponseEntity.ok(EntityResponse.success("History retrieved successfully", history));
     }
 
     @GetMapping("/{id}")
     @Operation(summary = "Get door details by ID", description = "Open to all users")
-    public ResponseEntity<EntityResponse<Door>> getDoor(@PathVariable Long id) {
+    public ResponseEntity<EntityResponse<?>> getDoor(@PathVariable Long id) {
         logger.info("Fetching door with id: {}", id);
-        Door door = doorService.getDoor(id);
-        doorHistoryService.saveDoorHistory(door);
-        return ResponseEntity.ok(EntityResponse.success("Door retrieved successfully", door));
+        try {
+            Door door = doorService.getDoor(id);
+            doorHistoryService.saveDoorHistory(door);
+            return ResponseEntity.ok(EntityResponse.success("Door retrieved successfully", door));
+        } catch (EntityNotFoundException e) {
+            logger.warn("Door not found with id: {}", id);
+            return ResponseEntity.ok(EntityResponse.error("Door with ID " + id + " does not exist"));
+        } catch (Exception e) {
+            logger.error("Error while fetching door with id {}: {}", id, e.getMessage());
+            return ResponseEntity.ok(EntityResponse.error("An error occurred while fetching the door"));
+        }
     }
 
     @GetMapping
