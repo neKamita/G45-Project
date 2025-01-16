@@ -46,7 +46,7 @@ type Door {
     price: Float!
     "List of image URLs"
     images: [String]
-    "Door size (STANDARD, MEDIUM, LARGE, CUSTOM)"
+    "Door size (SIZE_200x2000, SIZE_240x2400, SIZE_220x2200, CUSTOM)"
     size: Size!
     "Door color (WHITE, BROWN, BLACK, CUSTOM)"
     color: Color!
@@ -58,6 +58,10 @@ type Door {
     isCustomColor: Boolean!
     "Final price after all customizations"
     finalPrice: Float!
+    seller: User
+    active: Boolean!
+    width: Float
+    height: Float
 }
 
 """
@@ -76,10 +80,18 @@ mutation ConfigureDoor {
 }
 """
 enum Size {
-    STANDARD
-    MEDIUM
-    LARGE
-    CUSTOM
+  SIZE_200x2000
+  SIZE_300x2000
+  SIZE_400x2000
+  SIZE_500x2000
+  SIZE_600x2000
+  SIZE_700x2000
+  SIZE_800x2000
+  SIZE_900x2000
+  SIZE_1000x2000
+  SIZE_1100x2000
+  SIZE_1200x2000
+  CUSTOM
 }
 
 """
@@ -141,6 +153,8 @@ type Query {
     searchAddresses(city: String!): [Address]!
     "Get the nearest address by latitude and longitude"
     nearestAddress(latitude: Float!, longitude: Float!): Address
+    "Get door viewing history for current user"
+    doorHistory: UserDoorHistory!
 }
 
 """
@@ -232,7 +246,7 @@ input DoorInput {
     description: String
     "Base price before customizations"
     price: Float!
-    "Door size (STANDARD, MEDIUM, LARGE, CUSTOM)"
+    "Door size (SIZE_200x2000, SIZE_240x2400, SIZE_220x2200, CUSTOM)"
     size: Size!
     "Door color (WHITE, BROWN, BLACK, CUSTOM)"
     color: Color!
@@ -303,6 +317,7 @@ type User {
     phone: String
     "Indicates if the user has a pending seller request"
     sellerRequestPending: Boolean
+    active: Boolean!
 }
 
 """
@@ -346,3 +361,53 @@ enum Role {
 Scalar type for JSON
 """
 scalar JSON
+
+"Door history entry type"
+type DoorHistory {
+    "History entry ID"
+    id: ID!
+    "When the door was viewed"
+    accessedAt: DateTime!
+    "Basic door information"
+    door: DoorBasicInfo!
+}
+
+"Basic door information for history"
+type DoorBasicInfo {
+    "Door ID"
+    id: ID!
+    "Door name"
+    name: String!
+    "Base price"
+    price: Float!
+    "Final price after customizations"
+    finalPrice: Float!
+    "Door size"
+    size: Size!
+    "Door color"
+    color: Color!
+    "Material type"
+    material: String
+    "Seller ID"
+    sellerId: ID!
+}
+
+"User door history with grouped data"
+type UserDoorHistory {
+    "Basic user information"
+    user: UserBasicInfo!
+    "List of door viewing history"
+    history: [DoorHistory!]!
+}
+
+"Basic user information"
+type UserBasicInfo {
+    "User ID"
+    id: ID!
+    "Username"
+    name: String!
+    "Email address"
+    email: String!
+}
+
+scalar DateTime

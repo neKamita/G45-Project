@@ -56,6 +56,18 @@ public class DoorGraphQLController {
         }
     }
 
+    @QueryMapping
+    public List<Door> doors() {
+        try {
+            logger.info("GraphQL Query: Fetching all doors");
+            Page<Door> doorPage = doorService.getAllDoors(0, Integer.MAX_VALUE); // Get all doors
+            return doorPage.getContent();
+        } catch (Exception e) {
+            logger.error("Error fetching doors: {}", e.getMessage());
+            throw new GraphQLException("Error fetching doors: " + e.getMessage());
+        }
+    }
+
     @MutationMapping
     @PreAuthorize("hasRole('SELLER')")
     public Door createDoor(@Argument("input") DoorConfigInput input) {

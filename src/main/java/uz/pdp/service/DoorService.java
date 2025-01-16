@@ -175,4 +175,17 @@ public Door createDoor(DoorDto doorDto) {
     public Page<Door> getAllDoors(PageRequest pageRequest) {
         return doorRepository.findAll(pageRequest);
     }
+
+    public List<Door> getSimilarDoors(Long id, int limit) {
+        Door door = getDoor(id); 
+        
+        return doorRepository.findByMaterialAndColorAndPriceBetweenAndIdNot(
+            door.getMaterial(),
+            door.getColor(),
+            door.getPrice() * 0.8, // 20% price range below
+            door.getPrice() * 1.2, // 20% price range above
+            id,
+            PageRequest.of(0, limit)
+        );
+    }
 }

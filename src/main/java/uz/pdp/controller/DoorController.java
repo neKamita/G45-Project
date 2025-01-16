@@ -75,6 +75,24 @@ public class DoorController {
         }
     }
 
+    @GetMapping("/{id}/similar")
+    @Operation(summary = "Get similar doors", description = "Get doors similar to the specified door")
+    public ResponseEntity<EntityResponse<List<Door>>> getSimilarDoors(
+            @PathVariable Long id,
+            @RequestParam(defaultValue = "5") int limit) {
+        logger.info("Fetching similar doors for door id: {}, limit: {}", id, limit);
+        try {
+            List<Door> similarDoors = doorService.getSimilarDoors(id, limit);
+            return ResponseEntity.ok(EntityResponse.success("Similar doors retrieved successfully", similarDoors));
+        } catch (EntityNotFoundException e) {
+            logger.warn("Door not found with id: {}", id);
+            return ResponseEntity.ok(EntityResponse.error("Door with ID " + id + " does not exist"));
+        } catch (Exception e) {
+            logger.error("Error while fetching similar doors for door id {}: {}", id, e.getMessage());
+            return ResponseEntity.ok(EntityResponse.error("An error occurred while fetching similar doors"));
+        }
+    }
+
     @GetMapping
     @Operation(summary = "Get all doors", description = "Open to all users")
     public ResponseEntity<EntityResponse<Page<Door>>> getAllDoors(

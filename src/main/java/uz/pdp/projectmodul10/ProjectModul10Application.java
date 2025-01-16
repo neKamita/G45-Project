@@ -36,19 +36,11 @@ public class ProjectModul10Application {
                     .description("JSON scalar type")
                     .coercing(new Coercing<Object, Object>() {
                         @Override
-                        public Object serialize(Object input) {
-                            return input;
-                        }
-
+                        public Object serialize(Object input) { return input; }
                         @Override
-                        public Object parseValue(Object input) {
-                            return input;
-                        }
-
+                        public Object parseValue(Object input) { return input; }
                         @Override
-                        public Object parseLiteral(Object input) {
-                            return input;
-                        }
+                        public Object parseLiteral(Object input) { return input; }
                     })
                     .build()));
     }
