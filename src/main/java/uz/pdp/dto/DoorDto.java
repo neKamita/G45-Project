@@ -3,10 +3,14 @@ package uz.pdp.dto;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import uz.pdp.enums.Color;
 import uz.pdp.enums.Size;
 
 @Data
+@Getter
+@Setter
 public class DoorDto {
     @NotNull(message = "Name is required")
     private String name;

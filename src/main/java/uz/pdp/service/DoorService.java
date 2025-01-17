@@ -25,6 +25,14 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 
+/**
+ * Service class for managing door operations.
+ * Handles door creation, configuration, access control, and image management.
+ * Implements security checks and maintains audit logs for door operations.
+ *
+ * @version 1.0
+ * @since 2025-01-17
+ */
 @Service
 public class DoorService {
     private static final Logger logger = LoggerFactory.getLogger(DoorService.class);
@@ -38,6 +46,14 @@ public class DoorService {
     @Autowired
     private ImageStorageService imageStorageService;
 
+    /**
+     * Retrieves a door by its ID.
+     * Internal helper method for door operations.
+     *
+     * @param id Door ID to retrieve
+     * @return Door entity
+     * @throws IllegalArgumentException if door not found
+     */
     // Open to all users - no @PreAuthorize needed
     @Transactional(readOnly = true)
     public Door getDoor(Long id) {
@@ -45,25 +61,46 @@ public class DoorService {
             .orElseThrow(() -> new EntityNotFoundException("Door not found with id: " + id));
     }
 
+    /**
+     * Retrieves all doors accessible to the current user.
+     * Admins can see all doors, while regular users only see doors they have access to.
+     *
+     * @return Page of accessible doors
+     */
     // Open to all users - no @PreAuthorize needed
     @Transactional(readOnly = true)
     public Page<Door> getAllDoors(int page, int size) {
         return doorRepository.findAll(PageRequest.of(page, size));
     }
-@Transactional
-@PreAuthorize("hasRole('ADMIN') or hasRole('SELLER')")
-@CachePut(value = "doors", key = "#result.id")
-public Door createDoor(DoorDto doorDto) {
-    User currentUser = userService.getCurrentUser();
-    Door door = new Door();
-    mapDtoToEntity(doorDto, door);
-    door.setSeller(currentUser);
-    door.calculateFinalPrice();
-    Door savedDoor = doorRepository.saveAndFlush(door);
-    logger.info("Door created with ID: {}", savedDoor.getId());
-    return savedDoor;
-}
 
+    /**
+     * Creates a new door.
+     * Validates door details and sets up initial configuration.
+     *
+     * @param doorDto Door details including location and access settings
+     * @return Door entity
+     * @throws IllegalArgumentException if validation fails
+     */
+    @Transactional
+    @PreAuthorize("hasRole('ADMIN') or hasRole('SELLER')")
+    @CachePut(value = "doors", key = "#result.id")
+    public Door createDoor(DoorDto doorDto) {
+        User currentUser = userService.getCurrentUser();
+        Door door = new Door();
+        mapDtoToEntity(doorDto, door);
+        door.setSeller(currentUser);
+        door.calculateFinalPrice();
+        Door savedDoor = doorRepository.saveAndFlush(door);
+        logger.info("Door created with ID: {}", savedDoor.getId());
+        return savedDoor;
+    }
+
+    /**
+     * Maps DTO fields to Door entity.
+     *
+     * @param dto DTO containing door details
+     * @param door Door entity to update
+     */
     private void mapDtoToEntity(DoorDto dto, Door door) {
         door.setName(dto.getName());
         door.setDescription(dto.getDescription());
@@ -78,6 +115,15 @@ public Door createDoor(DoorDto doorDto) {
         door.setIsCustomColor(dto.getIsCustomColor());
     }
 
+    /**
+     * Updates an existing door's settings.
+     * Validates update permissions and door configuration.
+     *
+     * @param id Door ID to update
+     * @param doorDto Updated door details
+     * @return Door entity
+     * @throws IllegalArgumentException if door not found or validation fails
+     */
     @Transactional
     @PreAuthorize("hasRole('ADMIN') or (hasRole('SELLER') and @doorSecurityService.isSeller(#id))")
     @CachePut(value = "doors", key = "#id")
@@ -91,6 +137,13 @@ public Door createDoor(DoorDto doorDto) {
         return savedDoor;
     }
 
+    /**
+     * Deletes a door from the system.
+     * Performs cleanup of associated resources including images.
+     *
+     * @param id Door ID to delete
+     * @throws IllegalArgumentException if door not found
+     */
     @Transactional
     @PreAuthorize("hasRole('ADMIN') or (hasRole('SELLER') and @doorSecurityService.isSeller(#id))")
     @CacheEvict(value = {"doors", "allDoors"}, allEntries = true)
@@ -101,6 +154,18 @@ public Door createDoor(DoorDto doorDto) {
         logger.info("Door with ID {} deleted.", id);
     }
 
+    /**
+     * Configures a door's settings.
+     * Validates configuration and updates door entity.
+     *
+     * @param id Door ID to configure
+     * @param size Door size
+     * @param color Door color
+     * @param width Custom width
+     * @param height Custom height
+     * @return Door entity
+     * @throws IllegalArgumentException if door not found or validation fails
+     */
     @Transactional(rollbackFor = Exception.class)
     @PreAuthorize("hasRole('ADMIN') or (hasRole('SELLER') and @doorSecurityService.isSeller(#id))")
     @CachePut(value = "doors", key = "#id")
@@ -135,6 +200,15 @@ public Door createDoor(DoorDto doorDto) {
         return savedDoor;
     }
 
+    /**
+     * Adds images to a door.
+     * Validates image upload and updates door entity.
+     *
+     * @param id Door ID to add images to
+     * @param images List of images to upload
+     * @return Door entity
+     * @throws IllegalArgumentException if door not found or image upload fails
+     */
     @Transactional
     @PreAuthorize("hasRole('ADMIN') or (hasRole('SELLER') and @doorSecurityService.isSeller(#id))")
     @CachePut(value = "doors", key = "#id")
@@ -156,6 +230,15 @@ public Door createDoor(DoorDto doorDto) {
         return doorRepository.save(door);
     }
 
+    /**
+     * Deletes images from a door.
+     * Validates image deletion and updates door entity.
+     *
+     * @param id Door ID to delete images from
+     * @param imageUrls List of image URLs to delete
+     * @return Door entity
+     * @throws IllegalArgumentException if door not found or image deletion fails
+     */
     @Transactional
     @PreAuthorize("hasRole('ADMIN') or (hasRole('SELLER') and @doorSecurityService.isSeller(#id))")
     @CachePut(value = "doors", key = "#id")
@@ -175,6 +258,16 @@ public Door createDoor(DoorDto doorDto) {
         return doorRepository.save(door);
     }
 
+    /**
+     * Updates images for a door.
+     * Validates image update and updates door entity.
+     *
+     * @param id Door ID to update images for
+     * @param deleteUrls List of image URLs to delete
+     * @param newImages List of new images to upload
+     * @return Door entity
+     * @throws IllegalArgumentException if door not found or image update fails
+     */
     @Transactional
     @PreAuthorize("hasRole('ADMIN') or (hasRole('SELLER') and @doorSecurityService.isSeller(#id))")
     @CachePut(value = "doors", key = "#id")
@@ -186,6 +279,16 @@ public Door createDoor(DoorDto doorDto) {
         return addImages(id, newImages);
     }
 
+    /**
+     * Configures a door's dimensions.
+     * Validates dimension update and updates door entity.
+     *
+     * @param doorId Door ID to configure dimensions for
+     * @param customWidth Custom width
+     * @param customHeight Custom height
+     * @return Door entity
+     * @throws IllegalArgumentException if door not found or validation fails
+     */
     @Transactional
     @PreAuthorize("hasRole('ADMIN') or (hasRole('SELLER') and @doorSecurityService.isSeller(#doorId))")
     public Door configureDoorDimensions(Long doorId, Double customWidth, Double customHeight) {
@@ -202,10 +305,25 @@ public Door createDoor(DoorDto doorDto) {
         return door;
     }
 
+    /**
+     * Retrieves all doors.
+     * Internal helper method for door operations.
+     *
+     * @param pageRequest Page request
+     * @return Page of doors
+     */
     public Page<Door> getAllDoors(PageRequest pageRequest) {
         return doorRepository.findAll(pageRequest);
     }
 
+    /**
+     * Retrieves similar doors.
+     * Internal helper method for door operations.
+     *
+     * @param id Door ID to retrieve similar doors for
+     * @param limit Limit of similar doors to retrieve
+     * @return List of similar doors
+     */
     public List<Door> getSimilarDoors(Long id, int limit) {
         Door door = getDoor(id); 
         

@@ -6,20 +6,23 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.autoconfigure.graphql.GraphQlSourceBuilderCustomizer;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import graphql.schema.GraphQLScalarType;
 import graphql.scalars.ExtendedScalars;
 import graphql.schema.Coercing;
-import com.fasterxml.jackson.databind.ObjectMapper;
-
 import uz.pdp.entity.User;
 import uz.pdp.enums.Role;
 import uz.pdp.repository.UserRepository;
 
-@SpringBootApplication(scanBasePackages = {
-    "uz.pdp",
-    "uz.pdp.controller.graphql"
+@SpringBootApplication
+@ComponentScan(basePackages = {
+    "uz.pdp.controller",
+    "uz.pdp.controller.graphql",
+    "uz.pdp.service",
+    "uz.pdp.config",
+    "uz.pdp.security"
 })
 @EntityScan(basePackages = "uz.pdp.entity")
 @EnableJpaRepositories(basePackages = "uz.pdp.repository")
@@ -49,6 +52,7 @@ public class ProjectModul10Application {
         System.setProperty("aws.java.v1.disableDeprecationAnnouncement", "true");
         SpringApplication.run(ProjectModul10Application.class, args);
     }
+
     @Bean
     ApplicationRunner applicationRunner(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         return args -> {

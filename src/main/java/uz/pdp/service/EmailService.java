@@ -1,142 +1,226 @@
 package uz.pdp.service;
 
-import java.util.Random;
-import java.util.UUID;
-import java.util.logging.Logger;
-import java.util.regex.Pattern;
-
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailSendException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
-import lombok.extern.slf4j.Slf4j;
 import uz.pdp.payload.EntityResponse;
 
-import jakarta.mail.MessagingException;
-import jakarta.mail.internet.MimeMessage;
+import java.util.Random;
+import java.util.UUID;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import java.util.regex.Pattern;
 
+/**
+ * Service class for handling all email-related operations.
+ * Provides functionality for sending various types of emails including
+ * verification codes, notifications, and HTML-formatted messages.
+ *
+ * @version 1.0
+ * @since 2025-01-17
+ */
 @Service
 @Slf4j
 public class EmailService {
-    
+    private static final Logger logger = LoggerFactory.getLogger(EmailService.class);
+    private static final Pattern EMAIL_PATTERN = Pattern.compile(
+        "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$"
+    );
 
+    @Value("${spring.mail.username}")
+    private String fromEmail;
 
-    private final JavaMailSender mailSender;
-    private final String fromEmail;
+    @Autowired
+    private JavaMailSender mailSender;
 
-    @Value("${email.validation.enabled:true}")
-    private boolean emailValidationEnabled;
-
-    public EmailService(JavaMailSender mailSender, @Value("${spring.mail.username}") String fromEmail) {
-        this.mailSender = mailSender;
-        this.fromEmail = fromEmail;
-    }
-
+    /**
+     * Validates an email address format.
+     *
+     * @param email Email address to validate
+     * @return true if email format is valid, false otherwise
+     */
     public boolean isValidEmail(String email) {
-        if (email == null || email.isBlank()) {
-            return false;
-        }
-        String emailRegex = "^[A-Za-z0-9+_.-]+@(.+)$";
-        Pattern pattern = Pattern.compile(emailRegex);
-        return pattern.matcher(email).matches();
+        return email != null && EMAIL_PATTERN.matcher(email).matches();
     }
 
-    public EntityResponse<String> sendVerificationEmail(String toEmail) {
-        // First validate email format
-        if (!isValidEmail(toEmail)) {
-            log.warn("Invalid email format: {}", toEmail);
-            return EntityResponse.error("Invalid email format");
-        }
-
+    /**
+     * Sends a simple text email.
+     *
+     * @param to Recipient email address
+     * @param subject Email subject
+     * @param text Email content
+     * @return EntityResponse indicating success/failure
+     */
+    public EntityResponse<Void> sendSimpleEmail(String to, String subject, String text) {
         try {
+            if (!isValidEmail(to)) {
+                logger.error("Invalid email address: {}", to);
+                return new EntityResponse<>("Invalid email address", false, null);
+            }
+
+            logger.info("Sending simple email to: {}", to);
             SimpleMailMessage message = new SimpleMailMessage();
             message.setFrom(fromEmail);
-            message.setTo(toEmail);
-            message.setSubject("Email Verification");
-            message.setText("Your verification code is: " + generateVerificationCode());
+            message.setTo(to);
+            message.setSubject(subject);
+            message.setText(text);
 
-            if (emailValidationEnabled) {
-                mailSender.send(message);
-                log.info("Verification email sent successfully to: {}", toEmail);
-                return EntityResponse.success("Email sent successfully");
-            } else {
-                log.info("Email validation disabled. Would have sent to: {}", toEmail);
-                return EntityResponse.success("Email validation disabled");
-            }
+            mailSender.send(message);
+            logger.info("Simple email sent successfully to: {}", to);
+            return new EntityResponse<>("Email sent successfully", true, null);
         } catch (MailSendException e) {
-            log.error("Failed to send verification email to: {}", toEmail);
-            return EntityResponse.error("Failed to send email");
+            logger.error("Failed to send simple email to {}: {}", to, e.getMessage());
+            return new EntityResponse<>("Failed to send email: " + e.getMessage(), false, null);
         }
     }
 
-    public EntityResponse<String> sendVerificationEmail(String toEmail, String verificationCode) {
-        if (!isValidEmail(toEmail)) {
-            log.warn("Invalid email format: {}", toEmail);
-            return EntityResponse.error("Invalid email format");
-        }
-
+    /**
+     * Sends an HTML-formatted email.
+     *
+     * @param to Recipient email address
+     * @param subject Email subject
+     * @param htmlContent HTML-formatted content
+     * @return EntityResponse indicating success/failure
+     */
+    public EntityResponse<Void> sendHtmlEmail(String to, String subject, String htmlContent) {
         try {
-            MimeMessage mimeMessage = mailSender.createMimeMessage();
-            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true, "UTF-8");
+            if (!isValidEmail(to)) {
+                logger.error("Invalid email address: {}", to);
+                return new EntityResponse<>("Invalid email address", false, null);
+            }
+
+            logger.info("Sending HTML email to: {}", to);
+            MimeMessage message = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
             
             helper.setFrom(fromEmail);
-            helper.setTo(toEmail);
-            helper.setSubject("🚀 Etadoor Seller Verification");
-            
-            String htmlContent = String.format("""
-                <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
-                    <div style="background-color: #f8f9fa; padding: 20px; border-radius: 10px; text-align: center;">
-                        <h1 style="color: #333; margin-bottom: 20px;">ETADOOR VERIFICATION</h1>
-                        
-                        <p style="font-size: 18px; color: #666;">Hello Future Seller! 🎉</p>
-                        
-                        <div style="margin: 30px 0;">
-                            <p style="font-size: 16px; color: #666;">Your verification code is:</p>
-                            
-                            <div style="background-color: #fff; border: 2px solid #ddd; border-radius: 10px; 
-                                      padding: 20px; margin: 20px 0; font-size: 32px; letter-spacing: 5px;">
-                                %s
-                            </div>
-                        </div>
-                        
-                        <p style="color: #dc3545; font-size: 14px;">⚠️ This code will expire in 15 minutes</p>
-                        
-                        <div style="background-color: #e9ecef; padding: 15px; border-radius: 5px; margin: 20px 0;">
-                            <h3 style="color: #333; margin-bottom: 10px;">🔒 Security Notice</h3>
-                            <ul style="text-align: left; color: #666;">
-                                <li>Keep this code private</li>
-                                <li>Never share it with anyone</li>
-                                <li>Our team will never ask for it</li>
-                            </ul>
-                        </div>
-                        
-                        <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #ddd;">
-                            <p style="color: #666;">Thank you for joining Etadoor!</p>
-                            <p style="color: #666;">Best regards,<br>The Etadoor Team 🏪</p>
-                        </div>
-                    </div>
-                </div>
-                """, verificationCode);
-
+            helper.setTo(to);
+            helper.setSubject(subject);
             helper.setText(htmlContent, true);
 
-            if (emailValidationEnabled) {
-                mailSender.send(mimeMessage);
-                log.info("Verification email sent successfully to: {}", toEmail);
-                return EntityResponse.success("Email sent successfully");
-            } else {
-                log.info("Email validation disabled. Code: {} for: {}", verificationCode, toEmail);
-                return EntityResponse.success("Email validation disabled");
-            }
+            mailSender.send(message);
+            logger.info("HTML email sent successfully to: {}", to);
+            return new EntityResponse<>("Email sent successfully", true, null);
         } catch (MessagingException | MailSendException e) {
-            log.error("Failed to send verification email to: {}", toEmail, e);
-            return EntityResponse.error("Failed to send email");
+            logger.error("Failed to send HTML email to {}: {}", to, e.getMessage());
+            return new EntityResponse<>("Failed to send email: " + e.getMessage(), false, null);
         }
     }
 
+    /**
+     * Sends a verification code email for seller registration.
+     *
+     * @param to Recipient email address
+     * @param verificationCode Verification code
+     * @return EntityResponse indicating success/failure
+     */
+    public EntityResponse<Void> sendSellerVerificationEmail(String to, String verificationCode) {
+        try {
+            logger.info("Sending seller verification email to: {}", to);
+            String subject = "Seller Account Verification";
+            String htmlContent = String.format("""
+                <html>
+                <body>
+                    <h2>Seller Account Verification</h2>
+                    <p>Your verification code is: <strong>%s</strong></p>
+                    <p>This code will expire in 15 minutes.</p>
+                    <p>If you did not request this verification, please ignore this email.</p>
+                </body>
+                </html>
+                """, verificationCode);
+
+            return sendHtmlEmail(to, subject, htmlContent);
+        } catch (Exception e) {
+            logger.error("Failed to send seller verification email to {}: {}", to, e.getMessage());
+            return new EntityResponse<>("Failed to send verification email: " + e.getMessage(), false, null);
+        }
+    }
+
+    /**
+     * Sends an order confirmation email.
+     *
+     * @param to Recipient email address
+     * @param orderNumber Order number
+     * @param orderDetails Order details in HTML format
+     * @return EntityResponse indicating success/failure
+     */
+    public EntityResponse<Void> sendOrderConfirmationEmail(String to, String orderNumber, String orderDetails) {
+        try {
+            logger.info("Sending order confirmation email to: {}", to);
+            String subject = "Order Confirmation - " + orderNumber;
+            String htmlContent = String.format("""
+                <html>
+                <body>
+                    <h2>Order Confirmation</h2>
+                    <p>Thank you for your order!</p>
+                    <p>Order Number: <strong>%s</strong></p>
+                    %s
+                    <p>We will notify you when your order ships.</p>
+                </body>
+                </html>
+                """, orderNumber, orderDetails);
+
+            return sendHtmlEmail(to, subject, htmlContent);
+        } catch (Exception e) {
+            logger.error("Failed to send order confirmation email to {}: {}", to, e.getMessage());
+            return new EntityResponse<>("Failed to send order confirmation: " + e.getMessage(), false, null);
+        }
+    }
+
+    /**
+     * Sends a password reset email.
+     *
+     * @param to Recipient email address
+     * @param resetToken Password reset token
+     * @param resetLink Password reset link
+     * @return EntityResponse indicating success/failure
+     */
+    public EntityResponse<Void> sendPasswordResetEmail(String to, String resetToken, String resetLink) {
+        try {
+            logger.info("Sending password reset email to: {}", to);
+            String subject = "Password Reset Request";
+            String htmlContent = String.format("""
+                <html>
+                <body>
+                    <h2>Password Reset Request</h2>
+                    <p>You have requested to reset your password.</p>
+                    <p>Click the link below to reset your password:</p>
+                    <p><a href="%s">Reset Password</a></p>
+                    <p>This link will expire in 30 minutes.</p>
+                    <p>If you did not request this reset, please ignore this email.</p>
+                </body>
+                </html>
+                """, resetLink);
+
+            return sendHtmlEmail(to, subject, htmlContent);
+        } catch (Exception e) {
+            logger.error("Failed to send password reset email to {}: {}", to, e.getMessage());
+            return new EntityResponse<>("Failed to send password reset email: " + e.getMessage(), false, null);
+        }
+    }
+
+    /**
+     * Generates a random verification code.
+     *
+     * @return Generated verification code
+     */
     private String generateVerificationCode() {
         return String.format("%06d", new Random().nextInt(999999));
+    }
+
+    /**
+     * Generates a unique token for password reset.
+     *
+     * @return Generated token
+     */
+    private String generateResetToken() {
+        return UUID.randomUUID().toString();
     }
 }

@@ -26,4 +26,7 @@ public class DoorHistory {
     private Door door;
 
     private LocalDateTime accessedAt;
+
+
+    
 }

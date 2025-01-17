@@ -2,7 +2,6 @@ package uz.pdp.enums;
 
 import lombok.Getter;
 
-@Getter
 public enum Size {
     SIZE_200x2000(200, 2000),
     SIZE_300x2000(300, 2000),
@@ -19,6 +18,7 @@ public enum Size {
 
     private final int width;
     private final int height;
+
 
     Size(int width, int height) {
         this.width = width;

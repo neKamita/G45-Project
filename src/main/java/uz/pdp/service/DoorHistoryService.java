@@ -8,20 +8,37 @@ import uz.pdp.entity.Door;
 import uz.pdp.entity.DoorHistory;
 import uz.pdp.entity.User;
 import uz.pdp.repository.DoorHistoryRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Service class for managing door access history.
+ * Tracks and records all door access events including successful and failed attempts.
+ * Provides functionality for querying and analyzing door usage patterns.
+ *
+ * @version 1.0
+ * @since 2025-01-17
+ */
 @Service
 public class DoorHistoryService {
+    private static final Logger logger = LoggerFactory.getLogger(DoorHistoryService.class);
 
     @Autowired
     private DoorHistoryRepository doorHistoryRepository;
-    
+
     @Autowired
     private UserService userService;
 
+    /**
+     * Records a new door access event.
+     * Captures user, door, and access details.
+     *
+     * @param door Door being accessed
+     */
     public void saveDoorHistory(Door door) {
         User currentUser = userService.getCurrentUser();
         DoorHistory history = new DoorHistory();
@@ -31,6 +48,12 @@ public class DoorHistoryService {
         doorHistoryRepository.save(history);
     }
 
+    /**
+     * Retrieves access history for a specific user.
+     *
+     * @param userId ID of the user
+     * @return DTO containing user's door history
+     */
     public UserDoorHistoryDto getUserDoorHistoryGrouped(Long userId) {
         List<DoorHistory> histories = doorHistoryRepository.findByUserId(userId);
         if (histories.isEmpty()) {

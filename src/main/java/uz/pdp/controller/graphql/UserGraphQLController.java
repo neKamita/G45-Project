@@ -45,15 +45,4 @@ public class UserGraphQLController {
         logger.info("GraphQL Mutation: Requesting seller status for user {}", userId);
         return userService.requestSeller(Long.valueOf(userId)).data();
     }
-
-    @MutationMapping
-    @PreAuthorize("hasRole('ADMIN') or hasRole('SELLER')")
-    public EntityResponse<Door> configureDoorDimensions(
-            @Argument Long doorId,
-            @Argument Double customWidth,
-            @Argument Double customHeight) {
-        logger.info("GraphQL Mutation: Configuring dimensions for door {}", doorId);
-        Door door = doorService.configureDoorDimensions(doorId, customWidth, customHeight);
-        return EntityResponse.success("Door dimensions configured successfully", door);
-    }
 }

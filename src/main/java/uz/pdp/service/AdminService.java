@@ -23,6 +23,15 @@ import java.util.List;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 
+/**
+ * Service class for handling administrative operations in the system.
+ * This service provides functionality for managing users and their roles,
+ * particularly focusing on seller approval and account management.
+ *
+ * @author Your Team Name
+ * @version 1.0
+ * @since 2025-01-17
+ */
 @Service
 public class AdminService {
     private static final Logger logger = LoggerFactory.getLogger(AdminService.class);
@@ -39,10 +48,22 @@ public class AdminService {
     @Autowired
     private DoorRepository doorRepository;
 
+    /**
+     * Approves a user's request to become a seller.
+     * This method verifies that:
+     * 1. The user exists
+     * 2. The user has a verified email for seller request
+     * 3. The user is not already a seller
+     *
+     * @param userId The ID of the user to be approved as a seller
+     * @return boolean indicating whether the approval was successful
+     * @throws IllegalArgumentException if the user is not found or is already a seller
+     * @throws RuntimeException if there's an error during the approval process
+     */
     @PreAuthorize("hasRole('ADMIN')")
-    public boolean approveSeller(SellerRequestDto sellerRequestDto) {
+    public boolean approveSeller(Long userId) {
         try {
-            User user = userRepository.findById(sellerRequestDto.getUserId())
+            User user = userRepository.findById(userId)
                     .orElseThrow(() -> new RuntimeException("User not found"));
 
             // Check if user has verified email for seller request
@@ -76,6 +97,18 @@ public class AdminService {
         }
     }
 
+    /**
+     * Deactivates a user account in the system.
+     * This operation:
+     * 1. Verifies the user exists
+     * 2. Sets the account to inactive
+     * 3. Preserves the user's data but prevents login
+     *
+     * @param userId The ID of the user account to deactivate
+     * @return EntityResponse containing the operation result
+     * @throws IllegalArgumentException if the user is not found
+     * @throws RuntimeException if there's an error during the deactivation process
+     */
     @PreAuthorize("hasRole('ADMIN')")
     @Transactional
     public EntityResponse<Void> deactivateAccount(Long userId) {

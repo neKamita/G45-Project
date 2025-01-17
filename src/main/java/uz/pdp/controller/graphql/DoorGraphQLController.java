@@ -1,100 +1,206 @@
 package uz.pdp.controller.graphql;
 
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.graphql.data.method.annotation.Argument;
-import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
+import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import uz.pdp.entity.Door;
+import uz.pdp.payload.EntityResponse;
+import uz.pdp.service.DoorService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import jakarta.transaction.Transactional;
-
-import uz.pdp.entity.Door;
-import uz.pdp.enums.Color;
-import uz.pdp.enums.Size;
-import uz.pdp.mutations.DoorConfigInput;
-import uz.pdp.service.DoorService;
-import graphql.GraphQLException;
-
-
 
 import java.util.List;
 
+/**
+ * GraphQL controller for door-related operations.
+ * Provides endpoints for managing doors, including creation, updates, and queries.
+ * Implements role-based access control for door management.
+ *
+ * @version 1.0
+ * @since 2025-01-17
+ */
 @Controller
 public class DoorGraphQLController {
-    private final DoorService doorService;
     private static final Logger logger = LoggerFactory.getLogger(DoorGraphQLController.class);
+    
+    private final DoorService doorService;
 
-    @Autowired
     public DoorGraphQLController(DoorService doorService) {
         this.doorService = doorService;
     }
 
+    /**
+     * GraphQL query to retrieve all doors.
+     * Requires admin privileges.
+     *
+     * @return List of all doors in the system
+     */
     @QueryMapping
-    @Transactional()
-    public Door door(@Argument Long id) {
+    @PreAuthorize("hasRole('ADMIN')")
+    public List<Door> getAllDoors() {
         try {
-            logger.info("GraphQL Query: Fetching door {}", id);
-            return doorService.getDoor(Long.valueOf(id.toString()));
+            logger.info("GraphQL query: Retrieving all doors");
+            List<Door> doors = doorService.getAllDoors();
+            logger.info("Retrieved {} doors", doors.size());
+            return doors;
         } catch (Exception e) {
-            logger.error("Error fetching door: {}", e.getMessage());
-            throw new GraphQLException("Error fetching door: " + e.getMessage());
+            logger.error("Error retrieving doors via GraphQL: {}", e.getMessage());
+            throw e;
         }
     }
 
+    /**
+     * GraphQL query to retrieve a door by ID.
+     *
+     * @param id ID of the door to retrieve
+     * @return Door details if found
+     */
     @QueryMapping
-    public Page<Door> getAllDoors(@Argument int page, @Argument int size) {
+    public Door getDoorById(@Argument Long id) {
         try {
-            logger.info("GraphQL Query: Fetching all doors");
-            return doorService.getAllDoors(PageRequest.of(page,size));
+            logger.info("GraphQL query: Retrieving door with ID: {}", id);
+            Door door = doorService.getDoorById(id);
+            logger.info("Retrieved door: {}", door.getName());
+            return door;
         } catch (Exception e) {
-            logger.error("Error fetching doors: {}", e.getMessage());
-            throw new GraphQLException("Error fetching doors: " + e.getMessage());
+            logger.error("Error retrieving door {} via GraphQL: {}", id, e.getMessage());
+            throw e;
         }
     }
 
+    /**
+     * GraphQL query to search for doors by criteria.
+     *
+     * @param searchTerm Search term to match against door properties
+     * @return List of matching doors
+     */
     @QueryMapping
-    public List<Door> doors() {
+    public List<Door> searchDoors(@Argument String searchTerm) {
         try {
-            logger.info("GraphQL Query: Fetching all doors");
-            Page<Door> doorPage = doorService.getAllDoors(0, Integer.MAX_VALUE); // Get all doors
-            return doorPage.getContent();
+            logger.info("GraphQL query: Searching doors with term: {}", searchTerm);
+            List<Door> doors = doorService.searchDoors(searchTerm);
+            logger.info("Found {} matching doors", doors.size());
+            return doors;
         } catch (Exception e) {
-            logger.error("Error fetching doors: {}", e.getMessage());
-            throw new GraphQLException("Error fetching doors: " + e.getMessage());
+            logger.error("Error searching doors via GraphQL: {}", e.getMessage());
+            throw e;
         }
     }
 
+    /**
+     * GraphQL mutation to create a new door.
+     * Requires seller or admin privileges.
+     *
+     * @param door Door details to create
+     * @return Created door information
+     */
     @MutationMapping
-    @PreAuthorize("hasRole('SELLER')")
-    public Door createDoor(@Argument("input") DoorConfigInput input) {
+    @PreAuthorize("hasAnyRole('SELLER', 'ADMIN')")
+    public Door createDoor(@Argument Door door) {
         try {
-            logger.info("GraphQL Mutation: Creating door");
-            return doorService.createDoor(input.toDoorDTO());
+            logger.info("GraphQL mutation: Creating new door");
+            EntityResponse<Door> response = doorService.createDoor(door);
+            logger.info("Created door: {}", response.getData().getName());
+            return response.getData();
         } catch (Exception e) {
-            logger.error("Error creating door: {}", e.getMessage());
-            throw new GraphQLException("Error creating door: " + e.getMessage());
+            logger.error("Error creating door via GraphQL: {}", e.getMessage());
+            throw e;
         }
     }
 
+    /**
+     * GraphQL mutation to update an existing door.
+     * Requires appropriate permissions.
+     *
+     * @param id ID of the door to update
+     * @param door Updated door details
+     * @return Updated door information
+     */
     @MutationMapping
-    @PreAuthorize("hasRole('ADMIN') or @doorSecurityService.isSeller(#input.id)")
-    public Door configureDoor(@Argument("input") DoorConfigInput input) {
+    public Door updateDoor(@Argument Long id, @Argument Door door) {
         try {
-            logger.info("GraphQL Mutation: Configuring door {}", input.getId());
-            return doorService.configureDoor(
-                input.getId(),
-                input.getSize(),
-                input.getColor(),
-                input.getWidth(),
-                input.getHeight()
-            );
+            logger.info("GraphQL mutation: Updating door with ID: {}", id);
+            EntityResponse<Door> response = doorService.updateDoor(id, door);
+            logger.info("Updated door: {}", response.getData().getName());
+            return response.getData();
         } catch (Exception e) {
-            logger.error("Error configuring door: {}", e.getMessage());
-            throw new GraphQLException("Error configuring door: " + e.getMessage());
+            logger.error("Error updating door {} via GraphQL: {}", id, e.getMessage());
+            throw e;
+        }
+    }
+
+    /**
+     * GraphQL mutation to delete a door.
+     * Requires admin privileges.
+     *
+     * @param id ID of the door to delete
+     * @return true if deletion successful
+     */
+    @MutationMapping
+    @PreAuthorize("hasRole('ADMIN')")
+    public boolean deleteDoor(@Argument Long id) {
+        try {
+            logger.info("GraphQL mutation: Deleting door with ID: {}", id);
+            EntityResponse<Void> response = doorService.deleteDoor(id);
+            logger.info("Door {} deleted successfully", id);
+            return response.isSuccess();
+        } catch (Exception e) {
+            logger.error("Error deleting door {} via GraphQL: {}", id, e.getMessage());
+            throw e;
+        }
+    }
+
+    /**
+     * GraphQL mutation to configure door dimensions.
+     * Requires seller or admin privileges.
+     *
+     * @param doorId ID of the door to configure
+     * @param width New width for the door
+     * @param height New height for the door
+     * @return Updated door information
+     */
+    @MutationMapping
+    @PreAuthorize("hasAnyRole('SELLER', 'ADMIN')")
+    public Door configureDoorDimensions(
+            @Argument Long doorId,
+            @Argument Double width,
+            @Argument Double height) {
+        try {
+            logger.info("GraphQL mutation: Configuring dimensions for door ID: {}", doorId);
+            Door door = doorService.configureDoorDimensions(doorId, width, height);
+            logger.info("Configured dimensions for door: {}", door.getName());
+            return door;
+        } catch (Exception e) {
+            logger.error("Error configuring door dimensions via GraphQL: {}", e.getMessage());
+            throw e;
+        }
+    }
+
+    /**
+     * GraphQL mutation to update door status.
+     * Updates availability and active status.
+     *
+     * @param doorId ID of the door to update
+     * @param isAvailable New availability status
+     * @param isActive New active status
+     * @return Updated door information
+     */
+    @MutationMapping
+    @PreAuthorize("hasAnyRole('SELLER', 'ADMIN')")
+    public Door updateDoorStatus(
+            @Argument Long doorId,
+            @Argument Boolean isAvailable,
+            @Argument Boolean isActive) {
+        try {
+            logger.info("GraphQL mutation: Updating status for door ID: {}", doorId);
+            Door door = doorService.updateDoorStatus(doorId, isAvailable, isActive);
+            logger.info("Updated status for door: {}", door.getName());
+            return door;
+        } catch (Exception e) {
+            logger.error("Error updating door status via GraphQL: {}", e.getMessage());
+            throw e;
         }
     }
 }
