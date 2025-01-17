@@ -75,7 +75,7 @@ public class DoorController {
                 }
             } catch (Exception e) {
                 logger.debug("Not saving door history - user not authenticated");
-                return ResponseEntity.status(400).body(EntityResponse.error("User not authenticated"));
+                return ResponseEntity.status(400).body(EntityResponse.error("User not authenticated")); 
             }
             return ResponseEntity.ok(EntityResponse.success("Door retrieved successfully", door));
         } catch (EntityNotFoundException e) {
