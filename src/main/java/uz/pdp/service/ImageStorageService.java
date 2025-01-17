@@ -41,4 +41,13 @@ public class ImageStorageService {
             throw new IOException("Failed to upload file to S3", e);
         }
     }
+
+    public void deleteImage(String imageUrl) throws IOException {
+        String key = imageUrl.substring(imageUrl.indexOf(DOOR_IMAGES_PREFIX));
+        try {
+            s3Client.deleteObject(bucketName, key);
+        } catch (AmazonServiceException e) {
+            throw new IOException("Failed to delete file from S3", e);
+        }
+    }
 }

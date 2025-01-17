@@ -10,6 +10,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.amazonaws.Response;
+
 import io.swagger.v3.oas.annotations.Operation;
 import uz.pdp.service.DoorService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -19,6 +21,7 @@ import uz.pdp.dto.DoorDto;
 import uz.pdp.dto.UserDoorHistoryDto;
 import uz.pdp.entity.Door;
 import uz.pdp.entity.DoorHistory;
+import uz.pdp.entity.User;
 import uz.pdp.mutations.DoorConfigInput;
 import uz.pdp.service.DoorHistoryService;
 import org.springframework.http.HttpStatus;
@@ -29,6 +32,7 @@ import uz.pdp.service.UserService;
 
 import java.util.List;
 import java.util.Arrays;
+import java.util.Collections;
 
 @RestController
 @RequestMapping("/api/doors")
@@ -64,7 +68,15 @@ public class DoorController {
         logger.info("Fetching door with id: {}", id);
         try {
             Door door = doorService.getDoor(id);
-            doorHistoryService.saveDoorHistory(door);
+            try {
+                User currentUser = userService.getCurrentUser();
+                if (currentUser != null) {
+                    doorHistoryService.saveDoorHistory(door);
+                }
+            } catch (Exception e) {
+                logger.debug("Not saving door history - user not authenticated");
+                return ResponseEntity.status(400).body(EntityResponse.error("User not authenticated"));
+            }
             return ResponseEntity.ok(EntityResponse.success("Door retrieved successfully", door));
         } catch (EntityNotFoundException e) {
             logger.warn("Door not found with id: {}", id);
@@ -167,5 +179,43 @@ public class DoorController {
         logger.info("Uploading {} images for door ID: {}", images.length, id);
         Door door = doorService.addImages(id, Arrays.asList(images));
         return ResponseEntity.ok(EntityResponse.success("Images uploaded successfully", door));
+    }
+
+    @DeleteMapping("/{id}/images")
+    @PreAuthorize("hasRole('ADMIN') or (hasRole('SELLER') and @doorSecurityService.isSeller(#id))")
+    @Operation(summary = "Delete door images (ADMIN or owner SELLER)")
+    public ResponseEntity<EntityResponse<Door>> deleteImages(
+            @PathVariable Long id,
+            @RequestBody List<String> imageUrls) {
+        logger.info("Deleting {} images from door ID: {}", imageUrls.size(), id);
+        try {
+            Door door = doorService.deleteImages(id, imageUrls);
+            return ResponseEntity.ok(EntityResponse.success("Images deleted successfully", door));
+        } catch (Exception e) {
+            logger.error("Error deleting images: {}", e.getMessage());
+            return ResponseEntity.badRequest()
+                    .body(EntityResponse.error("Failed to delete images: " + e.getMessage()));
+        }
+    }
+
+    @PutMapping(value = "/{id}/images", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PreAuthorize("hasRole('ADMIN') or (hasRole('SELLER') and @doorSecurityService.isSeller(#id))")
+    @Operation(summary = "Update door images (ADMIN or owner SELLER)")
+    public ResponseEntity<EntityResponse<Door>> updateImages(
+            @PathVariable Long id,
+            @RequestParam(required = false) List<String> deleteUrls,
+            @RequestPart("newImages") MultipartFile[] newImages) {
+        logger.info("Updating images for door ID: {}, deleting {} images, adding {} new images", 
+                id, deleteUrls != null ? deleteUrls.size() : 0, newImages.length);
+        try {
+            Door door = doorService.updateImages(id, 
+                deleteUrls != null ? deleteUrls : Collections.emptyList(), 
+                Arrays.asList(newImages));
+            return ResponseEntity.ok(EntityResponse.success("Images updated successfully", door));
+        } catch (Exception e) {
+            logger.error("Error updating images: {}", e.getMessage());
+            return ResponseEntity.badRequest()
+                    .body(EntityResponse.error("Failed to update images: " + e.getMessage()));
+        }
     }
 }

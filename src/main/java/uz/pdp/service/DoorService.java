@@ -157,6 +157,36 @@ public Door createDoor(DoorDto doorDto) {
     }
 
     @Transactional
+    @PreAuthorize("hasRole('ADMIN') or (hasRole('SELLER') and @doorSecurityService.isSeller(#id))")
+    @CachePut(value = "doors", key = "#id")
+    public Door deleteImages(Long id, List<String> imageUrls) {
+        Door door = getDoor(id);
+        door.getImages().removeAll(imageUrls);
+        
+        // Delete images from S3
+        for (String imageUrl : imageUrls) {
+            try {
+                imageStorageService.deleteImage(imageUrl);
+            } catch (Exception e) {
+                logger.warn("Failed to delete image from storage: {}", imageUrl);
+            }
+        }
+        
+        return doorRepository.save(door);
+    }
+
+    @Transactional
+    @PreAuthorize("hasRole('ADMIN') or (hasRole('SELLER') and @doorSecurityService.isSeller(#id))")
+    @CachePut(value = "doors", key = "#id")
+    public Door updateImages(Long id, List<String> deleteUrls, List<MultipartFile> newImages) {
+        // First delete old images
+        deleteImages(id, deleteUrls);
+        
+        // Then add new images
+        return addImages(id, newImages);
+    }
+
+    @Transactional
     @PreAuthorize("hasRole('ADMIN') or (hasRole('SELLER') and @doorSecurityService.isSeller(#doorId))")
     public Door configureDoorDimensions(Long doorId, Double customWidth, Double customHeight) {
         Door door = getDoor(doorId);
