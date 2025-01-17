@@ -13,6 +13,7 @@ import uz.pdp.dto.SignUpRequest;
 import uz.pdp.payload.EntityResponse;
 import uz.pdp.service.AuthService;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -50,14 +51,14 @@ public class AuthController {
     @Operation(summary = "Sign up")
     public ResponseEntity<EntityResponse<Map<String, String>>> signUp(@Valid @RequestBody SignUpRequest request) {
         try {
-            logger.info("Processing sign-up request for email: {}", request.getEmail());
+            logger.info("Processing sign-up request for user: {}", request.getName());
             EntityResponse<Map<String, String>> response = authService.signUp(request);
-            logger.info("Successfully processed sign-up request for email: {}", request.getEmail());
-            return ResponseEntity.ok(response);
+            return ResponseEntity.status(response.isSuccess() ? 200 : 400).body(response);
         } catch (Exception e) {
-            logger.error("Error processing sign-up request for email {}: {}", request.getEmail(), e.getMessage());
+            logger.error("Error processing sign-up request for user {}: {}", request.getName(), e.getMessage());
+            Map<String, String> errorData = new HashMap<>();
             return ResponseEntity.badRequest()
-                    .body(new EntityResponse<>("Failed to process sign-up request: " + e.getMessage(), false, null));
+                    .body(EntityResponse.error("Failed to process sign-up request: " + e.getMessage(), errorData));
         }
     }
 
@@ -75,14 +76,13 @@ public class AuthController {
     @Operation(summary = "Sign in")
     public ResponseEntity<EntityResponse<Map<String, String>>> signIn(@Valid @RequestBody SignInRequest request) {
         try {
-            logger.info("Processing sign-in request for email: {}", request.getEmail());
-            EntityResponse<Map<String, String>> response = authService.signIn(request);
-            logger.info("Successfully processed sign-in request for email: {}", request.getEmail());
-            return ResponseEntity.ok(response);
+            logger.info("Processing sign-in request for user: {}", request.getName());
+            return authService.signIn(request);
         } catch (Exception e) {
-            logger.error("Error processing sign-in request for email {}: {}", request.getEmail(), e.getMessage());
+            logger.error("Error processing sign-in request for user {}: {}", request.getName(), e.getMessage());
+            Map<String, String> errorData = new HashMap<>();
             return ResponseEntity.badRequest()
-                    .body(new EntityResponse<>("Failed to process sign-in request: " + e.getMessage(), false, null));
+                    .body(EntityResponse.error("Failed to process sign-in request: " + e.getMessage(), errorData));
         }
     }
 
