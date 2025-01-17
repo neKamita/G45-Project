@@ -57,12 +57,12 @@ public class UserController {
     public ResponseEntity<EntityResponse<User>> getCurrentUser(@AuthenticationPrincipal User user) {
         try {
             logger.info("Retrieving profile for user ID: {}", user.getId());
-            EntityResponse<User> response = userService.getCurrentUserProfile(user);
-            return ResponseEntity.ok(response);
+            User currentUser = userService.getCurrentUser();
+            return ResponseEntity.ok(EntityResponse.success("User profile retrieved successfully", currentUser));
         } catch (Exception e) {
             logger.error("Error retrieving user profile: {}", e.getMessage());
             return ResponseEntity.badRequest()
-                    .body(new EntityResponse<>("Failed to retrieve profile: " + e.getMessage(), false, null));
+                    .body(EntityResponse.error("Failed to retrieve profile: " + e.getMessage()));
         }
     }
 
@@ -107,12 +107,12 @@ public class UserController {
     public ResponseEntity<EntityResponse<List<Order>>> getUserOrders(@AuthenticationPrincipal User user) {
         try {
             logger.info("Retrieving orders for user ID: {}", user.getId());
-            EntityResponse<List<Order>> response = orderService.getUserOrders(user.getId());
-            return ResponseEntity.ok(response);
+            List<Order> orders = orderService.getUserOrders(user.getId());
+            return ResponseEntity.ok(EntityResponse.success("Orders retrieved successfully", orders));
         } catch (Exception e) {
             logger.error("Error retrieving user orders: {}", e.getMessage());
             return ResponseEntity.badRequest()
-                    .body(new EntityResponse<>("Failed to retrieve orders: " + e.getMessage(), false, null));
+                    .body(EntityResponse.error("Failed to retrieve orders: " + e.getMessage()));
         }
     }
 

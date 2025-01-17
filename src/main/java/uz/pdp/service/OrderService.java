@@ -87,10 +87,10 @@ public class OrderService {
      * Retrieves all orders for a specific user.
      *
      * @param userId ID of the user
-     * @return EntityResponse containing list of user's orders
-     * @throws ResponseStatusException if user not found
+     * @return List of user's orders
+     * @throws ResponseStatusException if user not found or error occurs
      */
-    public EntityResponse<List<Order>> getUserOrders(Long userId) {
+    public List<Order> getUserOrders(Long userId) {
         try {
             logger.info("Retrieving orders for user ID: {}", userId);
             
@@ -100,7 +100,7 @@ public class OrderService {
             List<Order> orders = orderRepository.findByUserOrderByOrderDateDesc(user);
             logger.info("Retrieved {} orders for user ID: {}", orders.size(), userId);
             
-            return new EntityResponse<>("Orders retrieved successfully", true, orders);
+            return orders;
         } catch (Exception e) {
             logger.error("Error retrieving user orders: {}", e.getMessage());
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error retrieving orders", e);

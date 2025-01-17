@@ -42,7 +42,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return name; // Use name as username
+        return name; 
     }
 
     @Override
