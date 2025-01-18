@@ -3,14 +3,17 @@ package uz.pdp.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import uz.pdp.entity.User;
 import uz.pdp.exception.ResourceNotFoundException;
 import uz.pdp.exception.ForbiddenException;
 import uz.pdp.payload.EntityResponse;
+import uz.pdp.dto.UpdateUserDTO;
 import uz.pdp.service.AdminService;
 
 /**
@@ -106,6 +109,33 @@ public class AdminController {
             return ResponseEntity.internalServerError().body(
                 EntityResponse.error("Internal server error: " + e.getMessage())
             );
+        }
+    }
+
+    /**
+     * Updates a user's profile information.
+     * This endpoint allows admins to modify user details.
+     *
+     * @param userId ID of the user to update
+     * @param updateUserDTO Updated user details
+     * @return ResponseEntity containing the result of the update process
+     *         - 200 OK if updated successfully
+     *         - 400 Bad Request if the request is invalid
+     *         - 404 Not Found if user doesn't exist
+     */
+    @PutMapping("/users/{userId}")
+    @Operation(summary = "Update user profile")
+    public ResponseEntity<EntityResponse<User>> updateUser(
+            @PathVariable Long userId,
+            @Valid @RequestBody UpdateUserDTO updateUserDTO) {
+        try {
+            log.info("Admin updating user profile for ID: {}", userId);
+            EntityResponse<User> response = adminService.updateUser(userId, updateUserDTO);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            log.error("Error updating user profile: {}", e.getMessage());
+            return ResponseEntity.badRequest()
+                    .body(new EntityResponse<>("Failed to update user: " + e.getMessage(), false, null));
         }
     }
 }

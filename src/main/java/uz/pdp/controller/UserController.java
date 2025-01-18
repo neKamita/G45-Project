@@ -70,33 +70,6 @@ public class UserController {
     }
 
     /**
-     * Updates the current user's profile.
-     * Allows modification of user details and preferences.
-     *
-     * @param user Currently authenticated user
-     * @param updatedUser Updated user details
-     * @return ResponseEntity with updated user profile
-     *         - 200 OK if profile updated successfully
-     *         - 400 Bad Request if validation fails
-     *         - 401 Unauthorized if not authenticated
-     */
-    @PutMapping("/profile")
-    @Operation(summary = "Update current user profile")
-    public ResponseEntity<EntityResponse<User>> updateProfile(
-            @AuthenticationPrincipal User user,
-            @Valid @RequestBody User updatedUser) {
-        try {
-            logger.info("Updating profile for user ID: {}", user.getId());
-            EntityResponse<User> response = userService.updateProfile(user.getId(), updatedUser);
-            return ResponseEntity.ok(response);
-        } catch (Exception e) {
-            logger.error("Error updating user profile: {}", e.getMessage());
-            return ResponseEntity.badRequest()
-                    .body(new EntityResponse<>("Failed to update profile: " + e.getMessage(), false, null));
-        }
-    }
-
-    /**
      * Retrieves the current user's order history.
      * Returns a list of all orders placed by the user.
      *

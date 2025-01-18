@@ -16,6 +16,7 @@ import uz.pdp.exception.BadRequestException;
 import uz.pdp.exception.ForbiddenException;
 import uz.pdp.exception.ResourceNotFoundException;
 import uz.pdp.payload.EntityResponse;
+import uz.pdp.dto.UpdateUserDTO;
 import uz.pdp.repository.DoorRepository;
 import uz.pdp.repository.EmailVerificationRepository;
 import uz.pdp.repository.UserRepository;
@@ -152,6 +153,44 @@ public class AdminService {
         } catch (Exception e) {
             logger.error("Error deactivating account: {}", e.getMessage());
             return EntityResponse.error("Failed to deactivate account: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Updates a user's profile information.
+     * Validates and updates user details while preserving sensitive information.
+     *
+     * @param userId ID of the user to update
+     * @param updateUserDTO Updated user details
+     * @return EntityResponse containing updated user
+     * @throws ResourceNotFoundException if user not found
+     */
+    @Transactional
+    public EntityResponse<User> updateUser(Long userId, UpdateUserDTO updateUserDTO) {
+        try {
+            User existingUser = userRepository.findById(userId)
+                    .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+
+            // Update allowed fields from DTO
+            existingUser.setName(updateUserDTO.getName());
+            existingUser.setLastname(updateUserDTO.getLastname());
+            existingUser.setEmail(updateUserDTO.getEmail());
+            existingUser.setPhone(updateUserDTO.getPhone());
+            
+            // Only admin can update role and status
+            existingUser.setRole(updateUserDTO.getRole());
+            existingUser.setActive(updateUserDTO.isActive());
+
+            User savedUser = userRepository.save(existingUser);
+            logger.info("User profile updated successfully for ID: {}", userId);
+            
+            return new EntityResponse<>("User profile updated successfully", true, savedUser);
+        } catch (ResourceNotFoundException e) {
+            logger.error("User not found with ID: {}", userId);
+            throw e;
+        } catch (Exception e) {
+            logger.error("Error updating user profile: {}", e.getMessage());
+            throw new RuntimeException("Failed to update user profile: " + e.getMessage());
         }
     }
 }

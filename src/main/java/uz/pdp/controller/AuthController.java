@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import uz.pdp.dto.SignInRequest;
 import uz.pdp.dto.SignUpRequest;
 import uz.pdp.exception.BadRequestException;
+import uz.pdp.exception.UnauthorizedException;
 import uz.pdp.payload.EntityResponse;
 import uz.pdp.service.AuthService;
 
@@ -64,7 +65,7 @@ public class AuthController {
         } catch (Exception e) {
             logger.error("Error processing registration request for user {}: {}", registerDto.getName(), e.getMessage());
             return ResponseEntity.internalServerError().body(
-                EntityResponse.error("Internal server error: " + e.getMessage())
+                EntityResponse.error(e.getMessage())
             );
         }
     }
@@ -86,14 +87,14 @@ public class AuthController {
             logger.info("Processing login request for user: {}", loginRequest.getUsername());
             EntityResponse<String> response = authService.login(loginRequest);
             return ResponseEntity.ok(response);
-        } catch (BadRequestException e) {
+        } catch (BadRequestException | UnauthorizedException e) {
             logger.error("Authentication failed: {}", e.getMessage());
-            return ResponseEntity.badRequest().body(EntityResponse.error(e.getMessage()));
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(EntityResponse.error("Invalid username or password"));
         } catch (Exception e) {
             logger.error("Error processing login request for user {}: {}", loginRequest.getUsername(), e.getMessage());
-            return ResponseEntity.internalServerError().body(
-                EntityResponse.error("Internal server error: " + e.getMessage())
-            );
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(EntityResponse.error("Invalid username or password"));
         }
     }
 
