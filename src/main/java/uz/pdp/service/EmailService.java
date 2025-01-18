@@ -115,6 +115,96 @@ public class EmailService {
     }
 
     /**
+     * Sends a verification email to the specified email address.
+     *
+     * @param email Email address to send verification to
+     * @param subject Subject of the email
+     * @param type Type of verification
+     * @return EntityResponse containing the result
+     */
+    public EntityResponse<Void> sendVerificationEmail(String email, String subject, VerificationType type) {
+        if (!isValidEmail(email)) {
+            return EntityResponse.error("Invalid email format");
+        }
+
+        try {
+            String verificationCode = generateVerificationCode();
+            MimeMessage message = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true);
+            
+            helper.setFrom(fromEmail);
+            helper.setTo(email);
+            helper.setSubject(subject);
+            
+            String content = buildVerificationEmailContent(verificationCode, type);
+            helper.setText(content, true);
+            
+            mailSender.send(message);
+            logger.info("Verification email sent successfully to: {}", email);
+            
+            return EntityResponse.success("Verification email sent successfully");
+            
+        } catch (MessagingException | MailSendException e) {
+            logger.error("Failed to send verification email to {}: {}", email, e.getMessage());
+            return EntityResponse.error("Failed to send verification email: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Builds the content for verification emails based on type.
+     *
+     * @param code Verification code
+     * @param type Type of verification
+     * @return HTML content for the email
+     */
+    private String buildVerificationEmailContent(String code, VerificationType type) {
+        StringBuilder content = new StringBuilder();
+        content.append("<div style='font-family: Arial, sans-serif; padding: 20px;'>");
+        content.append("<h2 style='color: #2c3e50;'>Email Verification</h2>");
+        
+        switch (type) {
+            case SELLER_REQUEST:
+                content.append("<p>Thank you for requesting to become a seller. Please use the following code to verify your email:</p>");
+                break;
+            case SELLER_APPROVAL:
+                content.append("<p>Congratulations! Your seller account has been approved. You can now start listing doors for sale.</p>");
+                break;
+            case PASSWORD_RESET:
+                content.append("<p>You have requested to reset your password. Please use the following code:</p>");
+                break;
+            default:
+                content.append("<p>Please use the following verification code:</p>");
+        }
+        
+        content.append("<h3 style='color: #3498db; font-size: 24px; letter-spacing: 2px;'>").append(code).append("</h3>");
+        content.append("<p>This code will expire in 15 minutes.</p>");
+        content.append("<p style='color: #7f8c8d;'>If you did not request this verification, please ignore this email.</p>");
+        content.append("</div>");
+        
+        return content.toString();
+    }
+
+    /**
+     * Generates a random 6-digit verification code.
+     *
+     * @return 6-digit verification code
+     */
+    private String generateVerificationCode() {
+        Random random = new Random();
+        int code = 100000 + random.nextInt(900000);
+        return String.valueOf(code);
+    }
+
+    /**
+     * Generates a random reset token.
+     *
+     * @return UUID-based reset token
+     */
+    private String generateResetToken() {
+        return UUID.randomUUID().toString();
+    }
+
+    /**
      * Sends a verification code email for seller registration.
      *
      * @param to Recipient email address
@@ -190,8 +280,7 @@ public class EmailService {
                 <html>
                 <body>
                     <h2>Password Reset Request</h2>
-                    <p>You have requested to reset your password.</p>
-                    <p>Click the link below to reset your password:</p>
+                    <p>You have requested to reset your password. Please use the following code:</p>
                     <p><a href="%s">Reset Password</a></p>
                     <p>This link will expire in 30 minutes.</p>
                     <p>If you did not request this reset, please ignore this email.</p>
@@ -205,22 +294,10 @@ public class EmailService {
             return new EntityResponse<>("Failed to send password reset email: " + e.getMessage(), false, null);
         }
     }
+}
 
-    /**
-     * Generates a random verification code.
-     *
-     * @return Generated verification code
-     */
-    private String generateVerificationCode() {
-        return String.format("%06d", new Random().nextInt(999999));
-    }
-
-    /**
-     * Generates a unique token for password reset.
-     *
-     * @return Generated token
-     */
-    private String generateResetToken() {
-        return UUID.randomUUID().toString();
-    }
+enum VerificationType {
+    SELLER_REQUEST,
+    SELLER_APPROVAL,
+    PASSWORD_RESET
 }

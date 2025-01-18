@@ -50,18 +50,8 @@ public class ContactController {
     @GetMapping("/addresses")
     @Operation(summary = "Get all store addresses")
     public ResponseEntity<EntityResponse<List<Address>>> getAllAddresses() {
-        try {
-            logger.info("Fetching all store addresses");
-            ResponseEntity<EntityResponse<List<Address>>> response = addressService.getAllAddressesResponse();
-            logger.info("Successfully retrieved {} addresses",
-                    response.getBody() != null && response.getBody().getData() != null ?
-                            response.getBody().getData().size() : 0);
-            return ResponseEntity.ok(response.getBody());
-        } catch (Exception e) {
-            logger.error("Error fetching all addresses: {}", e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new EntityResponse<>("Failed to fetch addresses: " + e.getMessage(), false, null));
-        }
+        logger.info("Fetching all store addresses");
+        return addressService.getAllAddressesResponse();
     }
 
     /**
@@ -73,22 +63,10 @@ public class ContactController {
      *         - 404 Not Found if address doesn't exist
      */
     @GetMapping("/addresses/{id}")
-    @Operation(summary = "Get address details by ID")
+    @Operation(summary = "Get store address by ID")
     public ResponseEntity<EntityResponse<Address>> getAddress(@PathVariable Long id) {
-        try {
-            logger.info("Fetching address with id: {}", id);
-            ResponseEntity<EntityResponse<Address>> response = addressService.getAddressResponse(id);
-            if (response.getBody() != null && response.getBody().isSuccess()) {
-                logger.info("Successfully retrieved address with id: {}", id);
-            } else {
-                logger.warn("Address not found with id: {}", id);
-            }
-            return ResponseEntity.ok(response.getBody());
-        } catch (Exception e) {
-            logger.error("Error fetching address with id {}: {}", id, e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new EntityResponse<>("Failed to fetch address: " + e.getMessage(), false, null));
-        }
+        logger.info("Fetching store address with id: {}", id);
+        return addressService.getAddressResponse(id);
     }
 
     /**
@@ -98,19 +76,11 @@ public class ContactController {
      *         - 200 OK with list of map points
      *         - 404 Not Found if no map points exist
      */
-    @GetMapping("/map-points")
-    @Operation(summary = "Get all map points")
+    @GetMapping("/addresses/map-points")
+    @Operation(summary = "Get all store locations as map points")
     public ResponseEntity<EntityResponse<List<Location>>> getAllMapPoints() {
-        try {
-            logger.info("Fetching all map points");
-            ResponseEntity<EntityResponse<List<Location>>> response = addressService.getAllMapPointsResponse();
-            logger.info("Successfully retrieved map points");
-            return ResponseEntity.ok(response.getBody());
-        } catch (Exception e) {
-            logger.error("Error fetching map points: {}", e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new EntityResponse<>("Failed to fetch map points: " + e.getMessage(), false, null));
-        }
+        logger.info("Fetching all store locations as map points");
+        return addressService.getAllMapPointsResponse();
     }
 
     /**
@@ -125,22 +95,10 @@ public class ContactController {
      */
     @PostMapping("/addresses")
     @PreAuthorize("hasRole('ADMIN')")
-    @Operation(summary = "Add new address with map point")
+    @Operation(summary = "Add a new store address")
     public ResponseEntity<EntityResponse<Address>> addAddress(@Valid @RequestBody AddressDTO addressDTO) {
-        try {
-            logger.info("Adding new address: {}", addressDTO);
-            ResponseEntity<EntityResponse<Address>> response = addressService.addAddressResponse(addressDTO);
-            if (response.getBody() != null && response.getBody().isSuccess()) {
-                logger.info("Successfully added new address");
-            } else {
-                logger.warn("Failed to add new address");
-            }
-            return ResponseEntity.status(HttpStatus.CREATED).body(response.getBody());
-        } catch (Exception e) {
-            logger.error("Error adding new address: {}", e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new EntityResponse<>("Failed to add address: " + e.getMessage(), false, null));
-        }
+        logger.info("Adding new store address: {}", addressDTO);
+        return addressService.addAddressResponse(addressDTO);
     }
 
     /**
@@ -157,24 +115,13 @@ public class ContactController {
      */
     @PutMapping("/addresses/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    @Operation(summary = "Update existing address")
-    public ResponseEntity<EntityResponse<Address>> updateAddress(
+    @Operation(summary = "Update an existing store address")
+    public ResponseEntity<EntityResponse<AddressDTO>> updateAddress(
             @PathVariable Long id,
             @Valid @RequestBody AddressDTO addressDTO) {
-        try {
-            logger.info("Updating address with id: {}", id);
-            ResponseEntity<EntityResponse<Address>> response = addressService.updateAddressResponse(id, addressDTO);
-            if (response.getBody() != null && response.getBody().isSuccess()) {
-                logger.info("Successfully updated address with id: {}", id);
-            } else {
-                logger.warn("Failed to update address with id: {}", id);
-            }
-            return ResponseEntity.ok(response.getBody());
-        } catch (Exception e) {
-            logger.error("Error updating address with id {}: {}", id, e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new EntityResponse<>("Failed to update address: " + e.getMessage(), false, null));
-        }
+        logger.info("Updating store address with id {}: {}", id, addressDTO);
+        EntityResponse<AddressDTO> response = addressService.updateAddressResponse(id, addressDTO);
+        return ResponseEntity.ok(response);
     }
 
     /**
@@ -189,22 +136,10 @@ public class ContactController {
      */
     @DeleteMapping("/addresses/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    @Operation(summary = "Delete address")
+    @Operation(summary = "Delete a store address")
     public ResponseEntity<EntityResponse<Void>> deleteAddress(@PathVariable Long id) {
-        try {
-            logger.info("Deleting address with id: {}", id);
-            ResponseEntity<EntityResponse<Void>> response = addressService.deleteAddressResponse(id);
-            if (response.getBody() != null && response.getBody().isSuccess()) {
-                logger.info("Successfully deleted address with id: {}", id);
-            } else {
-                logger.warn("Failed to delete address with id: {}", id);
-            }
-            return ResponseEntity.ok(response.getBody());
-        } catch (Exception e) {
-            logger.error("Error deleting address with id {}: {}", id, e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new EntityResponse<>("Failed to delete address: " + e.getMessage(), false, null));
-        }
+        logger.info("Deleting store address with id: {}", id);
+        return addressService.deleteAddressResponse(id);
     }
 
     /**
@@ -217,21 +152,10 @@ public class ContactController {
      */
     @GetMapping("/addresses/search")
     @Operation(summary = "Search addresses by city")
-    public ResponseEntity<EntityResponse<List<Address>>> searchAddresses(@RequestParam String city) {
-        try {
-            logger.info("Searching addresses in city: {}", city);
-            ResponseEntity<EntityResponse<List<Address>>> response = addressService.searchAddressesByCityResponse(city);
-            if (response.getBody() != null && response.getBody().getData() != null) {
-                logger.info("Found {} addresses in city: {}", response.getBody().getData().size(), city);
-            } else {
-                logger.info("No addresses found in city: {}", city);
-            }
-            return ResponseEntity.ok(response.getBody());
-        } catch (Exception e) {
-            logger.error("Error searching addresses in city {}: {}", city, e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new EntityResponse<>("Failed to search addresses: " + e.getMessage(), false, null));
-        }
+    public ResponseEntity<EntityResponse<List<Address>>> searchAddressesByCity(
+            @RequestParam String city) {
+        logger.info("Searching addresses in city: {}", city);
+        return addressService.searchAddressesByCityResponse(city);
     }
 
     /**
@@ -244,23 +168,12 @@ public class ContactController {
      *         - 404 Not Found if no addresses exist
      */
     @GetMapping("/addresses/nearest")
-    @Operation(summary = "Find nearest address")
+    @Operation(summary = "Find nearest store address")
     public ResponseEntity<EntityResponse<Address>> findNearestAddress(
             @RequestParam Double latitude,
             @RequestParam Double longitude) {
-        try {
-            logger.info("Finding nearest address to coordinates: {}, {}", latitude, longitude);
-            ResponseEntity<EntityResponse<Address>> response = addressService.findNearestAddressResponse(latitude, longitude);
-            if (response.getBody() != null && response.getBody().isSuccess()) {
-                logger.info("Successfully found nearest address");
-            } else {
-                logger.warn("No nearest address found");
-            }
-            return ResponseEntity.ok(response.getBody());
-        } catch (Exception e) {
-            logger.error("Error finding nearest address to coordinates {}, {}: {}", latitude, longitude, e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new EntityResponse<>("Failed to find nearest address: " + e.getMessage(), false, null));
-        }
+        logger.info("Finding nearest address to coordinates: {}, {}", latitude, longitude);
+        Address address = addressService.findNearestAddress(latitude, longitude);
+        return ResponseEntity.ok(new EntityResponse<Address>("Nearest address found successfully", true, address));
     }
 }

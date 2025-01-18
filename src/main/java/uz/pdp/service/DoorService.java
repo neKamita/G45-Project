@@ -2,6 +2,9 @@ package uz.pdp.service;
 
 import java.util.List;
 import java.util.ArrayList;
+import uz.pdp.exception.ResourceNotFoundException;
+import uz.pdp.exception.BadRequestException;
+import uz.pdp.exception.ConflictException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +20,8 @@ import uz.pdp.entity.Door;
 import uz.pdp.entity.User;
 import uz.pdp.enums.Color;
 import uz.pdp.enums.Size;
+import uz.pdp.enums.DoorStatus;
+import uz.pdp.repository.DoorHistoryRepository;
 import uz.pdp.repository.DoorRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.SneakyThrows;
@@ -46,19 +51,22 @@ public class DoorService {
     @Autowired
     private ImageStorageService imageStorageService;
 
+    @Autowired
+    private DoorHistoryRepository doorHistoryRepository;
+
     /**
      * Retrieves a door by its ID.
      * Internal helper method for door operations.
      *
      * @param id Door ID to retrieve
      * @return Door entity
-     * @throws IllegalArgumentException if door not found
+     * @throws ResourceNotFoundException if door not found
      */
     // Open to all users - no @PreAuthorize needed
     @Transactional(readOnly = true)
     public Door getDoor(Long id) {
         return doorRepository.findById(id)
-            .orElseThrow(() -> new EntityNotFoundException("Door not found with id: " + id));
+            .orElseThrow(() -> new ResourceNotFoundException("Door not found with id: " + id));
     }
 
     /**
@@ -79,12 +87,16 @@ public class DoorService {
      *
      * @param doorDto Door details including location and access settings
      * @return Door entity
-     * @throws IllegalArgumentException if validation fails
+     * @throws BadRequestException if validation fails
      */
     @Transactional
     @PreAuthorize("hasRole('ADMIN') or hasRole('SELLER')")
     @CachePut(value = "doors", key = "#result.id")
     public Door createDoor(DoorDto doorDto) {
+        if (doorDto == null) {
+            throw new BadRequestException("Door data cannot be null");
+        }
+
         User currentUser = userService.getCurrentUser();
         Door door = new Door();
         mapDtoToEntity(doorDto, door);
@@ -122,12 +134,16 @@ public class DoorService {
      * @param id Door ID to update
      * @param doorDto Updated door details
      * @return Door entity
-     * @throws IllegalArgumentException if door not found or validation fails
+     * @throws BadRequestException if door not found or validation fails
      */
     @Transactional
     @PreAuthorize("hasRole('ADMIN') or (hasRole('SELLER') and @doorSecurityService.isSeller(#id))")
     @CachePut(value = "doors", key = "#id")
     public Door updateDoor(Long id, DoorDto doorDto) {
+        if (doorDto == null) {
+            throw new BadRequestException("Door data cannot be null");
+        }
+
         logger.info("Updating door with ID: {}, data: {}", id, doorDto);
         Door door = getDoor(id);
         mapDtoToEntity(doorDto, door);
@@ -139,10 +155,10 @@ public class DoorService {
 
     /**
      * Deletes a door from the system.
-     * Performs cleanup of associated resources including images.
+     * Performs cleanup of associated resources including images and door history.
      *
      * @param id Door ID to delete
-     * @throws IllegalArgumentException if door not found
+     * @throws ConflictException if door is not available
      */
     @Transactional
     @PreAuthorize("hasRole('ADMIN') or (hasRole('SELLER') and @doorSecurityService.isSeller(#id))")
@@ -150,8 +166,17 @@ public class DoorService {
     public void deleteDoor(Long id) {
         logger.info("Deleting door with ID: {}", id);
         Door door = getDoor(id);
+        
+        if (!door.isActive()) {
+            throw new ConflictException("Cannot delete an inactive door");
+        }
+        
+        // Delete associated door history first
+        doorHistoryRepository.deleteByDoorId(id);
+        
+        // Now delete the door
         doorRepository.delete(door);
-        logger.info("Door with ID {} deleted.", id);
+        logger.info("Door with ID {} and its history deleted successfully", id);
     }
 
     /**
@@ -164,7 +189,7 @@ public class DoorService {
      * @param width Custom width
      * @param height Custom height
      * @return Door entity
-     * @throws IllegalArgumentException if door not found or validation fails
+     * @throws BadRequestException if validation fails
      */
     @Transactional(rollbackFor = Exception.class)
     @PreAuthorize("hasRole('ADMIN') or (hasRole('SELLER') and @doorSecurityService.isSeller(#id))")
@@ -179,8 +204,7 @@ public class DoorService {
             door.setSize(size);
             if (size == Size.CUSTOM) {
                 if (width == null || height == null) {
-                    throw new Exception(
-                        "Custom size requires both width and height to be specified");
+                    throw new BadRequestException("Custom size requires both width and height to be specified");
                 }
                 door.setCustomWidth(width);
                 door.setCustomHeight(height);
@@ -207,7 +231,7 @@ public class DoorService {
      * @param id Door ID to add images to
      * @param images List of images to upload
      * @return Door entity
-     * @throws IllegalArgumentException if door not found or image upload fails
+     * @throws BadRequestException if image upload fails
      */
     @Transactional
     @PreAuthorize("hasRole('ADMIN') or (hasRole('SELLER') and @doorSecurityService.isSeller(#id))")
@@ -222,7 +246,7 @@ public class DoorService {
                 imageUrls.add(imageUrl);
             } catch (IOException e) {
                 logger.error("Failed to store image for door {}: {}", id, e.getMessage());
-                throw new RuntimeException("Failed to store image", e);
+                throw new BadRequestException("Failed to store image", e);
             }
         }
         
@@ -237,7 +261,7 @@ public class DoorService {
      * @param id Door ID to delete images from
      * @param imageUrls List of image URLs to delete
      * @return Door entity
-     * @throws IllegalArgumentException if door not found or image deletion fails
+     * @throws BadRequestException if image deletion fails
      */
     @Transactional
     @PreAuthorize("hasRole('ADMIN') or (hasRole('SELLER') and @doorSecurityService.isSeller(#id))")
@@ -252,6 +276,7 @@ public class DoorService {
                 imageStorageService.deleteImage(imageUrl);
             } catch (Exception e) {
                 logger.warn("Failed to delete image from storage: {}", imageUrl);
+                throw new BadRequestException("Failed to delete image", e);
             }
         }
         
@@ -266,7 +291,7 @@ public class DoorService {
      * @param deleteUrls List of image URLs to delete
      * @param newImages List of new images to upload
      * @return Door entity
-     * @throws IllegalArgumentException if door not found or image update fails
+     * @throws BadRequestException if image update fails
      */
     @Transactional
     @PreAuthorize("hasRole('ADMIN') or (hasRole('SELLER') and @doorSecurityService.isSeller(#id))")
@@ -287,7 +312,7 @@ public class DoorService {
      * @param customWidth Custom width
      * @param customHeight Custom height
      * @return Door entity
-     * @throws IllegalArgumentException if door not found or validation fails
+     * @throws BadRequestException if validation fails
      */
     @Transactional
     @PreAuthorize("hasRole('ADMIN') or (hasRole('SELLER') and @doorSecurityService.isSeller(#doorId))")
@@ -300,7 +325,7 @@ public class DoorService {
             doorRepository.save(door);
             logger.info("Configured dimensions for door ID: {}", doorId);
         } else {
-            throw new IllegalArgumentException("Only doors with CUSTOM size can have custom dimensions");
+            throw new BadRequestException("Only doors with CUSTOM size can have custom dimensions");
         }
         return door;
     }
@@ -335,5 +360,60 @@ public class DoorService {
             id,
             PageRequest.of(0, limit)
         );
+    }
+
+    /**
+     * Uploads images for a door.
+     * Validates image files and stores them using the image storage service.
+     *
+     * @param id Door ID
+     * @param images Array of image files to upload
+     * @return Updated door with new images
+     * @throws EntityNotFoundException if door not found
+     * @throws BadRequestException if images are invalid
+     * @throws IOException if image upload fails
+     */
+    @Transactional
+    public Door uploadImages(Long id, MultipartFile[] images) throws IOException {
+        logger.info("Uploading {} images for door ID: {}", images.length, id);
+        
+        if (images == null || images.length == 0) {
+            throw new BadRequestException("No images provided");
+        }
+
+        Door door = getDoor(id);
+        List<String> imageUrls = new ArrayList<>();
+
+        // Validate and upload each image
+        for (MultipartFile image : images) {
+            if (image.isEmpty()) {
+                throw new BadRequestException("Empty image file provided");
+            }
+
+            String imageUrl = imageStorageService.storeImage(image);
+            imageUrls.add(imageUrl);
+        }
+
+        // Update door with new image URLs
+        if (door.getImages() == null) {
+            door.setImages(new ArrayList<>());
+        }
+        door.getImages().addAll(imageUrls);
+        return doorRepository.save(door);
+    }
+
+    /**
+     * Validates image content type.
+     * @param contentType MIME type of the image
+     * @return true if valid image type
+     */
+    private boolean isValidImageType(String contentType) {
+        if (contentType == null) {
+            return false;
+        }
+        return contentType.equals("image/jpeg") ||
+               contentType.equals("image/png") ||
+               contentType.equals("image/gif") ||
+               contentType.equals("image/webp");
     }
 }

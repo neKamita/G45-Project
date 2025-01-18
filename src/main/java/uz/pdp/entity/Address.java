@@ -24,20 +24,38 @@ public class Address {
     private String name;
     private String street;
     private String city;
-    private String phone;
+    private String phoneNumber;
     private String workingHours;
     private String email;
+    
+    @Column(name = "is_default", nullable = false)
+    private boolean isDefault;
 
-    @ElementCollection
-    @MapKeyEnumerated(EnumType.STRING)
-    @CollectionTable(name = "address_social_links", 
-        joinColumns = @JoinColumn(name = "address_id"))
-    @Column(name = "link")
-    @MapKeyColumn(name = "social_type")
-    private Map<Socials, String> socialLinks = new HashMap<>();
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    @JsonIgnoreProperties({"addresses", "password"})
+    private User user;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "location_id")
     @JsonManagedReference
     private Location location;
+
+    @ElementCollection
+    @CollectionTable(
+        name = "address_social_links",
+        joinColumns = @JoinColumn(name = "address_id")
+    )
+    @MapKeyColumn(name = "social_type")
+    @MapKeyEnumerated(EnumType.STRING)
+    @Column(name = "link")
+    private Map<Socials, String> socialLinks = new HashMap<>();
+
+    public boolean isDefault() {
+        return isDefault;
+    }
+
+    public void setDefault(boolean isDefault) {
+        this.isDefault = isDefault;
+    }
 }

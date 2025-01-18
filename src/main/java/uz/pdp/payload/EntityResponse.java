@@ -1,27 +1,48 @@
 package uz.pdp.payload;
 
-public record EntityResponse<T>(
-    String message,
-    T data,
-    boolean success,
-    String timestamp
-) {
-    // Static factory methods for success responses
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.time.Instant;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class EntityResponse<T> {
+    private boolean success;
+    private String message;
+    private T data;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ", timezone = "UTC")
+    private Instant timestamp = Instant.now();
+
     public static <T> EntityResponse<T> success(String message) {
-        return new EntityResponse<>(message, null, true, java.time.LocalDateTime.now().toString());
+        return success(message, null);
     }
 
     public static <T> EntityResponse<T> success(String message, T data) {
-        return new EntityResponse<>(message, data, true, java.time.LocalDateTime.now().toString());
+        EntityResponse<T> response = new EntityResponse<>();
+        response.setSuccess(true);
+        response.setMessage(message);
+        response.setData(data);
+        response.setTimestamp(Instant.now());
+        return response;
     }
 
-    // Static factory methods for error responses
     public static <T> EntityResponse<T> error(String message) {
-        return new EntityResponse<>(message, null, false, java.time.LocalDateTime.now().toString());
+        return error(message, null);
     }
 
     public static <T> EntityResponse<T> error(String message, T data) {
-        return new EntityResponse<>(message, data, false, java.time.LocalDateTime.now().toString());
+        EntityResponse<T> response = new EntityResponse<>();
+        response.setSuccess(false);
+        response.setMessage(message);
+        response.setData(data);
+        response.setTimestamp(Instant.now());
+        return response;
     }
-
 }

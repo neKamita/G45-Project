@@ -41,24 +41,23 @@ public class AuthController {
      * Creates a new user account with the provided details after validation.
      * Password is encrypted before storage.
      *
-     * @param request SignUpRequest containing user registration details
+     * @param registerDto SignUpRequest containing user registration details
      * @return ResponseEntity with JWT token on successful registration
      *         - 200 OK with token if registration successful
      *         - 400 Bad Request if validation fails
      *         - 409 Conflict if username/email already exists
      */
     @PostMapping("/sign-up")
-    @Operation(summary = "Sign up")
-    public ResponseEntity<EntityResponse<Map<String, String>>> signUp(@Valid @RequestBody SignUpRequest request) {
+    @Operation(summary = "Register a new user")
+    public ResponseEntity<EntityResponse<String>> register(@Valid @RequestBody SignUpRequest registerDto) {
         try {
-            logger.info("Processing sign-up request for user: {}", request.getName());
-            EntityResponse<Map<String, String>> response = authService.signUp(request);
-            return ResponseEntity.status(response.isSuccess() ? 200 : 400).body(response);
+            logger.info("Processing registration request for user: {}", registerDto.getName());
+            EntityResponse<String> response = authService.register(registerDto);
+            return ResponseEntity.ok(response);
         } catch (Exception e) {
-            logger.error("Error processing sign-up request for user {}: {}", request.getName(), e.getMessage());
-            Map<String, String> errorData = new HashMap<>();
-            return ResponseEntity.badRequest()
-                    .body(EntityResponse.error("Failed to process sign-up request: " + e.getMessage(), errorData));
+            logger.error("Error processing registration request for user {}: {}", registerDto.getName(),
+                    e.getMessage());
+            throw e;
         }
     }
 
@@ -66,23 +65,21 @@ public class AuthController {
      * Handles user authentication requests.
      * Validates credentials and generates JWT token for valid users.
      *
-     * @param request SignInRequest containing login credentials
+     * @param loginDto SignInRequest containing login credentials
      * @return ResponseEntity with JWT token on successful authentication
      *         - 200 OK with token if authentication successful
      *         - 401 Unauthorized if credentials are invalid
      *         - 400 Bad Request if validation fails
      */
     @PostMapping("/sign-in")
-    @Operation(summary = "Sign in")
-    public ResponseEntity<EntityResponse<Map<String, String>>> signIn(@Valid @RequestBody SignInRequest request) {
+    @Operation(summary = "Authenticate user")
+    public ResponseEntity<EntityResponse<String>> login(@Valid @RequestBody SignInRequest loginDto) {
         try {
-            logger.info("Processing sign-in request for user: {}", request.getName());
-            return authService.signIn(request);
+            logger.info("Processing login request for user: {}", loginDto.getName());
+            return ResponseEntity.ok(authService.login(loginDto));
         } catch (Exception e) {
-            logger.error("Error processing sign-in request for user {}: {}", request.getName(), e.getMessage());
-            Map<String, String> errorData = new HashMap<>();
-            return ResponseEntity.badRequest()
-                    .body(EntityResponse.error("Failed to process sign-in request: " + e.getMessage(), errorData));
+            logger.error("Error processing login request for user {}: {}", loginDto.getName(), e.getMessage());
+            throw e;
         }
     }
 
@@ -97,7 +94,12 @@ public class AuthController {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<EntityResponse<Map<String, String>>> handleValidationExceptions(
             MethodArgumentNotValidException ex) {
-        logger.warn("Validation error occurred: {}", ex.getMessage());
-        return authService.handleValidationErrors(ex);
+        Map<String, String> errors = new HashMap<>();
+        ex.getBindingResult().getFieldErrors()
+                .forEach(error -> errors.put(error.getField(), error.getDefaultMessage()));
+
+        logger.error("Validation error: {}", errors);
+        return ResponseEntity.badRequest()
+                .body(EntityResponse.error("Validation failed", errors));
     }
 }

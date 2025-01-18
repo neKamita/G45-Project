@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import uz.pdp.dto.OrderDto;
 import uz.pdp.entity.Order;
 import uz.pdp.entity.User;
+import uz.pdp.exception.ResourceNotFoundException;
 import uz.pdp.service.OrderService;
 import uz.pdp.service.UserService;
 import uz.pdp.payload.EntityResponse;
@@ -247,10 +249,14 @@ public class UserController {
         try {
             EntityResponse<User> response = userService.getUserById(id);
             return ResponseEntity.ok(response);
+        } catch (ResourceNotFoundException e) {
+            logger.error("User not found with id {}: {}", id, e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(EntityResponse.error(e.getMessage()));
         } catch (Exception e) {
             logger.error("Error fetching user {}: {}", id, e.getMessage());
             return ResponseEntity.badRequest()
-                    .body(new EntityResponse<>("Failed to fetch user: " + e.getMessage(), false, null));
+                    .body(EntityResponse.error("Failed to fetch user: " + e.getMessage()));
         }
     }
 }

@@ -32,8 +32,16 @@ type Page {
     number: Int
 }
 
-
-
+type Order {
+    id: ID!
+    door: Door!
+    quantity: Int!
+    address: Address!
+    status: OrderStatus!
+    notes: String
+    createdAt: DateTime!
+    updatedAt: DateTime!
+}
 
 type Door {
     "Unique identifier for the door"
@@ -138,13 +146,15 @@ type Query {
     "Get a door by its ID"
     door(id: ID!): Door
     "Get all available doors"
-    doors: [Door]!
+    doors(page: Int = 0, size: Int = 10): Page_Door
+    "Search doors by query"
+    searchDoors(query: String!): [Door]!
+    "Get the current user"
+    currentUser: User
     "Get a user by its ID"
     user(id: ID!): User
     "Get all available users"
     users: [User]!
-    "Get the current user"
-    currentUser: User
     "Get an address by its ID"
     address(id: ID!): Address
     "Get all available addresses"
@@ -155,6 +165,12 @@ type Query {
     nearestAddress(latitude: Float!, longitude: Float!): Address
     "Get door viewing history for current user"
     doorHistory: UserDoorHistory!
+    "Get an order by its ID"
+    order(id: ID!): Order
+    "Get all orders for the current user"
+    userOrders: [Order]!
+    "Get all addresses for the current user"
+    userAddresses: [Address]!
 }
 
 """
@@ -177,29 +193,43 @@ mutation ConfigureDoor {
 """
 type Mutation {
     # Door mutations
-    createDoor(input: DoorConfigInput!): Door!
-    configureDoor(input: DoorConfigInput!): Door!
-    configureDoorDimensions(doorId: ID!, customWidth: Float!, customHeight: Float!): Door!
-    
-    # Address mutations
-    createAddress(input: AddressConfigInput!): Address!
+    "Create a new door"
+    createDoor(input: DoorInput!): Door!
     "Update an existing door"
     updateDoor(id: ID!, input: DoorInput!): Door!
     "Delete a door by its ID"
     deleteDoor(id: ID!): Boolean!
-    "Request seller status for a user"
+    "Configure door dimensions and properties"
+    configureDoor(input: DoorConfigInput!): Door!
+    "Configure custom door dimensions"
+    configureDoorDimensions(doorId: ID!, customWidth: Float!, customHeight: Float!): Door!
+    
+    # User mutations
+    "Request seller status"
     requestSeller(userId: ID!): User!
-    "Approve seller status for a user"
+    "Update user profile"
+    updateProfile(input: UserProfileInput!): User!
+    "Approve seller status"
     approveSeller(userId: ID!): Boolean!
-    "Deactivate a user account"
+    "Deactivate user account"
     deactivateAccount(userId: ID!): Boolean!
+    
+    # Order mutations
+    "Create a new order"
+    createOrder(input: OrderInput!): Order!
+    "Update order status"
+    updateOrderStatus(id: ID!, status: OrderStatus!): Order!
+    
+    # Address mutations
+    "Create a new address"
+    createAddress(input: AddressConfigInput!): Address!
+    "Add an address to user profile"
+    addAddress(input: AddressInput!): Address!
     "Update an existing address"
     updateAddress(id: ID!, input: AddressInput!): Address!
-    "Delete an address by its ID"
+    "Delete an address"
     deleteAddress(id: ID!): Boolean!
 }
-
-
 
 """
 Input type for door configuration
@@ -255,6 +285,36 @@ input DoorInput {
     warrantyYears: Int
     customWidth: Float
     customHeight: Float
+    isCustomColor: Boolean
+    images: [String]
+}
+
+"""
+Input type for user profile update
+"""
+input UserProfileInput {
+    "Name of the user"
+    name: String
+    "Email of the user"
+    email: String
+    "Phone number of the user"
+    phone: String
+    "Password of the user"
+    password: String
+}
+
+"""
+Input type for order creation
+"""
+input OrderInput {
+    "ID of the door to order"
+    doorId: ID!
+    "Quantity of doors to order"
+    quantity: Int!
+    "ID of the address to ship to"
+    addressId: ID!
+    "Additional notes for the order"
+    notes: String
 }
 
 """
@@ -358,6 +418,17 @@ enum Role {
 }
 
 """
+Available order statuses
+"""
+enum OrderStatus {
+    PENDING
+    PROCESSING
+    SHIPPED
+    DELIVERED
+    CANCELLED
+}
+
+"""
 Scalar type for JSON
 """
 scalar JSON
@@ -411,3 +482,13 @@ type UserBasicInfo {
 }
 
 scalar DateTime
+
+"""
+Subscription type for real-time updates
+"""
+type Subscription {
+    "Order status changed"
+    orderStatusChanged(orderId: ID!): Order!
+    "New door added"
+    newDoorAdded: Door!
+}

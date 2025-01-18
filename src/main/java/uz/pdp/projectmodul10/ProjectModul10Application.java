@@ -22,7 +22,8 @@ import uz.pdp.repository.UserRepository;
     "uz.pdp.controller.graphql",
     "uz.pdp.service",
     "uz.pdp.config",
-    "uz.pdp.security"
+    "uz.pdp.security",
+    "uz.pdp.exception" 
 })
 @EntityScan(basePackages = "uz.pdp.entity")
 @EnableJpaRepositories(basePackages = "uz.pdp.repository")

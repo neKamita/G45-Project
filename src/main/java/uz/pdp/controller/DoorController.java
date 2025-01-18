@@ -2,6 +2,7 @@ package uz.pdp.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,6 +40,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/doors")
 @Tag(name = "Door Management", description = "APIs for managing smart doors and access control")
+@Validated
 public class DoorController {
 
     private static final Logger logger = LoggerFactory.getLogger(DoorController.class);
@@ -93,12 +95,16 @@ public class DoorController {
                 }
             } catch (Exception e) {
                 logger.debug("Not saving door history - user not authenticated");
-                return ResponseEntity.status(400).body(EntityResponse.error("User not authenticated"));
             }
             return ResponseEntity.ok(EntityResponse.success("Door retrieved successfully", door));
+        } catch (EntityNotFoundException e) {
+            logger.error("Door not found with id {}: {}", id, e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(EntityResponse.error("Door not found: " + e.getMessage()));
         } catch (Exception e) {
             logger.error("Error while fetching door with id {}: {}", id, e.getMessage());
-            return ResponseEntity.ok(EntityResponse.error("An error occurred while fetching the door"));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(EntityResponse.error("An error occurred while fetching the door"));
         }
     }
 
@@ -141,8 +147,19 @@ public class DoorController {
     public ResponseEntity<EntityResponse<Page<Door>>> getAllDoors(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "20") int size) {
-        Page<Door> doors = doorService.getAllDoors(page, size);
-        return ResponseEntity.ok(EntityResponse.success("Doors retrieved successfully", doors));
+        try {
+            logger.info("Fetching doors page {} with size {}", page, size);
+            Page<Door> doors = doorService.getAllDoors(page, size);
+            return ResponseEntity.ok(EntityResponse.success("Doors retrieved successfully", doors));
+        } catch (IllegalArgumentException e) {
+            logger.error("Invalid pagination parameters: {}", e.getMessage());
+            return ResponseEntity.badRequest()
+                    .body(EntityResponse.error("Invalid pagination parameters: " + e.getMessage()));
+        } catch (Exception e) {
+            logger.error("Error fetching doors: {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(EntityResponse.error("Failed to fetch doors: " + e.getMessage()));
+        }
     }
 
     /**
@@ -157,12 +174,19 @@ public class DoorController {
      */
     @PostMapping
     @PreAuthorize("hasRole('SELLER') or hasRole('ADMIN')")
-    @Operation(summary = "Create a new door (SELLER and ADMIN only)")
-    public ResponseEntity<EntityResponse<Door>> createDoor(@Validated @RequestBody DoorDto doorDto) {
-        logger.info("Creating new door: {}", doorDto);
-        Door door = doorService.createDoor(doorDto);
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(EntityResponse.success("Door created successfully", door));
+    @Operation(summary = "Create a new door")
+    public EntityResponse<Door> createDoor(@Valid @RequestBody DoorDto doorDto) {
+        try {
+            logger.info("Creating new door: {}", doorDto);
+            Door door = doorService.createDoor(doorDto);
+            return EntityResponse.success("Door created successfully", door);
+        } catch (IllegalArgumentException e) {
+            logger.error("Invalid door data: {}", e.getMessage());
+            throw e;
+        } catch (Exception e) {
+            logger.error("Error creating door: {}", e.getMessage());
+            throw new RuntimeException("Failed to create door: " + e.getMessage());
+        }
     }
 
     /**
@@ -177,15 +201,28 @@ public class DoorController {
      *         - 404 Not Found if door doesn't exist
      */
     @PutMapping("/{id}")
-    @PreAuthorize("hasRole('ADMIN') or (hasRole('SELLER') and @doorSecurityService.isSeller(#id))")
-    @Operation(summary = "Update door details (ADMIN or owner SELLER)")
+    @PreAuthorize("hasRole('SELLER') or hasRole('ADMIN')")
+    @Operation(summary = "Update an existing door")
     public ResponseEntity<EntityResponse<Door>> updateDoor(
             @PathVariable Long id,
             @Valid @RequestBody DoorDto doorDto) {
-        logger.info("Updating door with id: {}", id);
-        Door updatedDoor = doorService.updateDoor(id, doorDto);
-        logger.info("Successfully updated door with id: {}", id);
-        return ResponseEntity.ok(EntityResponse.success("Door updated successfully", updatedDoor));
+        try {
+            logger.info("Updating door {}: {}", id, doorDto);
+            Door door = doorService.updateDoor(id, doorDto);
+            return ResponseEntity.ok(EntityResponse.success("Door updated successfully", door));
+        } catch (EntityNotFoundException e) {
+            logger.error("Door not found: {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(EntityResponse.error("Door not found: " + e.getMessage()));
+        } catch (IllegalArgumentException e) {
+            logger.error("Invalid door data: {}", e.getMessage());
+            return ResponseEntity.badRequest()
+                    .body(EntityResponse.error("Invalid door data: " + e.getMessage()));
+        } catch (Exception e) {
+            logger.error("Error updating door: {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(EntityResponse.error("Failed to update door: " + e.getMessage()));
+        }
     }
 
     /**
@@ -200,11 +237,9 @@ public class DoorController {
      */
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN') or (hasRole('SELLER') and @doorSecurityService.isSeller(#id))")
-    @Operation(summary = "Delete a door (ADMIN or owner SELLER)")
+    @Operation(summary = "Delete a door")
     public ResponseEntity<EntityResponse<Void>> deleteDoor(@PathVariable Long id) {
-        logger.info("Deleting door with id: {}", id);
         doorService.deleteDoor(id);
-        logger.info("Successfully deleted door with id: {}", id);
         return ResponseEntity.ok(EntityResponse.success("Door deleted successfully"));
     }
 
@@ -260,9 +295,23 @@ public class DoorController {
     public ResponseEntity<EntityResponse<Door>> uploadImages(
             @PathVariable Long id,
             @RequestPart("images") MultipartFile[] images) {
-        logger.info("Uploading {} images for door ID: {}", images.length, id);
-        Door door = doorService.addImages(id, Arrays.asList(images));
-        return ResponseEntity.ok(EntityResponse.success("Images uploaded successfully", door));
+        try {
+            logger.info("Uploading {} images for door ID: {}", images.length, id);
+            Door updatedDoor = doorService.uploadImages(id, images);
+            return ResponseEntity.ok(EntityResponse.success("Images uploaded successfully", updatedDoor));
+        } catch (IllegalArgumentException e) {
+            logger.error("Invalid image upload request: {}", e.getMessage());
+            return ResponseEntity.badRequest()
+                    .body(EntityResponse.error(e.getMessage()));
+        } catch (EntityNotFoundException e) {
+            logger.error("Door not found: {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(EntityResponse.error(e.getMessage()));
+        } catch (Exception e) {
+            logger.error("Error uploading images: {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(EntityResponse.error("Failed to upload images: " + e.getMessage()));
+        }
     }
 
     /**
@@ -317,7 +366,7 @@ public class DoorController {
         try {
             Door door = doorService.updateImages(id,
                     deleteUrls != null ? deleteUrls : Collections.emptyList(),
-                    Arrays.asList(newImages));
+                    newImages);
             return ResponseEntity.ok(EntityResponse.success("Images updated successfully", door));
         } catch (Exception e) {
             logger.error("Error updating images: {}", e.getMessage());

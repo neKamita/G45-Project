@@ -5,23 +5,24 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
-import uz.pdp.dto.SellerRequestDto;
-import uz.pdp.entity.User;
-import uz.pdp.enums.Role;
-import uz.pdp.repository.UserRepository;
-import uz.pdp.repository.DoorRepository;
-import uz.pdp.repository.EmailVerificationRepository;
+import org.springframework.transaction.annotation.Transactional;
+
 import uz.pdp.entity.Door;
 import uz.pdp.entity.EmailVerification;
+import uz.pdp.entity.User;
+import uz.pdp.enums.Role;
 import uz.pdp.enums.VerificationType;
+import uz.pdp.exception.BadRequestException;
+import uz.pdp.exception.ForbiddenException;
+import uz.pdp.exception.ResourceNotFoundException;
 import uz.pdp.payload.EntityResponse;
+import uz.pdp.repository.DoorRepository;
+import uz.pdp.repository.EmailVerificationRepository;
+import uz.pdp.repository.UserRepository;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
 import java.util.List;
-
-import jakarta.persistence.EntityNotFoundException;
-import jakarta.transaction.Transactional;
+import java.util.Optional;
 
 /**
  * Service class for handling administrative operations in the system.
@@ -56,44 +57,51 @@ public class AdminService {
      * 3. The user is not already a seller
      *
      * @param userId The ID of the user to be approved as a seller
-     * @return boolean indicating whether the approval was successful
-     * @throws IllegalArgumentException if the user is not found or is already a seller
-     * @throws RuntimeException if there's an error during the approval process
+     * @return EntityResponse containing the operation result
+     * @throws ResourceNotFoundException if the user is not found
+     * @throws ForbiddenException        if the user is already a seller
+     * @throws RuntimeException          if there's an error during the approval
+     *                                   process
      */
     @PreAuthorize("hasRole('ADMIN')")
-    public boolean approveSeller(Long userId) {
+    public EntityResponse<Void> approveSeller(Long userId) {
         try {
             User user = userRepository.findById(userId)
-                    .orElseThrow(() -> new RuntimeException("User not found"));
+                    .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
             // Check if user has verified email for seller request
             Optional<EmailVerification> verification = emailVerificationRepository
-                .findByUserIdAndTypeAndVerifiedFalseAndExpiryTimeAfter(
-                    user.getId(),
-                    VerificationType.SELLER_REQUEST,
-                    LocalDateTime.now()
-                );
+                    .findByUserIdAndTypeAndVerifiedFalseAndExpiryTimeAfter(
+                            userId,
+                            VerificationType.SELLER_REQUEST,
+                            LocalDateTime.now());
 
             if (verification.isEmpty()) {
-                logger.error("No valid verification found for user: {}", user.getEmail());
-                return false;
+                logger.error("No valid verification found for user: {}", user.getUsername());
+                return EntityResponse.error("No valid verification request found");
+            }
+
+            if (user.getRole() == Role.SELLER) {
+                throw new ForbiddenException("User is already a seller");
             }
 
             user.setRole(Role.SELLER);
             user.setSellerRequestPending(false);
             userRepository.save(user);
-            
+
             // Mark verification as complete
-            emailVerificationRepository.markAsVerified(verification.get().getId());
-            
+            EmailVerification emailVerification = verification.get();
+            emailVerification.setVerified(true);
+            emailVerificationRepository.save(emailVerification);
+
             // Send confirmation email
-            emailService.sendVerificationEmail(user.getEmail());
-            logger.info("User approved as seller: {}", user.getEmail());
-            return true;
-            
+            emailService.sendVerificationEmail(user.getUsername(), "Your seller account has been approved", VerificationType.SELLER_APPROVAL);
+            logger.info("User approved as seller: {}", user.getUsername());
+            return EntityResponse.success("User approved as seller successfully");
+
         } catch (Exception e) {
             logger.error("Error approving user as seller: {}", e.getMessage());
-            return false;
+            return EntityResponse.error("Failed to approve seller: " + e.getMessage());
         }
     }
 
@@ -106,43 +114,44 @@ public class AdminService {
      *
      * @param userId The ID of the user account to deactivate
      * @return EntityResponse containing the operation result
-     * @throws IllegalArgumentException if the user is not found
-     * @throws RuntimeException if there's an error during the deactivation process
+     * @throws ResourceNotFoundException if the user is not found
+     * @throws ForbiddenException        if the user is an admin
+     * @throws RuntimeException          if there's an error during the deactivation
+     *                                   process
      */
     @PreAuthorize("hasRole('ADMIN')")
     @Transactional
     public EntityResponse<Void> deactivateAccount(Long userId) {
         try {
             User user = userRepository.findById(userId)
-                .orElseThrow(() -> new EntityNotFoundException("User not found"));
-                
-            // Don't allow deactivating other admins
+                    .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+
             if (user.getRole() == Role.ADMIN) {
-                return EntityResponse.error("Cannot deactivate admin accounts");
+                throw new ForbiddenException("Cannot deactivate admin account");
             }
-            
+
+            if (!user.isActive()) {
+                throw new BadRequestException("Account is already deactivated");
+            }
+
             user.setActive(false);
             userRepository.save(user);
-            
-            // If user is seller, deactivate all their doors
+
+            // If user is a seller, deactivate all their doors
             if (user.getRole() == Role.SELLER) {
-                List<Door> sellerDoors = doorRepository.findBySellerId(userId);
-                for (Door door : sellerDoors) {
+                List<Door> doors = doorRepository.findByUserId(userId);
+                for (Door door : doors) {
                     door.setActive(false);
+                    doorRepository.save(door);
                 }
-                doorRepository.saveAll(sellerDoors);
-                logger.info("Deactivated {} doors for seller: {}", sellerDoors.size(), userId);
             }
-            
-            logger.info("Account deactivated successfully: {}", userId);
+
+            logger.info("Account deactivated for user: {}", user.getUsername());
             return EntityResponse.success("Account deactivated successfully");
-            
-        } catch (EntityNotFoundException e) {
-            logger.error("User not found: {}", userId);
-            return EntityResponse.error("User not found");
+
         } catch (Exception e) {
             logger.error("Error deactivating account: {}", e.getMessage());
-            return EntityResponse.error("Failed to deactivate account");
+            return EntityResponse.error("Failed to deactivate account: " + e.getMessage());
         }
     }
 }
