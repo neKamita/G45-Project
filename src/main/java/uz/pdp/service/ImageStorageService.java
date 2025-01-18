@@ -28,6 +28,7 @@ public class ImageStorageService {
     private static final long MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
     private static final String[] ALLOWED_CONTENT_TYPES = {
         "image/jpeg", "image/png", "image/gif"
+
     };
     
     private final AmazonS3 s3Client;
