@@ -1,24 +1,41 @@
+package uz.pdp.controller;
+
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.*;
+
+import uz.pdp.dto.OrderDto;
+import uz.pdp.entity.Order;
+import uz.pdp.entity.User;
+import uz.pdp.enums.Role;
+import uz.pdp.exception.BadRequestException;
+import uz.pdp.exception.ConflictException;
+import uz.pdp.exception.ResourceNotFoundException;
+import uz.pdp.service.OrderService;
+import uz.pdp.service.UserService;
+import uz.pdp.payload.EntityResponse;
+
+import java.util.List;
+
 /**
- * 🎭 The Grand User Orchestra Conductor 🎭
- * 
- * This controller manages all user-related operations in our digital circus.
- * From juggling user registrations to taming wild seller requests,
- * we keep the show running smoothly!
+ * REST controller for managing user-related operations.
+ * Provides endpoints for user profile management, order history,
+ * and user preferences. Most operations require authentication.
  *
- * Features:
- * - User profile management (because everyone loves a makeover)
- * - Seller status requests (for those ready to join the merchant guild)
- * - Account deactivation (when users need a digital vacation)
- *
- * Remember: Handle with care, users are like cats on the internet -
- * unpredictable but lovable! 🐱
- *
- * @version 2.0
- * @since 2025-01-18
+ * @version 1.0
+ * @since 2025-01-17
  */
 @RestController
 @RequestMapping("/api/users")
-@Tag(name = "User Management", description = "APIs for managing users - our digital citizens!")
+@Tag(name = "User Management", description = "APIs for managing user profiles and related operations")
 public class UserController {
 
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
