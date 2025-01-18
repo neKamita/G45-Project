@@ -23287,3 +23287,6 @@ uz.pdp.exception.ConflictException: Seller request is already pending
         u1_0.name=?
 2025-01-18 23:43:32 [http-nio-8080-exec-1] INFO  uz.pdp.controller.UserController - Processing seller request. Requested userId: 3, Authenticated user: 111 (ID: 3), Role: USER
 2025-01-18 23:43:32 [http-nio-8080-exec-1] INFO  uz.pdp.controller.UserController - You already have a pending seller request. Please check your email (111@gmail.com) for verification instructions.
+2025-01-18 23:45:04 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-01-18 23:45:04 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-01-18 23:45:05 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.

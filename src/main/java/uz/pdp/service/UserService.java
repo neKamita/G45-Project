@@ -35,31 +35,30 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 
 /**
- * 👥 The User Whisperer Service
+ * 🎪 The User Whisperer Service 🎪
  * 
- * Welcome to the user management circus! 🎪
- * Where we juggle user requests, balance security,
- * and occasionally perform magic tricks with the database.
- * 
- * Technical Features:
+ * Welcome to the user management circus! Where we juggle user requests,
+ * balance security tightropes, and occasionally perform magic tricks with the database.
+ *
+ * 🎯 Technical Features:
  * - User CRUD operations (Create, Read, Update, Delete... if we dare)
  * - Profile management (because users love changing their minds)
  * - Security enforcement (keeping the bad guys out, hopefully)
  * - Session handling (because someone always forgets to log out)
- * 
- * Common User States:
+ *
+ * 🎭 Common User States:
  * - Active (actually using the system)
  * - Inactive (forgot we exist)
  * - Locked (tried 'password123' too many times)
  * - Confused (our most popular state)
- * 
+ *
  * Remember: Users are like cats 🐱
  * - They don't read instructions
  * - They do unexpected things
  * - They blame you when things go wrong
  *
- * @version 1.0
- * @since 2025-01-17
+ * @version 2.0
+ * @since 2025-01-18
  */
 @Service
 @Slf4j
@@ -168,42 +167,57 @@ public class UserService {
     }
 
     /**
-     * Initiates the process for a user to become a seller.
-     * Sends verification email and creates verification record.
+     * 🎩 The Seller Transformation Magic ✨
+     * 
+     * Initiates the mystical process of transforming a regular user into a seller.
+     * It's like a digital Cinderella story, but instead of a glass slipper,
+     * we send a verification email!
      *
-     * @param userId ID of the user requesting seller status
-     * @return EntityResponse containing updated user details
-     * @throws ResourceNotFoundException if user not found
-     * @throws ConflictException         if seller request is already pending or
-     *                                   user is already a seller
+     * The Process:
+     * 1. 🔍 Check if user exists (no ghosts allowed)
+     * 2. 🎭 Verify they're not already a seller (no double transformations!)
+     * 3. 📧 Send the magical verification email
+     * 4. 🕒 Set their request as pending (the suspense!)
+     *
+     * @param userId ID of the user dreaming of seller stardom
+     * @return EntityResponse with the user's updated details
+     * @throws ResourceNotFoundException if user pulls a disappearing act
+     * @throws ConflictException if they're already a seller or have a pending request
      */
     @Transactional
     @PreAuthorize("hasRole('USER')")
     public EntityResponse<User> requestSeller(Long userId) {
         try {
+            // 🔍 Find our aspiring seller
             User user = userRepository.findById(userId)
                     .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
+            // 🎭 Check if they're already part of the seller club
             if (user.getRole() == Role.SELLER) {
                 throw new ConflictException("User is already a seller");
             }
 
+            // 🔄 Check for pending requests (no double-clicking allowed!)
             if (user.isSellerRequestPending()) {
                 throw new ConflictException("Seller request is already pending");
             }
 
+            // 📝 Mark the transformation as in progress
             user.setSellerRequestPending(true);
             User savedUser = userRepository.save(user);
 
-            // Send verification email
+            // 📧 Send the magical verification email
             sendVerificationEmail(user.getEmail(), VerificationType.SELLER_REQUEST);
 
+            // 📢 Announce the good news
             logger.info("Seller request initiated for user ID: {}", userId);
             return EntityResponse.success("Seller request initiated successfully", savedUser);
         } catch (ResourceNotFoundException | ConflictException e) {
+            // 🚫 Handle expected issues gracefully
             logger.error("Error processing seller request - ID {}: {}", userId, e.getMessage());
             throw e;
         } catch (Exception e) {
+            // 💥 Something unexpected happened
             logger.error("Error processing seller request for user ID {}: {}", userId, e.getMessage());
             throw new BadRequestException("Failed to process seller request: " + e.getMessage());
         }

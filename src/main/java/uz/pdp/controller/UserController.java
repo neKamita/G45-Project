@@ -1,41 +1,24 @@
-package uz.pdp.controller;
-
-import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.*;
-
-import uz.pdp.dto.OrderDto;
-import uz.pdp.entity.Order;
-import uz.pdp.entity.User;
-import uz.pdp.enums.Role;
-import uz.pdp.exception.BadRequestException;
-import uz.pdp.exception.ConflictException;
-import uz.pdp.exception.ResourceNotFoundException;
-import uz.pdp.service.OrderService;
-import uz.pdp.service.UserService;
-import uz.pdp.payload.EntityResponse;
-
-import java.util.List;
-
 /**
- * REST controller for managing user-related operations.
- * Provides endpoints for user profile management, order history,
- * and user preferences. Most operations require authentication.
+ * 🎭 The Grand User Orchestra Conductor 🎭
+ * 
+ * This controller manages all user-related operations in our digital circus.
+ * From juggling user registrations to taming wild seller requests,
+ * we keep the show running smoothly!
  *
- * @version 1.0
- * @since 2025-01-17
+ * Features:
+ * - User profile management (because everyone loves a makeover)
+ * - Seller status requests (for those ready to join the merchant guild)
+ * - Account deactivation (when users need a digital vacation)
+ *
+ * Remember: Handle with care, users are like cats on the internet -
+ * unpredictable but lovable! 🐱
+ *
+ * @version 2.0
+ * @since 2025-01-18
  */
 @RestController
 @RequestMapping("/api/users")
-@Tag(name = "User Management", description = "APIs for managing user profiles and related operations")
+@Tag(name = "User Management", description = "APIs for managing users - our digital citizens!")
 public class UserController {
 
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
@@ -147,23 +130,34 @@ public class UserController {
     }
 
     /**
-     * Requests to become a seller.
+     * 🎪 The Seller Transformation Station 🎪
      * 
-     * @param userId User ID
-     * @param currentUser Currently authenticated user
-     * @return ResponseEntity with request status
-     *         - 200 OK if request sent successfully
-     *         - 400 Bad Request if validation fails
+     * Handles requests from regular users who dream of becoming sellers.
+     * Think of it as a digital knighting ceremony, but with more paperwork!
+     *
+     * @param userId ID of the aspiring merchant (must match the authenticated user)
+     * @param currentUser The current user (our brave candidate)
+     * @return EntityResponse containing the user's updated details or error message
+     *
+     * Security:
+     * - Only users with USER role can request seller status
+     * - Users can only request seller status for themselves
+     * - Prevents duplicate requests (no double-dipping!)
+     *
+     * 🎯 Pro tip: Check your email after making the request,
+     * that's where the magic verification code lives!
      */
     @PostMapping("/request-seller/{userId}")
     @Operation(summary = "Request to become a seller")
     @PreAuthorize("hasRole('USER')")
     public EntityResponse<User> requestSeller(@PathVariable Long userId, @AuthenticationPrincipal User currentUser) {
         try {
+            // 📝 Log the brave soul attempting to become a seller
             logger.info("Processing seller request. Requested userId: {}, Authenticated user: {} (ID: {}), Role: {}", 
                 userId, currentUser.getUsername(), currentUser.getId(), currentUser.getRole());
             
-            // Check if the authenticated user is making request for themselves
+            // 🔒 Security Check #1: Identity Verification
+            // Making sure users aren't trying to be sneaky and request for someone else
             if (!currentUser.getId().equals(userId)) {
                 String errorMsg = String.format("Access denied. User '%s' cannot request seller status for user ID %d", 
                     currentUser.getUsername(), userId);
@@ -171,7 +165,8 @@ public class UserController {
                 return new EntityResponse<>(errorMsg, false, null);
             }
             
-            // Check if user has correct role
+            // 🔒 Security Check #2: Role Verification
+            // Only regular users can apply - no sellers or admins allowed!
             if (currentUser.getRole() != Role.USER) {
                 String errorMsg = String.format("Access denied. Only users with USER role can request seller status. Current role: %s", 
                     currentUser.getRole());
@@ -179,7 +174,8 @@ public class UserController {
                 return new EntityResponse<>(errorMsg, false, null);
             }
             
-            // Check if user already has a pending request
+            // 🔄 Check for Existing Request
+            // Preventing the "Are we there yet?" syndrome
             if (currentUser.isSellerRequestPending()) {
                 String msg = String.format("You already have a pending seller request. Please check your email (%s) for verification instructions.", 
                     currentUser.getEmail());
@@ -187,11 +183,14 @@ public class UserController {
                 return new EntityResponse<>(msg, false, currentUser);
             }
             
+            // 🚀 Launch the seller request process!
             return userService.requestSeller(userId);
         } catch (ConflictException e) {
+            // 🤔 Handle conflicts (like trying to become a seller twice)
             logger.warn("Conflict while processing seller request: {}", e.getMessage());
             return new EntityResponse<>(e.getMessage(), false, null);
         } catch (Exception e) {
+            // 💥 Something went terribly wrong
             String errorMsg = String.format("Failed to process seller request for user %d: %s", userId, e.getMessage());
             logger.error(errorMsg, e);
             return new EntityResponse<>(errorMsg, false, null);
