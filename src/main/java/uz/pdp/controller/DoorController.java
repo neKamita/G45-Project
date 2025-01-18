@@ -33,6 +33,9 @@ import java.util.List;
  * REST controller for managing smart door operations.
  * Provides endpoints for door management including creation, status updates,
  * and access control. Most operations require proper authentication and authorization.
+ * 
+ * Warning: This controller contains some serious door-related wizardry.
+ * If you're brave enough to modify it, may the code gods be with you!
  *
  * @version 1.0
  * @since 2025-01-17
@@ -43,8 +46,10 @@ import java.util.List;
 @Validated
 public class DoorController {
 
+    // For when shit hits the fan, we need receipts
     private static final Logger logger = LoggerFactory.getLogger(DoorController.class);
 
+    // The holy trinity of services - touch them and you're in for a world of pain
     @Autowired
     private DoorService doorService;
 
@@ -55,12 +60,10 @@ public class DoorController {
     private DoorHistoryService doorHistoryService;
 
     /**
-     * Retrieves a user's door history.
-     * Open to all users.
-     *
-     * @return ResponseEntity with user's door history
-     *         - 200 OK with door history
-     *         - 404 Not Found if user has no history
+     * Retrieves a user's door history because apparently, 
+     * we need to track every damn time someone opens a door.
+     * 
+     * @return ResponseEntity with user's door history or a nice "you haven't touched any doors" message
      */
     @GetMapping("/history")
     @Operation(summary = "Get user door's history", description = "Open to all users")
@@ -163,14 +166,14 @@ public class DoorController {
     }
 
     /**
-     * Creates a new door.
-     * Only administrators and sellers can create new doors.
-     *
-     * @param doorDto Door details including location and access settings
-     * @return ResponseEntity with created door details
-     *         - 201 Created if door is created successfully
-     *         - 400 Bad Request if validation fails
-     *         - 403 Forbidden if user lacks permission
+     * Creates a new door in the system.
+     * Only for the chosen ones (ADMIN and SELLER roles).
+     * 
+     * Pro tip: If this fails, try turning it off and on again
+     * 
+     * @param doorDto The door's specs (please fill all fields, we're not mind readers)
+     * @return A shiny new door object if everything goes well
+     * @throws RuntimeException when the door gods are angry
      */
     @PostMapping
     @PreAuthorize("hasRole('SELLER') or hasRole('ADMIN')")
@@ -226,14 +229,11 @@ public class DoorController {
     }
 
     /**
-     * Deletes a door from the system.
-     * Only administrators and the door's owner can delete doors.
-     *
-     * @param id Door ID to delete
-     * @return ResponseEntity with deletion status
-     *         - 200 OK if door deleted successfully
-     *         - 404 Not Found if door doesn't exist
-     *         - 403 Forbidden if user lacks permission
+     * The nuclear option - deletes a door from existence.
+     * Only admins and the door's creator can perform this sacred ritual.
+     * 
+     * @param id The ID of the door to be yeeted from the database
+     * @return Success message or a list of reasons why you can't delete someone else's door
      */
     @DeleteMapping("/{id}")
     @PreAuthorize("hasRole('ADMIN') or (hasRole('SELLER') and @doorSecurityService.isSeller(#id))")

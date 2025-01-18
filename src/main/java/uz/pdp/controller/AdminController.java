@@ -17,11 +17,20 @@ import uz.pdp.dto.UpdateUserDTO;
 import uz.pdp.service.AdminService;
 
 /**
- * REST controller for handling administrative operations in the system.
- * This controller provides endpoints for admin-specific operations such as
- * seller approval and account management. All endpoints require ADMIN role.
+ * The Admin Control Panel - Where Dreams Are Made (or Crushed) 👑
+ * 
+ * This controller holds the supreme power over the application.
+ * With great power comes great responsibility... and a lot of support tickets.
+ * 
+ * Features:
+ * - User management (aka playing God)
+ * - Seller approval (making dreams come true)
+ * - Account management (the ban hammer lives here)
+ * - System monitoring (watching the chaos unfold)
  *
- * @author Your Team Name
+ * WARNING: Only the chosen ones (ADMIN role) may enter.
+ * Mere mortals will be rejected faster than a JavaScript PR in a Java project.
+ *
  * @version 1.0
  * @since 2025-01-17
  */
@@ -33,19 +42,26 @@ import uz.pdp.service.AdminService;
 @Slf4j
 public class AdminController {
 
+    // The service that does all the actual work (we just look important)
     @Autowired
     private AdminService adminService;
 
     /**
-     * Approves a user's request to become a seller.
-     * This endpoint processes seller approval requests and updates the user's role
-     * if all requirements are met.
+     * Promotes a regular user to the esteemed position of Seller.
+     * 
+     * Technical details:
+     * - Validates user existence and eligibility
+     * - Updates user role and permissions
+     * - Sends notification emails
+     * - Updates audit logs
+     * 
+     * Fun fact: 90% of users think "seller" means they can sell anything.
+     * No, you can't sell your neighbor's car, Bob. 🚗
      *
-     * @param userId The ID of the user to be approved as a seller
-     * @return ResponseEntity containing the result of the approval process
-     *         - 200 OK if approved successfully
-     *         - 400 Bad Request if the request is invalid
-     *         - 500 Internal Server Error if there's a system error
+     * @param userId ID of the soon-to-be-promoted user
+     * @return Success message or a list of reasons why they're not worthy
+     * @throws ResourceNotFoundException if the user has ascended to a higher plane of existence
+     * @throws ForbiddenException if they tried to hack their way to seller status
      */
     @PostMapping("/approve-seller/{userId}")
     @Operation(summary = "Approve a seller request")
@@ -113,15 +129,21 @@ public class AdminController {
     }
 
     /**
-     * Updates a user's profile information.
-     * This endpoint allows admins to modify user details.
+     * Updates a user's profile with admin privileges.
+     * Because sometimes users need a helping hand (or a stern correction).
+     * 
+     * Process:
+     * 1. Validate update request
+     * 2. Check user existence
+     * 3. Apply changes
+     * 4. Update audit logs
+     * 
+     * Note: Yes, we can reset their password.
+     * No, we won't set it to "password123" even if they beg. 🔒
      *
-     * @param userId ID of the user to update
-     * @param updateUserDTO Updated user details
-     * @return ResponseEntity containing the result of the update process
-     *         - 200 OK if updated successfully
-     *         - 400 Bad Request if the request is invalid
-     *         - 404 Not Found if user doesn't exist
+     * @param userId The chosen one's ID
+     * @param updateUserDTO Their new destiny
+     * @return Updated user details or rejection notice
      */
     @PutMapping("/users/{userId}")
     @Operation(summary = "Update user profile")

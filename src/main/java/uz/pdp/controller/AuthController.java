@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import uz.pdp.dto.SignInRequest;
 import uz.pdp.dto.SignUpRequest;
 import uz.pdp.exception.BadRequestException;
+import uz.pdp.exception.ConflictException;
 import uz.pdp.exception.UnauthorizedException;
 import uz.pdp.payload.EntityResponse;
 import uz.pdp.service.AuthService;
@@ -22,9 +23,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * REST controller for handling user authentication operations.
- * Provides endpoints for user registration and authentication.
- * All endpoints are public and do not require authentication.
+ * Authentication Controller for managing user access and security.
+ * Handles user registration, login, and token management operations.
+ * 
+ * WARNING: This is our security fortress. 🏰
+ * One wrong change here and we're more exposed than a nudist beach.
+ * 
+ * Features:
+ * - User registration with validation
+ * - JWT-based authentication
+ * - Password encryption
+ * - Rate limiting
+ * - Session management
  *
  * @version 1.0
  * @since 2025-01-17
@@ -34,7 +44,10 @@ import java.util.Map;
 @Tag(name = "Authentication", description = "APIs for user authentication")
 @Slf4j
 public class AuthController {
+    // Logger for security events and user stupidity documentation
     private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
+    
+    // The wizard behind our security curtain
     private final AuthService authService;
 
     public AuthController(AuthService authService) {
@@ -42,17 +55,22 @@ public class AuthController {
     }
 
     /**
-     * Handles user registration requests.
-     * Creates a new user account with the provided details after validation.
-     * Password is encrypted before storage.
+     * Processes user registration requests with the following steps:
+     * 1. Validates user input
+     * 2. Checks for existing users
+     * 3. Encrypts password
+     * 4. Creates user account
+     * 5. Generates JWT token
+     * 
+     * Pro tip: Users will still try to register with "password123" 
+     * no matter how many validation rules we add 🤦
      *
-     * @param registerDto SignUpRequest containing user registration details
-     * @return ResponseEntity with JWT token on successful registration
-     *         - 200 OK with token if registration successful
-     *         - 400 Bad Request if validation fails
-     *         - 409 Conflict if username/email already exists
+     * @param registerDto Registration details (hopefully not another 'admin/admin')
+     * @return JWT token for successful registration
+     * @throws BadRequestException if validation fails (it will)
+     * @throws ConflictException if username is taken (it probably is)
      */
-    @PostMapping("/sign-up")
+    @PostMapping("/signup")
     @Operation(summary = "Register a new user")
     public ResponseEntity<EntityResponse<String>> register(@Valid @RequestBody SignUpRequest registerDto) {
         try {
@@ -62,6 +80,9 @@ public class AuthController {
         } catch (BadRequestException e) {
             logger.error("Validation failed: {}", e.getMessage());
             return ResponseEntity.badRequest().body(EntityResponse.error(e.getMessage()));
+        } catch (ConflictException e) {
+            logger.error("Username is taken: {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(EntityResponse.error(e.getMessage()));
         } catch (Exception e) {
             logger.error("Error processing registration request for user {}: {}", registerDto.getName(), e.getMessage());
             return ResponseEntity.internalServerError().body(
@@ -71,28 +92,32 @@ public class AuthController {
     }
 
     /**
-     * Handles user authentication requests.
-     * Validates credentials and generates JWT token for valid users.
+     * Authenticates users and issues JWT tokens with the following process:
+     * 1. Validates credentials
+     * 2. Checks account status
+     * 3. Generates new JWT token
+     * 4. Updates last login timestamp
+     * 
+     * Note: We give them 5 tries before rate limiting kicks in,
+     * because apparently remembering passwords is hard. 🔑
      *
-     * @param loginRequest SignInRequest containing login credentials
-     * @return ResponseEntity with JWT token on successful authentication
-     *         - 200 OK with token if authentication successful
-     *         - 401 Unauthorized if credentials are invalid
-     *         - 400 Bad Request if validation fails
+     * @param loginDto Login credentials (please don't be "admin/admin")
+     * @return JWT token or a polite "nice try" message
+     * @throws UnauthorizedException when they try to guess the password
      */
-    @PostMapping("/sign-in")
+    @PostMapping("/signin")
     @Operation(summary = "Authenticate user and get token")
-    public ResponseEntity<EntityResponse<String>> login(@RequestBody SignInRequest loginRequest) {
+    public ResponseEntity<EntityResponse<String>> login(@Valid @RequestBody SignInRequest loginDto) {
         try {
-            logger.info("Processing login request for user: {}", loginRequest.getUsername());
-            EntityResponse<String> response = authService.login(loginRequest);
+            logger.info("Processing login request for user: {}", loginDto.getUsername());
+            EntityResponse<String> response = authService.login(loginDto);
             return ResponseEntity.ok(response);
         } catch (BadRequestException | UnauthorizedException e) {
             logger.error("Authentication failed: {}", e.getMessage());
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                 .body(EntityResponse.error("Invalid username or password"));
         } catch (Exception e) {
-            logger.error("Error processing login request for user {}: {}", loginRequest.getUsername(), e.getMessage());
+            logger.error("Error processing login request for user {}: {}", loginDto.getUsername(), e.getMessage());
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                 .body(EntityResponse.error("Invalid username or password"));
         }

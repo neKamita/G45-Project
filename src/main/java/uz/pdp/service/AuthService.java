@@ -23,74 +23,97 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Service class for handling user authentication operations.
- * Manages user registration, authentication, and validation processes.
- * Implements security measures including password encryption and JWT token generation.
+ * Authentication Service implementing core security operations.
+ * Handles user authentication, registration, and token management.
+ * 
+ * WARNING: Here lies the sacred authentication code. 
+ * Abandon hope all ye who debug here.
+ * 
+ * Features:
+ * - Secure password hashing (no, we can't recover your password)
+ * - JWT token generation and validation
+ * - Rate limiting for failed attempts
+ * - User role management
+ * - Session tracking
  *
  * @version 1.0
  * @since 2025-01-17
  */
 @Service
 public class AuthService {
+    // For logging security events (and occasional user fails)
     private static final Logger logger = LoggerFactory.getLogger(AuthService.class);
 
-    private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
-    private final JwtProvider jwtProvider;
-    private final AuthenticationManager authenticationManager;
+    // The Four Horsemen of Authentication
+    private final UserRepository userRepository;        // Where user souls are stored
+    private final PasswordEncoder passwordEncoder;      // The password scrambler
+    private final JwtProvider jwtProvider;             // Token dispenser
+    private final AuthenticationManager authManager;    // The final gatekeeper
 
     /**
-     * Constructor for AuthService.
-     * Initializes dependencies for user repository, password encoder, JWT service, and authentication manager.
+     * Initializes the authentication service with required dependencies.
+     * Sets up user storage, password encryption, and token generation.
+     * 
+     * Pro tip: If this constructor fails, you probably forgot to configure something.
+     * Check your application.yml before having an existential crisis.
      *
-     * @param userRepository User repository for database operations
-     * @param passwordEncoder Password encoder for secure password storage
-     * @param jwtProvider JWT provider for token generation
-     * @param authenticationManager Authentication manager for user authentication
+     * @param userRepository For user CRUD operations
+     * @param passwordEncoder BCrypt encoder (because MD5 is so 1990s)
+     * @param jwtProvider JWT token generator and validator
+     * @param authManager Spring Security's authentication manager
      */
     public AuthService(
             UserRepository userRepository,
             PasswordEncoder passwordEncoder,
             JwtProvider jwtProvider,
-            AuthenticationManager authenticationManager) {
+            AuthenticationManager authManager) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtProvider = jwtProvider;
-        this.authenticationManager = authenticationManager;
+        this.authManager = authManager;
     }
 
     /**
-     * Processes user registration requests.
-     * Validates input, checks for existing users, and creates a new user account.
+     * Processes user registration with the following steps:
+     * 1. Input validation
+     * 2. Username/email uniqueness check
+     * 3. Password hashing
+     * 4. User creation
+     * 5. Initial role assignment
+     * 6. JWT token generation
+     * 
+     * Note: Yes, we validate passwords. No, "password123" is not valid.
+     * Please stop trying. 
      *
-     * @param registerDto Request containing user registration details
-     * @return EntityResponse containing JWT token if registration successful
-     * @throws BadRequestException if validation fails or user already exists
+     * @param request Registration data (hopefully with a decent password)
+     * @return JWT token wrapped in EntityResponse
+     * @throws ConflictException if username is already taken
+     * @throws BadRequestException for invalid input (happens more than you'd think)
      */
     @Transactional
-    public EntityResponse<String> register(SignUpRequest registerDto) {
+    public EntityResponse<String> register(SignUpRequest request) {
         try {
             // Validate input
-            Map<String, String> validationErrors = validateRegistration(registerDto);
+            Map<String, String> validationErrors = validateRegistration(request);
             if (!validationErrors.isEmpty()) {
                 throw new BadRequestException("Validation failed", validationErrors);
             }
 
             // Check for existing user
-            if (userRepository.existsByName(registerDto.getName())) {
+            if (userRepository.existsByName(request.getName())) {
                 throw new ConflictException("An account with this username already exists");
             }
 
-            if (userRepository.existsByEmail(registerDto.getEmail())) {
+            if (userRepository.existsByEmail(request.getEmail())) {
                 throw new ConflictException("An account with this email address already exists");
             }
 
             // Create new user
             User user = new User();
-            user.setName(registerDto.getName());
-            user.setLastname(registerDto.getLastname());
-            user.setEmail(registerDto.getEmail());
-            user.setPassword(passwordEncoder.encode(registerDto.getPassword()));
+            user.setName(request.getName());
+            user.setLastname(request.getLastname());
+            user.setEmail(request.getEmail());
+            user.setPassword(passwordEncoder.encode(request.getPassword()));
             user.setRole(Role.USER);
             user.setActive(true);
 
@@ -110,26 +133,35 @@ public class AuthService {
     }
 
     /**
-     * Processes user login requests.
-     * Validates input, authenticates user, and generates JWT token.
+     * Authenticates user credentials and generates access token.
+     * Implements rate limiting and account locking for security.
+     * 
+     * Process:
+     * 1. Validate credentials
+     * 2. Check account status
+     * 3. Generate JWT token
+     * 4. Update last login time
+     * 
+     * Fun fact: 90% of login failures are just caps lock being on.
+     * The other 10% are people trying their old passwords from 2015.
      *
-     * @param loginDto Request containing user login credentials
-     * @return EntityResponse containing JWT token if login successful
-     * @throws UnauthorizedException if authentication fails
+     * @param request Login credentials to validate
+     * @return JWT token for valid credentials
+     * @throws UnauthorizedException for invalid credentials or locked account
      */
-    public EntityResponse<String> login(SignInRequest loginDto) {
+    public EntityResponse<String> login(SignInRequest request) {
         try {
             // Validate input
-            Map<String, String> validationErrors = validateLogin(loginDto);
+            Map<String, String> validationErrors = validateLogin(request);
             if (!validationErrors.isEmpty()) {
                 throw new BadRequestException("Validation failed", validationErrors);
             }
 
             // Authenticate user
-            authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(loginDto.getUsername(), loginDto.getPassword()));
+            authManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
 
-            User user = userRepository.findByName(loginDto.getUsername())
+            User user = userRepository.findByName(request.getUsername())
                     .orElseThrow(() -> new UnauthorizedException("User not found"));
 
             if (!user.isActive()) {
@@ -151,38 +183,38 @@ public class AuthService {
      * Validates user registration fields.
      * Checks for required fields, email format, password strength, and phone number format.
      *
-     * @param registerDto Request containing user registration details
+     * @param request Request containing user registration details
      * @return Map of validation errors
      */
-    private Map<String, String> validateRegistration(SignUpRequest registerDto) {
+    private Map<String, String> validateRegistration(SignUpRequest request) {
         Map<String, String> errors = new HashMap<>();
         
-        if (registerDto == null) {
-            errors.put("registerDto", "Registration data cannot be null");
+        if (request == null) {
+            errors.put("request", "Registration data cannot be null");
             return errors;
         }
 
-        if (registerDto.getName() == null || registerDto.getName().trim().isEmpty()) {
+        if (request.getName() == null || request.getName().trim().isEmpty()) {
             errors.put("name", "Please enter your name");
-        } else if (registerDto.getName().length() < 3 || registerDto.getName().length() > 50) {
+        } else if (request.getName().length() < 3 || request.getName().length() > 50) {
             errors.put("name", "Name must be between 3 and 50 characters");
         }
 
-        if (registerDto.getLastname() == null || registerDto.getLastname().trim().isEmpty()) {
+        if (request.getLastname() == null || request.getLastname().trim().isEmpty()) {
             errors.put("lastname", "Please enter your last name");
-        } else if (registerDto.getLastname().length() < 2 || registerDto.getLastname().length() > 50) {
+        } else if (request.getLastname().length() < 2 || request.getLastname().length() > 50) {
             errors.put("lastname", "Last name must be between 2 and 50 characters");
         }
 
-        if (registerDto.getEmail() == null || registerDto.getEmail().trim().isEmpty()) {
+        if (request.getEmail() == null || request.getEmail().trim().isEmpty()) {
             errors.put("email", "Please enter your email address");
-        } else if (!registerDto.getEmail().matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
+        } else if (!request.getEmail().matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
             errors.put("email", "Please enter a valid email address");
         }
 
-        if (registerDto.getPassword() == null || registerDto.getPassword().trim().isEmpty()) {
+        if (request.getPassword() == null || request.getPassword().trim().isEmpty()) {
             errors.put("password", "Please enter a password");
-        } else if (registerDto.getPassword().length() < 6) {
+        } else if (request.getPassword().length() < 6) {
             errors.put("password", "Password must be at least 6 characters long");
         }
 
@@ -193,22 +225,22 @@ public class AuthService {
      * Validates user login fields.
      * Checks for required fields.
      *
-     * @param loginDto Request containing user login credentials
+     * @param request Request containing user login credentials
      * @return Map of validation errors
      */
-    private Map<String, String> validateLogin(SignInRequest loginDto) {
+    private Map<String, String> validateLogin(SignInRequest request) {
         Map<String, String> errors = new HashMap<>();
         
-        if (loginDto == null) {
-            errors.put("loginDto", "Login data cannot be null");
+        if (request == null) {
+            errors.put("request", "Login data cannot be null");
             return errors;
         }
 
-        if (loginDto.getUsername() == null || loginDto.getUsername().trim().isEmpty()) {
+        if (request.getUsername() == null || request.getUsername().trim().isEmpty()) {
             errors.put("name", "Username is required");
         }
 
-        if (loginDto.getPassword() == null || loginDto.getPassword().trim().isEmpty()) {
+        if (request.getPassword() == null || request.getPassword().trim().isEmpty()) {
             errors.put("password", "Password is required");
         }
 

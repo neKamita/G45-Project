@@ -26,43 +26,61 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Service class for handling administrative operations in the system.
- * This service provides functionality for managing users and their roles,
- * particularly focusing on seller approval and account management.
+ * The Admin Control Room Service - Where Order Meets Chaos 👮
+ * 
+ * This service implements administrative operations including:
+ * - User management (herding cats)
+ * - Role assignment (distributing superpowers)
+ * - Account verification (making sure users are real people)
+ * - System maintenance (cleaning up the mess)
+ * 
+ * Technical Features:
+ * - Role-based access control
+ * - Transactional operations
+ * - Audit logging
+ * - Email notifications
+ * 
+ * WARNING: This service has more power than your average superhero.
+ * Use it wisely, or you'll be the one explaining to users why
+ * their cat pictures disappeared. 🐱
  *
- * @author Your Team Name
  * @version 1.0
  * @since 2025-01-17
  */
 @Service
 public class AdminService {
+    // For logging admin actions (and occasional facepalms)
     private static final Logger logger = LoggerFactory.getLogger(AdminService.class);
 
+    // The keepers of our precious data
     @Autowired
-    private UserRepository userRepository;
+    private UserRepository userRepository;          // Where user dreams live
 
     @Autowired
-    private EmailVerificationRepository emailVerificationRepository;
+    private EmailVerificationRepository emailVerificationRepository;  // Proof that you're not a bot
 
     @Autowired
-    private EmailService emailService;
+    private EmailService emailService;              // The messenger of good (and bad) news
 
     @Autowired
-    private DoorRepository doorRepository;
+    private DoorRepository doorRepository;          // The gateway to all things door-related
 
     /**
-     * Approves a user's request to become a seller.
-     * This method verifies that:
-     * 1. The user exists
-     * 2. The user has a verified email for seller request
-     * 3. The user is not already a seller
+     * Promotes a user to seller status with proper validation and notification.
+     * 
+     * Technical Process:
+     * 1. Validate user existence and current role
+     * 2. Check eligibility criteria
+     * 3. Update role and permissions
+     * 4. Send confirmation email
+     * 
+     * Note: We've automated everything except common sense.
+     * That's still a manual process. 🤷
      *
-     * @param userId The ID of the user to be approved as a seller
-     * @return EntityResponse containing the operation result
-     * @throws ResourceNotFoundException if the user is not found
-     * @throws ForbiddenException        if the user is already a seller
-     * @throws RuntimeException          if there's an error during the approval
-     *                                   process
+     * @param userId ID of the user getting their promotion
+     * @return Success message or reasons for rejection
+     * @throws ResourceNotFoundException if the user is MIA
+     * @throws ForbiddenException if they're trying to game the system
      */
     @PreAuthorize("hasRole('ADMIN')")
     public EntityResponse<Void> approveSeller(Long userId) {
@@ -160,12 +178,22 @@ public class AdminService {
      * Updates a user's profile information.
      * Validates and updates user details while preserving sensitive information.
      *
-     * @param userId ID of the user to update
-     * @param updateUserDTO Updated user details
-     * @return EntityResponse containing updated user
-     * @throws ResourceNotFoundException if user not found
+     * Technical Steps:
+     * 1. Validate update request
+     * 2. Check user existence
+     * 3. Apply changes with proper validation
+     * 4. Update audit logs
+     * 
+     * Pro tip: With great power comes great responsibility...
+     * and a lot of "I forgot my password" tickets. 🔑
+     *
+     * @param userId The chosen one's ID
+     * @param updateUserDTO The new user specs
+     * @return Updated user or a list of why we can't have nice things
+     * @throws ResourceNotFoundException if the user pulled a Houdini
      */
     @Transactional
+    @PreAuthorize("hasRole('ADMIN')")
     public EntityResponse<User> updateUser(Long userId, UpdateUserDTO updateUserDTO) {
         try {
             User existingUser = userRepository.findById(userId)

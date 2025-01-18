@@ -37,14 +37,20 @@ import java.io.IOException;
  * Service class for managing door operations.
  * Handles door creation, configuration, access control, and image management.
  * Implements security checks and maintains audit logs for door operations.
+ * 
+ * WARNING: Here be dragons! This service contains the dark magic that makes doors work.
+ * If you break this, thousands of doors will stop working and chaos will ensue.
+ * Proceed with caution, brave developer!
  *
  * @version 1.0
  * @since 2025-01-17
  */
 @Service
 public class DoorService {
+    // This logger has seen things you wouldn't believe...
     private static final Logger logger = LoggerFactory.getLogger(DoorService.class);
 
+    // The keeper of all doors. Handle with care or doors might escape!
     @Autowired
     private DoorRepository doorRepository;
     
@@ -85,12 +91,13 @@ public class DoorService {
     }
 
     /**
-     * Creates a new door.
-     * Validates door details and sets up initial configuration.
+     * Creates a new door in the system. 
+     * This is where baby doors come from.
      *
-     * @param doorDto Door details including location and access settings
-     * @return Door entity
-     * @throws BadRequestException if validation fails
+     * @param doorDto The blueprint for our new door (please make it a good one)
+     * @return A beautiful new Door object, ready to be opened and closed
+     * @throws BadRequestException if you try to create a door in a black hole
+     * @throws ConflictException if you try to create a door where another door already exists (that's just rude)
      */
     @Transactional
     @PreAuthorize("hasRole('ADMIN') or hasRole('SELLER')")
@@ -157,14 +164,11 @@ public class DoorService {
     }
 
     /**
-     * Deletes a door from the system.
-     * Performs cleanup of associated resources including images and door history.
-     * Only admins can delete doors.
+     * Deletes a door from existence. 
+     * Press F to pay respects.
      *
-     * @param id Door ID to delete
-     * @return EntityResponse indicating success/failure
-     * @throws ResourceNotFoundException if door not found
-     * @throws BadRequestException if deletion fails
+     * @param id The ID of the door we're sending to the shadow realm
+     * @throws EntityNotFoundException if the door already ascended to a higher plane of existence
      */
     @PreAuthorize("hasRole('ADMIN')")
     @Transactional

@@ -35,10 +35,28 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
 
 /**
- * Service class for managing user-related operations.
- * Handles user profile management, role management, and email verification.
- * Implements security measures including rate limiting and verification
- * attempts tracking.
+ * 👥 The User Whisperer Service
+ * 
+ * Welcome to the user management circus! 🎪
+ * Where we juggle user requests, balance security,
+ * and occasionally perform magic tricks with the database.
+ * 
+ * Technical Features:
+ * - User CRUD operations (Create, Read, Update, Delete... if we dare)
+ * - Profile management (because users love changing their minds)
+ * - Security enforcement (keeping the bad guys out, hopefully)
+ * - Session handling (because someone always forgets to log out)
+ * 
+ * Common User States:
+ * - Active (actually using the system)
+ * - Inactive (forgot we exist)
+ * - Locked (tried 'password123' too many times)
+ * - Confused (our most popular state)
+ * 
+ * Remember: Users are like cats 🐱
+ * - They don't read instructions
+ * - They do unexpected things
+ * - They blame you when things go wrong
  *
  * @version 1.0
  * @since 2025-01-17
@@ -47,14 +65,19 @@ import org.springframework.data.redis.core.RedisTemplate;
 @Slf4j
 public class UserService {
 
+    // For logging user shenanigans
     private static final Logger logger = LoggerFactory.getLogger(UserService.class);
-    private static final String FAILED_ATTEMPTS_PREFIX = "verification_attempts:";
-    private static final int MAX_FAILED_ATTEMPTS = 5;
-    private static final long LOCKOUT_DURATION = 15; // minutes
-
+    
+    // Where we keep all our precious user data
     private final UserRepository userRepository;
-    private final EmailService emailService;
+    
+    // For when users need to prove they own their email
     private final EmailVerificationRepository emailVerificationRepository;
+    
+    // Our trusty email delivery service
+    private final EmailService emailService;
+
+    // Cache for user sessions (because databases need naps too)
     private final RedisTemplate<String, Integer> redisTemplate;
 
     @Autowired
@@ -69,10 +92,10 @@ public class UserService {
     }
 
     /**
-     * Retrieves the currently authenticated user.
-     *
-     * @return User the current user's details
-     * @throws UnauthorizedException if no user is authenticated
+     * Gets the current user or throws a fit if they're not logged in
+     * 
+     * @return The user object (if they bothered to log in)
+     * @throws UnauthorizedException when they try to be sneaky
      */
     public User getCurrentUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -281,9 +304,9 @@ public class UserService {
      * @return true if attempts exceeded, false otherwise
      */
     private boolean hasExceededFailedAttempts(Long userId) {
-        String key = FAILED_ATTEMPTS_PREFIX + userId;
+        String key = "verification_attempts:" + userId;
         Integer attempts = redisTemplate.opsForValue().get(key);
-        return attempts != null && attempts >= MAX_FAILED_ATTEMPTS;
+        return attempts != null && attempts >= 5;
     }
 
     /**
@@ -292,9 +315,9 @@ public class UserService {
      * @param userId ID of the user
      */
     private void recordFailedAttempt(Long userId) {
-        String key = FAILED_ATTEMPTS_PREFIX + userId;
+        String key = "verification_attempts:" + userId;
         redisTemplate.opsForValue().increment(key);
-        redisTemplate.expire(key, LOCKOUT_DURATION, TimeUnit.MINUTES);
+        redisTemplate.expire(key, 15, TimeUnit.MINUTES);
     }
 
     /**
@@ -303,7 +326,7 @@ public class UserService {
      * @param userId ID of the user
      */
     private void clearFailedAttempts(Long userId) {
-        String key = FAILED_ATTEMPTS_PREFIX + userId;
+        String key = "verification_attempts:" + userId;
         redisTemplate.delete(key);
     }
 

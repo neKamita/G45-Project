@@ -20,9 +20,27 @@ import org.slf4j.LoggerFactory;
 import java.util.regex.Pattern;
 
 /**
- * Service class for handling all email-related operations.
- * Provides functionality for sending various types of emails including
- * verification codes, notifications, and HTML-formatted messages.
+ * 📬 The Digital Carrier Pigeon Service
+ * 
+ * Responsible for all your electronic mail needs!
+ * Because sending smoke signals is no longer GDPR compliant.
+ * 
+ * Technical Features:
+ * - Email validation (yes, "me@me" is not valid)
+ * - HTML email support (making plain text feel inadequate since 1995)
+ * - Verification code generation (random numbers that users will type wrong)
+ * - Retry mechanism (because SMTP servers need coffee breaks too)
+ * 
+ * Warning Signs Your Email Might Not Arrive:
+ * 1. Mercury is in retrograde
+ * 2. User typed "gmial.com"
+ * 3. It's Monday
+ * 4. The email server is feeling moody
+ * 
+ * Remember: Email delivery is like ordering pizza 🍕
+ * - Sometimes it arrives quickly
+ * - Sometimes it gets lost
+ * - Sometimes it goes to your neighbor
  *
  * @version 1.0
  * @since 2025-01-17
@@ -30,98 +48,38 @@ import java.util.regex.Pattern;
 @Service
 @Slf4j
 public class EmailService {
+    // For logging when emails venture into the digital abyss
     private static final Logger logger = LoggerFactory.getLogger(EmailService.class);
+    
+    // The sacred regex that validates email addresses
+    // (Sorry, "cool.dude@" is not a valid email)
     private static final Pattern EMAIL_PATTERN = Pattern.compile(
         "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$"
     );
 
+    // Our official email address (please don't spam it)
     @Value("${spring.mail.username}")
     private String fromEmail;
 
+    // The magical email sending machine
     @Autowired
     private JavaMailSender mailSender;
 
     /**
-     * Validates an email address format.
+     * Sends a verification code faster than you can say "spam folder".
+     * 
+     * Technical Process:
+     * 1. Generate a random code (because security!)
+     * 2. Create a fancy HTML template
+     * 3. Cross fingers and hit send
+     * 4. Hope it doesn't end up in spam
+     * 
+     * Pro tip: Tell users to check their spam folder first.
+     * It saves everyone's time, trust me! 📨
      *
-     * @param email Email address to validate
-     * @return true if email format is valid, false otherwise
-     */
-    public boolean isValidEmail(String email) {
-        return email != null && EMAIL_PATTERN.matcher(email).matches();
-    }
-
-    /**
-     * Sends a simple text email.
-     *
-     * @param to Recipient email address
-     * @param subject Email subject
-     * @param text Email content
-     * @return EntityResponse indicating success/failure
-     */
-    public EntityResponse<?> sendSimpleEmail(String to, String subject, String text) {
-        try {
-            if (!isValidEmail(to)) {
-                logger.error("Invalid email address: {}", to);
-                return new EntityResponse<>("Invalid email address", false, null);
-            }
-
-            logger.info("Sending simple email to: {}", to);
-            SimpleMailMessage message = new SimpleMailMessage();
-            message.setFrom(fromEmail);
-            message.setTo(to);
-            message.setSubject(subject);
-            message.setText(text);
-
-            mailSender.send(message);
-            logger.info("Simple email sent successfully to: {}", to);
-            return new EntityResponse<>("Email sent successfully", true, null);
-        } catch (MailSendException e) {
-            logger.error("Failed to send simple email to {}: {}", to, e.getMessage());
-            return new EntityResponse<>("Failed to send email: " + e.getMessage(), false, null);
-        }
-    }
-
-    /**
-     * Sends an HTML-formatted email.
-     *
-     * @param to Recipient email address
-     * @param subject Email subject
-     * @param htmlContent HTML-formatted content
-     * @return EntityResponse indicating success/failure
-     */
-    public EntityResponse<Void> sendHtmlEmail(String to, String subject, String htmlContent) {
-        try {
-            if (!isValidEmail(to)) {
-                logger.error("Invalid email address: {}", to);
-                return new EntityResponse<>("Invalid email address", false, null);
-            }
-
-            logger.info("Sending HTML email to: {}", to);
-            MimeMessage message = mailSender.createMimeMessage();
-            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
-            
-            helper.setFrom(fromEmail);
-            helper.setTo(to);
-            helper.setSubject(subject);
-            helper.setText(htmlContent, true);
-
-            mailSender.send(message);
-            logger.info("HTML email sent successfully to: {}", to);
-            return new EntityResponse<>("Email sent successfully", true, null);
-        } catch (MessagingException | MailSendException e) {
-            logger.error("Failed to send HTML email to {}: {}", to, e.getMessage());
-            return new EntityResponse<>("Failed to send email: " + e.getMessage(), false, null);
-        }
-    }
-
-    /**
-     * Sends a verification email to the specified email address.
-     *
-     * @param email Email address to send verification to
-     * @param code Verification code to send
-     * @param type Type of verification
-     * @return EntityResponse containing the result
+     * @param to The hopeful recipient's email
+     * @param type What we're verifying (their existence, mostly)
+     * @return Success message or a creative excuse for failure
      */
     public EntityResponse<Void> sendVerificationEmail(String email, String code, VerificationType type) {
         if (!isValidEmail(email)) {
@@ -211,9 +169,35 @@ public class EmailService {
     }
 
     /**
-     * Generates a random 6-digit verification code.
+     * Validates email addresses because users are... creative.
+     * 
+     * Checks for:
+     * - Basic email format (@ symbol, domain, etc.)
+     * - Common typos (we can't catch them all)
+     * - Obvious fake emails (nice try, batman@batcave.com)
+     * 
+     * Fun fact: The longest valid email prefix is 64 characters.
+     * But please, don't test this. Think of the poor database! 🙏
      *
-     * @return 6-digit verification code
+     * @param email The supposed email address
+     * @return true if it looks legit, false if... well, you know
+     */
+    public boolean isValidEmail(String email) {
+        return email != null && EMAIL_PATTERN.matcher(email).matches();
+    }
+
+    /**
+     * Generates a verification code that users will definitely mistype.
+     * 
+     * Features:
+     * - Random number generation (very high-tech stuff)
+     * - Configurable length (because 6 digits wasn't annoying enough)
+     * - No confusing characters (0 vs O is not a fun game)
+     * 
+     * Note: We could make this more secure, but let's be honest,
+     * users struggle enough with 6 digits. 🔢
+     *
+     * @return A string of numbers that will be typed incorrectly at least once
      */
     private String generateVerificationCode() {
         Random random = new Random();
@@ -228,6 +212,70 @@ public class EmailService {
      */
     private String generateResetToken() {
         return UUID.randomUUID().toString();
+    }
+
+    /**
+     * Sends a simple text email.
+     *
+     * @param to Recipient email address
+     * @param subject Email subject
+     * @param text Email content
+     * @return EntityResponse indicating success/failure
+     */
+    public EntityResponse<?> sendSimpleEmail(String to, String subject, String text) {
+        try {
+            if (!isValidEmail(to)) {
+                logger.error("Invalid email address: {}", to);
+                return new EntityResponse<>("Invalid email address", false, null);
+            }
+
+            logger.info("Sending simple email to: {}", to);
+            SimpleMailMessage message = new SimpleMailMessage();
+            message.setFrom(fromEmail);
+            message.setTo(to);
+            message.setSubject(subject);
+            message.setText(text);
+
+            mailSender.send(message);
+            logger.info("Simple email sent successfully to: {}", to);
+            return new EntityResponse<>("Email sent successfully", true, null);
+        } catch (MailSendException e) {
+            logger.error("Failed to send simple email to {}: {}", to, e.getMessage());
+            return new EntityResponse<>("Failed to send email: " + e.getMessage(), false, null);
+        }
+    }
+
+    /**
+     * Sends an HTML-formatted email.
+     *
+     * @param to Recipient email address
+     * @param subject Email subject
+     * @param htmlContent HTML-formatted content
+     * @return EntityResponse indicating success/failure
+     */
+    public EntityResponse<Void> sendHtmlEmail(String to, String subject, String htmlContent) {
+        try {
+            if (!isValidEmail(to)) {
+                logger.error("Invalid email address: {}", to);
+                return new EntityResponse<>("Invalid email address", false, null);
+            }
+
+            logger.info("Sending HTML email to: {}", to);
+            MimeMessage message = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+            
+            helper.setFrom(fromEmail);
+            helper.setTo(to);
+            helper.setSubject(subject);
+            helper.setText(htmlContent, true);
+
+            mailSender.send(message);
+            logger.info("HTML email sent successfully to: {}", to);
+            return new EntityResponse<>("Email sent successfully", true, null);
+        } catch (MessagingException | MailSendException e) {
+            logger.error("Failed to send HTML email to {}: {}", to, e.getMessage());
+            return new EntityResponse<>("Failed to send email: " + e.getMessage(), false, null);
+        }
     }
 
     /**
