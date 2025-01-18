@@ -95,7 +95,7 @@ public class AdminService {
             emailVerificationRepository.save(emailVerification);
 
             // Send confirmation email
-            emailService.sendVerificationEmail(user.getUsername(), "Your seller account has been approved", VerificationType.SELLER_APPROVAL);
+            emailService.sendVerificationEmail(user.getUsername(), "Your seller account has been approved", VerificationType.EMAIL_CONFIRMATION);
             logger.info("User approved as seller: {}", user.getUsername());
             return EntityResponse.success("User approved as seller successfully");
 
@@ -139,7 +139,7 @@ public class AdminService {
 
             // If user is a seller, deactivate all their doors
             if (user.getRole() == Role.SELLER) {
-                List<Door> doors = doorRepository.findByUserId(userId);
+                List<Door> doors = doorRepository.findBySellerId(userId);
                 for (Door door : doors) {
                     door.setActive(false);
                     doorRepository.save(door);

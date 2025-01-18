@@ -1,5 +1,6 @@
 package uz.pdp.repository;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,6 +47,15 @@ public interface AddressRepository extends JpaRepository<Address, Long> {
      * @return List of addresses
      */
     List<Address> findByUserId(Long userId);
+
+    /**
+     * Finds addresses by city containing the given string and user ID
+     * 
+     * @param city City to search for
+     * @param userId User ID to search for
+     * @return List of addresses
+     */
+    List<Address> findByCityContainingIgnoreCaseAndUserId(String city, Long userId);
 
     /**
      * Finds address by ID and user ID
@@ -133,4 +143,14 @@ public interface AddressRepository extends JpaRepository<Address, Long> {
            "LIMIT 10", nativeQuery = true)
     List<Address> findNearestAddresses(@Param("latitude") Double latitude, 
                                      @Param("longitude") Double longitude);
+
+    /**
+     * Finds all addresses for a user
+     * 
+     * @param id User ID to find addresses for
+     * @return Collection of addresses
+     */
+    Collection<Object> findAllByUserId(Long id);
+
+    List<Address> findByCity(String city);
 }

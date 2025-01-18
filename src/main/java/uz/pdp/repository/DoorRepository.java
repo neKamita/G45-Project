@@ -15,7 +15,7 @@ import java.util.List;
 @Repository
 public interface DoorRepository extends JpaRepository<Door, Long> {
 
-    List<Door> findBySellerId(Long userId);
+    List<Door> findBySellerId(Long sellerId);
     Page<Door> findAll(@NotNull Pageable pageable);
 
     @Query("SELECT d FROM Door d WHERE " +
@@ -32,4 +32,6 @@ public interface DoorRepository extends JpaRepository<Door, Long> {
         Long doorId,
         Pageable pageable
     );
+
+    List<Door> findByNameContainingIgnoreCaseOrDescriptionContainingIgnoreCase(String searchTerm, String searchTerm1);
 }

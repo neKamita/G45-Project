@@ -3,13 +3,17 @@ package uz.pdp.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import uz.pdp.dto.SignInRequest;
 import uz.pdp.dto.SignUpRequest;
+import uz.pdp.exception.BadRequestException;
 import uz.pdp.payload.EntityResponse;
 import uz.pdp.service.AuthService;
 
@@ -27,8 +31,8 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/auth")
 @Tag(name = "Authentication", description = "APIs for user authentication")
+@Slf4j
 public class AuthController {
-
     private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
     private final AuthService authService;
 
@@ -54,10 +58,14 @@ public class AuthController {
             logger.info("Processing registration request for user: {}", registerDto.getName());
             EntityResponse<String> response = authService.register(registerDto);
             return ResponseEntity.ok(response);
+        } catch (BadRequestException e) {
+            logger.error("Validation failed: {}", e.getMessage());
+            return ResponseEntity.badRequest().body(EntityResponse.error(e.getMessage()));
         } catch (Exception e) {
-            logger.error("Error processing registration request for user {}: {}", registerDto.getName(),
-                    e.getMessage());
-            throw e;
+            logger.error("Error processing registration request for user {}: {}", registerDto.getName(), e.getMessage());
+            return ResponseEntity.internalServerError().body(
+                EntityResponse.error("Internal server error: " + e.getMessage())
+            );
         }
     }
 
@@ -65,21 +73,27 @@ public class AuthController {
      * Handles user authentication requests.
      * Validates credentials and generates JWT token for valid users.
      *
-     * @param loginDto SignInRequest containing login credentials
+     * @param loginRequest SignInRequest containing login credentials
      * @return ResponseEntity with JWT token on successful authentication
      *         - 200 OK with token if authentication successful
      *         - 401 Unauthorized if credentials are invalid
      *         - 400 Bad Request if validation fails
      */
     @PostMapping("/sign-in")
-    @Operation(summary = "Authenticate user")
-    public ResponseEntity<EntityResponse<String>> login(@Valid @RequestBody SignInRequest loginDto) {
+    @Operation(summary = "Authenticate user and get token")
+    public ResponseEntity<EntityResponse<String>> login(@RequestBody SignInRequest loginRequest) {
         try {
-            logger.info("Processing login request for user: {}", loginDto.getName());
-            return ResponseEntity.ok(authService.login(loginDto));
+            logger.info("Processing login request for user: {}", loginRequest.getUsername());
+            EntityResponse<String> response = authService.login(loginRequest);
+            return ResponseEntity.ok(response);
+        } catch (BadRequestException e) {
+            logger.error("Authentication failed: {}", e.getMessage());
+            return ResponseEntity.badRequest().body(EntityResponse.error(e.getMessage()));
         } catch (Exception e) {
-            logger.error("Error processing login request for user {}: {}", loginDto.getName(), e.getMessage());
-            throw e;
+            logger.error("Error processing login request for user {}: {}", loginRequest.getUsername(), e.getMessage());
+            return ResponseEntity.internalServerError().body(
+                EntityResponse.error("Internal server error: " + e.getMessage())
+            );
         }
     }
 
@@ -91,15 +105,15 @@ public class AuthController {
      * @return ResponseEntity with detailed validation error messages
      *         - 400 Bad Request with list of validation errors
      */
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<EntityResponse<Map<String, String>>> handleValidationExceptions(
-            MethodArgumentNotValidException ex) {
+    public Map<String, String> handleValidationExceptions(MethodArgumentNotValidException ex) {
         Map<String, String> errors = new HashMap<>();
-        ex.getBindingResult().getFieldErrors()
-                .forEach(error -> errors.put(error.getField(), error.getDefaultMessage()));
-
-        logger.error("Validation error: {}", errors);
-        return ResponseEntity.badRequest()
-                .body(EntityResponse.error("Validation failed", errors));
+        ex.getBindingResult().getAllErrors().forEach((error) -> {
+            String fieldName = ((FieldError) error).getField();
+            String errorMessage = error.getDefaultMessage();
+            errors.put(fieldName, errorMessage);
+        });
+        return errors;
     }
 }

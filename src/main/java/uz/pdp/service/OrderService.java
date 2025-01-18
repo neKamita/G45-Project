@@ -71,7 +71,7 @@ public class OrderService {
             order.setDeliveryAddress(orderDto.getDeliveryAddress());
             order.setContactPhone(orderDto.getContactPhone());
             order.setOrderDate(LocalDateTime.now());
-            order.setStatus(Order.OrderStatus.PENDING.toString());
+            order.setStatus(Order.OrderStatus.PENDING);
 
             Order savedOrder = orderRepository.save(order);
             logger.info("Order created successfully with ID: {}", savedOrder.getId());
@@ -116,7 +116,7 @@ public class OrderService {
      * @throws ResponseStatusException if order not found
      */
     @Transactional
-    public EntityResponse<Order> updateOrderStatus(Long orderId, Order.OrderStatus status) {
+    public EntityResponse<?> updateOrderStatus(Long orderId, Order.OrderStatus status) {
         try {
             logger.info("Updating status for order ID: {} to {}", orderId, status);
             
@@ -155,8 +155,7 @@ public class OrderService {
                     "Only pending orders can be cancelled");
             }
             
-            order.setStatus(Order.OrderStatus.CANCELLED.toString());
-            order.setCancelledDate(LocalDateTime.now());
+            order.setStatus(Order.OrderStatus.CANCELLED);
             Order cancelledOrder = orderRepository.save(order);
             logger.info("Order cancelled successfully");
             

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import uz.pdp.dto.OrderDto;
 import uz.pdp.entity.Order;
 import uz.pdp.entity.User;
+import uz.pdp.exception.BadRequestException;
 import uz.pdp.exception.ResourceNotFoundException;
 import uz.pdp.service.OrderService;
 import uz.pdp.service.UserService;
@@ -179,14 +180,13 @@ public class UserController {
      */
     @PostMapping("/request-seller/{userId}")
     @Operation(summary = "Request to become a seller")
-    public ResponseEntity<EntityResponse<User>> requestSeller(@PathVariable Long userId) {
+    public EntityResponse<User> requestSeller(@PathVariable Long userId) {
         try {
-            EntityResponse<User> response = userService.requestSeller(userId);
-            return ResponseEntity.ok(response);
+            logger.info("Processing seller request for user ID: {}", userId);
+            return userService.requestSeller(userId);
         } catch (Exception e) {
             logger.error("Error requesting seller status for user {}: {}", userId, e.getMessage());
-            return ResponseEntity.badRequest()
-                    .body(new EntityResponse<>("Failed to process seller request: " + e.getMessage(), false, null));
+            throw new BadRequestException("Failed to process seller request: " + e.getMessage());
         }
     }
 
@@ -202,17 +202,15 @@ public class UserController {
     @PostMapping("/verify-seller/{userId}/{code}")
     @Operation(summary = "Verify seller email code")
     @RateLimiter(name = "verifySellerLimit", fallbackMethod = "verifySellerFallback")
-    public ResponseEntity<EntityResponse<User>> verifySellerEmail(
+    public EntityResponse<User> verifySellerEmail(
             @PathVariable Long userId,
             @PathVariable String code) {
         try {
             logger.info("Verifying seller email code for user ID: {}", userId);
-            EntityResponse<User> response = userService.verifySellerEmail(userId, code);
-            return ResponseEntity.ok(response);
+            return userService.verifySellerEmail(userId, code);
         } catch (Exception e) {
             logger.error("Error verifying seller email for user {}: {}", userId, e.getMessage());
-            return ResponseEntity.badRequest()
-                    .body(new EntityResponse<>("Failed to verify seller email: " + e.getMessage(), false, null));
+            throw new BadRequestException("Failed to verify seller email: " + e.getMessage());
         }
     }
 
@@ -231,7 +229,7 @@ public class UserController {
         } catch (Exception e) {
             logger.error("Error fetching all users: {}", e.getMessage());
             return ResponseEntity.badRequest()
-                    .body(new EntityResponse<>("Failed to fetch users: " + e.getMessage(), false, null));
+                    .body(EntityResponse.<List<User>>error("Failed to fetch users: " + e.getMessage(), null));
         }
     }
 

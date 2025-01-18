@@ -4,8 +4,8 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.context.annotation.Lazy;
 import uz.pdp.enums.Color;
+import uz.pdp.enums.DoorStatus;
 import uz.pdp.enums.Size;
 import java.util.List;
 import java.util.ArrayList;
@@ -50,55 +50,74 @@ public class Door {
     private Double customHeight;
     private Boolean isCustomColor = false;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "seller_id")
-    @JsonIdentityReference(alwaysAsId = true)
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private User seller;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private DoorStatus status = DoorStatus.AVAILABLE;
 
     private boolean active = true;
 
     @PrePersist
+    protected void onCreate() {
+        calculateFinalPrice();
+    }
+
+    @PreUpdate
+    protected void onUpdate() {
+        calculateFinalPrice();
+    }
+
+    /**
+     * Calculates the final price of the door based on customizations.
+     * Applies markups for custom size and color.
+     */
     public void calculateFinalPrice() {
         if (this.price == null || this.price <= 0) {
             throw new IllegalArgumentException("Price must be positive");
         }
-        this.finalPrice = getFinalPrice();
-    }
-
-    @PreUpdate
-    public void onUpdate() {
-        // Check seller status and update door status if seller is deactivated
-        if (seller != null && !seller.isEnabled()) {
-            this.active = false;
-        }   
-    }
-
-    public Double getFinalPrice() {
-        double finalPrice = price;
         
-        // Apply size markup
+        double calculatedPrice = price;
+        
+        // Apply size markup for custom sizes
         if (size == Size.CUSTOM) {
             if (customWidth == null || customHeight == null) {
                 throw new IllegalStateException("Custom size requires width and height");
             }
-            double areaDifference = (customWidth * customHeight) / 
-                                  (size.getWidth() * size.getHeight());
-            finalPrice *= Math.max(1.2, areaDifference); // Minimum 20% markup
+            double standardArea = size.getWidth() * size.getHeight();
+            double customArea = customWidth * customHeight;
+            double areaDifference = customArea / standardArea;
+            calculatedPrice *= Math.max(1.2, areaDifference); // Minimum 20% markup
         }
         
-        // Apply color markup
-        if (isCustomColor != null && isCustomColor) {
-            finalPrice *= 1.15; // 15% markup for custom color
+        // Apply color markup for custom colors
+        if (Boolean.TRUE.equals(isCustomColor)) {
+            calculatedPrice *= 1.15; // 15% markup for custom color
         }
         
-        return Math.round(finalPrice * 100.0) / 100.0; // Round to 2 decimal places
+        // Round to 2 decimal places
+        this.finalPrice = Math.round(calculatedPrice * 100.0) / 100.0;
     }
 
+    /**
+     * Gets the width of the door.
+     * If size is CUSTOM, returns customWidth, otherwise returns standard width from Size enum.
+     *
+     * @return Door width in millimeters
+     */
     public Double getWidth() {
         return size == Size.CUSTOM ? customWidth : (double) size.getWidth();
     }
-    
+
+    /**
+     * Gets the height of the door.
+     * If size is CUSTOM, returns customHeight, otherwise returns standard height from Size enum.
+     *
+     * @return Door height in millimeters
+     */
     public Double getHeight() {
         return size == Size.CUSTOM ? customHeight : (double) size.getHeight();
     }

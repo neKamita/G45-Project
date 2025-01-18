@@ -78,7 +78,7 @@ public class ContactController {
      */
     @GetMapping("/addresses/map-points")
     @Operation(summary = "Get all store locations as map points")
-    public ResponseEntity<EntityResponse<List<Location>>> getAllMapPoints() {
+    public ResponseEntity<EntityResponse<List<AddressDTO.LocationDTO>>> getAllMapPoints() {
         logger.info("Fetching all store locations as map points");
         return addressService.getAllMapPointsResponse();
     }
@@ -116,12 +116,11 @@ public class ContactController {
     @PutMapping("/addresses/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     @Operation(summary = "Update an existing store address")
-    public ResponseEntity<EntityResponse<AddressDTO>> updateAddress(
+    public ResponseEntity<EntityResponse<Address>> updateAddress(
             @PathVariable Long id,
             @Valid @RequestBody AddressDTO addressDTO) {
         logger.info("Updating store address with id {}: {}", id, addressDTO);
-        EntityResponse<AddressDTO> response = addressService.updateAddressResponse(id, addressDTO);
-        return ResponseEntity.ok(response);
+        return addressService.updateAddressResponse(id, addressDTO);
     }
 
     /**
@@ -173,7 +172,6 @@ public class ContactController {
             @RequestParam Double latitude,
             @RequestParam Double longitude) {
         logger.info("Finding nearest address to coordinates: {}, {}", latitude, longitude);
-        Address address = addressService.findNearestAddress(latitude, longitude);
-        return ResponseEntity.ok(new EntityResponse<Address>("Nearest address found successfully", true, address));
+        return addressService.findNearestAddressResponse(latitude, longitude);
     }
 }

@@ -69,28 +69,28 @@ public class AuthService {
      */
     @Transactional
     public EntityResponse<String> register(SignUpRequest registerDto) {
-        // Validate input
-        Map<String, String> validationErrors = validateRegistration(registerDto);
-        if (!validationErrors.isEmpty()) {
-            throw new BadRequestException("Validation failed", validationErrors);
-        }
-
-        // Check for existing user
-        if (userRepository.existsByName(registerDto.getName())) {
-            throw new ConflictException("Username already exists");
-        }
-
-        if (userRepository.existsByEmail(registerDto.getEmail())) {
-            throw new ConflictException("Email already registered");
-        }
-
         try {
+            // Validate input
+            Map<String, String> validationErrors = validateRegistration(registerDto);
+            if (!validationErrors.isEmpty()) {
+                throw new BadRequestException("Validation failed", validationErrors);
+            }
+
+            // Check for existing user
+            if (userRepository.existsByName(registerDto.getName())) {
+                throw new ConflictException("An account with this username already exists");
+            }
+
+            if (userRepository.existsByEmail(registerDto.getEmail())) {
+                throw new ConflictException("An account with this email address already exists");
+            }
+
             // Create new user
             User user = new User();
             user.setName(registerDto.getName());
+            user.setLastname(registerDto.getLastname());
             user.setEmail(registerDto.getEmail());
             user.setPassword(passwordEncoder.encode(registerDto.getPassword()));
-            user.setPhone(registerDto.getPhone());
             user.setRole(Role.USER);
             user.setActive(true);
 
@@ -98,10 +98,14 @@ public class AuthService {
             
             // Generate JWT token
             String token = jwtProvider.generateToken(user.getName());
-            return EntityResponse.success("User registered successfully", token);
+            return EntityResponse.success("Account created successfully", token);
+            
+        } catch (BadRequestException | ConflictException e) {
+            logger.error("Registration validation error: {}", e.getMessage());
+            throw e;
         } catch (Exception e) {
-            logger.error("Registration failed: {}", e.getMessage());
-            throw new BadRequestException("Registration failed: " + e.getMessage(), e);
+            logger.error("Unexpected error during registration: {}", e.getMessage(), e);
+            throw new BadRequestException("Unable to complete registration. Please try again later.");
         }
     }
 
@@ -114,26 +118,20 @@ public class AuthService {
      * @throws UnauthorizedException if authentication fails
      */
     public EntityResponse<String> login(SignInRequest loginDto) {
-        // Validate input
-        Map<String, String> validationErrors = validateLogin(loginDto);
-        if (!validationErrors.isEmpty()) {
-            throw new BadRequestException("Validation failed", validationErrors);
-        }
-
         try {
+            // Validate input
+            Map<String, String> validationErrors = validateLogin(loginDto);
+            if (!validationErrors.isEmpty()) {
+                throw new BadRequestException("Validation failed", validationErrors);
+            }
+
             // Authenticate user
-            Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                    loginDto.getName(),
-                    loginDto.getPassword()
-                )
-            );
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(loginDto.getUsername(), loginDto.getPassword()));
 
-            // Get user details
-            User user = userRepository.findByName(loginDto.getName())
-                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+            User user = userRepository.findByName(loginDto.getUsername())
+                    .orElseThrow(() -> new UnauthorizedException("User not found"));
 
-            // Check if account is active
             if (!user.isActive()) {
                 throw new ForbiddenException("Account is deactivated");
             }
@@ -145,7 +143,7 @@ public class AuthService {
             throw new UnauthorizedException("Invalid username or password");
         } catch (Exception e) {
             logger.error("Login failed: {}", e.getMessage());
-            throw new BadRequestException("Login failed: " + e.getMessage(), e);
+            throw new BadRequestException("Login failed. Please try again later.");
         }
     }
 
@@ -165,25 +163,27 @@ public class AuthService {
         }
 
         if (registerDto.getName() == null || registerDto.getName().trim().isEmpty()) {
-            errors.put("name", "Username is required");
+            errors.put("name", "Please enter your name");
         } else if (registerDto.getName().length() < 3 || registerDto.getName().length() > 50) {
-            errors.put("name", "Username must be between 3 and 50 characters");
+            errors.put("name", "Name must be between 3 and 50 characters");
+        }
+
+        if (registerDto.getLastname() == null || registerDto.getLastname().trim().isEmpty()) {
+            errors.put("lastname", "Please enter your last name");
+        } else if (registerDto.getLastname().length() < 2 || registerDto.getLastname().length() > 50) {
+            errors.put("lastname", "Last name must be between 2 and 50 characters");
         }
 
         if (registerDto.getEmail() == null || registerDto.getEmail().trim().isEmpty()) {
-            errors.put("email", "Email is required");
+            errors.put("email", "Please enter your email address");
         } else if (!registerDto.getEmail().matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
-            errors.put("email", "Invalid email format");
+            errors.put("email", "Please enter a valid email address");
         }
 
         if (registerDto.getPassword() == null || registerDto.getPassword().trim().isEmpty()) {
-            errors.put("password", "Password is required");
+            errors.put("password", "Please enter a password");
         } else if (registerDto.getPassword().length() < 6) {
-            errors.put("password", "Password must be at least 6 characters");
-        }
-
-        if (registerDto.getPhone() != null && !registerDto.getPhone().matches("^\\+?[0-9]{10,15}$")) {
-            errors.put("phone", "Invalid phone number format");
+            errors.put("password", "Password must be at least 6 characters long");
         }
 
         return errors;
@@ -204,7 +204,7 @@ public class AuthService {
             return errors;
         }
 
-        if (loginDto.getName() == null || loginDto.getName().trim().isEmpty()) {
+        if (loginDto.getUsername() == null || loginDto.getUsername().trim().isEmpty()) {
             errors.put("name", "Username is required");
         }
 

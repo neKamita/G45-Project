@@ -3,30 +3,34 @@ package uz.pdp.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import uz.pdp.payload.*;
 import uz.pdp.entity.EmailVerification;
 import uz.pdp.entity.User;
 import uz.pdp.enums.Role;
 import uz.pdp.enums.VerificationType;
+import uz.pdp.exception.BadRequestException;
+import uz.pdp.exception.ConflictException;
+import uz.pdp.exception.ForbiddenException;
+import uz.pdp.exception.ResourceNotFoundException;
+import uz.pdp.exception.UnauthorizedException;
+import uz.pdp.payload.EntityResponse;
 import uz.pdp.repository.EmailVerificationRepository;
 import uz.pdp.repository.UserRepository;
-import uz.pdp.dto.*;
-import uz.pdp.exception.*;
 
-import jakarta.validation.Valid;
-import lombok.extern.slf4j.Slf4j;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
+
+import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.data.redis.core.RedisTemplate;
 
@@ -102,7 +106,7 @@ public class UserService {
      * @return true if user is an admin, false otherwise
      * @throws UnauthorizedException if user is not authenticated
      */
-    private boolean isAdmin(User user) {
+    public boolean isAdmin(User user) {
         if (user == null) {
             throw new UnauthorizedException("User is not authenticated");
         }
@@ -117,7 +121,7 @@ public class UserService {
      * @return EntityResponse indicating success/failure
      * @throws BadRequestException if email address is empty
      */
-    public EntityResponse<String> sendVerificationEmail(String email, VerificationType type) {
+    public ResponseEntity<EntityResponse<String>> sendVerificationEmail(String email, VerificationType type) {
         if (email == null || email.trim().isEmpty()) {
             throw new BadRequestException("Email address cannot be empty");
         }
@@ -127,15 +131,16 @@ public class UserService {
             emailService.sendVerificationEmail(email, code, type);
 
             EmailVerification verification = new EmailVerification();
-            verification.setEmail(email);
-            verification.setCode(code);
+            verification.setUser(getCurrentUser());
+            verification.setVerificationCode(code);
             verification.setType(type);
             verification.setExpiryTime(LocalDateTime.now().plusMinutes(15));
             emailVerificationRepository.save(verification);
 
-            return EntityResponse.success("Verification email sent successfully");
+            return ResponseEntity.ok(EntityResponse.success("Verification email sent successfully"));
         } catch (Exception e) {
-            throw new BadRequestException("Failed to send verification email", e);
+            logger.error("Error sending verification email: {}", e.getMessage());
+            return ResponseEntity.badRequest().body(EntityResponse.error("Failed to send verification email: " + e.getMessage()));
         }
     }
 
@@ -150,24 +155,35 @@ public class UserService {
      *                                   user is already a seller
      */
     @Transactional
+    @PreAuthorize("hasRole('USER')")
     public EntityResponse<User> requestSeller(Long userId) {
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + userId));
+        try {
+            User user = userRepository.findById(userId)
+                    .orElseThrow(() -> new ResourceNotFoundException("User not found"));
 
-        if (user.isSellerRequestPending()) {
-            throw new ConflictException("Seller request is already pending");
+            if (user.getRole() == Role.SELLER) {
+                throw new ConflictException("User is already a seller");
+            }
+
+            if (user.isSellerRequestPending()) {
+                throw new ConflictException("Seller request is already pending");
+            }
+
+            user.setSellerRequestPending(true);
+            User savedUser = userRepository.save(user);
+
+            // Send verification email
+            sendVerificationEmail(user.getEmail(), VerificationType.SELLER_REQUEST);
+
+            logger.info("Seller request initiated for user ID: {}", userId);
+            return EntityResponse.success("Seller request initiated successfully", savedUser);
+        } catch (ResourceNotFoundException | ConflictException e) {
+            logger.error("Error processing seller request - ID {}: {}", userId, e.getMessage());
+            throw e;
+        } catch (Exception e) {
+            logger.error("Error processing seller request for user ID {}: {}", userId, e.getMessage());
+            throw new BadRequestException("Failed to process seller request: " + e.getMessage());
         }
-
-        if (isSeller(user)) {
-            throw new ConflictException("User is already a seller");
-        }
-
-        user.setSellerRequestPending(true);
-        userRepository.save(user);
-
-        sendVerificationEmail(user.getEmail(), VerificationType.SELLER_VERIFICATION);
-
-        return EntityResponse.success("Seller request initiated successfully", user);
     }
 
     /**
@@ -183,37 +199,53 @@ public class UserService {
      *                                   invalid/expired verification code
      */
     @Transactional
+    @PreAuthorize("hasRole('USER')")
     public EntityResponse<User> verifySellerEmail(Long userId, String verificationCode) {
-        if (hasExceededFailedAttempts(userId)) {
-            throw new ForbiddenException("Too many failed attempts. Please try again later.");
+        try {
+            if (hasExceededFailedAttempts(userId)) {
+                throw new ForbiddenException("Too many failed attempts. Please try again later.");
+            }
+
+            User user = userRepository.findById(userId)
+                    .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+
+            if (!user.isSellerRequestPending()) {
+                throw new BadRequestException("No pending seller request found");
+            }
+
+            Optional<EmailVerification> verification = emailVerificationRepository
+                    .findByUserIdAndTypeAndVerifiedFalseAndExpiryTimeAfter(
+                            userId,
+                            VerificationType.SELLER_REQUEST,
+                            LocalDateTime.now());
+
+            if (verification.isEmpty()) {
+                throw new BadRequestException("No valid verification request found");
+            }
+
+            EmailVerification emailVerification = verification.get();
+            if (!emailVerification.getVerificationCode().equals(verificationCode)) {
+                recordFailedAttempt(userId);
+                throw new BadRequestException("Invalid verification code");
+            }
+
+            emailVerification.setVerified(true);
+            emailVerificationRepository.save(emailVerification);
+
+            user.setSellerRequestPending(false);
+            user.setRole(Role.SELLER);
+            User savedUser = userRepository.save(user);
+
+            clearFailedAttempts(userId);
+            logger.info("Seller email verified for user ID: {}", userId);
+            return EntityResponse.success("Email verified successfully", savedUser);
+        } catch (ResourceNotFoundException | ForbiddenException | BadRequestException e) {
+            logger.error("Error verifying seller email - ID {}: {}", userId, e.getMessage());
+            throw e;
+        } catch (Exception e) {
+            logger.error("Error verifying seller email for user ID {}: {}", userId, e.getMessage());
+            throw new BadRequestException("Failed to verify seller email: " + e.getMessage());
         }
-
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + userId));
-
-        if (!user.isSellerRequestPending()) {
-            throw new BadRequestException("No pending seller request found");
-        }
-
-        EmailVerification verification = emailVerificationRepository
-                .findByEmailAndTypeAndCodeAndExpiryTimeAfter(
-                        user.getEmail(),
-                        VerificationType.SELLER_VERIFICATION,
-                        verificationCode,
-                        LocalDateTime.now())
-                .orElseThrow(() -> {
-                    recordFailedAttempt(userId);
-                    throw new BadRequestException("Invalid or expired verification code");
-                });
-
-        user.setRole(Role.SELLER);
-        user.setSellerRequestPending(false);
-        userRepository.save(user);
-
-        emailVerificationRepository.delete(verification);
-        clearFailedAttempts(userId);
-
-        return EntityResponse.success("Seller verification successful", user);
     }
 
     /**
@@ -278,5 +310,79 @@ public class UserService {
     private String generateVerificationCode() {
         Random random = new Random();
         return String.format("%06d", random.nextInt(1000000));
+    }
+
+    /**
+     * Updates a user's profile information.
+     * Validates and updates user details while preserving sensitive information.
+     *
+     * @param id User ID to update
+     * @param updatedUser Updated user details
+     * @return EntityResponse containing updated user
+     * @throws ResourceNotFoundException if user not found
+     */
+    @Transactional
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    public EntityResponse<User> updateProfile(Long id, @Valid User updatedUser) {
+        try {
+            User existingUser = userRepository.findById(id)
+                    .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+
+            // Update only allowed fields
+            existingUser.setName(updatedUser.getName());
+            existingUser.setLastname(updatedUser.getLastname());
+            existingUser.setEmail(updatedUser.getEmail());
+            existingUser.setPhone(updatedUser.getPhone());
+            
+            // Preserve sensitive information
+            existingUser.setPassword(existingUser.getPassword());
+            existingUser.setRole(existingUser.getRole());
+            existingUser.setActive(existingUser.isActive());
+            existingUser.setSellerRequestPending(existingUser.isSellerRequestPending());
+            
+            User savedUser = userRepository.save(existingUser);
+            logger.info("Successfully updated profile for user ID: {}", id);
+            return EntityResponse.success("Profile updated successfully", savedUser);
+        } catch (ResourceNotFoundException e) {
+            logger.error("User not found for profile update - ID {}: {}", id, e.getMessage());
+            throw e;
+        } catch (Exception e) {
+            logger.error("Error updating profile for user ID {}: {}", id, e.getMessage());
+            throw new BadRequestException("Failed to update profile: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Deactivates a user account.
+     * Sets the account status to inactive and logs the action.
+     *
+     * @param id User ID to deactivate
+     * @return EntityResponse indicating success/failure
+     * @throws ResourceNotFoundException if user not found
+     * @throws ForbiddenException if user is an admin
+     */
+    @Transactional
+    @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
+    public EntityResponse<Void> deactivateAccount(Long id) {
+        try {
+            User user = userRepository.findById(id)
+                    .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+
+            if (user.getRole() == Role.ADMIN) {
+                throw new ForbiddenException("Admin accounts cannot be deactivated");
+            }
+
+            user.setActive(false);
+            userRepository.save(user);
+            
+            logger.info("Successfully deactivated account for user ID: {}", id);
+            return EntityResponse.success("Account deactivated successfully");
+        } catch (ResourceNotFoundException | ForbiddenException e) {
+            logger.error("Error deactivating account - ID {}: {}", id, e.getMessage());
+            throw e;
+        } catch (Exception e) {
+            logger.error("Error deactivating account for user ID {}: {}", id, e.getMessage());
+            throw new BadRequestException("Failed to deactivate account: " + e.getMessage());
+        }
     }
 }

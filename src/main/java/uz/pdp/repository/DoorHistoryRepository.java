@@ -15,4 +15,8 @@ public interface DoorHistoryRepository extends JpaRepository<DoorHistory, Long> 
     @Modifying
     @Query("DELETE FROM DoorHistory dh WHERE dh.door.id = :doorId")
     void deleteByDoorId(Long doorId);
+
+    List<DoorHistory> findByDoorId(Long doorId);
+
+    List<DoorHistory> findByUserIdAndDoorId(Long userId, Long doorId);
 }

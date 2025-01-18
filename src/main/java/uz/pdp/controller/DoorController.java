@@ -297,7 +297,7 @@ public class DoorController {
             @RequestPart("images") MultipartFile[] images) {
         try {
             logger.info("Uploading {} images for door ID: {}", images.length, id);
-            Door updatedDoor = doorService.uploadImages(id, images);
+            Door updatedDoor = doorService.uploadImages(id, Arrays.asList(images));
             return ResponseEntity.ok(EntityResponse.success("Images uploaded successfully", updatedDoor));
         } catch (IllegalArgumentException e) {
             logger.error("Invalid image upload request: {}", e.getMessage());
@@ -366,7 +366,7 @@ public class DoorController {
         try {
             Door door = doorService.updateImages(id,
                     deleteUrls != null ? deleteUrls : Collections.emptyList(),
-                    newImages);
+                    Arrays.asList(newImages));
             return ResponseEntity.ok(EntityResponse.success("Images updated successfully", door));
         } catch (Exception e) {
             logger.error("Error updating images: {}", e.getMessage());

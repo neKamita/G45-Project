@@ -60,6 +60,10 @@ public class User implements UserDetails {
         return true;
     }
 
+    @Override
+    public boolean isEnabled() {
+        return active;
+    }
 
     @Override
     public String getPassword() {

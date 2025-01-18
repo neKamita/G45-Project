@@ -3,6 +3,7 @@ package uz.pdp.payload;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -19,6 +20,12 @@ public class EntityResponse<T> {
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSZ", timezone = "UTC")
     private Instant timestamp = Instant.now();
+
+    public EntityResponse(String messsage, boolean b, Object o) {
+        this.message = messsage;
+        this.success = b;
+        this.data = (T) o;
+    }
 
     public static <T> EntityResponse<T> success(String message) {
         return success(message, null);

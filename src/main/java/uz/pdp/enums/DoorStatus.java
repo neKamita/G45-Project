@@ -4,5 +4,6 @@ public enum DoorStatus {
     AVAILABLE,
     PENDING,
     SOLD,
-    INACTIVE
+    INACTIVE,
+    UNAVAILABLE
 }

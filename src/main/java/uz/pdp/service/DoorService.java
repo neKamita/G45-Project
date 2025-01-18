@@ -2,6 +2,8 @@ package uz.pdp.service;
 
 import java.util.List;
 import java.util.ArrayList;
+
+import uz.pdp.enums.Role;
 import uz.pdp.exception.ResourceNotFoundException;
 import uz.pdp.exception.BadRequestException;
 import uz.pdp.exception.ConflictException;
@@ -21,6 +23,7 @@ import uz.pdp.entity.User;
 import uz.pdp.enums.Color;
 import uz.pdp.enums.Size;
 import uz.pdp.enums.DoorStatus;
+import uz.pdp.payload.EntityResponse;
 import uz.pdp.repository.DoorHistoryRepository;
 import uz.pdp.repository.DoorRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -156,27 +159,46 @@ public class DoorService {
     /**
      * Deletes a door from the system.
      * Performs cleanup of associated resources including images and door history.
+     * Only admins can delete doors.
      *
      * @param id Door ID to delete
-     * @throws ConflictException if door is not available
+     * @return EntityResponse indicating success/failure
+     * @throws ResourceNotFoundException if door not found
+     * @throws BadRequestException if deletion fails
      */
+    @PreAuthorize("hasRole('ADMIN')")
     @Transactional
-    @PreAuthorize("hasRole('ADMIN') or (hasRole('SELLER') and @doorSecurityService.isSeller(#id))")
-    @CacheEvict(value = {"doors", "allDoors"}, allEntries = true)
-    public void deleteDoor(Long id) {
-        logger.info("Deleting door with ID: {}", id);
-        Door door = getDoor(id);
-        
-        if (!door.isActive()) {
-            throw new ConflictException("Cannot delete an inactive door");
+    @CacheEvict(value = "doors", key = "#id")
+    public EntityResponse<Void> deleteDoor(Long id) {
+        try {
+            logger.info("Deleting door with ID: {}", id);
+            Door door = getDoorById(id);
+
+            // Delete associated images
+            if (door.getImages() != null && !door.getImages().isEmpty()) {
+                for (String imageUrl : door.getImages()) {
+                    try {
+                        imageStorageService.deleteImage(imageUrl);
+                    } catch (Exception e) {
+                        logger.warn("Failed to delete image from storage: {}", imageUrl);
+                    }
+                }
+            }
+
+            // Delete associated history records
+            doorHistoryRepository.deleteByDoorId(id);
+
+            // Delete the door
+            doorRepository.delete(door);
+            logger.info("Successfully deleted door with ID: {}", id);
+            return EntityResponse.success("Door deleted successfully");
+        } catch (ResourceNotFoundException e) {
+            logger.error("Door not found - ID {}: {}", id, e.getMessage());
+            throw e;
+        } catch (Exception e) {
+            logger.error("Error deleting door {}: {}", id, e.getMessage());
+            throw new BadRequestException("Failed to delete door: " + e.getMessage());
         }
-        
-        // Delete associated door history first
-        doorHistoryRepository.deleteByDoorId(id);
-        
-        // Now delete the door
-        doorRepository.delete(door);
-        logger.info("Door with ID {} and its history deleted successfully", id);
     }
 
     /**
@@ -246,7 +268,7 @@ public class DoorService {
                 imageUrls.add(imageUrl);
             } catch (IOException e) {
                 logger.error("Failed to store image for door {}: {}", id, e.getMessage());
-                throw new BadRequestException("Failed to store image", e);
+                throw new BadRequestException("Failed to store image", e.getMessage(), e);
             }
         }
         
@@ -270,13 +292,13 @@ public class DoorService {
         Door door = getDoor(id);
         door.getImages().removeAll(imageUrls);
         
-        // Delete images from S3
+        // Delete images from storage
         for (String imageUrl : imageUrls) {
             try {
                 imageStorageService.deleteImage(imageUrl);
             } catch (Exception e) {
                 logger.warn("Failed to delete image from storage: {}", imageUrl);
-                throw new BadRequestException("Failed to delete image", e);
+                throw new BadRequestException("Failed to delete image", e.getMessage(), e);
             }
         }
         
@@ -363,43 +385,53 @@ public class DoorService {
     }
 
     /**
-     * Uploads images for a door.
-     * Validates image files and stores them using the image storage service.
+     * Handles image upload for a door.
+     * Validates image format and stores in configured location.
      *
-     * @param id Door ID
-     * @param images Array of image files to upload
-     * @return Updated door with new images
-     * @throws EntityNotFoundException if door not found
-     * @throws BadRequestException if images are invalid
-     * @throws IOException if image upload fails
+     * @param id Door ID to update
+     * @param images List of image files
+     * @return Door entity with updated images
+     * @throws BadRequestException if validation fails
      */
     @Transactional
-    public Door uploadImages(Long id, MultipartFile[] images) throws IOException {
-        logger.info("Uploading {} images for door ID: {}", images.length, id);
-        
-        if (images == null || images.length == 0) {
-            throw new BadRequestException("No images provided");
-        }
-
+    @PreAuthorize("hasRole('ADMIN') or (hasRole('SELLER') and @doorSecurityService.isSeller(#id))")
+    public Door uploadImages(Long id, List<MultipartFile> images) {
         Door door = getDoor(id);
         List<String> imageUrls = new ArrayList<>();
 
-        // Validate and upload each image
-        for (MultipartFile image : images) {
-            if (image.isEmpty()) {
-                throw new BadRequestException("Empty image file provided");
+        try {
+            for (MultipartFile image : images) {
+                String imageUrl = imageStorageService.storeImage(image);
+                imageUrls.add(imageUrl);
             }
-
-            String imageUrl = imageStorageService.storeImage(image);
-            imageUrls.add(imageUrl);
+            door.setImages(imageUrls);
+            return doorRepository.save(door);
+        } catch (IOException e) {
+            logger.error("Failed to upload images for door {}: {}", id, e.getMessage());
+            throw new BadRequestException("Failed to upload images: ",e.getMessage(), e);
         }
+    }
 
-        // Update door with new image URLs
-        if (door.getImages() == null) {
-            door.setImages(new ArrayList<>());
+    /**
+     * Updates door status.
+     * Validates status transition and updates door entity.
+     *
+     * @param id Door ID to update
+     * @param status New door status
+     * @return Door entity
+     * @throws BadRequestException if status transition is invalid
+     */
+    @Transactional
+    @PreAuthorize("hasRole('ADMIN') or (hasRole('SELLER') and @doorSecurityService.isSeller(#id))")
+    public Door updateStatus(Long id, DoorStatus status) {
+        try {
+            Door door = getDoor(id);
+            door.setStatus(status);
+            return doorRepository.save(door);
+        } catch (Exception e) {
+            logger.error("Failed to update status for door {}: {}", id, e.getMessage());
+            throw new BadRequestException("Failed to update door status: ", e.getMessage(), e);
         }
-        door.getImages().addAll(imageUrls);
-        return doorRepository.save(door);
     }
 
     /**
@@ -415,5 +447,172 @@ public class DoorService {
                contentType.equals("image/png") ||
                contentType.equals("image/gif") ||
                contentType.equals("image/webp");
+    }
+
+    /**
+     * Retrieves all doors in the system.
+     * Only accessible by ADMIN users.
+     *
+     * @return List of all doors
+     */
+    @PreAuthorize("hasRole('ADMIN')")
+    public List<Door> getAllDoors() {
+        try {
+            logger.info("Retrieving all doors");
+            List<Door> doors = doorRepository.findAll();
+            logger.info("Retrieved {} doors", doors.size());
+            return doors;
+        } catch (Exception e) {
+            logger.error("Error retrieving all doors: {}", e.getMessage());
+            throw new BadRequestException("Failed to retrieve doors: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Retrieves a door by its ID.
+     *
+     * @param id ID of the door to retrieve
+     * @return Door if found
+     * @throws ResourceNotFoundException if door not found
+     */
+    public Door getDoorById(Long id) {
+        try {
+            logger.info("Retrieving door with ID: {}", id);
+            Door door = doorRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Door not found"));
+            logger.info("Retrieved door: {}", door.getName());
+            return door;
+        } catch (ResourceNotFoundException e) {
+            logger.error("Door not found - ID {}: {}", id, e.getMessage());
+            throw e;
+        } catch (Exception e) {
+            logger.error("Error retrieving door {}: {}", id, e.getMessage());
+            throw new BadRequestException("Failed to retrieve door: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Searches for doors based on search criteria.
+     *
+     * @param searchTerm Term to search for in door properties
+     * @return List of matching doors
+     */
+    public List<Door> searchDoors(String searchTerm) {
+        try {
+            logger.info("Searching doors with term: {}", searchTerm);
+            List<Door> doors = doorRepository.findByNameContainingIgnoreCaseOrDescriptionContainingIgnoreCase(
+                searchTerm, searchTerm);
+            logger.info("Found {} matching doors", doors.size());
+            return doors;
+        } catch (Exception e) {
+            logger.error("Error searching doors: {}", e.getMessage());
+            throw new BadRequestException("Failed to search doors: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Creates a new door.
+     * Requires seller or admin privileges.
+     *
+     * @param door Door entity to create
+     * @return EntityResponse containing created door
+     */
+    @PreAuthorize("hasAnyRole('SELLER', 'ADMIN')")
+    @Transactional
+    public EntityResponse<Door> createDoor(Door door) {
+        try {
+            logger.info("Creating new door");
+            User currentUser = userService.getCurrentUser();
+            door.setSeller(currentUser);
+            
+            // Set default status values
+            door.setStatus(DoorStatus.PENDING);
+            door.setActive(true);
+            
+            Door savedDoor = doorRepository.save(door);
+            logger.info("Created door with ID: {}", savedDoor.getId());
+            return EntityResponse.success("Door created successfully", savedDoor);
+        } catch (Exception e) {
+            logger.error("Error creating door: {}", e.getMessage());
+            throw new BadRequestException("Failed to create door: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Updates an existing door.
+     * Only the door's seller or an admin can update it.
+     *
+     * @param id ID of the door to update
+     * @param updatedDoor Updated door details
+     * @return EntityResponse containing updated door
+     */
+    @PreAuthorize("hasAnyRole('SELLER', 'ADMIN')")
+    @Transactional
+    public EntityResponse<Door> updateDoor(Long id, Door updatedDoor) {
+        try {
+            logger.info("Updating door with ID: {}", id);
+            Door existingDoor = getDoorById(id);
+            User currentUser = userService.getCurrentUser();
+            
+            // Check if user has permission to update
+            if (!currentUser.getRole().equals(Role.ADMIN) &&
+                !existingDoor.getSeller().getId().equals(currentUser.getId())) {
+                throw new BadRequestException("You don't have permission to update this door");
+            }
+            
+            // Update fields
+            existingDoor.setName(updatedDoor.getName());
+            existingDoor.setDescription(updatedDoor.getDescription());
+            existingDoor.setPrice(updatedDoor.getPrice());
+            existingDoor.setSize(updatedDoor.getSize());
+            existingDoor.setColor(updatedDoor.getColor());
+            existingDoor.setMaterial(updatedDoor.getMaterial());
+            
+            Door savedDoor = doorRepository.save(existingDoor);
+            logger.info("Updated door with ID: {}", savedDoor.getId());
+            return EntityResponse.success("Door updated successfully", savedDoor);
+        } catch (Exception e) {
+            logger.error("Error updating door {}: {}", id, e.getMessage());
+            throw new BadRequestException("Failed to update door: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Updates door status.
+     * Only the door's seller or an admin can update status.
+     *
+     * @param doorId ID of the door
+     * @param isAvailable If true, sets status to AVAILABLE, if false sets to UNAVAILABLE
+     * @param isActive New active status
+     * @return Updated door
+     */
+    @PreAuthorize("hasAnyRole('SELLER', 'ADMIN')")
+    @Transactional
+    public Door updateDoorStatus(Long doorId, Boolean isAvailable, Boolean isActive) {
+        try {
+            logger.info("Updating status for door ID: {}", doorId);
+            Door door = getDoorById(doorId);
+            User currentUser = userService.getCurrentUser();
+            
+            // Check if user has permission to update
+            if (!currentUser.getRole().equals(Role.ADMIN) && 
+                !door.getSeller().getId().equals(currentUser.getId())) {
+                throw new BadRequestException("You don't have permission to update this door's status");
+            }
+            
+            if (isAvailable != null) {
+                door.setStatus(isAvailable ? DoorStatus.AVAILABLE : DoorStatus.UNAVAILABLE);
+            }
+            if (isActive != null) {
+                door.setActive(isActive);
+            }
+            
+            Door savedDoor = doorRepository.save(door);
+            logger.info("Updated status for door ID: {}", doorId);
+            return savedDoor;
+        } catch (Exception e) {
+            logger.error("Error updating door status {}: {}", doorId, e.getMessage());
+            throw new BadRequestException("Failed to update door status: " + e.getMessage());
+        }
     }
 }

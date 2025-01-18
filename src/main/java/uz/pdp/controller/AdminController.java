@@ -5,15 +5,11 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
-import uz.pdp.exception.AccountAlreadyDeactivatedException;
-import uz.pdp.exception.SellerAlreadyApprovedException;
-import uz.pdp.exception.UserNotFoundException;
-import uz.pdp.exception.exceptions.*;
+import uz.pdp.exception.ResourceNotFoundException;
+import uz.pdp.exception.ForbiddenException;
 import uz.pdp.payload.EntityResponse;
 import uz.pdp.service.AdminService;
 
@@ -28,10 +24,12 @@ import uz.pdp.service.AdminService;
  */
 @RestController
 @RequestMapping("/api/admin")
-@Slf4j
-@Tag(name = "Admin Control", description = "APIs for admin control and management")
 @PreAuthorize("hasRole('ADMIN')")
+@Tag(name = "Admin Management", description = "APIs for administrative operations")
+@SecurityRequirement(name = "bearerAuth")
+@Slf4j
 public class AdminController {
+
     @Autowired
     private AdminService adminService;
 
@@ -51,28 +49,24 @@ public class AdminController {
     public ResponseEntity<EntityResponse<Void>> approveSeller(@PathVariable Long userId) {
         try {
             log.info("Processing seller approval request for user ID: {}", userId);
-            boolean isApproved = adminService.approveSeller(userId);
-            
-            if (isApproved) {
-                log.info("Successfully approved seller request for user ID: {}", userId);
-                return ResponseEntity.ok(new EntityResponse<>("User successfully approved as seller", true, null));
-            } else {
-                log.warn("Failed to approve seller request for user ID: {}", userId);
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                        .body(new EntityResponse<>("Failed to approve user as seller - user may not have requested seller status", false, null));
-            }
-        } catch (UserNotFoundException e) {
+            EntityResponse<Void> response = adminService.approveSeller(userId);
+            log.info("Successfully approved seller request for user ID: {}", userId);
+            return ResponseEntity.ok(response);
+        } catch (ResourceNotFoundException e) {
             log.error("User not found for seller approval - user ID {}: {}", userId, e.getMessage());
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(new EntityResponse<>("User not found: " + e.getMessage(), false, null));
-        } catch (SellerAlreadyApprovedException e) {
-            log.error("Seller already approved for user ID {}: {}", userId, e.getMessage());
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(new EntityResponse<>("Seller already approved: " + e.getMessage(), false, null));
+            return ResponseEntity.badRequest().body(
+                EntityResponse.error("User not found: " + e.getMessage())
+            );
+        } catch (ForbiddenException e) {
+            log.error("Forbidden operation for seller approval - user ID {}: {}", userId, e.getMessage());
+            return ResponseEntity.badRequest().body(
+                EntityResponse.error("Operation not allowed: " + e.getMessage())
+            );
         } catch (Exception e) {
             log.error("Error processing seller approval for user ID {}: {}", userId, e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new EntityResponse<>("Failed to process seller approval: " + e.getMessage(), false, null));
+            return ResponseEntity.internalServerError().body(
+                EntityResponse.error("Internal server error: " + e.getMessage())
+            );
         }
     }
 
@@ -90,31 +84,28 @@ public class AdminController {
      *         - 500 Internal Server Error if there's a system error
      */
     @PostMapping("/deactivate-account/{userId}")
-    @Operation(summary = "Deactivate user account")
+    @Operation(summary = "Deactivate a user account")
     public ResponseEntity<EntityResponse<Void>> deactivateAccount(@PathVariable Long userId) {
         try {
             log.info("Processing account deactivation request for user ID: {}", userId);
             EntityResponse<Void> response = adminService.deactivateAccount(userId);
-            
-            if (response.isSuccess()) {
-                log.info("Successfully deactivated account for user ID: {}", userId);
-            } else {
-                log.warn("Failed to deactivate account for user ID: {}", userId);
-            }
-            
+            log.info("Successfully deactivated account for user ID: {}", userId);
             return ResponseEntity.ok(response);
-        } catch (UserNotFoundException e) {
-            log.error("User not found for account deactivation - user ID {}: {}", userId, e.getMessage());
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(new EntityResponse<>("User not found: " + e.getMessage(), false, null));
-        } catch (AccountAlreadyDeactivatedException e) {
-            log.error("Account already deactivated for user ID {}: {}", userId, e.getMessage());
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body(new EntityResponse<>("Account already deactivated: " + e.getMessage(), false, null));
+        } catch (ResourceNotFoundException e) {
+            log.error("User not found for deactivation - user ID {}: {}", userId, e.getMessage());
+            return ResponseEntity.badRequest().body(
+                EntityResponse.error("User not found: " + e.getMessage())
+            );
+        } catch (ForbiddenException e) {
+            log.error("Forbidden operation for deactivation - user ID {}: {}", userId, e.getMessage());
+            return ResponseEntity.badRequest().body(
+                EntityResponse.error("Operation not allowed: " + e.getMessage())
+            );
         } catch (Exception e) {
-            log.error("Error deactivating account for user ID {}: {}", userId, e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new EntityResponse<>("Failed to deactivate account: " + e.getMessage(), false, null));
+            log.error("Error processing deactivation for user ID {}: {}", userId, e.getMessage());
+            return ResponseEntity.internalServerError().body(
+                EntityResponse.error("Internal server error: " + e.getMessage())
+            );
         }
     }
 }

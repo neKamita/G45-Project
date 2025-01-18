@@ -11,6 +11,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import uz.pdp.payload.EntityResponse;
+import uz.pdp.enums.VerificationType;
 
 import java.util.Random;
 import java.util.UUID;
@@ -58,7 +59,7 @@ public class EmailService {
      * @param text Email content
      * @return EntityResponse indicating success/failure
      */
-    public EntityResponse<Void> sendSimpleEmail(String to, String subject, String text) {
+    public EntityResponse<?> sendSimpleEmail(String to, String subject, String text) {
         try {
             if (!isValidEmail(to)) {
                 logger.error("Invalid email address: {}", to);
@@ -118,25 +119,26 @@ public class EmailService {
      * Sends a verification email to the specified email address.
      *
      * @param email Email address to send verification to
-     * @param subject Subject of the email
+     * @param code Verification code to send
      * @param type Type of verification
      * @return EntityResponse containing the result
      */
-    public EntityResponse<Void> sendVerificationEmail(String email, String subject, VerificationType type) {
+    public EntityResponse<Void> sendVerificationEmail(String email, String code, VerificationType type) {
         if (!isValidEmail(email)) {
             return EntityResponse.error("Invalid email format");
         }
 
         try {
-            String verificationCode = generateVerificationCode();
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
             
             helper.setFrom(fromEmail);
             helper.setTo(email);
-            helper.setSubject(subject);
             
-            String content = buildVerificationEmailContent(verificationCode, type);
+            String subject = getSubjectForVerificationType(type);
+            String content = getContentForVerificationType(type, code);
+            
+            helper.setSubject(subject);
             helper.setText(content, true);
             
             mailSender.send(message);
@@ -150,38 +152,62 @@ public class EmailService {
         }
     }
 
-    /**
-     * Builds the content for verification emails based on type.
-     *
-     * @param code Verification code
-     * @param type Type of verification
-     * @return HTML content for the email
-     */
-    private String buildVerificationEmailContent(String code, VerificationType type) {
-        StringBuilder content = new StringBuilder();
-        content.append("<div style='font-family: Arial, sans-serif; padding: 20px;'>");
-        content.append("<h2 style='color: #2c3e50;'>Email Verification</h2>");
-        
-        switch (type) {
-            case SELLER_REQUEST:
-                content.append("<p>Thank you for requesting to become a seller. Please use the following code to verify your email:</p>");
-                break;
-            case SELLER_APPROVAL:
-                content.append("<p>Congratulations! Your seller account has been approved. You can now start listing doors for sale.</p>");
-                break;
-            case PASSWORD_RESET:
-                content.append("<p>You have requested to reset your password. Please use the following code:</p>");
-                break;
-            default:
-                content.append("<p>Please use the following verification code:</p>");
-        }
-        
-        content.append("<h3 style='color: #3498db; font-size: 24px; letter-spacing: 2px;'>").append(code).append("</h3>");
-        content.append("<p>This code will expire in 15 minutes.</p>");
-        content.append("<p style='color: #7f8c8d;'>If you did not request this verification, please ignore this email.</p>");
-        content.append("</div>");
-        
-        return content.toString();
+    private String getSubjectForVerificationType(VerificationType type) {
+        return switch (type) {
+            case SELLER_REQUEST -> "Verify Your Seller Account Request";
+            case PASSWORD_RESET -> "Password Reset Verification";
+            case EMAIL_CONFIRMATION -> "Confirm Your Email Address";
+        };
+    }
+
+    private String getContentForVerificationType(VerificationType type, String code) {
+        return switch (type) {
+            case SELLER_REQUEST -> getSellerRequestEmailContent(code);
+            case PASSWORD_RESET -> getPasswordResetEmailContent(code);
+            case EMAIL_CONFIRMATION -> getEmailConfirmationContent(code);
+        };
+    }
+
+    private String getSellerRequestEmailContent(String code) {
+        return String.format("""
+            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+                <h2>Seller Account Verification</h2>
+                <p>Thank you for requesting to become a seller. Please use the following code to verify your request:</p>
+                <div style="background-color: #f5f5f5; padding: 15px; text-align: center; font-size: 24px; letter-spacing: 5px;">
+                    <strong>%s</strong>
+                </div>
+                <p>This code will expire in 15 minutes.</p>
+                <p>If you didn't request this, please ignore this email.</p>
+            </div>
+            """, code);
+    }
+
+    private String getPasswordResetEmailContent(String code) {
+        return String.format("""
+            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+                <h2>Password Reset Request</h2>
+                <p>You have requested to reset your password. Use this verification code:</p>
+                <div style="background-color: #f5f5f5; padding: 15px; text-align: center; font-size: 24px; letter-spacing: 5px;">
+                    <strong>%s</strong>
+                </div>
+                <p>This code will expire in 15 minutes.</p>
+                <p>If you didn't request this, please secure your account immediately.</p>
+            </div>
+            """, code);
+    }
+
+    private String getEmailConfirmationContent(String code) {
+        return String.format("""
+            <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+                <h2>Email Confirmation</h2>
+                <p>Please verify your email address using this code:</p>
+                <div style="background-color: #f5f5f5; padding: 15px; text-align: center; font-size: 24px; letter-spacing: 5px;">
+                    <strong>%s</strong>
+                </div>
+                <p>This code will expire in 15 minutes.</p>
+                <p>If you didn't create an account, please ignore this email.</p>
+            </div>
+            """, code);
     }
 
     /**
@@ -294,10 +320,4 @@ public class EmailService {
             return new EntityResponse<>("Failed to send password reset email: " + e.getMessage(), false, null);
         }
     }
-}
-
-enum VerificationType {
-    SELLER_REQUEST,
-    SELLER_APPROVAL,
-    PASSWORD_RESET
 }

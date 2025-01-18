@@ -43,6 +43,6 @@ public class UserGraphQLController {
     @MutationMapping
     public User requestSeller(@Argument Long userId) {
         logger.info("GraphQL Mutation: Requesting seller status for user {}", userId);
-        return userService.requestSeller(Long.valueOf(userId)).data();
+        return userService.requestSeller(Long.valueOf(userId)).getData();
     }
 }
