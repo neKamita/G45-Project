@@ -1,6 +1,32 @@
 # Etadoor Changelog
 
 All notable changes to this project will be documented in this file.
+
+<details>
+<summary><strong>Version 1.2.1 (2025-01-18)</strong></summary>
+
+### Added
+- New endpoint for image deletion
+- Improved logging system for authentication failures
+
+### Changed
+- Simplified authentication error messages
+- Optimized Address and Door repository queries
+- Updated door history storage logic
+- Made `/api/doors/{id}` endpoint public
+
+### Fixed
+- Address repository city search functionality
+- Door endpoint authentication issues
+- User authentication response format
+- PUT request handling for images
+
+### Security
+- Standardized authentication error messages
+- Improved authentication failure logging
+</details>
+
+<details>
 <summary><strong>Version 1.2.0 (2025-01-16)</strong></summary>
 
 ### Added
@@ -31,7 +57,9 @@ All notable changes to this project will be documented in this file.
 ### Removed
 - Deprecated old email verification methods in `EmailService`.
 - Removed unused imports and redundant code across various service classes.
-<details open>
+</details>
+
+<details>
 <summary><strong>Version 1.1.9 (2025-01-13)</strong></summary>
 
 ### 🚀 New Features
@@ -55,7 +83,8 @@ All notable changes to this project will be documented in this file.
 - Updated API documentation with GraphQL section
 - Added GraphiQL usage instructions
 </details>
-<details >
+
+<details>
 <summary><strong>Version 1.1.8 (2025-01-12)</strong></summary>
 
 ### 🐛 Bug Fixes
@@ -82,8 +111,9 @@ All notable changes to this project will be documented in this file.
 - Updated API documentation with new endpoints
 - Added entity lifecycle documentation
 </details>
+
 <details>
-<summary><strong>Version 1.1.7 (2025-01-12)</strong></summary>_
+<summary><strong>Version 1.1.7 (2025-01-12)</strong></summary>
 
 ### 🔒 Security
 - Added email verification requirement for seller registration
@@ -116,6 +146,7 @@ All notable changes to this project will be documented in this file.
 - Enhanced environment variables documentation
 
 </details>
+
 <details>
 <summary><strong>Version 1.1.6 (2025-01-12)</strong></summary>
 
@@ -178,6 +209,7 @@ All notable changes to this project will be documented in this file.
 - Reduced data redundancy in DTOs
 
 </details>
+
 <details>
 <summary><strong>Version 1.1.4 (2025-01-10)</strong></summary>
 
@@ -240,6 +272,7 @@ All notable changes to this project will be documented in this file.
 - Added new environment variables documentation
 - Enhanced API documentation with role-based access examples
 </details>
+
 <details>
 <summary><strong>Version 1.1.2 (2025-01-08)</strong></summary>
 
@@ -263,6 +296,7 @@ All notable changes to this project will be documented in this file.
 - Standardized success/error message format
 - Better client-side error handling support
 </details>
+
 <details>
 <summary><strong>Version 1.1.1 (2025-01-08)</strong></summary>
 
@@ -291,6 +325,7 @@ All notable changes to this project will be documented in this file.
 - Updated environment variables documentation
 
 </details>
+
 <details >
 <summary><strong>Version 1.1.0 (2025-01-07)</strong></summary>
 
