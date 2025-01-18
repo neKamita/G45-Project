@@ -19447,3 +19447,23 @@ Caused by: java.lang.ClassNotFoundException: uz.pdp.payload.UpdateUserDTO
 2025-01-18 14:36:13 [main] INFO  o.s.b.a.g.s.GraphQlWebMvcAutoConfiguration - GraphQL endpoint WebSocket /graphql-ws
 2025-01-18 14:36:13 [main] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 26 endpoint(s) beneath base path '/actuator'
 2025-01-18 14:36:13 [main] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@388a357c, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@6092de45, org.springframework.security.web.context.SecurityContextHolderFilter@7e86f9ba, org.springframework.security.web.header.HeaderWriterFilter@54bb1786, org.springframework.web.filter.CorsFilter@5da85657, org.springframework.security.web.authentication.logout.LogoutFilter@199fe1dc, uz.pdp.config.filtr.MyFilter@66048c9e, org.springframework.security.web.authentication.www.BasicAuthenticationFilter@4b18821d, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@56208ee4, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@1f2fc50, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@254b8be3, org.springframework.security.web.access.ExceptionTranslationFilter@71986020, org.springframework.security.web.access.intercept.AuthorizationFilter@40889d01]
+2025-01-18 14:36:14 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+2025-01-18 14:36:14 [main] INFO  u.p.p.ProjectModul10Application - Started ProjectModul10Application in 19.75 seconds (process running for 19.994)
+2025-01-18 14:36:14 [main] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.email,
+        u1_0.lastname,
+        u1_0.name,
+        u1_0.password,
+        u1_0.phone,
+        u1_0.role,
+        u1_0.seller_request_pending 
+    from
+        users u1_0 
+    where
+        u1_0.name=?
+2025-01-18 14:36:14 [RMI TCP Connection(3)-127.0.0.1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-01-18 14:36:14 [RMI TCP Connection(3)-127.0.0.1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-01-18 14:36:14 [RMI TCP Connection(3)-127.0.0.1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 3 ms
