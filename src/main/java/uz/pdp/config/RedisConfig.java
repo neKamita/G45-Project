@@ -47,15 +47,15 @@ import java.time.Duration;
 public class RedisConfig {
     
     // The address of our speed machine
-    @Value("${spring.data.redis.host:localhost}")
+    @Value("${spring.data.redis.host}")
     private String redisHost;
 
-    // The portal number (default: 6379, because tradition)
-    @Value("${spring.data.redis.port:6379}")
+    // The portal number (default: 15073, because tradition)
+    @Value("${spring.data.redis.port}")
     private int redisPort;
 
     // The secret handshake (empty = trust everyone, which is fine... right?)
-    @Value("${spring.data.redis.password:}")
+    @Value("${spring.data.redis.password}")
     private String redisPassword;
 
     /**
@@ -103,6 +103,26 @@ public class RedisConfig {
     @Bean
     public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory connectionFactory) {
         RedisTemplate<String, Object> template = new RedisTemplate<>();
+        template.setConnectionFactory(connectionFactory);
+        template.setKeySerializer(new StringRedisSerializer());
+        template.setValueSerializer(new GenericJackson2JsonRedisSerializer());
+        template.setHashKeySerializer(new StringRedisSerializer());
+        template.setHashValueSerializer(new GenericJackson2JsonRedisSerializer());
+        template.setEnableTransactionSupport(true);
+        template.afterPropertiesSet();
+        return template;
+    }
+
+    /**
+     * Creates a specialized RedisTemplate for String-Integer operations.
+     * This template is optimized for numeric operations and counters.
+     *
+     * @param connectionFactory The Redis connection factory
+     * @return A RedisTemplate specifically for String keys and Integer values
+     */
+    @Bean
+    public RedisTemplate<String, Integer> stringIntegerRedisTemplate(RedisConnectionFactory connectionFactory) {
+        RedisTemplate<String, Integer> template = new RedisTemplate<>();
         template.setConnectionFactory(connectionFactory);
         template.setKeySerializer(new StringRedisSerializer());
         template.setValueSerializer(new GenericJackson2JsonRedisSerializer());

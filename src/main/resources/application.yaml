@@ -42,7 +42,7 @@ spring:
   cache:
     type: redis
   redis:
-    enabled: false
+    enabled: true
   jpa:
     hibernate:
       ddl-auto: update
@@ -58,9 +58,9 @@ spring:
 
   data:
     redis:
-      host: ${REDIS_HOST:redis-15073.crce175.eu-north-1-1.ec2.redns.redis-cloud.com}
-      port: ${REDIS_PORT:15073}
-      password: ${REDIS_PASSWORD:stdi3YBD24cdrO2zBd0oYrqXhl2xtWML}
+      host: ${SPRING_REDIS_HOST:redis-15073.crce175.eu-north-1-1.ec2.redns.redis-cloud.com}
+      port: ${SPRING_REDIS_PORT:15073}
+      password: ${SPRING_REDIS_PASSWORD:stdi3YBD24cdrO2zBd0oYrqXhl2xtWML}
       database: 0
       timeout: 2000
       client-type: lettuce

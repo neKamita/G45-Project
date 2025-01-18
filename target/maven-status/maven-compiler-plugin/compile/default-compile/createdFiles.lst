@@ -18,6 +18,7 @@ uz/pdp/controller/AdminController.class
 uz/pdp/controller/DoorController.class
 uz/pdp/dto/UserDoorHistoryDto.class
 uz/pdp/entity/DoorHistory.class
+uz/pdp/dto/UpdateUserDTO.class
 uz/pdp/config/GraphQLConfig.class
 uz/pdp/service/ImageStorageService.class
 uz/pdp/payload/ErrorResponse.class

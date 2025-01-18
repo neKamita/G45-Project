@@ -39,6 +39,7 @@
 /home/lantanium/Documents/G45-Project/src/main/java/uz/pdp/service/UserService.java
 /home/lantanium/Documents/G45-Project/src/main/java/uz/pdp/config/filtr/MyFilter.java
 /home/lantanium/Documents/G45-Project/src/main/java/uz/pdp/entity/Address.java
+/home/lantanium/Documents/G45-Project/src/main/java/uz/pdp/dto/UpdateUserDTO.java
 /home/lantanium/Documents/G45-Project/src/main/java/uz/pdp/mutations/AddressConfigInput.java
 /home/lantanium/Documents/G45-Project/src/main/java/uz/pdp/repository/OrderRepository.java
 /home/lantanium/Documents/G45-Project/src/main/java/uz/pdp/repository/EmailVerificationRepository.java
