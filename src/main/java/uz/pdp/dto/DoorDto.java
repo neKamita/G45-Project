@@ -18,7 +18,7 @@ public class DoorDto {
     @NotNull(message = "Description is required")
     private String description;
 
-    @Positive(message = "Price must be positive")
+    @Positive(message = "Price must be greater than 0")
     private Double price;
 
     @NotNull(message = "Size is required")
