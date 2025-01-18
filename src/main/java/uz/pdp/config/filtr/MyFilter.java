@@ -49,7 +49,7 @@ public class MyFilter implements Filter {
                 new UsernamePasswordAuthenticationToken(
                         user,
                         null,
-                        user.getAuthorities()
+                        user.getAuthorities()  // This will now use the properly prefixed authorities from User class
                 );
         SecurityContextHolder.getContext().setAuthentication(authenticationToken);
     }

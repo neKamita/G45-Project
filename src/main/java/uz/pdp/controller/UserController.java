@@ -8,13 +8,16 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import uz.pdp.dto.OrderDto;
 import uz.pdp.entity.Order;
 import uz.pdp.entity.User;
+import uz.pdp.enums.Role;
 import uz.pdp.exception.BadRequestException;
+import uz.pdp.exception.ConflictException;
 import uz.pdp.exception.ResourceNotFoundException;
 import uz.pdp.service.OrderService;
 import uz.pdp.service.UserService;
@@ -147,20 +150,52 @@ public class UserController {
      * Requests to become a seller.
      * 
      * @param userId User ID
+     * @param currentUser Currently authenticated user
      * @return ResponseEntity with request status
      *         - 200 OK if request sent successfully
      *         - 400 Bad Request if validation fails
      */
     @PostMapping("/request-seller/{userId}")
     @Operation(summary = "Request to become a seller")
-    public EntityResponse<User> requestSeller(@PathVariable Long userId) {
+    @PreAuthorize("hasRole('USER')")
+    public EntityResponse<User> requestSeller(@PathVariable Long userId, @AuthenticationPrincipal User currentUser) {
         try {
-            logger.info("Processing seller request for user ID: {}", userId);
+            logger.info("Processing seller request. Requested userId: {}, Authenticated user: {} (ID: {}), Role: {}", 
+                userId, currentUser.getUsername(), currentUser.getId(), currentUser.getRole());
+            
+            // Check if the authenticated user is making request for themselves
+            if (!currentUser.getId().equals(userId)) {
+                String errorMsg = String.format("Access denied. User '%s' cannot request seller status for user ID %d", 
+                    currentUser.getUsername(), userId);
+                logger.warn(errorMsg);
+                return new EntityResponse<>(errorMsg, false, null);
+            }
+            
+            // Check if user has correct role
+            if (currentUser.getRole() != Role.USER) {
+                String errorMsg = String.format("Access denied. Only users with USER role can request seller status. Current role: %s", 
+                    currentUser.getRole());
+                logger.warn(errorMsg);
+                return new EntityResponse<>(errorMsg, false, null);
+            }
+            
+            // Check if user already has a pending request
+            if (currentUser.isSellerRequestPending()) {
+                String msg = String.format("You already have a pending seller request. Please check your email (%s) for verification instructions.", 
+                    currentUser.getEmail());
+                logger.info(msg);
+                return new EntityResponse<>(msg, false, currentUser);
+            }
+            
             return userService.requestSeller(userId);
+        } catch (ConflictException e) {
+            logger.warn("Conflict while processing seller request: {}", e.getMessage());
+            return new EntityResponse<>(e.getMessage(), false, null);
         } catch (Exception e) {
-            logger.error("Error requesting seller status for user {}: {}", userId, e.getMessage());
-            throw new BadRequestException("Failed to process seller request: " + e.getMessage());
-        }
+            String errorMsg = String.format("Failed to process seller request for user %d: %s", userId, e.getMessage());
+            logger.error(errorMsg, e);
+            return new EntityResponse<>(errorMsg, false, null);
+        }   
     }
 
     /**

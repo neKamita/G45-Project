@@ -58,7 +58,7 @@ public class MyConf {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(auth -> auth
                         // Auth endpoints
-                        .requestMatchers("/api/auth/**", "/api/user/verify-seller").permitAll()
+                        .requestMatchers("/api/auth/**", "/api/users/verify-seller").permitAll()
 
                         // GraphQL endpoints
                         .requestMatchers("/graphql/**", "/graphiql/**").permitAll()

@@ -290,11 +290,19 @@ public class UserService {
      * @return EntityResponse containing user details
      * @throws ResourceNotFoundException if user not found
      */
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN', 'SELLER')")
     public EntityResponse<User> getUserById(Long id) {
-        User user = userRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + id));
-        return EntityResponse.success("User retrieved successfully", user);
+        try {
+            User user = userRepository.findById(id)
+                    .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+            return EntityResponse.success("User retrieved successfully", user);
+        } catch (ResourceNotFoundException e) {
+            logger.error("User not found - ID {}: {}", id, e.getMessage());
+            throw e;
+        } catch (Exception e) {
+            logger.error("Error retrieving user - ID {}: {}", id, e.getMessage());
+            throw new BadRequestException("Failed to retrieve user: " + e.getMessage());
+        }
     }
 
     /**
