@@ -15,7 +15,8 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Service class for managing image storage operations using Amazon S3.
- * Handles uploading, retrieving, and deleting images for doors and other entities.
+ * Handles uploading, retrieving, and deleting images for doors and other
+ * entities.
  * Implements secure file handling and proper error management.
  *
  * @version 1.0
@@ -27,12 +28,12 @@ public class ImageStorageService {
     private static final String DOOR_IMAGES_PREFIX = "doors/";
     private static final long MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
     private static final String[] ALLOWED_CONTENT_TYPES = {
-        "image/jpeg", "image/png", "image/gif"
+            "image/jpeg", "image/png", "image/gif"
 
     };
-    
+
     private final AmazonS3 s3Client;
-    
+
     @Value("${aws.s3.bucket}")
     private String bucketName;
 
@@ -47,23 +48,23 @@ public class ImageStorageService {
      * @param file Image file to upload
      * @return URL of the uploaded image
      * @throws IllegalArgumentException if file is invalid
-     * @throws IOException if file processing fails
+     * @throws IOException              if file processing fails
      */
     public String storeImage(MultipartFile file) throws IOException {
         validateFile(file);
-        
+
         String filename = generateUniqueFilename(file);
         String key = DOOR_IMAGES_PREFIX + filename;
-        
+
         try {
             logger.info("Uploading door image: {}", filename);
             ObjectMetadata metadata = new ObjectMetadata();
             metadata.setContentType(file.getContentType());
             metadata.setContentLength(file.getSize());
-            
+
             s3Client.putObject(bucketName, key, file.getInputStream(), metadata);
             String imageUrl = s3Client.getUrl(bucketName, key).toString();
-            
+
             logger.info("Successfully uploaded door image: {}", filename);
             return imageUrl;
         } catch (AmazonServiceException e) {
@@ -82,7 +83,7 @@ public class ImageStorageService {
         try {
             String key = extractKeyFromUrl(imageUrl);
             logger.info("Deleting image with key: {}", key);
-            
+
             s3Client.deleteObject(bucketName, key);
             logger.info("Successfully deleted image: {}", key);
         } catch (AmazonServiceException e) {
@@ -93,22 +94,52 @@ public class ImageStorageService {
 
     /**
      * Validates file properties including size and content type.
-     *
-     * @param file File to validate
-     * @throws IllegalArgumentException if validation fails
+     * Because we can't let just any file sneak into our S3 bucket! 🕵️‍♂️
+     * 
+     * Think of this as our bouncer - checking IDs and making sure no troublemakers
+     * get in.
+     * Size matters! We keep things under 5MB because we're not made of money 💰
+     * 
+     * @param file File to validate - better be an image or it's getting bounced!
+     * @throws IllegalArgumentException if validation fails (sorry, no fake IDs
+     *                                  allowed)
      */
     private void validateFile(MultipartFile file) {
         if (file == null || file.isEmpty()) {
             logger.error("Empty file provided");
-            throw new IllegalArgumentException("File cannot be empty");
+            throw new IllegalArgumentException("Hey, you can't upload nothing! We need actual pixels here! 🖼️");
         }
 
         if (file.getSize() > MAX_FILE_SIZE) {
             logger.error("File size exceeds limit: {} bytes", file.getSize());
-            throw new IllegalArgumentException("File size exceeds 5MB limit");
+            throw new IllegalArgumentException(
+                    "Whoa there! That file is too thicc (over 5MB)! Put it on a diet first! 🏋️‍♂️");
         }
 
         String contentType = file.getContentType();
+        if (contentType == null || contentType.equals("application/octet-stream")) {
+            String fileName = file.getOriginalFilename();
+            if (fileName != null) {
+                String extension = fileName.substring(fileName.lastIndexOf(".") + 1).toLowerCase();
+                switch (extension) {
+                    case "jpg":
+                    case "jpeg":
+                        contentType = "image/jpeg";
+                        break;
+                    case "png":
+                        contentType = "image/png";
+                        break;
+                    case "gif":
+                        contentType = "image/gif";
+                        break;
+                    default:
+                        logger.error("Invalid file extension: {}", extension);
+                        throw new IllegalArgumentException(
+                                "Sorry, this file type isn't on the guest list! Only JPG, PNG, and GIF are VIP! 🎭");
+                }
+            }
+        }
+
         boolean isValidContentType = false;
         for (String allowedType : ALLOWED_CONTENT_TYPES) {
             if (allowedType.equals(contentType)) {
@@ -119,7 +150,8 @@ public class ImageStorageService {
 
         if (!isValidContentType) {
             logger.error("Invalid content type: {}", contentType);
-            throw new IllegalArgumentException("Invalid file type. Only JPEG, PNG, and GIF are allowed");
+            throw new IllegalArgumentException(
+                    "Nice try, but we only accept real images here! JPG, PNG, or GIF - pick your fighter! 🥊");
         }
     }
 

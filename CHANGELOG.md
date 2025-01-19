@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file.
 
 <details>
+<summary><strong>Version 1.2.2 (2025-01-19)</strong></summary>
+
+### Added
+- Multi-image support for furniture doors 📸
+- New database tables for storing multiple images per door
+- Enhanced image upload endpoint with content type detection
+- Improved error handling for image uploads
+
+### Changed
+- Split door creation and image upload into separate endpoints
+- Updated FurnitureDoor entity to support multiple images
+- Enhanced mapper and DTOs with fun, descriptive comments
+- Improved error messages with emojis for better UX
+
+### Fixed
+- Content type validation for image uploads
+- Image URL persistence in database
+- Error handling for unsupported media types
+
+### Technical
+- Added JPA @ElementCollection for image URLs and filenames
+- Enhanced GlobalExceptionHandler with HttpMediaTypeNotSupportedException handling
+- Improved image content type detection from file extensions
+</details>
+
+<details>
 <summary><strong>Version 1.2.1 (2025-01-18)</strong></summary>
 
 ### Added

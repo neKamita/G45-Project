@@ -198,7 +198,7 @@ public class UserController {
                     currentUser.getEmail());
                 logger.info(msg);
                 return new EntityResponse<>(msg, false, currentUser);
-            }
+                }
             
             // 🚀 Launch the seller request process!
             return userService.requestSeller(userId);

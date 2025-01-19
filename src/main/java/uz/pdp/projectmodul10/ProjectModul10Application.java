@@ -23,7 +23,9 @@ import uz.pdp.repository.UserRepository;
     "uz.pdp.service",
     "uz.pdp.config",
     "uz.pdp.security",
-    "uz.pdp.exception" 
+    "uz.pdp.exception",
+    "uz.pdp.mapper"  ,
+    "uz.pdp"
 })
 @EntityScan(basePackages = "uz.pdp.entity")
 @EnableJpaRepositories(basePackages = "uz.pdp.repository")
