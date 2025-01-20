@@ -16,6 +16,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import uz.pdp.dto.DoorDto;
+import uz.pdp.dto.DoorDTO;
 import uz.pdp.dto.UserDoorHistoryDto;
 import uz.pdp.entity.Door;
 import uz.pdp.entity.User;
@@ -138,22 +139,24 @@ public class DoorController {
 
     /**
      * Retrieves all doors in the system.
-     * Open to all users.
+     * Open to all users. Now with extra security! 🚪🔒
+     * No sensitive seller data exposed here, folks!
      *
      * @param page Page number to retrieve
      * @param size Number of doors to retrieve per page
-     * @return ResponseEntity with list of doors
+     * @return ResponseEntity with list of door DTOs
      *         - 200 OK with list of doors
      */
     @GetMapping
     @Operation(summary = "Get all doors", description = "Open to all users")
-    public ResponseEntity<EntityResponse<Page<Door>>> getAllDoors(
+    public ResponseEntity<EntityResponse<Page<DoorDto>>> getAllDoors(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "20") int size) {
         try {
             logger.info("Fetching doors page {} with size {}", page, size);
             Page<Door> doors = doorService.getAllDoors(page, size);
-            return ResponseEntity.ok(EntityResponse.success("Doors retrieved successfully", doors));
+            Page<DoorDto> doorDtos = doors.map(DoorDto::fromEntity);
+            return ResponseEntity.ok(EntityResponse.success("Doors retrieved successfully", doorDtos));
         } catch (IllegalArgumentException e) {
             logger.error("Invalid pagination parameters: {}", e.getMessage());
             return ResponseEntity.badRequest()
