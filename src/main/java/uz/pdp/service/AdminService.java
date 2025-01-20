@@ -3,6 +3,8 @@ package uz.pdp.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -158,8 +160,10 @@ public class AdminService {
 
             // If user is a seller, deactivate all their doors
             if (user.getRole() == Role.SELLER) {
-                List<Door> doors = doorRepository.findBySellerId(userId);
-                for (Door door : doors) {
+                // Get all doors with a large page size to ensure we get all of them
+                Page<Door> doorPage = doorRepository.findBySellerId(userId, 
+                    PageRequest.of(0, Integer.MAX_VALUE));
+                for (Door door : doorPage.getContent()) {
                     door.setActive(false);
                     doorRepository.save(door);
                 }

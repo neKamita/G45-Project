@@ -57,13 +57,4 @@ public class FurnitureDoor {
     @Column(name = "image_url")
     private List<String> imageUrls = new ArrayList<>();
 
-    /**
-     * List of original filenames for the uploaded images.
-     * Keeping track of our door's previous identities! 🎭
-     */
-    @ElementCollection
-    @CollectionTable(name = "furniture_door_filenames", 
-                    joinColumns = @JoinColumn(name = "door_id"))
-    @Column(name = "filename")
-    private List<String> originalFileNames = new ArrayList<>();
 }

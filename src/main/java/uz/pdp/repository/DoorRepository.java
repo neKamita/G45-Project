@@ -5,10 +5,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 import uz.pdp.entity.Door;
 import uz.pdp.enums.Color;
+import uz.pdp.enums.Size;
 
 import java.util.List;
 
@@ -17,17 +19,53 @@ import java.util.List;
  * The sacred place where doors are stored in the digital realm.
  * 
  * WARNING: This is where the door data lives. 
- * Don't fuck with the queries unless you REALLY know what you're doing.
+ * Don't mess with the queries unless you REALLY know what you're doing.
  * Many developers have gone mad trying to optimize these queries...
  */
 @Repository
 public interface DoorRepository extends JpaRepository<Door, Long> {
-
+    
     // Find all doors by their creator (because sellers are proud parents)
-    List<Door> findBySellerId(Long sellerId);
+    Page<Door> findBySellerId(Long sellerId, Pageable pageable);
     
     // Get all doors, but not all at once because we're not savages
-    Page<Door> findAll(@NotNull Pageable pageable);
+    @NotNull Page<Door> findAll(@NotNull Pageable pageable);
+    
+    /**
+     * The ultimate door finder! 
+     * This query is like a dating app for doors - matching your perfect criteria!
+     */
+    @Query("""
+            SELECT DISTINCT d FROM Door d
+            WHERE (:material IS NULL OR d.material = :material)
+            AND (:minPrice IS NULL OR d.price >= :minPrice)
+            AND (:maxPrice IS NULL OR d.price <= :maxPrice)
+            AND (:color IS NULL OR d.color = :color)
+            AND (:size IS NULL OR d.size = :size)
+            AND (:manufacturer IS NULL OR d.manufacturer = :manufacturer)
+            AND (:minWarranty IS NULL OR d.warrantyYears >= :minWarranty)
+            AND (:customWidth IS NULL OR 
+                (d.size = uz.pdp.enums.Size.CUSTOM AND d.customWidth = :customWidth))
+            AND (:customHeight IS NULL OR 
+                (d.size = uz.pdp.enums.Size.CUSTOM AND d.customHeight = :customHeight))
+            AND (:searchTerm IS NULL OR 
+                (LOWER(d.name) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR 
+                 LOWER(d.description) LIKE LOWER(CONCAT('%', :searchTerm, '%'))))
+            AND d.active = true
+            """)
+    Page<Door> searchDoors(
+            @Param("material") String material,
+            @Param("minPrice") Double minPrice,
+            @Param("maxPrice") Double maxPrice,
+            @Param("color") Color color,
+            @Param("size") Size size,
+            @Param("manufacturer") String manufacturer,
+            @Param("minWarranty") Integer minWarranty,
+            @Param("customWidth") Double customWidth,
+            @Param("customHeight") Double customHeight,
+            @Param("searchTerm") String searchTerm,
+            Pageable pageable
+    );
 
     /**
      * The legendary query that finds similar doors.
@@ -41,24 +79,31 @@ public interface DoorRepository extends JpaRepository<Door, Long> {
      * @param pageable Because getting ALL doors at once would make the database cry
      * @return A list of doors that share the same vibes
      */
-    @Query("SELECT d FROM Door d WHERE " +
-           "d.material = :material AND " +
-           "d.color = :color AND " +
-           "d.price BETWEEN :minPrice AND :maxPrice AND " +
-           "d.id != :doorId AND " +
-           "d.active = true")
-    List<Door> findByMaterialAndColorAndPriceBetweenAndIdNot(
-        String material,
-        Color color, 
-        double minPrice,
-        double maxPrice,
-        Long doorId,
-        Pageable pageable
+    @Query("""
+            SELECT d FROM Door d
+            WHERE d.material = :material
+            AND d.color = :color
+            AND d.price BETWEEN :minPrice AND :maxPrice
+            AND d.id != :doorId
+            AND d.active = true
+            """)
+    Page<Door> findSimilarDoors(
+            @Param("material") String material,
+            @Param("color") Color color,
+            @Param("minPrice") double minPrice,
+            @Param("maxPrice") double maxPrice,
+            @Param("doorId") Long doorId,
+            Pageable pageable
     );
 
-    /**
-     * Search for doors by name or description.
-     * AKA the "I know it exists somewhere!" function
-     */
+    // Quick search by name or description
+    Page<Door> findByNameContainingIgnoreCaseOrDescriptionContainingIgnoreCaseAndActiveTrue(
+            String searchTerm,
+            String searchTerm1,
+            Pageable pageable
+    );
+
+    List<Door> findByMaterialAndColorAndPriceBetweenAndIdNot(String material, Color color, double v, double v1, Long id, PageRequest of);
+
     List<Door> findByNameContainingIgnoreCaseOrDescriptionContainingIgnoreCase(String searchTerm, String searchTerm1);
 }

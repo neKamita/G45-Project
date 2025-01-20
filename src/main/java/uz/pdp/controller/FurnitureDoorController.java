@@ -154,10 +154,6 @@ public class FurnitureDoorController {
         imageUrls.add(imageUrl); // Add the new one
         updatedDoor.setImageUrls(imageUrls); // Set all images
 
-        List<String> fileNames = new ArrayList<>(door.getOriginalFileNames()); // Keep existing filenames
-        fileNames.add(image.getOriginalFilename()); // Add the new one
-        updatedDoor.setOriginalFileNames(fileNames); // Set all filenames
-
         // Save our door's new look to the fashion catalog
         FurnitureDoor updated = furnitureDoorService.update(id, updatedDoor);
         return ResponseEntity.ok(EntityResponse.success(

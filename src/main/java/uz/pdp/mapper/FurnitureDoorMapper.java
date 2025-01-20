@@ -60,7 +60,6 @@ public class FurnitureDoorMapper {
         dto.setStockQuantity(entity.getStockQuantity()); // How many twins it has
         dto.setFurnitureType(entity.getFurnitureType()); // What kind of door star it is
         dto.setImageUrls(entity.getImageUrls()); // Its photo album 📸
-        dto.setOriginalFileNames(entity.getOriginalFileNames()); // The names it was born with 🎭
         return dto;
     }
 }

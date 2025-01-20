@@ -43,6 +43,4 @@ public class FurnitureDoorResponseDTO {
     @Schema(description = "URLs of the door images", example = "[\"https://your-bucket.s3.amazonaws.com/doors/image1.jpg\", \"https://your-bucket.s3.amazonaws.com/doors/image2.jpg\"]")
     private List<String> imageUrls = new ArrayList<>();
 
-    @Schema(description = "Original filenames of the uploaded images", example = "[\"door-wood-front.jpg\", \"door-wood-back.jpg\"]")
-    private List<String> originalFileNames = new ArrayList<>();
 }
