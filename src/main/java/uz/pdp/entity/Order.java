@@ -10,7 +10,12 @@ import uz.pdp.dto.OrderDto.OrderType;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "orders")
+@Table(name = "orders", indexes = {
+    @Index(name = "idx_order_user", columnList = "user_id"),
+    @Index(name = "idx_order_door", columnList = "door_id"),
+    @Index(name = "idx_order_status_date", columnList = "status,order_date"),
+    @Index(name = "idx_order_type_date", columnList = "order_type,order_date")
+})
 @Getter
 @Setter
 @NoArgsConstructor

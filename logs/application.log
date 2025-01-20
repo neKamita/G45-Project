@@ -11173,3 +11173,2765 @@ Caused by: org.hibernate.query.sqm.PathElementException: Could not resolve attri
 	at org.hibernate.query.hql.internal.SemanticQueryBuilder.buildSemanticModel(SemanticQueryBuilder.java:311)
 	at org.hibernate.query.hql.internal.StandardHqlTranslator.translate(StandardHqlTranslator.java:71)
 	... 75 common frames omitted
+2025-01-20 23:05:43 [main] INFO  u.p.p.ProjectModul10Application - Starting ProjectModul10Application using Java 17.0.13 with PID 486302 (/home/lantanium/Documents/G45-Project/target/classes started by lantanium in /home/lantanium/Documents/G45-Project)
+2025-01-20 23:05:43 [main] DEBUG u.p.p.ProjectModul10Application - Running with Spring Boot v3.2.1, Spring v6.1.2
+2025-01-20 23:05:43 [main] INFO  u.p.p.ProjectModul10Application - No active profile set, falling back to 1 default profile: "default"
+2025-01-20 23:05:43 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-01-20 23:05:43 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-01-20 23:05:44 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 97 ms. Found 7 JPA repository interfaces.
+2025-01-20 23:05:44 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-01-20 23:05:44 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-01-20 23:05:44 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 7 ms. Found 0 Redis repository interfaces.
+2025-01-20 23:05:44 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'webMvcConfig' of type [uz.pdp.config.WebMvcConfig$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). The currently created BeanPostProcessor [methodValidationPostProcessor] is declared through a non-static factory method on that class; consider declaring it as static instead.
+2025-01-20 23:05:45 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-01-20 23:05:45 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-01-20 23:05:45 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.17]
+2025-01-20 23:05:45 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-01-20 23:05:45 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1750 ms
+2025-01-20 23:05:45 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-01-20 23:05:45 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.1.Final
+2025-01-20 23:05:45 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-01-20 23:05:45 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-01-20 23:05:45 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-01-20 23:05:48 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@59f5a376
+2025-01-20 23:05:48 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-01-20 23:05:48 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-01-20 23:05:49 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-01-20 23:06:02 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-01-20 23:06:02 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-01-20 23:06:04 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-01-20 23:06:05 [main] INFO  o.s.g.e.DefaultSchemaResourceGraphQlSourceBuilder - Loaded 1 resource(s) in the GraphQL schema.
+2025-01-20 23:06:05 [main] INFO  o.s.b.a.g.GraphQlAutoConfiguration - GraphQL schema inspection:
+	Unmapped fields: {Query=[door, doors, user, address, addresses, searchAddresses, nearestAddress, doorHistory, order, userOrders, userAddresses], Mutation=[configureDoor, updateProfile, approveSeller, deactivateAccount, createOrder, updateOrderStatus, addAddress], Address=[country, zipCode], Subscription=[orderStatusChanged, newDoorAdded]}
+	Unmapped registrations: {Query.getDoorById=DoorGraphQLController#getDoorById[1 args], Query.getAddressById=AddressGraphQLController#getAddressById[1 args], Query.getRecentHistory=DoorHistoryGraphQLController#getRecentHistory[1 args], Query.getAddressesByCity=AddressGraphQLController#getAddressesByCity[1 args], Query.getUserDoorHistory=DoorHistoryGraphQLController#getUserDoorHistory[2 args], Query.getDoorHistory=DoorHistoryGraphQLController#getDoorHistory[1 args], Query.getAllDoors=DoorGraphQLController#getAllDoors[0 args], Query.getAllAddresses=AddressGraphQLController#getAllAddresses[0 args], Query.getUserHistory=DoorHistoryGraphQLController#getUserHistory[1 args], Mutation.updateDoorStatus=DoorGraphQLController#updateDoorStatus[3 args], Mutation.validateAddress=AddressGraphQLController#validateAddress[1 args]}
+	Skipped types: []
+2025-01-20 23:06:05 [main] INFO  o.s.b.a.g.s.GraphQlWebMvcAutoConfiguration - GraphQL endpoint HTTP POST /graphql
+2025-01-20 23:06:06 [main] INFO  o.s.b.a.g.s.GraphQlWebMvcAutoConfiguration - GraphQL endpoint WebSocket /graphql-ws
+2025-01-20 23:06:06 [main] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 26 endpoint(s) beneath base path '/actuator'
+2025-01-20 23:06:06 [main] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@4e10eebf, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@7b169edf, org.springframework.security.web.context.SecurityContextHolderFilter@29edafb8, org.springframework.security.web.header.HeaderWriterFilter@3f6a2122, org.springframework.web.filter.CorsFilter@31a818d4, org.springframework.security.web.authentication.logout.LogoutFilter@747056e5, uz.pdp.config.filtr.MyFilter@392ef4ff, org.springframework.security.web.authentication.www.BasicAuthenticationFilter@69f69592, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@22a9c19a, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@1644d1cf, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@6cd693cf, org.springframework.security.web.access.ExceptionTranslationFilter@68d8d628, org.springframework.security.web.access.intercept.AuthorizationFilter@1eb1f09]
+2025-01-20 23:06:07 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+2025-01-20 23:06:07 [main] INFO  u.p.p.ProjectModul10Application - Started ProjectModul10Application in 24.793 seconds (process running for 28.718)
+2025-01-20 23:06:08 [main] DEBUG org.hibernate.SQL - 
+    select
+        count(*) 
+    from
+        doors d1_0
+2025-01-20 23:06:09 [main] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.email,
+        u1_0.lastname,
+        u1_0.name,
+        u1_0.password,
+        u1_0.phone,
+        u1_0.role,
+        u1_0.seller_request_pending 
+    from
+        users u1_0 
+    where
+        u1_0.name=?
+2025-01-20 23:06:10 [http-nio-8080-exec-4] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-01-20 23:06:10 [http-nio-8080-exec-4] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-01-20 23:06:10 [http-nio-8080-exec-4] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 2 ms
+2025-01-20 23:06:10 [http-nio-8080-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.email,
+        u1_0.lastname,
+        u1_0.name,
+        u1_0.password,
+        u1_0.phone,
+        u1_0.role,
+        u1_0.seller_request_pending 
+    from
+        users u1_0 
+    where
+        u1_0.name=?
+2025-01-20 23:06:11 [http-nio-8080-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        fd1_0.id,
+        fd1_0.description,
+        fd1_0.dimensions,
+        fd1_0.furniture_type,
+        fd1_0.material,
+        fd1_0.name,
+        fd1_0.price,
+        fd1_0.stock_quantity 
+    from
+        furniture_doors fd1_0
+2025-01-20 23:06:12 [http-nio-8080-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        iu1_0.door_id,
+        iu1_0.image_url 
+    from
+        furniture_door_images iu1_0 
+    where
+        iu1_0.door_id=?
+2025-01-20 23:06:12 [http-nio-8080-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        iu1_0.door_id,
+        iu1_0.image_url 
+    from
+        furniture_door_images iu1_0 
+    where
+        iu1_0.door_id=?
+2025-01-20 23:06:12 [http-nio-8080-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        iu1_0.door_id,
+        iu1_0.image_url 
+    from
+        furniture_door_images iu1_0 
+    where
+        iu1_0.door_id=?
+2025-01-20 23:06:12 [http-nio-8080-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        iu1_0.door_id,
+        iu1_0.image_url 
+    from
+        furniture_door_images iu1_0 
+    where
+        iu1_0.door_id=?
+2025-01-20 23:06:13 [http-nio-8080-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        iu1_0.door_id,
+        iu1_0.image_url 
+    from
+        furniture_door_images iu1_0 
+    where
+        iu1_0.door_id=?
+2025-01-20 23:06:13 [http-nio-8080-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        iu1_0.door_id,
+        iu1_0.image_url 
+    from
+        furniture_door_images iu1_0 
+    where
+        iu1_0.door_id=?
+2025-01-20 23:06:13 [http-nio-8080-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        iu1_0.door_id,
+        iu1_0.image_url 
+    from
+        furniture_door_images iu1_0 
+    where
+        iu1_0.door_id=?
+2025-01-20 23:06:13 [http-nio-8080-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        iu1_0.door_id,
+        iu1_0.image_url 
+    from
+        furniture_door_images iu1_0 
+    where
+        iu1_0.door_id=?
+2025-01-20 23:06:14 [http-nio-8080-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        iu1_0.door_id,
+        iu1_0.image_url 
+    from
+        furniture_door_images iu1_0 
+    where
+        iu1_0.door_id=?
+2025-01-20 23:06:14 [http-nio-8080-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        iu1_0.door_id,
+        iu1_0.image_url 
+    from
+        furniture_door_images iu1_0 
+    where
+        iu1_0.door_id=?
+2025-01-20 23:06:15 [http-nio-8080-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        iu1_0.door_id,
+        iu1_0.image_url 
+    from
+        furniture_door_images iu1_0 
+    where
+        iu1_0.door_id=?
+2025-01-20 23:06:15 [http-nio-8080-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        iu1_0.door_id,
+        iu1_0.image_url 
+    from
+        furniture_door_images iu1_0 
+    where
+        iu1_0.door_id=?
+2025-01-20 23:06:15 [http-nio-8080-exec-4] DEBUG org.hibernate.SQL - 
+    select
+        iu1_0.door_id,
+        iu1_0.image_url 
+    from
+        furniture_door_images iu1_0 
+    where
+        iu1_0.door_id=?
+2025-01-20 23:09:11 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-01-20 23:09:11 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-01-20 23:09:13 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-01-20 23:11:25 [main] INFO  u.p.p.ProjectModul10Application - Starting ProjectModul10Application using Java 17.0.13 with PID 507249 (/home/lantanium/Documents/G45-Project/target/classes started by lantanium in /home/lantanium/Documents/G45-Project)
+2025-01-20 23:11:25 [main] DEBUG u.p.p.ProjectModul10Application - Running with Spring Boot v3.2.1, Spring v6.1.2
+2025-01-20 23:11:25 [main] INFO  u.p.p.ProjectModul10Application - No active profile set, falling back to 1 default profile: "default"
+2025-01-20 23:11:26 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-01-20 23:11:26 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-01-20 23:11:26 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 71 ms. Found 7 JPA repository interfaces.
+2025-01-20 23:11:26 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-01-20 23:11:26 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-01-20 23:11:26 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 5 ms. Found 0 Redis repository interfaces.
+2025-01-20 23:11:27 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'webMvcConfig' of type [uz.pdp.config.WebMvcConfig$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). The currently created BeanPostProcessor [methodValidationPostProcessor] is declared through a non-static factory method on that class; consider declaring it as static instead.
+2025-01-20 23:11:27 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-01-20 23:11:27 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-01-20 23:11:27 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.17]
+2025-01-20 23:11:27 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-01-20 23:11:27 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1502 ms
+2025-01-20 23:11:27 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-01-20 23:11:27 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.1.Final
+2025-01-20 23:11:27 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-01-20 23:11:27 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-01-20 23:11:27 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-01-20 23:11:30 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@4cbd17b3
+2025-01-20 23:11:30 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-01-20 23:11:30 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-01-20 23:11:32 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-01-20 23:11:33 [main] DEBUG org.hibernate.SQL - 
+    create index idx_door_name 
+       on doors (name)
+2025-01-20 23:11:34 [main] DEBUG org.hibernate.SQL - 
+    create index idx_door_active_status 
+       on doors (active, status)
+2025-01-20 23:11:46 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-01-20 23:11:46 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-01-20 23:11:47 [main] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'adminController': Unsatisfied dependency expressed through field 'adminService': Error creating bean with name 'adminService': Unsatisfied dependency expressed through field 'doorRepository': Error creating bean with name 'doorRepository' defined in uz.pdp.repository.DoorRepository defined in @EnableJpaRepositories declared on ProjectModul10Application: Could not create query for public abstract org.springframework.data.domain.Page uz.pdp.repository.DoorRepository.findSimilarDoors(java.lang.String,uz.pdp.enums.Color,double,double,java.lang.Long,org.springframework.data.domain.Pageable); Reason: Validation failed for query for method public abstract org.springframework.data.domain.Page uz.pdp.repository.DoorRepository.findSimilarDoors(java.lang.String,uz.pdp.enums.Color,double,double,java.lang.Long,org.springframework.data.domain.Pageable)
+2025-01-20 23:11:47 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-01-20 23:11:47 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-01-20 23:11:48 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-01-20 23:11:48 [main] INFO  o.a.catalina.core.StandardService - Stopping service [Tomcat]
+2025-01-20 23:11:48 [main] INFO  o.s.b.a.l.ConditionEvaluationReportLogger - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2025-01-20 23:11:48 [main] ERROR o.s.boot.SpringApplication - Application run failed
+org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'adminController': Unsatisfied dependency expressed through field 'adminService': Error creating bean with name 'adminService': Unsatisfied dependency expressed through field 'doorRepository': Error creating bean with name 'doorRepository' defined in uz.pdp.repository.DoorRepository defined in @EnableJpaRepositories declared on ProjectModul10Application: Could not create query for public abstract org.springframework.data.domain.Page uz.pdp.repository.DoorRepository.findSimilarDoors(java.lang.String,uz.pdp.enums.Color,double,double,java.lang.Long,org.springframework.data.domain.Pageable); Reason: Validation failed for query for method public abstract org.springframework.data.domain.Page uz.pdp.repository.DoorRepository.findSimilarDoors(java.lang.String,uz.pdp.enums.Color,double,double,java.lang.Long,org.springframework.data.domain.Pageable)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.resolveFieldValue(AutowiredAnnotationBeanPostProcessor.java:787)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:767)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:145)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:508)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1418)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:598)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:521)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:325)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:323)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:975)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:960)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:625)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:762)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:464)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:334)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1358)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1347)
+	at uz.pdp.projectmodul10.ProjectModul10Application.main(ProjectModul10Application.java:56)
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'adminService': Unsatisfied dependency expressed through field 'doorRepository': Error creating bean with name 'doorRepository' defined in uz.pdp.repository.DoorRepository defined in @EnableJpaRepositories declared on ProjectModul10Application: Could not create query for public abstract org.springframework.data.domain.Page uz.pdp.repository.DoorRepository.findSimilarDoors(java.lang.String,uz.pdp.enums.Color,double,double,java.lang.Long,org.springframework.data.domain.Pageable); Reason: Validation failed for query for method public abstract org.springframework.data.domain.Page uz.pdp.repository.DoorRepository.findSimilarDoors(java.lang.String,uz.pdp.enums.Color,double,double,java.lang.Long,org.springframework.data.domain.Pageable)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.resolveFieldValue(AutowiredAnnotationBeanPostProcessor.java:787)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:767)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:145)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:508)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1418)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:598)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:521)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:325)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:323)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1443)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1353)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.resolveFieldValue(AutowiredAnnotationBeanPostProcessor.java:784)
+	... 20 common frames omitted
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'doorRepository' defined in uz.pdp.repository.DoorRepository defined in @EnableJpaRepositories declared on ProjectModul10Application: Could not create query for public abstract org.springframework.data.domain.Page uz.pdp.repository.DoorRepository.findSimilarDoors(java.lang.String,uz.pdp.enums.Color,double,double,java.lang.Long,org.springframework.data.domain.Pageable); Reason: Validation failed for query for method public abstract org.springframework.data.domain.Page uz.pdp.repository.DoorRepository.findSimilarDoors(java.lang.String,uz.pdp.enums.Color,double,double,java.lang.Long,org.springframework.data.domain.Pageable)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1773)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:599)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:521)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:325)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:323)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1443)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1353)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.resolveFieldValue(AutowiredAnnotationBeanPostProcessor.java:784)
+	... 34 common frames omitted
+Caused by: org.springframework.data.repository.query.QueryCreationException: Could not create query for public abstract org.springframework.data.domain.Page uz.pdp.repository.DoorRepository.findSimilarDoors(java.lang.String,uz.pdp.enums.Color,double,double,java.lang.Long,org.springframework.data.domain.Pageable); Reason: Validation failed for query for method public abstract org.springframework.data.domain.Page uz.pdp.repository.DoorRepository.findSimilarDoors(java.lang.String,uz.pdp.enums.Color,double,double,java.lang.Long,org.springframework.data.domain.Pageable)
+	at org.springframework.data.repository.query.QueryCreationException.create(QueryCreationException.java:101)
+	at org.springframework.data.repository.core.support.QueryExecutorMethodInterceptor.lookupQuery(QueryExecutorMethodInterceptor.java:115)
+	at org.springframework.data.repository.core.support.QueryExecutorMethodInterceptor.mapMethodsToQuery(QueryExecutorMethodInterceptor.java:99)
+	at org.springframework.data.repository.core.support.QueryExecutorMethodInterceptor.lambda$new$0(QueryExecutorMethodInterceptor.java:88)
+	at java.base/java.util.Optional.map(Optional.java:260)
+	at org.springframework.data.repository.core.support.QueryExecutorMethodInterceptor.<init>(QueryExecutorMethodInterceptor.java:88)
+	at org.springframework.data.repository.core.support.RepositoryFactorySupport.getRepository(RepositoryFactorySupport.java:357)
+	at org.springframework.data.repository.core.support.RepositoryFactoryBeanSupport.lambda$afterPropertiesSet$5(RepositoryFactoryBeanSupport.java:279)
+	at org.springframework.data.util.Lazy.getNullable(Lazy.java:135)
+	at org.springframework.data.util.Lazy.get(Lazy.java:113)
+	at org.springframework.data.repository.core.support.RepositoryFactoryBeanSupport.afterPropertiesSet(RepositoryFactoryBeanSupport.java:285)
+	at org.springframework.data.jpa.repository.support.JpaRepositoryFactoryBean.afterPropertiesSet(JpaRepositoryFactoryBean.java:132)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1820)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1769)
+	... 44 common frames omitted
+Caused by: java.lang.IllegalArgumentException: Validation failed for query for method public abstract org.springframework.data.domain.Page uz.pdp.repository.DoorRepository.findSimilarDoors(java.lang.String,uz.pdp.enums.Color,double,double,java.lang.Long,org.springframework.data.domain.Pageable)
+	at org.springframework.data.jpa.repository.query.SimpleJpaQuery.validateQuery(SimpleJpaQuery.java:100)
+	at org.springframework.data.jpa.repository.query.SimpleJpaQuery.<init>(SimpleJpaQuery.java:70)
+	at org.springframework.data.jpa.repository.query.JpaQueryFactory.fromMethodWithQueryString(JpaQueryFactory.java:60)
+	at org.springframework.data.jpa.repository.query.JpaQueryLookupStrategy$DeclaredQueryLookupStrategy.resolveQuery(JpaQueryLookupStrategy.java:170)
+	at org.springframework.data.jpa.repository.query.JpaQueryLookupStrategy$CreateIfNotFoundQueryLookupStrategy.resolveQuery(JpaQueryLookupStrategy.java:252)
+	at org.springframework.data.jpa.repository.query.JpaQueryLookupStrategy$AbstractQueryLookupStrategy.resolveQuery(JpaQueryLookupStrategy.java:95)
+	at org.springframework.data.repository.core.support.QueryExecutorMethodInterceptor.lookupQuery(QueryExecutorMethodInterceptor.java:111)
+	... 56 common frames omitted
+Caused by: java.lang.IllegalArgumentException: org.hibernate.query.SyntaxException: At 1:21 and token 'USE', mismatched input 'USE', expecting one of the following tokens: <EOF>, ',', CROSS, FULL, GROUP, INNER, JOIN, LEFT, ORDER, OUTER, RIGHT, WHERE [SELECT d FROM Door d USE INDEX (idx_door_material, idx_door_price)
+WHERE d.active = true
+AND d.material = :material
+AND d.color = :color
+AND d.price BETWEEN :minPrice AND :maxPrice
+AND d.id != :doorId
+ORDER BY ABS(d.price - (
+    SELECT d2.price FROM Door d2 WHERE d2.id = :doorId
+)) ASC
+]
+	at org.hibernate.internal.ExceptionConverterImpl.convert(ExceptionConverterImpl.java:143)
+	at org.hibernate.internal.ExceptionConverterImpl.convert(ExceptionConverterImpl.java:167)
+	at org.hibernate.internal.ExceptionConverterImpl.convert(ExceptionConverterImpl.java:173)
+	at org.hibernate.internal.AbstractSharedSessionContract.createQuery(AbstractSharedSessionContract.java:827)
+	at org.hibernate.internal.AbstractSharedSessionContract.createQuery(AbstractSharedSessionContract.java:732)
+	at org.hibernate.internal.AbstractSharedSessionContract.createQuery(AbstractSharedSessionContract.java:133)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at org.springframework.orm.jpa.ExtendedEntityManagerCreator$ExtendedEntityManagerInvocationHandler.invoke(ExtendedEntityManagerCreator.java:364)
+	at jdk.proxy2/jdk.proxy2.$Proxy199.createQuery(Unknown Source)
+	at org.springframework.data.jpa.repository.query.SimpleJpaQuery.validateQuery(SimpleJpaQuery.java:94)
+	... 62 common frames omitted
+Caused by: org.hibernate.query.SyntaxException: At 1:21 and token 'USE', mismatched input 'USE', expecting one of the following tokens: <EOF>, ',', CROSS, FULL, GROUP, INNER, JOIN, LEFT, ORDER, OUTER, RIGHT, WHERE [SELECT d FROM Door d USE INDEX (idx_door_material, idx_door_price)
+WHERE d.active = true
+AND d.material = :material
+AND d.color = :color
+AND d.price BETWEEN :minPrice AND :maxPrice
+AND d.id != :doorId
+ORDER BY ABS(d.price - (
+    SELECT d2.price FROM Door d2 WHERE d2.id = :doorId
+)) ASC
+]
+	at org.hibernate.query.hql.internal.StandardHqlTranslator$1.syntaxError(StandardHqlTranslator.java:108)
+	at org.antlr.v4.runtime.ProxyErrorListener.syntaxError(ProxyErrorListener.java:41)
+	at org.antlr.v4.runtime.Parser.notifyErrorListeners(Parser.java:544)
+	at org.antlr.v4.runtime.DefaultErrorStrategy.reportInputMismatch(DefaultErrorStrategy.java:327)
+	at org.antlr.v4.runtime.DefaultErrorStrategy.reportError(DefaultErrorStrategy.java:139)
+	at org.hibernate.grammars.hql.HqlParser.statement(HqlParser.java:367)
+	at org.hibernate.query.hql.internal.StandardHqlTranslator.parseHql(StandardHqlTranslator.java:143)
+	at org.hibernate.query.hql.internal.StandardHqlTranslator.translate(StandardHqlTranslator.java:67)
+	at org.hibernate.query.internal.QueryInterpretationCacheStandardImpl.createHqlInterpretation(QueryInterpretationCacheStandardImpl.java:165)
+	at org.hibernate.query.internal.QueryInterpretationCacheStandardImpl.resolveHqlInterpretation(QueryInterpretationCacheStandardImpl.java:147)
+	at org.hibernate.internal.AbstractSharedSessionContract.interpretHql(AbstractSharedSessionContract.java:769)
+	at org.hibernate.internal.AbstractSharedSessionContract.createQuery(AbstractSharedSessionContract.java:819)
+	... 71 common frames omitted
+2025-01-20 23:13:08 [main] INFO  u.p.p.ProjectModul10Application - Starting ProjectModul10Application using Java 17.0.13 with PID 515479 (/home/lantanium/Documents/G45-Project/target/classes started by lantanium in /home/lantanium/Documents/G45-Project)
+2025-01-20 23:13:08 [main] DEBUG u.p.p.ProjectModul10Application - Running with Spring Boot v3.2.1, Spring v6.1.2
+2025-01-20 23:13:08 [main] INFO  u.p.p.ProjectModul10Application - No active profile set, falling back to 1 default profile: "default"
+2025-01-20 23:13:08 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-01-20 23:13:08 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-01-20 23:13:08 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 95 ms. Found 7 JPA repository interfaces.
+2025-01-20 23:13:09 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-01-20 23:13:09 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-01-20 23:13:09 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 6 ms. Found 0 Redis repository interfaces.
+2025-01-20 23:13:09 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'webMvcConfig' of type [uz.pdp.config.WebMvcConfig$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). The currently created BeanPostProcessor [methodValidationPostProcessor] is declared through a non-static factory method on that class; consider declaring it as static instead.
+2025-01-20 23:13:09 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-01-20 23:13:09 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-01-20 23:13:09 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.17]
+2025-01-20 23:13:09 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-01-20 23:13:09 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1689 ms
+2025-01-20 23:13:10 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-01-20 23:13:10 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.1.Final
+2025-01-20 23:13:10 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-01-20 23:13:10 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-01-20 23:13:10 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-01-20 23:13:13 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@78a0d664
+2025-01-20 23:13:13 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-01-20 23:13:13 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-01-20 23:13:14 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-01-20 23:13:16 [main] DEBUG org.hibernate.SQL - 
+    create index idx_order_user 
+       on orders (user_id)
+2025-01-20 23:13:16 [main] DEBUG org.hibernate.SQL - 
+    create index idx_order_door 
+       on orders (door_id)
+2025-01-20 23:13:17 [main] DEBUG org.hibernate.SQL - 
+    create index idx_order_status_date 
+       on orders (status, order_date)
+2025-01-20 23:13:17 [main] DEBUG org.hibernate.SQL - 
+    create index idx_order_type_date 
+       on orders (order_type, order_date)
+2025-01-20 23:13:17 [main] DEBUG org.hibernate.SQL - 
+    create index idx_user_name 
+       on users (name)
+2025-01-20 23:13:18 [main] DEBUG org.hibernate.SQL - 
+    create index idx_user_role_active 
+       on users (role, active)
+2025-01-20 23:13:18 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists users 
+       drop constraint if exists idx_user_email
+2025-01-20 23:13:18 [main] WARN  o.h.e.jdbc.spi.SqlExceptionHelper - SQL Warning Code: 0, SQLState: 00000
+2025-01-20 23:13:18 [main] WARN  o.h.e.jdbc.spi.SqlExceptionHelper - constraint "idx_user_email" of relation "users" does not exist, skipping
+2025-01-20 23:13:18 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists users 
+       add constraint idx_user_email unique (email)
+2025-01-20 23:13:30 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-01-20 23:13:30 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-01-20 23:13:31 [main] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'adminController': Unsatisfied dependency expressed through field 'adminService': Error creating bean with name 'adminService': Unsatisfied dependency expressed through field 'doorRepository': Error creating bean with name 'doorRepository' defined in uz.pdp.repository.DoorRepository defined in @EnableJpaRepositories declared on ProjectModul10Application: Could not create query for public abstract org.springframework.data.domain.Page uz.pdp.repository.DoorRepository.findSimilarDoors(java.lang.String,uz.pdp.enums.Color,double,double,java.lang.Long,org.springframework.data.domain.Pageable); Reason: Validation failed for query for method public abstract org.springframework.data.domain.Page uz.pdp.repository.DoorRepository.findSimilarDoors(java.lang.String,uz.pdp.enums.Color,double,double,java.lang.Long,org.springframework.data.domain.Pageable)
+2025-01-20 23:13:31 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-01-20 23:13:31 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-01-20 23:13:32 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-01-20 23:13:32 [main] INFO  o.a.catalina.core.StandardService - Stopping service [Tomcat]
+2025-01-20 23:13:32 [main] INFO  o.s.b.a.l.ConditionEvaluationReportLogger - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2025-01-20 23:13:32 [main] ERROR o.s.boot.SpringApplication - Application run failed
+org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'adminController': Unsatisfied dependency expressed through field 'adminService': Error creating bean with name 'adminService': Unsatisfied dependency expressed through field 'doorRepository': Error creating bean with name 'doorRepository' defined in uz.pdp.repository.DoorRepository defined in @EnableJpaRepositories declared on ProjectModul10Application: Could not create query for public abstract org.springframework.data.domain.Page uz.pdp.repository.DoorRepository.findSimilarDoors(java.lang.String,uz.pdp.enums.Color,double,double,java.lang.Long,org.springframework.data.domain.Pageable); Reason: Validation failed for query for method public abstract org.springframework.data.domain.Page uz.pdp.repository.DoorRepository.findSimilarDoors(java.lang.String,uz.pdp.enums.Color,double,double,java.lang.Long,org.springframework.data.domain.Pageable)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.resolveFieldValue(AutowiredAnnotationBeanPostProcessor.java:787)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:767)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:145)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:508)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1418)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:598)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:521)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:325)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:323)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:975)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:960)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:625)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:762)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:464)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:334)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1358)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1347)
+	at uz.pdp.projectmodul10.ProjectModul10Application.main(ProjectModul10Application.java:56)
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'adminService': Unsatisfied dependency expressed through field 'doorRepository': Error creating bean with name 'doorRepository' defined in uz.pdp.repository.DoorRepository defined in @EnableJpaRepositories declared on ProjectModul10Application: Could not create query for public abstract org.springframework.data.domain.Page uz.pdp.repository.DoorRepository.findSimilarDoors(java.lang.String,uz.pdp.enums.Color,double,double,java.lang.Long,org.springframework.data.domain.Pageable); Reason: Validation failed for query for method public abstract org.springframework.data.domain.Page uz.pdp.repository.DoorRepository.findSimilarDoors(java.lang.String,uz.pdp.enums.Color,double,double,java.lang.Long,org.springframework.data.domain.Pageable)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.resolveFieldValue(AutowiredAnnotationBeanPostProcessor.java:787)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:767)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:145)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:508)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1418)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:598)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:521)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:325)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:323)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1443)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1353)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.resolveFieldValue(AutowiredAnnotationBeanPostProcessor.java:784)
+	... 20 common frames omitted
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'doorRepository' defined in uz.pdp.repository.DoorRepository defined in @EnableJpaRepositories declared on ProjectModul10Application: Could not create query for public abstract org.springframework.data.domain.Page uz.pdp.repository.DoorRepository.findSimilarDoors(java.lang.String,uz.pdp.enums.Color,double,double,java.lang.Long,org.springframework.data.domain.Pageable); Reason: Validation failed for query for method public abstract org.springframework.data.domain.Page uz.pdp.repository.DoorRepository.findSimilarDoors(java.lang.String,uz.pdp.enums.Color,double,double,java.lang.Long,org.springframework.data.domain.Pageable)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1773)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:599)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:521)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:325)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:323)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1443)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1353)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.resolveFieldValue(AutowiredAnnotationBeanPostProcessor.java:784)
+	... 34 common frames omitted
+Caused by: org.springframework.data.repository.query.QueryCreationException: Could not create query for public abstract org.springframework.data.domain.Page uz.pdp.repository.DoorRepository.findSimilarDoors(java.lang.String,uz.pdp.enums.Color,double,double,java.lang.Long,org.springframework.data.domain.Pageable); Reason: Validation failed for query for method public abstract org.springframework.data.domain.Page uz.pdp.repository.DoorRepository.findSimilarDoors(java.lang.String,uz.pdp.enums.Color,double,double,java.lang.Long,org.springframework.data.domain.Pageable)
+	at org.springframework.data.repository.query.QueryCreationException.create(QueryCreationException.java:101)
+	at org.springframework.data.repository.core.support.QueryExecutorMethodInterceptor.lookupQuery(QueryExecutorMethodInterceptor.java:115)
+	at org.springframework.data.repository.core.support.QueryExecutorMethodInterceptor.mapMethodsToQuery(QueryExecutorMethodInterceptor.java:99)
+	at org.springframework.data.repository.core.support.QueryExecutorMethodInterceptor.lambda$new$0(QueryExecutorMethodInterceptor.java:88)
+	at java.base/java.util.Optional.map(Optional.java:260)
+	at org.springframework.data.repository.core.support.QueryExecutorMethodInterceptor.<init>(QueryExecutorMethodInterceptor.java:88)
+	at org.springframework.data.repository.core.support.RepositoryFactorySupport.getRepository(RepositoryFactorySupport.java:357)
+	at org.springframework.data.repository.core.support.RepositoryFactoryBeanSupport.lambda$afterPropertiesSet$5(RepositoryFactoryBeanSupport.java:279)
+	at org.springframework.data.util.Lazy.getNullable(Lazy.java:135)
+	at org.springframework.data.util.Lazy.get(Lazy.java:113)
+	at org.springframework.data.repository.core.support.RepositoryFactoryBeanSupport.afterPropertiesSet(RepositoryFactoryBeanSupport.java:285)
+	at org.springframework.data.jpa.repository.support.JpaRepositoryFactoryBean.afterPropertiesSet(JpaRepositoryFactoryBean.java:132)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1820)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1769)
+	... 44 common frames omitted
+Caused by: java.lang.IllegalArgumentException: Validation failed for query for method public abstract org.springframework.data.domain.Page uz.pdp.repository.DoorRepository.findSimilarDoors(java.lang.String,uz.pdp.enums.Color,double,double,java.lang.Long,org.springframework.data.domain.Pageable)
+	at org.springframework.data.jpa.repository.query.SimpleJpaQuery.validateQuery(SimpleJpaQuery.java:100)
+	at org.springframework.data.jpa.repository.query.SimpleJpaQuery.<init>(SimpleJpaQuery.java:70)
+	at org.springframework.data.jpa.repository.query.JpaQueryFactory.fromMethodWithQueryString(JpaQueryFactory.java:60)
+	at org.springframework.data.jpa.repository.query.JpaQueryLookupStrategy$DeclaredQueryLookupStrategy.resolveQuery(JpaQueryLookupStrategy.java:170)
+	at org.springframework.data.jpa.repository.query.JpaQueryLookupStrategy$CreateIfNotFoundQueryLookupStrategy.resolveQuery(JpaQueryLookupStrategy.java:252)
+	at org.springframework.data.jpa.repository.query.JpaQueryLookupStrategy$AbstractQueryLookupStrategy.resolveQuery(JpaQueryLookupStrategy.java:95)
+	at org.springframework.data.repository.core.support.QueryExecutorMethodInterceptor.lookupQuery(QueryExecutorMethodInterceptor.java:111)
+	... 56 common frames omitted
+Caused by: java.lang.IllegalArgumentException: org.hibernate.query.SyntaxException: At 1:21 and token 'USE', mismatched input 'USE', expecting one of the following tokens: <EOF>, ',', CROSS, FULL, GROUP, INNER, JOIN, LEFT, ORDER, OUTER, RIGHT, WHERE [SELECT d FROM Door d USE INDEX (idx_door_material, idx_door_price)
+WHERE d.active = true
+AND d.material = :material
+AND d.color = :color
+AND d.price BETWEEN :minPrice AND :maxPrice
+AND d.id != :doorId
+ORDER BY ABS(d.price - (
+    SELECT d2.price FROM Door d2 WHERE d2.id = :doorId
+)) ASC
+]
+	at org.hibernate.internal.ExceptionConverterImpl.convert(ExceptionConverterImpl.java:143)
+	at org.hibernate.internal.ExceptionConverterImpl.convert(ExceptionConverterImpl.java:167)
+	at org.hibernate.internal.ExceptionConverterImpl.convert(ExceptionConverterImpl.java:173)
+	at org.hibernate.internal.AbstractSharedSessionContract.createQuery(AbstractSharedSessionContract.java:827)
+	at org.hibernate.internal.AbstractSharedSessionContract.createQuery(AbstractSharedSessionContract.java:732)
+	at org.hibernate.internal.AbstractSharedSessionContract.createQuery(AbstractSharedSessionContract.java:133)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at org.springframework.orm.jpa.ExtendedEntityManagerCreator$ExtendedEntityManagerInvocationHandler.invoke(ExtendedEntityManagerCreator.java:364)
+	at jdk.proxy2/jdk.proxy2.$Proxy199.createQuery(Unknown Source)
+	at org.springframework.data.jpa.repository.query.SimpleJpaQuery.validateQuery(SimpleJpaQuery.java:94)
+	... 62 common frames omitted
+Caused by: org.hibernate.query.SyntaxException: At 1:21 and token 'USE', mismatched input 'USE', expecting one of the following tokens: <EOF>, ',', CROSS, FULL, GROUP, INNER, JOIN, LEFT, ORDER, OUTER, RIGHT, WHERE [SELECT d FROM Door d USE INDEX (idx_door_material, idx_door_price)
+WHERE d.active = true
+AND d.material = :material
+AND d.color = :color
+AND d.price BETWEEN :minPrice AND :maxPrice
+AND d.id != :doorId
+ORDER BY ABS(d.price - (
+    SELECT d2.price FROM Door d2 WHERE d2.id = :doorId
+)) ASC
+]
+	at org.hibernate.query.hql.internal.StandardHqlTranslator$1.syntaxError(StandardHqlTranslator.java:108)
+	at org.antlr.v4.runtime.ProxyErrorListener.syntaxError(ProxyErrorListener.java:41)
+	at org.antlr.v4.runtime.Parser.notifyErrorListeners(Parser.java:544)
+	at org.antlr.v4.runtime.DefaultErrorStrategy.reportInputMismatch(DefaultErrorStrategy.java:327)
+	at org.antlr.v4.runtime.DefaultErrorStrategy.reportError(DefaultErrorStrategy.java:139)
+	at org.hibernate.grammars.hql.HqlParser.statement(HqlParser.java:367)
+	at org.hibernate.query.hql.internal.StandardHqlTranslator.parseHql(StandardHqlTranslator.java:143)
+	at org.hibernate.query.hql.internal.StandardHqlTranslator.translate(StandardHqlTranslator.java:67)
+	at org.hibernate.query.internal.QueryInterpretationCacheStandardImpl.createHqlInterpretation(QueryInterpretationCacheStandardImpl.java:165)
+	at org.hibernate.query.internal.QueryInterpretationCacheStandardImpl.resolveHqlInterpretation(QueryInterpretationCacheStandardImpl.java:147)
+	at org.hibernate.internal.AbstractSharedSessionContract.interpretHql(AbstractSharedSessionContract.java:769)
+	at org.hibernate.internal.AbstractSharedSessionContract.createQuery(AbstractSharedSessionContract.java:819)
+	... 71 common frames omitted
+2025-01-20 23:13:39 [main] INFO  u.p.p.ProjectModul10Application - Starting ProjectModul10Application using Java 17.0.13 with PID 517710 (/home/lantanium/Documents/G45-Project/target/classes started by lantanium in /home/lantanium/Documents/G45-Project)
+2025-01-20 23:13:39 [main] DEBUG u.p.p.ProjectModul10Application - Running with Spring Boot v3.2.1, Spring v6.1.2
+2025-01-20 23:13:39 [main] INFO  u.p.p.ProjectModul10Application - No active profile set, falling back to 1 default profile: "default"
+2025-01-20 23:13:39 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-01-20 23:13:39 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-01-20 23:13:39 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 81 ms. Found 7 JPA repository interfaces.
+2025-01-20 23:13:40 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-01-20 23:13:40 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-01-20 23:13:40 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 4 ms. Found 0 Redis repository interfaces.
+2025-01-20 23:13:40 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'webMvcConfig' of type [uz.pdp.config.WebMvcConfig$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). The currently created BeanPostProcessor [methodValidationPostProcessor] is declared through a non-static factory method on that class; consider declaring it as static instead.
+2025-01-20 23:13:40 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-01-20 23:13:40 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-01-20 23:13:40 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.17]
+2025-01-20 23:13:40 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-01-20 23:13:40 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1629 ms
+2025-01-20 23:13:41 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-01-20 23:13:41 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.1.Final
+2025-01-20 23:13:41 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-01-20 23:13:41 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-01-20 23:13:41 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-01-20 23:13:43 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@108d59b6
+2025-01-20 23:13:43 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-01-20 23:13:44 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-01-20 23:13:45 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-01-20 23:13:45 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists address_social_links 
+       drop constraint if exists FKf8co3916tiiox4iohci7ybiyg
+2025-01-20 23:13:45 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists addresses 
+       drop constraint if exists FK7wf86ejdl44syummkme09y06f
+2025-01-20 23:13:46 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists addresses 
+       drop constraint if exists FK1fa36y2oqhao3wgg2rw1pi459
+2025-01-20 23:13:46 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists company 
+       drop constraint if exists FKlgeojgfhu94pbgyev43gtwdyq
+2025-01-20 23:13:46 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists company_socials_list 
+       drop constraint if exists FKt90ivcl5f3phabfuqw6k3t9ow
+2025-01-20 23:13:46 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists door_history 
+       drop constraint if exists FKlskx5ehjqd7u0dmumo4bhuliu
+2025-01-20 23:13:47 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists door_history 
+       drop constraint if exists FKajibco0vlgy0ngsyg33k0wb0u
+2025-01-20 23:13:47 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists door_images 
+       drop constraint if exists FK33nbb6c7curx5h7rp8479q7ea
+2025-01-20 23:13:47 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists doors 
+       drop constraint if exists FKgbgrx2rwc3wskrr30uptj4tmy
+2025-01-20 23:13:47 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists email_verifications 
+       drop constraint if exists FKou1xuy3rdeao75p2x1v4v3xs
+2025-01-20 23:13:48 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists furniture_door_images 
+       drop constraint if exists FKb4n2f6xh5k5a16ix0dasotef4
+2025-01-20 23:13:48 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists orders 
+       drop constraint if exists FKf50k9uqc2hstd0yl9uujhoq74
+2025-01-20 23:13:48 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists orders 
+       drop constraint if exists FK32ql8ubntj5uh44ph9659tiih
+2025-01-20 23:13:48 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists address_social_links cascade
+2025-01-20 23:13:49 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists addresses cascade
+2025-01-20 23:13:49 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists company cascade
+2025-01-20 23:13:49 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists company_socials_list cascade
+2025-01-20 23:13:49 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists door_history cascade
+2025-01-20 23:13:50 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists door_images cascade
+2025-01-20 23:13:50 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists doors cascade
+2025-01-20 23:13:50 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists email_verifications cascade
+2025-01-20 23:13:51 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists furniture_door_images cascade
+2025-01-20 23:13:51 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists furniture_doors cascade
+2025-01-20 23:13:51 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists locations cascade
+2025-01-20 23:13:51 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists orders cascade
+2025-01-20 23:13:52 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists ticket cascade
+2025-01-20 23:13:52 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists users cascade
+2025-01-20 23:13:52 [main] DEBUG org.hibernate.SQL - 
+    create table address_social_links (
+        address_id bigint not null,
+        link varchar(255),
+        social_type varchar(255) not null check (social_type in ('FACEBOOK','TWITTER','INSTAGRAM','LINKEDIN','TELEGRAM')),
+        primary key (address_id, social_type)
+    )
+2025-01-20 23:13:52 [main] DEBUG org.hibernate.SQL - 
+    create table addresses (
+        is_default boolean not null,
+        id bigserial not null,
+        location_id bigint unique,
+        user_id bigint,
+        city varchar(255),
+        email varchar(255),
+        name varchar(255),
+        phone_number varchar(255),
+        street varchar(255),
+        working_hours varchar(255),
+        primary key (id)
+    )
+2025-01-20 23:13:53 [main] DEBUG org.hibernate.SQL - 
+    create table company (
+        work_time date,
+        address_id bigint unique,
+        id bigserial not null,
+        email varchar(255),
+        name varchar(255),
+        phone varchar(255),
+        primary key (id)
+    )
+2025-01-20 23:13:53 [main] DEBUG org.hibernate.SQL - 
+    create table company_socials_list (
+        company_id bigint not null,
+        socials_list varchar(255) check (socials_list in ('FACEBOOK','TWITTER','INSTAGRAM','LINKEDIN','TELEGRAM'))
+    )
+2025-01-20 23:13:53 [main] DEBUG org.hibernate.SQL - 
+    create table door_history (
+        accessed_at timestamp(6),
+        door_id bigint not null,
+        id bigserial not null,
+        user_id bigint not null,
+        primary key (id)
+    )
+2025-01-20 23:13:53 [main] DEBUG org.hibernate.SQL - 
+    create table door_images (
+        door_id bigint not null,
+        images varchar(255)
+    )
+2025-01-20 23:13:54 [main] DEBUG org.hibernate.SQL - 
+    create table doors (
+        active boolean not null,
+        custom_height float(53),
+        custom_width float(53),
+        final_price float(53),
+        is_custom_color boolean,
+        price float(53),
+        warranty_years integer,
+        id bigserial not null,
+        seller_id bigint,
+        color varchar(255) check (color in ('WHITE','BROWN','BLACK','CUSTOM')),
+        description varchar(255),
+        manufacturer varchar(255),
+        material varchar(255),
+        name varchar(255),
+        size varchar(255) check (size in ('SIZE_200x2000','SIZE_300x2000','SIZE_400x2000','SIZE_500x2000','SIZE_600x2000','SIZE_700x2000','SIZE_800x2000','SIZE_900x2000','SIZE_1000x2000','SIZE_1100x2000','SIZE_1200x2000','CUSTOM')),
+        status varchar(255) not null check (status in ('AVAILABLE','PENDING','SOLD','INACTIVE','UNAVAILABLE')),
+        primary key (id)
+    )
+2025-01-20 23:13:54 [main] DEBUG org.hibernate.SQL - 
+    create table email_verifications (
+        verified boolean not null,
+        created_at timestamp(6),
+        expiry_time timestamp(6) not null,
+        id bigserial not null,
+        updated_at timestamp(6),
+        user_id bigint not null,
+        type varchar(255) not null check (type in ('SELLER_REQUEST','PASSWORD_RESET','EMAIL_CONFIRMATION')),
+        verification_code varchar(255) not null,
+        primary key (id)
+    )
+2025-01-20 23:13:54 [main] DEBUG org.hibernate.SQL - 
+    create table furniture_door_images (
+        door_id bigint not null,
+        image_url varchar(255)
+    )
+2025-01-20 23:13:54 [main] DEBUG org.hibernate.SQL - 
+    create table furniture_doors (
+        price float(53) not null,
+        stock_quantity integer not null,
+        id bigserial not null,
+        description varchar(255),
+        dimensions varchar(255),
+        furniture_type varchar(255) not null check (furniture_type in ('LOCK','HANDLE','HINGES','AUTOMATIC_CLOSER','NO_FURNITURE')),
+        material varchar(255) not null,
+        name varchar(255) not null,
+        primary key (id)
+    )
+2025-01-20 23:13:55 [main] DEBUG org.hibernate.SQL - 
+    create table locations (
+        latitude float(53),
+        longitude float(53),
+        id bigserial not null,
+        marker_title varchar(255),
+        primary key (id)
+    )
+2025-01-20 23:13:55 [main] DEBUG org.hibernate.SQL - 
+    create table orders (
+        door_id bigint not null,
+        id bigserial not null,
+        order_date timestamp(6) not null,
+        user_id bigint not null,
+        contact_phone varchar(255) not null,
+        delivery_address varchar(255) not null,
+        order_type varchar(255) not null check (order_type in ('FULL_SET','POLOTNO')),
+        status varchar(255) check (status in ('PENDING','CONFIRMED','PROCESSING','SHIPPED','DELIVERED','CANCELLED')),
+        primary key (id)
+    )
+2025-01-20 23:13:55 [main] DEBUG org.hibernate.SQL - 
+    create table ticket (
+        id bigserial not null,
+        user_id bigint,
+        primary key (id)
+    )
+2025-01-20 23:13:56 [main] DEBUG org.hibernate.SQL - 
+    create table users (
+        active boolean not null,
+        seller_request_pending boolean not null,
+        id bigserial not null,
+        email varchar(255),
+        lastname varchar(255),
+        name varchar(255),
+        password varchar(255),
+        phone varchar(255),
+        role varchar(255) not null check (role in ('USER','SELLER','ADMIN')),
+        primary key (id),
+        constraint idx_user_email unique (email)
+    )
+2025-01-20 23:13:56 [main] DEBUG org.hibernate.SQL - 
+    create index idx_door_material 
+       on doors (material)
+2025-01-20 23:13:56 [main] DEBUG org.hibernate.SQL - 
+    create index idx_door_manufacturer 
+       on doors (manufacturer)
+2025-01-20 23:13:56 [main] DEBUG org.hibernate.SQL - 
+    create index idx_door_price 
+       on doors (price)
+2025-01-20 23:13:57 [main] DEBUG org.hibernate.SQL - 
+    create index idx_door_name 
+       on doors (name)
+2025-01-20 23:13:57 [main] DEBUG org.hibernate.SQL - 
+    create index idx_door_active_status 
+       on doors (active, status)
+2025-01-20 23:13:57 [main] DEBUG org.hibernate.SQL - 
+    create index idx_order_user 
+       on orders (user_id)
+2025-01-20 23:13:57 [main] DEBUG org.hibernate.SQL - 
+    create index idx_order_door 
+       on orders (door_id)
+2025-01-20 23:13:58 [main] DEBUG org.hibernate.SQL - 
+    create index idx_order_status_date 
+       on orders (status, order_date)
+2025-01-20 23:13:58 [main] DEBUG org.hibernate.SQL - 
+    create index idx_order_type_date 
+       on orders (order_type, order_date)
+2025-01-20 23:13:58 [main] DEBUG org.hibernate.SQL - 
+    create index idx_user_name 
+       on users (name)
+2025-01-20 23:13:58 [main] DEBUG org.hibernate.SQL - 
+    create index idx_user_role_active 
+       on users (role, active)
+2025-01-20 23:13:59 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists address_social_links 
+       add constraint FKf8co3916tiiox4iohci7ybiyg 
+       foreign key (address_id) 
+       references addresses
+2025-01-20 23:13:59 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists addresses 
+       add constraint FK7wf86ejdl44syummkme09y06f 
+       foreign key (location_id) 
+       references locations
+2025-01-20 23:13:59 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists addresses 
+       add constraint FK1fa36y2oqhao3wgg2rw1pi459 
+       foreign key (user_id) 
+       references users
+2025-01-20 23:13:59 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists company 
+       add constraint FKlgeojgfhu94pbgyev43gtwdyq 
+       foreign key (address_id) 
+       references addresses
+2025-01-20 23:14:00 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists company_socials_list 
+       add constraint FKt90ivcl5f3phabfuqw6k3t9ow 
+       foreign key (company_id) 
+       references company
+2025-01-20 23:14:00 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists door_history 
+       add constraint FKlskx5ehjqd7u0dmumo4bhuliu 
+       foreign key (door_id) 
+       references doors
+2025-01-20 23:14:00 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists door_history 
+       add constraint FKajibco0vlgy0ngsyg33k0wb0u 
+       foreign key (user_id) 
+       references users
+2025-01-20 23:14:01 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists door_images 
+       add constraint FK33nbb6c7curx5h7rp8479q7ea 
+       foreign key (door_id) 
+       references doors
+2025-01-20 23:14:01 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists doors 
+       add constraint FKgbgrx2rwc3wskrr30uptj4tmy 
+       foreign key (seller_id) 
+       references users
+2025-01-20 23:14:01 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists email_verifications 
+       add constraint FKou1xuy3rdeao75p2x1v4v3xs 
+       foreign key (user_id) 
+       references users
+2025-01-20 23:14:01 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists furniture_door_images 
+       add constraint FKb4n2f6xh5k5a16ix0dasotef4 
+       foreign key (door_id) 
+       references furniture_doors
+2025-01-20 23:14:02 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists orders 
+       add constraint FKf50k9uqc2hstd0yl9uujhoq74 
+       foreign key (door_id) 
+       references doors
+2025-01-20 23:14:02 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists orders 
+       add constraint FK32ql8ubntj5uh44ph9659tiih 
+       foreign key (user_id) 
+       references users
+2025-01-20 23:14:02 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-01-20 23:14:02 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-01-20 23:14:03 [main] WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'adminController': Unsatisfied dependency expressed through field 'adminService': Error creating bean with name 'adminService': Unsatisfied dependency expressed through field 'doorRepository': Error creating bean with name 'doorRepository' defined in uz.pdp.repository.DoorRepository defined in @EnableJpaRepositories declared on ProjectModul10Application: Could not create query for public abstract org.springframework.data.domain.Page uz.pdp.repository.DoorRepository.findSimilarDoors(java.lang.String,uz.pdp.enums.Color,double,double,java.lang.Long,org.springframework.data.domain.Pageable); Reason: Validation failed for query for method public abstract org.springframework.data.domain.Page uz.pdp.repository.DoorRepository.findSimilarDoors(java.lang.String,uz.pdp.enums.Color,double,double,java.lang.Long,org.springframework.data.domain.Pageable)
+2025-01-20 23:14:03 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-01-20 23:14:03 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-01-20 23:14:04 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-01-20 23:14:04 [main] INFO  o.a.catalina.core.StandardService - Stopping service [Tomcat]
+2025-01-20 23:14:04 [main] INFO  o.s.b.a.l.ConditionEvaluationReportLogger - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2025-01-20 23:14:04 [main] ERROR o.s.boot.SpringApplication - Application run failed
+org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'adminController': Unsatisfied dependency expressed through field 'adminService': Error creating bean with name 'adminService': Unsatisfied dependency expressed through field 'doorRepository': Error creating bean with name 'doorRepository' defined in uz.pdp.repository.DoorRepository defined in @EnableJpaRepositories declared on ProjectModul10Application: Could not create query for public abstract org.springframework.data.domain.Page uz.pdp.repository.DoorRepository.findSimilarDoors(java.lang.String,uz.pdp.enums.Color,double,double,java.lang.Long,org.springframework.data.domain.Pageable); Reason: Validation failed for query for method public abstract org.springframework.data.domain.Page uz.pdp.repository.DoorRepository.findSimilarDoors(java.lang.String,uz.pdp.enums.Color,double,double,java.lang.Long,org.springframework.data.domain.Pageable)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.resolveFieldValue(AutowiredAnnotationBeanPostProcessor.java:787)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:767)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:145)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:508)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1418)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:598)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:521)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:325)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:323)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:975)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:960)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:625)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:762)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:464)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:334)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1358)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1347)
+	at uz.pdp.projectmodul10.ProjectModul10Application.main(ProjectModul10Application.java:56)
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'adminService': Unsatisfied dependency expressed through field 'doorRepository': Error creating bean with name 'doorRepository' defined in uz.pdp.repository.DoorRepository defined in @EnableJpaRepositories declared on ProjectModul10Application: Could not create query for public abstract org.springframework.data.domain.Page uz.pdp.repository.DoorRepository.findSimilarDoors(java.lang.String,uz.pdp.enums.Color,double,double,java.lang.Long,org.springframework.data.domain.Pageable); Reason: Validation failed for query for method public abstract org.springframework.data.domain.Page uz.pdp.repository.DoorRepository.findSimilarDoors(java.lang.String,uz.pdp.enums.Color,double,double,java.lang.Long,org.springframework.data.domain.Pageable)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.resolveFieldValue(AutowiredAnnotationBeanPostProcessor.java:787)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.inject(AutowiredAnnotationBeanPostProcessor.java:767)
+	at org.springframework.beans.factory.annotation.InjectionMetadata.inject(InjectionMetadata.java:145)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor.postProcessProperties(AutowiredAnnotationBeanPostProcessor.java:508)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.populateBean(AbstractAutowireCapableBeanFactory.java:1418)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:598)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:521)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:325)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:323)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1443)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1353)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.resolveFieldValue(AutowiredAnnotationBeanPostProcessor.java:784)
+	... 20 common frames omitted
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'doorRepository' defined in uz.pdp.repository.DoorRepository defined in @EnableJpaRepositories declared on ProjectModul10Application: Could not create query for public abstract org.springframework.data.domain.Page uz.pdp.repository.DoorRepository.findSimilarDoors(java.lang.String,uz.pdp.enums.Color,double,double,java.lang.Long,org.springframework.data.domain.Pageable); Reason: Validation failed for query for method public abstract org.springframework.data.domain.Page uz.pdp.repository.DoorRepository.findSimilarDoors(java.lang.String,uz.pdp.enums.Color,double,double,java.lang.Long,org.springframework.data.domain.Pageable)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1773)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:599)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:521)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:325)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:323)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1443)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1353)
+	at org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor$AutowiredFieldElement.resolveFieldValue(AutowiredAnnotationBeanPostProcessor.java:784)
+	... 34 common frames omitted
+Caused by: org.springframework.data.repository.query.QueryCreationException: Could not create query for public abstract org.springframework.data.domain.Page uz.pdp.repository.DoorRepository.findSimilarDoors(java.lang.String,uz.pdp.enums.Color,double,double,java.lang.Long,org.springframework.data.domain.Pageable); Reason: Validation failed for query for method public abstract org.springframework.data.domain.Page uz.pdp.repository.DoorRepository.findSimilarDoors(java.lang.String,uz.pdp.enums.Color,double,double,java.lang.Long,org.springframework.data.domain.Pageable)
+	at org.springframework.data.repository.query.QueryCreationException.create(QueryCreationException.java:101)
+	at org.springframework.data.repository.core.support.QueryExecutorMethodInterceptor.lookupQuery(QueryExecutorMethodInterceptor.java:115)
+	at org.springframework.data.repository.core.support.QueryExecutorMethodInterceptor.mapMethodsToQuery(QueryExecutorMethodInterceptor.java:99)
+	at org.springframework.data.repository.core.support.QueryExecutorMethodInterceptor.lambda$new$0(QueryExecutorMethodInterceptor.java:88)
+	at java.base/java.util.Optional.map(Optional.java:260)
+	at org.springframework.data.repository.core.support.QueryExecutorMethodInterceptor.<init>(QueryExecutorMethodInterceptor.java:88)
+	at org.springframework.data.repository.core.support.RepositoryFactorySupport.getRepository(RepositoryFactorySupport.java:357)
+	at org.springframework.data.repository.core.support.RepositoryFactoryBeanSupport.lambda$afterPropertiesSet$5(RepositoryFactoryBeanSupport.java:279)
+	at org.springframework.data.util.Lazy.getNullable(Lazy.java:135)
+	at org.springframework.data.util.Lazy.get(Lazy.java:113)
+	at org.springframework.data.repository.core.support.RepositoryFactoryBeanSupport.afterPropertiesSet(RepositoryFactoryBeanSupport.java:285)
+	at org.springframework.data.jpa.repository.support.JpaRepositoryFactoryBean.afterPropertiesSet(JpaRepositoryFactoryBean.java:132)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1820)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1769)
+	... 44 common frames omitted
+Caused by: java.lang.IllegalArgumentException: Validation failed for query for method public abstract org.springframework.data.domain.Page uz.pdp.repository.DoorRepository.findSimilarDoors(java.lang.String,uz.pdp.enums.Color,double,double,java.lang.Long,org.springframework.data.domain.Pageable)
+	at org.springframework.data.jpa.repository.query.SimpleJpaQuery.validateQuery(SimpleJpaQuery.java:100)
+	at org.springframework.data.jpa.repository.query.SimpleJpaQuery.<init>(SimpleJpaQuery.java:70)
+	at org.springframework.data.jpa.repository.query.JpaQueryFactory.fromMethodWithQueryString(JpaQueryFactory.java:60)
+	at org.springframework.data.jpa.repository.query.JpaQueryLookupStrategy$DeclaredQueryLookupStrategy.resolveQuery(JpaQueryLookupStrategy.java:170)
+	at org.springframework.data.jpa.repository.query.JpaQueryLookupStrategy$CreateIfNotFoundQueryLookupStrategy.resolveQuery(JpaQueryLookupStrategy.java:252)
+	at org.springframework.data.jpa.repository.query.JpaQueryLookupStrategy$AbstractQueryLookupStrategy.resolveQuery(JpaQueryLookupStrategy.java:95)
+	at org.springframework.data.repository.core.support.QueryExecutorMethodInterceptor.lookupQuery(QueryExecutorMethodInterceptor.java:111)
+	... 56 common frames omitted
+Caused by: java.lang.IllegalArgumentException: org.hibernate.query.SyntaxException: At 1:21 and token 'USE', mismatched input 'USE', expecting one of the following tokens: <EOF>, ',', CROSS, FULL, GROUP, INNER, JOIN, LEFT, ORDER, OUTER, RIGHT, WHERE [SELECT d FROM Door d USE INDEX (idx_door_material, idx_door_price)
+WHERE d.active = true
+AND d.material = :material
+AND d.color = :color
+AND d.price BETWEEN :minPrice AND :maxPrice
+AND d.id != :doorId
+ORDER BY ABS(d.price - (
+    SELECT d2.price FROM Door d2 WHERE d2.id = :doorId
+)) ASC
+]
+	at org.hibernate.internal.ExceptionConverterImpl.convert(ExceptionConverterImpl.java:143)
+	at org.hibernate.internal.ExceptionConverterImpl.convert(ExceptionConverterImpl.java:167)
+	at org.hibernate.internal.ExceptionConverterImpl.convert(ExceptionConverterImpl.java:173)
+	at org.hibernate.internal.AbstractSharedSessionContract.createQuery(AbstractSharedSessionContract.java:827)
+	at org.hibernate.internal.AbstractSharedSessionContract.createQuery(AbstractSharedSessionContract.java:732)
+	at org.hibernate.internal.AbstractSharedSessionContract.createQuery(AbstractSharedSessionContract.java:133)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at org.springframework.orm.jpa.ExtendedEntityManagerCreator$ExtendedEntityManagerInvocationHandler.invoke(ExtendedEntityManagerCreator.java:364)
+	at jdk.proxy2/jdk.proxy2.$Proxy199.createQuery(Unknown Source)
+	at org.springframework.data.jpa.repository.query.SimpleJpaQuery.validateQuery(SimpleJpaQuery.java:94)
+	... 62 common frames omitted
+Caused by: org.hibernate.query.SyntaxException: At 1:21 and token 'USE', mismatched input 'USE', expecting one of the following tokens: <EOF>, ',', CROSS, FULL, GROUP, INNER, JOIN, LEFT, ORDER, OUTER, RIGHT, WHERE [SELECT d FROM Door d USE INDEX (idx_door_material, idx_door_price)
+WHERE d.active = true
+AND d.material = :material
+AND d.color = :color
+AND d.price BETWEEN :minPrice AND :maxPrice
+AND d.id != :doorId
+ORDER BY ABS(d.price - (
+    SELECT d2.price FROM Door d2 WHERE d2.id = :doorId
+)) ASC
+]
+	at org.hibernate.query.hql.internal.StandardHqlTranslator$1.syntaxError(StandardHqlTranslator.java:108)
+	at org.antlr.v4.runtime.ProxyErrorListener.syntaxError(ProxyErrorListener.java:41)
+	at org.antlr.v4.runtime.Parser.notifyErrorListeners(Parser.java:544)
+	at org.antlr.v4.runtime.DefaultErrorStrategy.reportInputMismatch(DefaultErrorStrategy.java:327)
+	at org.antlr.v4.runtime.DefaultErrorStrategy.reportError(DefaultErrorStrategy.java:139)
+	at org.hibernate.grammars.hql.HqlParser.statement(HqlParser.java:367)
+	at org.hibernate.query.hql.internal.StandardHqlTranslator.parseHql(StandardHqlTranslator.java:143)
+	at org.hibernate.query.hql.internal.StandardHqlTranslator.translate(StandardHqlTranslator.java:67)
+	at org.hibernate.query.internal.QueryInterpretationCacheStandardImpl.createHqlInterpretation(QueryInterpretationCacheStandardImpl.java:165)
+	at org.hibernate.query.internal.QueryInterpretationCacheStandardImpl.resolveHqlInterpretation(QueryInterpretationCacheStandardImpl.java:147)
+	at org.hibernate.internal.AbstractSharedSessionContract.interpretHql(AbstractSharedSessionContract.java:769)
+	at org.hibernate.internal.AbstractSharedSessionContract.createQuery(AbstractSharedSessionContract.java:819)
+	... 71 common frames omitted
+2025-01-20 23:14:38 [main] INFO  u.p.p.ProjectModul10Application - Starting ProjectModul10Application using Java 17.0.13 with PID 522755 (/home/lantanium/Documents/G45-Project/target/classes started by lantanium in /home/lantanium/Documents/G45-Project)
+2025-01-20 23:14:38 [main] DEBUG u.p.p.ProjectModul10Application - Running with Spring Boot v3.2.1, Spring v6.1.2
+2025-01-20 23:14:38 [main] INFO  u.p.p.ProjectModul10Application - No active profile set, falling back to 1 default profile: "default"
+2025-01-20 23:14:38 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-01-20 23:14:38 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-01-20 23:14:38 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 66 ms. Found 7 JPA repository interfaces.
+2025-01-20 23:14:39 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-01-20 23:14:39 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-01-20 23:14:39 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 10 ms. Found 0 Redis repository interfaces.
+2025-01-20 23:14:39 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'webMvcConfig' of type [uz.pdp.config.WebMvcConfig$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). The currently created BeanPostProcessor [methodValidationPostProcessor] is declared through a non-static factory method on that class; consider declaring it as static instead.
+2025-01-20 23:14:39 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-01-20 23:14:39 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-01-20 23:14:39 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.17]
+2025-01-20 23:14:39 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-01-20 23:14:39 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1466 ms
+2025-01-20 23:14:40 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-01-20 23:14:40 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.1.Final
+2025-01-20 23:14:40 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-01-20 23:14:40 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-01-20 23:14:40 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-01-20 23:14:43 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@60e5b3a8
+2025-01-20 23:14:43 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-01-20 23:14:43 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-01-20 23:14:44 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-01-20 23:14:58 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-01-20 23:14:58 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-01-20 23:15:00 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-01-20 23:15:00 [main] INFO  o.s.g.e.DefaultSchemaResourceGraphQlSourceBuilder - Loaded 1 resource(s) in the GraphQL schema.
+2025-01-20 23:15:01 [main] INFO  o.s.b.a.g.GraphQlAutoConfiguration - GraphQL schema inspection:
+	Unmapped fields: {Query=[door, doors, user, address, addresses, searchAddresses, nearestAddress, doorHistory, order, userOrders, userAddresses], Mutation=[configureDoor, updateProfile, approveSeller, deactivateAccount, createOrder, updateOrderStatus, addAddress], Address=[country, zipCode], Subscription=[orderStatusChanged, newDoorAdded]}
+	Unmapped registrations: {Query.getDoorById=DoorGraphQLController#getDoorById[1 args], Query.getAddressById=AddressGraphQLController#getAddressById[1 args], Query.getRecentHistory=DoorHistoryGraphQLController#getRecentHistory[1 args], Query.getAddressesByCity=AddressGraphQLController#getAddressesByCity[1 args], Query.getUserDoorHistory=DoorHistoryGraphQLController#getUserDoorHistory[2 args], Query.getDoorHistory=DoorHistoryGraphQLController#getDoorHistory[1 args], Query.getAllDoors=DoorGraphQLController#getAllDoors[0 args], Query.getAllAddresses=AddressGraphQLController#getAllAddresses[0 args], Query.getUserHistory=DoorHistoryGraphQLController#getUserHistory[1 args], Mutation.updateDoorStatus=DoorGraphQLController#updateDoorStatus[3 args], Mutation.validateAddress=AddressGraphQLController#validateAddress[1 args]}
+	Skipped types: []
+2025-01-20 23:15:01 [main] INFO  o.s.b.a.g.s.GraphQlWebMvcAutoConfiguration - GraphQL endpoint HTTP POST /graphql
+2025-01-20 23:15:01 [main] INFO  o.s.b.a.g.s.GraphQlWebMvcAutoConfiguration - GraphQL endpoint WebSocket /graphql-ws
+2025-01-20 23:15:01 [main] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 26 endpoint(s) beneath base path '/actuator'
+2025-01-20 23:15:01 [main] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@3998a6ce, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@7c6d8723, org.springframework.security.web.context.SecurityContextHolderFilter@127f0896, org.springframework.security.web.header.HeaderWriterFilter@605fea50, org.springframework.web.filter.CorsFilter@10051dd2, org.springframework.security.web.authentication.logout.LogoutFilter@34253041, uz.pdp.config.filtr.MyFilter@3d5f08d4, org.springframework.security.web.authentication.www.BasicAuthenticationFilter@10249c61, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@31f1574c, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@120aa894, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@6b6090d4, org.springframework.security.web.access.ExceptionTranslationFilter@eb7670b, org.springframework.security.web.access.intercept.AuthorizationFilter@1852cea2]
+2025-01-20 23:15:02 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+2025-01-20 23:15:02 [main] INFO  u.p.p.ProjectModul10Application - Started ProjectModul10Application in 24.464 seconds (process running for 24.766)
+2025-01-20 23:15:02 [main] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.email,
+        u1_0.lastname,
+        u1_0.name,
+        u1_0.password,
+        u1_0.phone,
+        u1_0.role,
+        u1_0.seller_request_pending 
+    from
+        users u1_0 
+    where
+        u1_0.name=? 
+        and u1_0.active=true
+2025-01-20 23:15:03 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        users
+        (active, email, lastname, name, password, phone, role, seller_request_pending) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?)
+2025-01-20 23:15:04 [main] DEBUG org.hibernate.SQL - 
+    select
+        count(*) 
+    from
+        doors d1_0
+2025-01-20 23:15:04 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-01-20 23:15:04 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-01-20 23:15:04 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2025-01-20 23:15:04 [main] DEBUG org.hibernate.SQL - 
+    select
+        count(*) 
+    from
+        furniture_doors fd1_0
+2025-01-20 23:15:04 [http-nio-8080-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.email,
+        u1_0.lastname,
+        u1_0.name,
+        u1_0.password,
+        u1_0.phone,
+        u1_0.role,
+        u1_0.seller_request_pending 
+    from
+        users u1_0 
+    where
+        u1_0.name=? 
+        and u1_0.active=true
+2025-01-20 23:15:05 [main] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.email,
+        u1_0.lastname,
+        u1_0.name,
+        u1_0.password,
+        u1_0.phone,
+        u1_0.role,
+        u1_0.seller_request_pending 
+    from
+        users u1_0 
+    where
+        u1_0.email=? 
+        and u1_0.active=true
+2025-01-20 23:15:05 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        users
+        (active, email, lastname, name, password, phone, role, seller_request_pending) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?)
+2025-01-20 23:15:05 [http-nio-8080-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        fd1_0.id,
+        fd1_0.description,
+        fd1_0.dimensions,
+        fd1_0.furniture_type,
+        fd1_0.material,
+        fd1_0.name,
+        fd1_0.price,
+        fd1_0.stock_quantity 
+    from
+        furniture_doors fd1_0
+2025-01-20 23:15:06 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        doors
+        (active, color, custom_height, custom_width, description, final_price, is_custom_color, manufacturer, material, name, price, seller_id, size, status, warranty_years) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-01-20 23:15:06 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        doors
+        (active, color, custom_height, custom_width, description, final_price, is_custom_color, manufacturer, material, name, price, seller_id, size, status, warranty_years) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-01-20 23:15:06 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        doors
+        (active, color, custom_height, custom_width, description, final_price, is_custom_color, manufacturer, material, name, price, seller_id, size, status, warranty_years) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-01-20 23:15:06 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        doors
+        (active, color, custom_height, custom_width, description, final_price, is_custom_color, manufacturer, material, name, price, seller_id, size, status, warranty_years) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-01-20 23:15:07 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        doors
+        (active, color, custom_height, custom_width, description, final_price, is_custom_color, manufacturer, material, name, price, seller_id, size, status, warranty_years) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-01-20 23:15:07 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        doors
+        (active, color, custom_height, custom_width, description, final_price, is_custom_color, manufacturer, material, name, price, seller_id, size, status, warranty_years) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-01-20 23:15:07 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        doors
+        (active, color, custom_height, custom_width, description, final_price, is_custom_color, manufacturer, material, name, price, seller_id, size, status, warranty_years) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-01-20 23:15:08 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        doors
+        (active, color, custom_height, custom_width, description, final_price, is_custom_color, manufacturer, material, name, price, seller_id, size, status, warranty_years) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-01-20 23:15:08 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        doors
+        (active, color, custom_height, custom_width, description, final_price, is_custom_color, manufacturer, material, name, price, seller_id, size, status, warranty_years) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-01-20 23:15:08 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        doors
+        (active, color, custom_height, custom_width, description, final_price, is_custom_color, manufacturer, material, name, price, seller_id, size, status, warranty_years) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-01-20 23:15:08 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        doors
+        (active, color, custom_height, custom_width, description, final_price, is_custom_color, manufacturer, material, name, price, seller_id, size, status, warranty_years) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-01-20 23:15:09 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        doors
+        (active, color, custom_height, custom_width, description, final_price, is_custom_color, manufacturer, material, name, price, seller_id, size, status, warranty_years) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-01-20 23:15:09 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        doors
+        (active, color, custom_height, custom_width, description, final_price, is_custom_color, manufacturer, material, name, price, seller_id, size, status, warranty_years) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-01-20 23:15:09 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        doors
+        (active, color, custom_height, custom_width, description, final_price, is_custom_color, manufacturer, material, name, price, seller_id, size, status, warranty_years) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-01-20 23:15:10 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        doors
+        (active, color, custom_height, custom_width, description, final_price, is_custom_color, manufacturer, material, name, price, seller_id, size, status, warranty_years) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-01-20 23:15:10 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        doors
+        (active, color, custom_height, custom_width, description, final_price, is_custom_color, manufacturer, material, name, price, seller_id, size, status, warranty_years) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-01-20 23:15:10 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        doors
+        (active, color, custom_height, custom_width, description, final_price, is_custom_color, manufacturer, material, name, price, seller_id, size, status, warranty_years) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-01-20 23:15:10 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        doors
+        (active, color, custom_height, custom_width, description, final_price, is_custom_color, manufacturer, material, name, price, seller_id, size, status, warranty_years) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-01-20 23:15:11 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        doors
+        (active, color, custom_height, custom_width, description, final_price, is_custom_color, manufacturer, material, name, price, seller_id, size, status, warranty_years) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-01-20 23:15:11 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        doors
+        (active, color, custom_height, custom_width, description, final_price, is_custom_color, manufacturer, material, name, price, seller_id, size, status, warranty_years) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-01-20 23:15:11 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        doors
+        (active, color, custom_height, custom_width, description, final_price, is_custom_color, manufacturer, material, name, price, seller_id, size, status, warranty_years) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-01-20 23:15:12 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        doors
+        (active, color, custom_height, custom_width, description, final_price, is_custom_color, manufacturer, material, name, price, seller_id, size, status, warranty_years) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-01-20 23:15:12 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        doors
+        (active, color, custom_height, custom_width, description, final_price, is_custom_color, manufacturer, material, name, price, seller_id, size, status, warranty_years) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-01-20 23:15:12 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        doors
+        (active, color, custom_height, custom_width, description, final_price, is_custom_color, manufacturer, material, name, price, seller_id, size, status, warranty_years) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-01-20 23:15:12 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        doors
+        (active, color, custom_height, custom_width, description, final_price, is_custom_color, manufacturer, material, name, price, seller_id, size, status, warranty_years) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-01-20 23:15:13 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:13 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:13 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:13 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:13 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:13 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:13 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:13 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:13 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:13 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:13 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:13 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:13 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:13 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:13 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:13 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:13 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:13 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:13 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:13 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:13 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:13 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:13 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:13 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:13 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:13 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:13 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:13 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:13 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:13 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:13 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:13 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:13 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:13 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:13 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:13 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:13 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:13 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:13 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:13 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:13 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:13 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:13 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:13 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:13 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:13 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:13 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:13 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:13 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:13 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:13 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:13 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:13 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:13 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:13 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:13 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:13 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:13 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:13 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:13 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:13 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:13 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:13 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:13 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:13 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:13 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:13 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:13 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:13 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:13 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:13 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:13 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:13 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:13 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:13 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:14 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:14 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:14 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:14 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:14 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:14 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:14 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:14 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:14 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:14 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:14 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:14 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:14 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:14 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:14 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:14 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:14 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:14 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:14 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:14 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-20 23:15:14 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        furniture_doors
+        (description, dimensions, furniture_type, material, name, price, stock_quantity) 
+    values
+        (?, ?, ?, ?, ?, ?, ?)
+2025-01-20 23:15:15 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        furniture_doors
+        (description, dimensions, furniture_type, material, name, price, stock_quantity) 
+    values
+        (?, ?, ?, ?, ?, ?, ?)
+2025-01-20 23:15:15 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        furniture_doors
+        (description, dimensions, furniture_type, material, name, price, stock_quantity) 
+    values
+        (?, ?, ?, ?, ?, ?, ?)
+2025-01-20 23:15:15 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        furniture_doors
+        (description, dimensions, furniture_type, material, name, price, stock_quantity) 
+    values
+        (?, ?, ?, ?, ?, ?, ?)
+2025-01-20 23:15:16 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        furniture_doors
+        (description, dimensions, furniture_type, material, name, price, stock_quantity) 
+    values
+        (?, ?, ?, ?, ?, ?, ?)
+2025-01-20 23:15:16 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        furniture_doors
+        (description, dimensions, furniture_type, material, name, price, stock_quantity) 
+    values
+        (?, ?, ?, ?, ?, ?, ?)
+2025-01-20 23:15:16 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        furniture_doors
+        (description, dimensions, furniture_type, material, name, price, stock_quantity) 
+    values
+        (?, ?, ?, ?, ?, ?, ?)
+2025-01-20 23:15:16 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        furniture_doors
+        (description, dimensions, furniture_type, material, name, price, stock_quantity) 
+    values
+        (?, ?, ?, ?, ?, ?, ?)
+2025-01-20 23:15:17 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        furniture_doors
+        (description, dimensions, furniture_type, material, name, price, stock_quantity) 
+    values
+        (?, ?, ?, ?, ?, ?, ?)
+2025-01-20 23:15:17 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        furniture_doors
+        (description, dimensions, furniture_type, material, name, price, stock_quantity) 
+    values
+        (?, ?, ?, ?, ?, ?, ?)
+2025-01-20 23:15:17 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        furniture_doors
+        (description, dimensions, furniture_type, material, name, price, stock_quantity) 
+    values
+        (?, ?, ?, ?, ?, ?, ?)
+2025-01-20 23:15:17 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        furniture_doors
+        (description, dimensions, furniture_type, material, name, price, stock_quantity) 
+    values
+        (?, ?, ?, ?, ?, ?, ?)
+2025-01-20 23:15:18 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        furniture_doors
+        (description, dimensions, furniture_type, material, name, price, stock_quantity) 
+    values
+        (?, ?, ?, ?, ?, ?, ?)
+2025-01-20 23:15:18 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        furniture_doors
+        (description, dimensions, furniture_type, material, name, price, stock_quantity) 
+    values
+        (?, ?, ?, ?, ?, ?, ?)
+2025-01-20 23:15:18 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        furniture_doors
+        (description, dimensions, furniture_type, material, name, price, stock_quantity) 
+    values
+        (?, ?, ?, ?, ?, ?, ?)
+2025-01-20 23:15:18 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        furniture_doors
+        (description, dimensions, furniture_type, material, name, price, stock_quantity) 
+    values
+        (?, ?, ?, ?, ?, ?, ?)
+2025-01-20 23:15:19 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        furniture_doors
+        (description, dimensions, furniture_type, material, name, price, stock_quantity) 
+    values
+        (?, ?, ?, ?, ?, ?, ?)
+2025-01-20 23:15:19 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        furniture_door_images
+        (door_id, image_url) 
+    values
+        (?, ?)
+2025-01-20 23:15:19 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        furniture_door_images
+        (door_id, image_url) 
+    values
+        (?, ?)
+2025-01-20 23:15:19 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        furniture_door_images
+        (door_id, image_url) 
+    values
+        (?, ?)
+2025-01-20 23:15:19 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        furniture_door_images
+        (door_id, image_url) 
+    values
+        (?, ?)
+2025-01-20 23:15:19 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        furniture_door_images
+        (door_id, image_url) 
+    values
+        (?, ?)
+2025-01-20 23:15:19 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        furniture_door_images
+        (door_id, image_url) 
+    values
+        (?, ?)
+2025-01-20 23:15:19 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        furniture_door_images
+        (door_id, image_url) 
+    values
+        (?, ?)
+2025-01-20 23:15:19 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        furniture_door_images
+        (door_id, image_url) 
+    values
+        (?, ?)
+2025-01-20 23:15:19 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        furniture_door_images
+        (door_id, image_url) 
+    values
+        (?, ?)
+2025-01-20 23:15:19 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        furniture_door_images
+        (door_id, image_url) 
+    values
+        (?, ?)
+2025-01-20 23:15:19 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        furniture_door_images
+        (door_id, image_url) 
+    values
+        (?, ?)
+2025-01-20 23:15:19 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        furniture_door_images
+        (door_id, image_url) 
+    values
+        (?, ?)
+2025-01-20 23:15:19 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        furniture_door_images
+        (door_id, image_url) 
+    values
+        (?, ?)
+2025-01-20 23:15:19 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        furniture_door_images
+        (door_id, image_url) 
+    values
+        (?, ?)
+2025-01-20 23:15:19 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        furniture_door_images
+        (door_id, image_url) 
+    values
+        (?, ?)
+2025-01-20 23:15:19 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        furniture_door_images
+        (door_id, image_url) 
+    values
+        (?, ?)
+2025-01-20 23:15:19 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        furniture_door_images
+        (door_id, image_url) 
+    values
+        (?, ?)
+2025-01-20 23:15:19 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        furniture_door_images
+        (door_id, image_url) 
+    values
+        (?, ?)
+2025-01-20 23:15:19 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        furniture_door_images
+        (door_id, image_url) 
+    values
+        (?, ?)
+2025-01-20 23:15:19 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        furniture_door_images
+        (door_id, image_url) 
+    values
+        (?, ?)
+2025-01-20 23:15:19 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        furniture_door_images
+        (door_id, image_url) 
+    values
+        (?, ?)
+2025-01-20 23:15:19 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        furniture_door_images
+        (door_id, image_url) 
+    values
+        (?, ?)
+2025-01-20 23:15:19 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        furniture_door_images
+        (door_id, image_url) 
+    values
+        (?, ?)
+2025-01-20 23:15:19 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        furniture_door_images
+        (door_id, image_url) 
+    values
+        (?, ?)
+2025-01-20 23:15:19 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        furniture_door_images
+        (door_id, image_url) 
+    values
+        (?, ?)
+2025-01-20 23:15:20 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        furniture_door_images
+        (door_id, image_url) 
+    values
+        (?, ?)
+2025-01-20 23:15:20 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        furniture_door_images
+        (door_id, image_url) 
+    values
+        (?, ?)
+2025-01-20 23:15:20 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        furniture_door_images
+        (door_id, image_url) 
+    values
+        (?, ?)
+2025-01-20 23:15:20 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        furniture_door_images
+        (door_id, image_url) 
+    values
+        (?, ?)
+2025-01-20 23:15:20 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        furniture_door_images
+        (door_id, image_url) 
+    values
+        (?, ?)
+2025-01-20 23:15:20 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        furniture_door_images
+        (door_id, image_url) 
+    values
+        (?, ?)
+2025-01-20 23:15:20 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        furniture_door_images
+        (door_id, image_url) 
+    values
+        (?, ?)
+2025-01-20 23:15:20 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        furniture_door_images
+        (door_id, image_url) 
+    values
+        (?, ?)
+2025-01-20 23:15:20 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        furniture_door_images
+        (door_id, image_url) 
+    values
+        (?, ?)
+2025-01-20 23:15:20 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        furniture_door_images
+        (door_id, image_url) 
+    values
+        (?, ?)
+2025-01-20 23:15:20 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        furniture_door_images
+        (door_id, image_url) 
+    values
+        (?, ?)
+2025-01-20 23:15:20 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        furniture_door_images
+        (door_id, image_url) 
+    values
+        (?, ?)
+2025-01-20 23:15:20 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        furniture_door_images
+        (door_id, image_url) 
+    values
+        (?, ?)
+2025-01-20 23:15:20 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        furniture_door_images
+        (door_id, image_url) 
+    values
+        (?, ?)
+2025-01-20 23:15:20 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        furniture_door_images
+        (door_id, image_url) 
+    values
+        (?, ?)
+2025-01-20 23:15:20 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        furniture_door_images
+        (door_id, image_url) 
+    values
+        (?, ?)
+2025-01-20 23:15:20 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        furniture_door_images
+        (door_id, image_url) 
+    values
+        (?, ?)
+2025-01-20 23:15:20 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        furniture_door_images
+        (door_id, image_url) 
+    values
+        (?, ?)
+2025-01-20 23:15:22 [http-nio-8080-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.email,
+        u1_0.lastname,
+        u1_0.name,
+        u1_0.password,
+        u1_0.phone,
+        u1_0.role,
+        u1_0.seller_request_pending 
+    from
+        users u1_0 
+    where
+        u1_0.name=? 
+        and u1_0.active=true
+2025-01-20 23:15:22 [http-nio-8080-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        fd1_0.id,
+        fd1_0.description,
+        fd1_0.dimensions,
+        fd1_0.furniture_type,
+        fd1_0.material,
+        fd1_0.name,
+        fd1_0.price,
+        fd1_0.stock_quantity 
+    from
+        furniture_doors fd1_0
+2025-01-20 23:15:23 [http-nio-8080-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        iu1_0.door_id,
+        iu1_0.image_url 
+    from
+        furniture_door_images iu1_0 
+    where
+        iu1_0.door_id=?
+2025-01-20 23:15:23 [http-nio-8080-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        iu1_0.door_id,
+        iu1_0.image_url 
+    from
+        furniture_door_images iu1_0 
+    where
+        iu1_0.door_id=?
+2025-01-20 23:15:23 [http-nio-8080-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        iu1_0.door_id,
+        iu1_0.image_url 
+    from
+        furniture_door_images iu1_0 
+    where
+        iu1_0.door_id=?
+2025-01-20 23:15:24 [http-nio-8080-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        iu1_0.door_id,
+        iu1_0.image_url 
+    from
+        furniture_door_images iu1_0 
+    where
+        iu1_0.door_id=?
+2025-01-20 23:15:24 [http-nio-8080-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        iu1_0.door_id,
+        iu1_0.image_url 
+    from
+        furniture_door_images iu1_0 
+    where
+        iu1_0.door_id=?
+2025-01-20 23:15:24 [http-nio-8080-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        iu1_0.door_id,
+        iu1_0.image_url 
+    from
+        furniture_door_images iu1_0 
+    where
+        iu1_0.door_id=?
+2025-01-20 23:15:24 [http-nio-8080-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        iu1_0.door_id,
+        iu1_0.image_url 
+    from
+        furniture_door_images iu1_0 
+    where
+        iu1_0.door_id=?
+2025-01-20 23:15:25 [http-nio-8080-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        iu1_0.door_id,
+        iu1_0.image_url 
+    from
+        furniture_door_images iu1_0 
+    where
+        iu1_0.door_id=?
+2025-01-20 23:15:25 [http-nio-8080-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        iu1_0.door_id,
+        iu1_0.image_url 
+    from
+        furniture_door_images iu1_0 
+    where
+        iu1_0.door_id=?
+2025-01-20 23:15:25 [http-nio-8080-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        iu1_0.door_id,
+        iu1_0.image_url 
+    from
+        furniture_door_images iu1_0 
+    where
+        iu1_0.door_id=?
+2025-01-20 23:15:25 [http-nio-8080-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        iu1_0.door_id,
+        iu1_0.image_url 
+    from
+        furniture_door_images iu1_0 
+    where
+        iu1_0.door_id=?
+2025-01-20 23:15:26 [http-nio-8080-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        iu1_0.door_id,
+        iu1_0.image_url 
+    from
+        furniture_door_images iu1_0 
+    where
+        iu1_0.door_id=?
+2025-01-20 23:15:26 [http-nio-8080-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        iu1_0.door_id,
+        iu1_0.image_url 
+    from
+        furniture_door_images iu1_0 
+    where
+        iu1_0.door_id=?
+2025-01-20 23:15:26 [http-nio-8080-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        iu1_0.door_id,
+        iu1_0.image_url 
+    from
+        furniture_door_images iu1_0 
+    where
+        iu1_0.door_id=?
+2025-01-20 23:15:26 [http-nio-8080-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        iu1_0.door_id,
+        iu1_0.image_url 
+    from
+        furniture_door_images iu1_0 
+    where
+        iu1_0.door_id=?
+2025-01-20 23:15:27 [http-nio-8080-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        iu1_0.door_id,
+        iu1_0.image_url 
+    from
+        furniture_door_images iu1_0 
+    where
+        iu1_0.door_id=?
+2025-01-20 23:15:27 [http-nio-8080-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        iu1_0.door_id,
+        iu1_0.image_url 
+    from
+        furniture_door_images iu1_0 
+    where
+        iu1_0.door_id=?
+2025-01-20 23:15:36 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.email,
+        u1_0.lastname,
+        u1_0.name,
+        u1_0.password,
+        u1_0.phone,
+        u1_0.role,
+        u1_0.seller_request_pending 
+    from
+        users u1_0 
+    where
+        u1_0.name=? 
+        and u1_0.active=true
+2025-01-20 23:15:36 [http-nio-8080-exec-5] INFO  uz.pdp.controller.DoorController - Fetching doors page 0 with size 20
+2025-01-20 23:15:36 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        d1_0.id,
+        d1_0.active,
+        d1_0.color,
+        d1_0.custom_height,
+        d1_0.custom_width,
+        d1_0.description,
+        d1_0.final_price,
+        d1_0.is_custom_color,
+        d1_0.manufacturer,
+        d1_0.material,
+        d1_0.name,
+        d1_0.price,
+        d1_0.seller_id,
+        d1_0.size,
+        d1_0.status,
+        d1_0.warranty_years 
+    from
+        doors d1_0 
+    offset
+        ? rows 
+    fetch
+        first ? rows only
+2025-01-20 23:15:37 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        count(d1_0.id) 
+    from
+        doors d1_0
+2025-01-20 23:15:37 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        i1_0.door_id,
+        i1_0.images 
+    from
+        door_images i1_0 
+    where
+        i1_0.door_id=?
+2025-01-20 23:15:38 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        i1_0.door_id,
+        i1_0.images 
+    from
+        door_images i1_0 
+    where
+        i1_0.door_id=?
+2025-01-20 23:15:38 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        i1_0.door_id,
+        i1_0.images 
+    from
+        door_images i1_0 
+    where
+        i1_0.door_id=?
+2025-01-20 23:15:38 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        i1_0.door_id,
+        i1_0.images 
+    from
+        door_images i1_0 
+    where
+        i1_0.door_id=?
+2025-01-20 23:15:38 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        i1_0.door_id,
+        i1_0.images 
+    from
+        door_images i1_0 
+    where
+        i1_0.door_id=?
+2025-01-20 23:15:39 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        i1_0.door_id,
+        i1_0.images 
+    from
+        door_images i1_0 
+    where
+        i1_0.door_id=?
+2025-01-20 23:15:39 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        i1_0.door_id,
+        i1_0.images 
+    from
+        door_images i1_0 
+    where
+        i1_0.door_id=?
+2025-01-20 23:15:39 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        i1_0.door_id,
+        i1_0.images 
+    from
+        door_images i1_0 
+    where
+        i1_0.door_id=?
+2025-01-20 23:15:39 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        i1_0.door_id,
+        i1_0.images 
+    from
+        door_images i1_0 
+    where
+        i1_0.door_id=?
+2025-01-20 23:15:40 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        i1_0.door_id,
+        i1_0.images 
+    from
+        door_images i1_0 
+    where
+        i1_0.door_id=?
+2025-01-20 23:15:40 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        i1_0.door_id,
+        i1_0.images 
+    from
+        door_images i1_0 
+    where
+        i1_0.door_id=?
+2025-01-20 23:15:40 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        i1_0.door_id,
+        i1_0.images 
+    from
+        door_images i1_0 
+    where
+        i1_0.door_id=?
+2025-01-20 23:15:40 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        i1_0.door_id,
+        i1_0.images 
+    from
+        door_images i1_0 
+    where
+        i1_0.door_id=?
+2025-01-20 23:15:41 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        i1_0.door_id,
+        i1_0.images 
+    from
+        door_images i1_0 
+    where
+        i1_0.door_id=?
+2025-01-20 23:15:41 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        i1_0.door_id,
+        i1_0.images 
+    from
+        door_images i1_0 
+    where
+        i1_0.door_id=?
+2025-01-20 23:15:41 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        i1_0.door_id,
+        i1_0.images 
+    from
+        door_images i1_0 
+    where
+        i1_0.door_id=?
+2025-01-20 23:15:41 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        i1_0.door_id,
+        i1_0.images 
+    from
+        door_images i1_0 
+    where
+        i1_0.door_id=?
+2025-01-20 23:15:42 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        i1_0.door_id,
+        i1_0.images 
+    from
+        door_images i1_0 
+    where
+        i1_0.door_id=?
+2025-01-20 23:15:42 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        i1_0.door_id,
+        i1_0.images 
+    from
+        door_images i1_0 
+    where
+        i1_0.door_id=?
+2025-01-20 23:15:42 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL - 
+    select
+        i1_0.door_id,
+        i1_0.images 
+    from
+        door_images i1_0 
+    where
+        i1_0.door_id=?

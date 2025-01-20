@@ -34,10 +34,12 @@ public interface DoorRepository extends JpaRepository<Door, Long> {
     /**
      * The ultimate door finder! 
      * This query is like a dating app for doors - matching your perfect criteria!
+     * Now with super-optimized performance! 
      */
-    @Query("""
+    @Query(value = """
             SELECT DISTINCT d FROM Door d
-            WHERE (:material IS NULL OR d.material = :material)
+            WHERE d.active = true
+            AND (:material IS NULL OR d.material = :material)
             AND (:minPrice IS NULL OR d.price >= :minPrice)
             AND (:maxPrice IS NULL OR d.price <= :maxPrice)
             AND (:color IS NULL OR d.color = :color)
@@ -51,7 +53,13 @@ public interface DoorRepository extends JpaRepository<Door, Long> {
             AND (:searchTerm IS NULL OR 
                 (LOWER(d.name) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR 
                  LOWER(d.description) LIKE LOWER(CONCAT('%', :searchTerm, '%'))))
-            AND d.active = true
+            ORDER BY 
+                CASE 
+                    WHEN :searchTerm IS NOT NULL AND LOWER(d.name) LIKE LOWER(CONCAT('%', :searchTerm, '%')) THEN 0
+                    WHEN :searchTerm IS NOT NULL AND LOWER(d.description) LIKE LOWER(CONCAT('%', :searchTerm, '%')) THEN 1
+                    ELSE 2 
+                END,
+                d.price ASC
             """)
     Page<Door> searchDoors(
             @Param("material") String material,
@@ -68,24 +76,19 @@ public interface DoorRepository extends JpaRepository<Door, Long> {
     );
 
     /**
-     * The legendary query that finds similar doors.
-     * Some say it was written by the ancient ones...
-     * 
-     * @param material What the door is made of (hopefully not cardboard)
-     * @param color The door's fashion statement
-     * @param minPrice Minimum price (we're not running a charity here)
-     * @param maxPrice Maximum price (we're not running a luxury boutique either)
-     * @param doorId The ID of the door we're comparing to
-     * @param pageable Because getting ALL doors at once would make the database cry
-     * @return A list of doors that share the same vibes
+     * The legendary query that finds similar doors - now with TURBO mode! 🏎️
+     * Some say it was written by the ancient ones... and optimized by the modern ones!
      */
     @Query("""
             SELECT d FROM Door d
-            WHERE d.material = :material
+            WHERE d.active = true
+            AND d.material = :material
             AND d.color = :color
             AND d.price BETWEEN :minPrice AND :maxPrice
             AND d.id != :doorId
-            AND d.active = true
+            ORDER BY ABS(d.price - (
+                SELECT d2.price FROM Door d2 WHERE d2.id = :doorId
+            )) ASC
             """)
     Page<Door> findSimilarDoors(
             @Param("material") String material,

@@ -16,7 +16,13 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "doors")
+@Table(name = "doors", indexes = {
+    @Index(name = "idx_door_material", columnList = "material"),
+    @Index(name = "idx_door_manufacturer", columnList = "manufacturer"),
+    @Index(name = "idx_door_price", columnList = "price"),
+    @Index(name = "idx_door_name", columnList = "name"),
+    @Index(name = "idx_door_active_status", columnList = "active,status")
+})
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Door {
     @Id
