@@ -54,9 +54,9 @@ public class FurnitureDoorController {
      *         Door Factory API - Building dreams, one door at a time!
      *         Pro tip: Measure twice, POST once!
      */
-    @Operation(summary = "Create a new furniture door", description = "Creates a new furniture door")
+    @Operation(summary = "Create a new door accessory", description = "Creates a new door accessory or furniture component")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Door created successfully"),
+            @ApiResponse(responseCode = "201", description = "Door accessory created successfully"),
             @ApiResponse(responseCode = "400", description = "Invalid input data"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
@@ -70,7 +70,7 @@ public class FurnitureDoorController {
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(EntityResponse.success(
-                        "Door created successfully! Ready for its glamour shot! ",
+                        "Door accessory created successfully! Ready to make doors fancy! ",
                         furnitureDoorMapper.toDto(created)));
     }
 
@@ -161,7 +161,7 @@ public class FurnitureDoorController {
         // Save our door's new look to the fashion catalog
         FurnitureDoor updated = furnitureDoorService.update(id, updatedDoor);
         return ResponseEntity.ok(EntityResponse.success(
-                "Image uploaded successfully! Looking fabulous!  Time for your door's Instagram debut! ",
+                "Image uploaded successfully! Your accessory is looking fabulous! ",
                 furnitureDoorMapper.toDto(updated)));
     }
 
@@ -184,7 +184,7 @@ public class FurnitureDoorController {
                 .stream()
                 .map(furnitureDoorMapper::toDto)
                 .collect(Collectors.toList());
-        return ResponseEntity.ok(EntityResponse.success("Found " + doors.size() + " doors!", doors));
+        return ResponseEntity.ok(EntityResponse.success("Found " + doors.size() + " door accessories! ", doors));
     }
 
     /**

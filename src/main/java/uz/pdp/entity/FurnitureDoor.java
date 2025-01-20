@@ -10,11 +10,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Entity representing a furniture door in the system.
- * This is where doors come to life in the digital world! 
+ * Entity representing a door accessory or furniture component in the system.
+ * Not to be confused with full doors - we're all about the fancy bits that make doors special!
  * 
- * Think of it as a door's passport - it has all the important details,
- * but unfortunately no visa stamps from its travels 
+ * Think of it as a door accessory's passport - it has all the important details,
+ * like materials, dimensions, and pricing. Making doors fabulous one component at a time! 🚪✨
  */
 @Data
 @AllArgsConstructor

@@ -16,7 +16,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import uz.pdp.dto.DoorDto;
-import uz.pdp.dto.DoorDTO;
 import uz.pdp.dto.UserDoorHistoryDto;
 import uz.pdp.entity.Door;
 import uz.pdp.entity.User;
