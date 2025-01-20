@@ -3,6 +3,34 @@
 All notable changes to this project will be documented in this file.
 
 <details>
+<summary><strong>Version 1.2.3 (2025-01-20)</strong></summary>
+
+### Added
+- Strategic database indexes for core entities 🚀
+- Composite indexes for frequently filtered columns
+- Enhanced similar doors search algorithm
+- Optimized pagination support for large datasets
+
+### Changed
+- Replaced MySQL-specific syntax with JPA standard indexing
+- Optimized JPQL queries for better execution plans
+- Enhanced query performance with better WHERE clause ordering
+- Updated repository documentation with fun comments
+
+### Fixed
+- Query validation error in [`DoorRepository`](src/main/java/uz/pdp/repository/DoorRepository.java)
+- Similar doors search query syntax issues
+- Performance bottlenecks in large result sets
+- Database query execution plans
+
+### Technical
+- Added unique index for user email lookups
+- Added composite indexes for order status and dates
+- Added indexes for door material and price filtering
+- Improved database query optimization
+</details>
+
+<details>
 <summary><strong>Version 1.2.2 (2025-01-19)</strong></summary>
 
 ### Added
