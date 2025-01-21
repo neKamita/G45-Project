@@ -6,11 +6,21 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import uz.pdp.entity.Door;
-import uz.pdp.enums.Color;
-import uz.pdp.enums.Size;
+import uz.pdp.enums.*;
 
 import java.util.List;
 
+/**
+ * DTO for Door entity with all customization options.
+ * 🚪 Every door tells a story, and this class tells it in JSON! 
+ * 
+ * Features:
+ * - Basic info (name, description, price)
+ * - Specifications (size, color, material)
+ * - Hardware options (frame type, hardware type)
+ * - Location details (interior, exterior, etc.)
+ * - Custom measurements and colors
+ */
 @Data
 @Getter
 @Setter
@@ -32,8 +42,21 @@ public class DoorDto {
     @NotNull(message = "Color is required")
     private Color color;
 
+    @NotNull(message = "Material is required")
     private String material;
+
+    @NotNull(message = "Manufacturer is required")
     private String manufacturer;
+
+    @NotNull(message = "Frame type is required")
+    private FrameType frameType; // The type of frame (STANDARD, HIDDEN, etc.)
+
+    @NotNull(message = "Hardware type is required")
+    private HardwareType hardware; // The type of hardware (PIVOT, SLIDING, etc.)
+
+    @NotNull(message = "Door location is required")
+    private DoorLocation doorLocation; // Where the door is installed (INTERIOR, EXTERIOR, etc.)
+    
     private Integer warrantyYears;
     private Double customWidth;
     private Double customHeight;
@@ -44,8 +67,11 @@ public class DoorDto {
     private String status; // Door status (AVAILABLE, etc)
 
     /**
-     * Safely converts a Door entity to DTO, excluding sensitive seller data
+     * Safely converts a Door entity to DTO, excluding sensitive seller data.
      * Like a bouncer at a club, but for door data! 🚪🔒
+     * 
+     * @param door The door entity to convert
+     * @return A shiny new DoorDto with all the door's public details
      */
     public static DoorDto fromEntity(Door door) {
         DoorDto dto = new DoorDto();
@@ -58,6 +84,9 @@ public class DoorDto {
         dto.setColor(door.getColor());
         dto.setMaterial(door.getMaterial());
         dto.setManufacturer(door.getManufacturer());
+        dto.setFrameType(door.getFrameType());
+        dto.setHardware(door.getHardware());
+        dto.setDoorLocation(door.getDoorLocation());
         dto.setWarrantyYears(door.getWarrantyYears());
         dto.setCustomWidth(door.getCustomWidth());
         dto.setCustomHeight(door.getCustomHeight());

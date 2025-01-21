@@ -236,7 +236,7 @@ public class BasketController {
                 .collect(Collectors.toList());
             
             // Create all orders in a single transaction
-            EntityResponse<List<Order>> orderResponse = orderService.createOrders(currentUser.getId(), orderDtos);
+            EntityResponse<List<Order>> orderResponse = orderService.createOrders(String.valueOf(currentUser.getId()), orderDtos);
             
             if (orderResponse.isSuccess()) {
                 // Clear the basket items using a bulk delete
@@ -247,8 +247,8 @@ public class BasketController {
                     "We'll contact you at %s when they're ready for delivery. " +
                     "Get those doorframes ready! 🚪✨",
                     orderResponse.getData().size(),
-                    currentUser.getName(),
-                    currentUser.getPhone()
+                    String.valueOf(currentUser.getId()), 
+                    currentUser.getEmail()
                 );
                 
                 return ResponseEntity.ok(EntityResponse.success(successMessage, orderResponse.getData()));

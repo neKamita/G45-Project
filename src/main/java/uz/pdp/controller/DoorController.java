@@ -189,8 +189,48 @@ public class DoorController {
      */
     @PostMapping
     @PreAuthorize("hasRole('SELLER') or hasRole('ADMIN')")
-    @Operation(summary = "Create a new door")
-    public EntityResponse<Door> createDoor(@Valid @RequestBody DoorDto doorDto) {
+    @Operation(
+        summary = "Create a new door", 
+        description = "Create a new door with all specifications. Only ADMIN and SELLER roles can create doors."
+    )
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Door created successfully"),
+        @ApiResponse(responseCode = "400", description = "Invalid input data"),
+        @ApiResponse(responseCode = "403", description = "Not authorized to create doors")
+    })
+    public EntityResponse<Door> createDoor(
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                description = "Door details",
+                required = true,
+                content = @io.swagger.v3.oas.annotations.media.Content(
+                    mediaType = "application/json",
+                    schema = @io.swagger.v3.oas.annotations.media.Schema(
+                        implementation = DoorDto.class,
+                        example = """
+                        {
+                          "name": "Elegant Mahogany Door",
+                          "description": "A beautiful mahogany door with modern design",
+                          "price": 899.99,
+                          "size": "SIZE_300x2000",
+                          "color": "BROWN",
+                          "material": "Mahogany",
+                          "manufacturer": "DoorMaster Pro",
+                          "frameType": "HIDDEN",
+                          "hardware": "PIVOT",
+                          "doorLocation": "INTERIOR",
+                          "warrantyYears": 5,
+                          "customWidth": null,
+                          "customHeight": null,
+                          "isCustomColor": false,
+                          "images": [
+                            "https://example.com/door1.jpg"
+                          ]
+                        }
+                        """
+                    )
+                )
+            )
+            @Valid @RequestBody DoorDto doorDto) {
         try {
             logger.info("Creating new door: {}", doorDto);
             Door door = doorService.createDoor(doorDto);

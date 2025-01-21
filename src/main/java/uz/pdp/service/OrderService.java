@@ -43,17 +43,17 @@ public class OrderService {
      * Creates a new order for a user.
      * Validates user and door existence before creating the order.
      *
-     * @param userId ID of the user placing the order
+     * @param email User's email address for placing the order
      * @param orderDto Order details including door information
      * @return EntityResponse containing the created order
      * @throws ResponseStatusException if user or door not found
      */
     @Transactional
-    public EntityResponse<Order> createOrder(Long userId, OrderDto orderDto) {
+    public EntityResponse<Order> createOrder(String email, OrderDto orderDto) {
         try {
-            logger.info("Creating order for user ID: {} and door ID: {}", userId, orderDto.getDoorId());
+            logger.info("Creating order for user with email: {} and door ID: {}", email, orderDto.getDoorId());
             
-            User user = userRepository.findById(userId)
+            User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
             
             Door door = doorRepository.findById(orderDto.getDoorId())
@@ -89,19 +89,19 @@ public class OrderService {
     /**
      * Retrieves all orders for a specific user.
      *
-     * @param userId ID of the user
+     * @param email User's email address
      * @return List of user's orders
      * @throws ResponseStatusException if user not found or error occurs
      */
-    public List<Order> getUserOrders(Long userId) {
+    public List<Order> getUserOrders(String email) {
         try {
-            logger.info("Retrieving orders for user ID: {}", userId);
+            logger.info("Retrieving orders for user with email: {}", email);
             
-            User user = userRepository.findById(userId)
+            User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
             
             List<Order> orders = orderRepository.findByUserOrderByOrderDateDesc(user);
-            logger.info("Retrieved {} orders for user ID: {}", orders.size(), userId);
+            logger.info("Retrieved {} orders for user with email: {}", orders.size(), email);
             
             return orders;
         } catch (Exception e) {
@@ -221,16 +221,16 @@ public class OrderService {
      * Creates multiple orders in a single transaction.
      * If any order fails, the entire transaction is rolled back.
      *
-     * @param userId ID of the user placing the orders
+     * @param email User's email address for placing the orders
      * @param orderDtos List of order details
      * @return EntityResponse containing the created orders
      */
     @Transactional
-    public EntityResponse<List<Order>> createOrders(Long userId, List<OrderDto> orderDtos) {
+    public EntityResponse<List<Order>> createOrders(String email, List<OrderDto> orderDtos) {
         try {
-            logger.info("Creating {} orders for user ID: {}", orderDtos.size(), userId);
+            logger.info("Creating {} orders for user with email: {}", orderDtos.size(), email);
             
-            User user = userRepository.findById(userId)
+            User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
             
             List<Order> orders = new ArrayList<>();
@@ -270,10 +270,10 @@ public class OrderService {
                 orders);
             
         } catch (ResponseStatusException e) {
-            logger.error("Error creating orders for user {}: {}", userId, e.getMessage());
+            logger.error("Error creating orders for user {}: {}", email, e.getMessage());
             return EntityResponse.<List<Order>>error(e.getReason(), Collections.emptyList());
         } catch (Exception e) {
-            logger.error("Unexpected error creating orders for user {}: {}", userId, e.getMessage());
+            logger.error("Unexpected error creating orders for user {}: {}", email, e.getMessage());
             return EntityResponse.<List<Order>>error(
                 "Failed to create orders: " + e.getMessage(), 
                 Collections.emptyList());

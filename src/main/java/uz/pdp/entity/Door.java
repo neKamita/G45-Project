@@ -4,14 +4,19 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import uz.pdp.enums.Color;
-import uz.pdp.enums.DoorStatus;
-import uz.pdp.enums.Size;
+import uz.pdp.enums.*;
 import java.util.List;
 import java.util.ArrayList;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
+/**
+ * Entity representing a door in our catalog.
+ * 
+ * Every door tells a story, and this class tells it in code! 
+ * From its location to its hardware, each field paints a picture of the perfect door.
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -32,6 +37,8 @@ public class Door {
     private String name;
     private String description;
     private Double price;
+    
+    @Column(name = "final_price")
     private Double finalPrice;
     
     @ElementCollection
@@ -52,9 +59,20 @@ public class Door {
     private String manufacturer;
     private Integer warrantyYears;
     
+    @Column(name = "custom_width")
     private Double customWidth;
+    
+    @Column(name = "custom_height")
     private Double customHeight;
+    
+    @Column(name = "is_custom_color")
     private Boolean isCustomColor = false;
+    
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private DoorStatus status = DoorStatus.AVAILABLE;
+
+    private boolean active = true;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "seller_id")
@@ -62,50 +80,65 @@ public class Door {
     private User seller;
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private DoorStatus status = DoorStatus.AVAILABLE;
-
-    private boolean active = true;
+    @Column(name = "door_location")  
+    @JsonProperty("location")  
+    private DoorLocation doorLocation;  
+    
+    @Enumerated(EnumType.STRING)
+    @JsonProperty("frameType")  
+    private FrameType frameType;    
+    
+    @Enumerated(EnumType.STRING)
+    @JsonProperty("hardware")  
+    private HardwareType hardware;
 
     @PrePersist
-    protected void onCreate() {
-        calculateFinalPrice();
-    }
-
     @PreUpdate
-    protected void onUpdate() {
+    protected void onSave() {
         calculateFinalPrice();
     }
 
     /**
-     * Calculates the final price of the door based on customizations.
-     * Applies markups for custom size and color.
+     * Calculates the final price of the door based on its features.
+     * 
+     * Price adjustments:
+     * - Custom size: +10% 📏
+     * - Custom color: +5% 🎨
+     * - Hidden frame: +15% 🚪
+     * - Pivot hardware: +8% 🔧
+     * 
+     * Fun fact: Our doors are like fine wine - they get more valuable 
+     * with each special feature! 💎
      */
     public void calculateFinalPrice() {
-        if (this.price == null || this.price <= 0) {
-            throw new IllegalArgumentException("Price must be positive");
-        }
-        
-        double calculatedPrice = price;
-        
-        // Apply size markup for custom sizes
-        if (size == Size.CUSTOM) {
-            if (customWidth == null || customHeight == null) {
-                throw new IllegalStateException("Custom size requires width and height");
+        if (this.price != null) {
+            // Start with the base price
+            double finalPrice = this.price;
+            
+            // Add premium for custom sizes (10% extra)
+            if (Size.CUSTOM.equals(this.size)) {
+                finalPrice *= 1.1;
             }
-            double standardArea = size.getWidth() * size.getHeight();
-            double customArea = customWidth * customHeight;
-            double areaDifference = customArea / standardArea;
-            calculatedPrice *= Math.max(1.2, areaDifference); // Minimum 20% markup
+            
+            // Add premium for custom colors (5% extra)
+            if (Boolean.TRUE.equals(this.isCustomColor)) {
+                finalPrice *= 1.05;
+            }
+            
+            // Add premium for premium frame types (15% extra)
+            if (FrameType.HIDDEN.equals(this.frameType)) {
+                finalPrice *= 1.15;
+            }
+            
+            // Add premium for special hardware (8% extra)
+            if (HardwareType.PIVOT.equals(this.hardware)) {
+                finalPrice *= 1.08;
+            }
+            
+            this.finalPrice = Math.round(finalPrice * 100.0) / 100.0; // Round to 2 decimal places
+        } else {
+            this.finalPrice = 0.0;
         }
-        
-        // Apply color markup for custom colors
-        if (Boolean.TRUE.equals(isCustomColor)) {
-            calculatedPrice *= 1.15; // 15% markup for custom color
-        }
-        
-        // Round to 2 decimal places
-        this.finalPrice = Math.round(calculatedPrice * 100.0) / 100.0;
     }
 
     /**

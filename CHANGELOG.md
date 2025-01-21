@@ -3,6 +3,33 @@
 All notable changes to this project will be documented in this file.
 
 <details>
+<summary><strong>Version 1.2.4 (2025-01-21)</strong></summary>
+
+### 🛠 Enhanced
+- Improved checkout process reliability with native SQL operations
+- Optimized basket item deletion with direct database queries
+- Added detailed logging for basket operations
+- Enhanced concurrent operation handling
+
+### 🐛 Fixed
+- Resolved version conflicts during basket clearing
+- Fixed concurrent modification issues in checkout process
+- Eliminated race conditions in multi-item basket operations
+- Improved error handling for basket item deletions
+
+### 💻 Technical
+- Implemented CustomBasketItemRepository for native queries
+- Removed Hibernate version checking for basket operations
+- Added transaction boundaries for atomic operations
+- Enhanced logging for better debugging capabilities
+
+### 📝 Documentation
+- Updated repository documentation with clear examples
+- Added fun, descriptive comments to new implementations
+- Enhanced error messages with user-friendly content
+</details>
+
+<details>
 <summary><strong>Version 1.2.3 (2025-01-20)</strong></summary>
 
 ### Added

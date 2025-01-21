@@ -174,6 +174,15 @@ public class DataInitializer implements CommandLineRunner {
             door.setColor(Color.values()[faker.number().numberBetween(0, Color.values().length)]);
             door.setIsCustomColor(faker.number().numberBetween(1, 100) <= 15);
             
+            // Set door location (where the door will be used)
+            door.setDoorLocation(DoorLocation.values()[faker.number().numberBetween(0, DoorLocation.values().length)]);
+            
+            // Set frame type
+            door.setFrameType(FrameType.values()[faker.number().numberBetween(0, FrameType.values().length)]);
+            
+            // Set hardware type
+            door.setHardware(HardwareType.values()[faker.number().numberBetween(0, HardwareType.values().length)]);
+            
             door.setMaterial(material);
             door.setManufacturer(MANUFACTURERS[faker.number().numberBetween(0, MANUFACTURERS.length)]);
             
