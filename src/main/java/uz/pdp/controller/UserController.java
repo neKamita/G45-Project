@@ -96,33 +96,6 @@ public class UserController {
     }
 
     /**
-     * Creates a new order for the current user.
-     * Validates order details before creation.
-     *
-     * @param user Currently authenticated user
-     * @param orderDto Order details
-     * @return ResponseEntity with created order
-     *         - 201 Created if order created successfully
-     *         - 400 Bad Request if validation fails
-     *         - 401 Unauthorized if not authenticated
-     */
-    @PostMapping("/orders")
-    @Operation(summary = "Create new order")
-    public ResponseEntity<EntityResponse<Order>> createOrder(
-            @AuthenticationPrincipal User user,
-            @Valid @RequestBody OrderDto orderDto) {
-        try {
-            logger.info("Creating order for user ID: {}", user.getId());
-            EntityResponse<Order> response = orderService.createOrder(user.getId(), orderDto);
-            return ResponseEntity.ok(response);
-        } catch (Exception e) {
-            logger.error("Error creating order for user {}: {}", user.getId(), e.getMessage());
-            return ResponseEntity.badRequest()
-                    .body(new EntityResponse<>("Failed to create order: " + e.getMessage(), false, null));
-        }
-    }
-
-    /**
      * Deactivates the current user's account.
      * This operation requires re-authentication for security.
      *
@@ -147,7 +120,7 @@ public class UserController {
     }
 
     /**
-     * 🎪 The Seller Transformation Station 🎪
+     * The Seller Transformation Station 
      * 
      * Handles requests from regular users who dream of becoming sellers.
      * Think of it as a digital knighting ceremony, but with more paperwork!
@@ -161,7 +134,7 @@ public class UserController {
      * - Users can only request seller status for themselves
      * - Prevents duplicate requests (no double-dipping!)
      *
-     * 🎯 Pro tip: Check your email after making the request,
+     * Pro tip: Check your email after making the request,
      * that's where the magic verification code lives!
      */
     @PostMapping("/request-seller/{userId}")
@@ -169,11 +142,11 @@ public class UserController {
     @PreAuthorize("hasRole('USER')")
     public EntityResponse<User> requestSeller(@PathVariable Long userId, @AuthenticationPrincipal User currentUser) {
         try {
-            // 📝 Log the brave soul attempting to become a seller
+            // Log the brave soul attempting to become a seller
             logger.info("Processing seller request. Requested userId: {}, Authenticated user: {} (ID: {}), Role: {}", 
                 userId, currentUser.getUsername(), currentUser.getId(), currentUser.getRole());
             
-            // 🔒 Security Check #1: Identity Verification
+            // Security Check #1: Identity Verification
             // Making sure users aren't trying to be sneaky and request for someone else
             if (!currentUser.getId().equals(userId)) {
                 String errorMsg = String.format("Access denied. User '%s' cannot request seller status for user ID %d", 
@@ -182,7 +155,7 @@ public class UserController {
                 return new EntityResponse<>(errorMsg, false, null);
             }
             
-            // 🔒 Security Check #2: Role Verification
+            // Security Check #2: Role Verification
             // Only regular users can apply - no sellers or admins allowed!
             if (currentUser.getRole() != Role.USER) {
                 String errorMsg = String.format("Access denied. Only users with USER role can request seller status. Current role: %s", 
@@ -191,7 +164,7 @@ public class UserController {
                 return new EntityResponse<>(errorMsg, false, null);
             }
             
-            // 🔄 Check for Existing Request
+            // Check for Existing Request
             // Preventing the "Are we there yet?" syndrome
             if (currentUser.isSellerRequestPending()) {
                 String msg = String.format("You already have a pending seller request. Please check your email (%s) for verification instructions.", 
@@ -200,14 +173,14 @@ public class UserController {
                 return new EntityResponse<>(msg, false, currentUser);
                 }
             
-            // 🚀 Launch the seller request process!
+            // Launch the seller request process!
             return userService.requestSeller(userId);
         } catch (ConflictException e) {
-            // 🤔 Handle conflicts (like trying to become a seller twice)
+            // Handle conflicts (like trying to become a seller twice)
             logger.warn("Conflict while processing seller request: {}", e.getMessage());
             return new EntityResponse<>(e.getMessage(), false, null);
         } catch (Exception e) {
-            // 💥 Something went terribly wrong
+            // Something went terribly wrong
             String errorMsg = String.format("Failed to process seller request for user %d: %s", userId, e.getMessage());
             logger.error(errorMsg, e);
             return new EntityResponse<>(errorMsg, false, null);

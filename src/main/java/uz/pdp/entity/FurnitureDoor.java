@@ -14,7 +14,7 @@ import java.util.List;
  * Not to be confused with full doors - we're all about the fancy bits that make doors special!
  * 
  * Think of it as a door accessory's passport - it has all the important details,
- * like materials, dimensions, and pricing. Making doors fabulous one component at a time! 🚪✨
+ * like materials, dimensions, and pricing. Making doors fabulous one component at a time! 
  */
 @Data
 @AllArgsConstructor
@@ -49,12 +49,13 @@ public class FurnitureDoor {
 
     /**
      * List of image URLs for the door accessory.
-     * Because one picture is never enough for our photogenic doors! 📸
+     * Because even doorknobs deserve a good photo shoot! 
      */
     @ElementCollection
-    @CollectionTable(name = "furniture_door_images", 
-                    joinColumns = @JoinColumn(name = "door_id"))
+    @CollectionTable(
+        name = "furniture_door_images",
+        joinColumns = @JoinColumn(name = "furniture_door_id")
+    )
     @Column(name = "image_url")
-    private List<String> imageUrls = new ArrayList<>();
-
+    private List<String> images = new ArrayList<>();
 }

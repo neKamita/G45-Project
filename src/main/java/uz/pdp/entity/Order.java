@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import uz.pdp.dto.OrderDto.OrderType;
 
-import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 
 @Entity
 @Table(name = "orders", indexes = {
@@ -38,15 +38,34 @@ public class Order {
     private OrderType orderType;
 
     @Column(nullable = false)
+    private String customerName;
+
+    @Column(nullable = false)
+    private String email;
+
+    @Column(nullable = false)
     private String deliveryAddress;
 
     @Column(nullable = false)
     private String contactPhone;
 
     @Column(nullable = false)
-    private LocalDateTime orderDate;
+    private ZonedDateTime orderDate = ZonedDateTime.now();
+
+    @Column
+    private ZonedDateTime preferredDeliveryTime;
+
+    @Column(length = 1000)
+    private String comment;
+
+    @Column(length = 1000)
+    private String installationNotes;
+
+    @Column(length = 1000)
+    private String deliveryNotes;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private OrderStatus status = OrderStatus.PENDING;
 
     public enum OrderStatus {

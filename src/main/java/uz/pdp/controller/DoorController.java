@@ -1,6 +1,9 @@
 package uz.pdp.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
@@ -17,10 +20,14 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import uz.pdp.dto.DoorDto;
 import uz.pdp.dto.UserDoorHistoryDto;
+import uz.pdp.dto.BasketItemDTO;
+import uz.pdp.dto.BasketResponseDTO;
 import uz.pdp.entity.Door;
 import uz.pdp.entity.User;
+import uz.pdp.enums.ItemType;
 import uz.pdp.mutations.DoorConfigInput;
 import uz.pdp.payload.EntityResponse;
+import uz.pdp.service.BasketService;
 import uz.pdp.service.DoorHistoryService;
 import uz.pdp.service.DoorService;
 import uz.pdp.service.UserService;
@@ -58,6 +65,9 @@ public class DoorController {
 
     @Autowired
     private DoorHistoryService doorHistoryService;
+
+    @Autowired
+    private BasketService basketService;
 
     /**
      * Retrieves a user's door history because apparently, 
@@ -375,5 +385,36 @@ public class DoorController {
             return ResponseEntity.badRequest()
                     .body(EntityResponse.error("Failed to update images: " + e.getMessage()));
         }
+    }
+
+    /**
+     * Adds a door to the user's shopping basket.
+     * Because who doesn't need another door in their life? 🚪
+     * 
+     * @param id The ID of the door to add
+     * @param quantity Number of doors to add (default: 1)
+     * @return Response containing the updated basket
+     * 
+     *         🚪 → 🛒 Door successfully added to basket!
+     *         Hope you have enough walls for all these doors! 😄
+     */
+    @PostMapping("/{id}/basket")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN', 'SELLER')")
+    @Operation(summary = "Add door to basket", description = "Adds specified door to the user's shopping basket")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Door added to basket successfully"),
+            @ApiResponse(responseCode = "404", description = "Door not found"),
+            @ApiResponse(responseCode = "400", description = "Invalid quantity"),
+            @ApiResponse(responseCode = "403", description = "Access denied - User not authenticated")
+    })
+    public ResponseEntity<BasketResponseDTO> addToBasket(
+            @Parameter(description = "ID of the door to add to basket") @PathVariable Long id,
+            @Parameter(description = "Quantity to add") @RequestParam(defaultValue = "1") int quantity) {
+        
+        // First check if the door exists
+        doorService.getDoorById(id);
+        
+        BasketItemDTO itemDTO = new BasketItemDTO(id, ItemType.DOOR, quantity);
+        return ResponseEntity.ok(BasketResponseDTO.fromBasket(basketService.addItem(itemDTO)));
     }
 }

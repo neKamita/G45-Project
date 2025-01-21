@@ -10,16 +10,22 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import uz.pdp.dto.FurnitureDoorCreateDTO;
 import uz.pdp.dto.FurnitureDoorResponseDTO;
+import uz.pdp.dto.BasketItemDTO;
+import uz.pdp.dto.BasketResponseDTO;
 import uz.pdp.entity.FurnitureDoor;
+import uz.pdp.entity.Basket;
+import uz.pdp.enums.ItemType;
 import uz.pdp.exception.GlobalExceptionHandler.FurnitureDoorNotFoundException;
 import uz.pdp.mapper.FurnitureDoorMapper;
 import uz.pdp.payload.EntityResponse;
+import uz.pdp.service.BasketService;
 import uz.pdp.service.FurnitureDoorService;
 import uz.pdp.service.ImageStorageService;
 
@@ -32,18 +38,25 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 /**
- * REST Controller for managing door accessories and furniture.
- * Welcome to the Door Accessories API - Where we make doors fancy!
+ * REST Controller for managing door accessories.
+ * 
+ * Fun fact: These accessories make your doors feel special! 
+ * Like jewelry, but for doors! 💎🚪
+ * 
+ * Warning: May cause your doors to become fashion-conscious.
+ * Side effects include: increased door confidence and neighbor envy.
  */
 @RestController
+@RequestMapping("/api/accessories")
 @RequiredArgsConstructor
+@Tag(name = "Accessory Controller", description = "API endpoints for managing door accessories")
 @Validated
-@Tag(name = "Door Accessories Controller", description = "API endpoints for managing door accessories and furniture")
-public class FurnitureDoorController {
+public class AccessoryController {
 
     private final FurnitureDoorService furnitureDoorService;
     private final FurnitureDoorMapper furnitureDoorMapper;
     private final ImageStorageService imageStorageService;
+    private final BasketService basketService;
 
     /**
      * Creates a new furniture door entry.
@@ -60,7 +73,7 @@ public class FurnitureDoorController {
             @ApiResponse(responseCode = "400", description = "Invalid input data"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    @PostMapping(value = "/api/door-accessories")
+    @PostMapping(value = "/door-accessories")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<EntityResponse<FurnitureDoorResponseDTO>> create(
             @Valid @RequestBody FurnitureDoorCreateDTO createDTO) {
@@ -88,7 +101,7 @@ public class FurnitureDoorController {
             @ApiResponse(responseCode = "404", description = "Door accessory not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    @PostMapping(value = "/api/door-accessories/{id}/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/door-accessories/{id}/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<EntityResponse<FurnitureDoorResponseDTO>> uploadImage(
             @PathVariable Long id,
             @RequestPart("image") MultipartFile image) throws IOException {
@@ -125,9 +138,9 @@ public class FurnitureDoorController {
         }
 
         // Delete old image if exists
-        if (door.getImageUrls() != null && !door.getImageUrls().isEmpty()) {
+        if (door.getImages() != null && !door.getImages().isEmpty()) {
             try {
-                for (String oldImageUrl : door.getImageUrls()) {
+                for (String oldImageUrl : door.getImages()) {
                     imageStorageService.deleteImage(oldImageUrl);
                 }
             } catch (Exception e) {
@@ -150,9 +163,9 @@ public class FurnitureDoorController {
         updatedDoor.setFurnitureType(door.getFurnitureType()); // What kind of door-some creature it is
 
         // Now for the glamour shot!
-        List<String> imageUrls = new ArrayList<>(door.getImageUrls()); // Keep existing images
+        List<String> imageUrls = new ArrayList<>(door.getImages()); // Keep existing images
         imageUrls.add(imageUrl); // Add the new one
-        updatedDoor.setImageUrls(imageUrls); // Set all images
+        updatedDoor.setImages(imageUrls); // Set all images
 
         // Save our door's new look to the fashion catalog
         FurnitureDoor updated = furnitureDoorService.update(id, updatedDoor);
@@ -174,7 +187,7 @@ public class FurnitureDoorController {
             @ApiResponse(responseCode = "200", description = "Successfully retrieved the list"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    @GetMapping("/api/door-accessories")
+    @GetMapping("/door-accessories")
     public ResponseEntity<EntityResponse<List<FurnitureDoorResponseDTO>>> getAll() {
         List<FurnitureDoorResponseDTO> doors = furnitureDoorService.getAll()
                 .stream()
@@ -198,7 +211,7 @@ public class FurnitureDoorController {
             @ApiResponse(responseCode = "404", description = "Door not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    @GetMapping("/api/door-accessories/{id}")
+    @GetMapping("/door-accessories/{id}")
     public ResponseEntity<EntityResponse<FurnitureDoorResponseDTO>> getById(
             @Parameter(description = "ID of the door to retrieve") @PathVariable Long id) {
         return furnitureDoorService.getById(id)
@@ -225,7 +238,7 @@ public class FurnitureDoorController {
             @ApiResponse(responseCode = "404", description = "Door not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    @PutMapping("/api/door-accessories/{id}")
+    @PutMapping("/door-accessories/{id}")
     public ResponseEntity<EntityResponse<FurnitureDoorResponseDTO>> update(
             @Parameter(description = "ID of the door to update") @PathVariable Long id,
             @Valid @RequestBody FurnitureDoorCreateDTO updateDTO) {
@@ -256,10 +269,35 @@ public class FurnitureDoorController {
             @ApiResponse(responseCode = "404", description = "Door not found"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
-    @DeleteMapping("/api/door-accessories/{id}")
+    @DeleteMapping("/door-accessories/{id}")
     public ResponseEntity<EntityResponse<Void>> delete(
             @Parameter(description = "ID of the door to delete") @PathVariable Long id) {
         furnitureDoorService.delete(id);
         return ResponseEntity.ok(EntityResponse.success("Door has been retired successfully!"));
+    }
+
+    /**
+     * Adds an accessory to the user's shopping basket.
+     * 
+     * @param id The ID of the accessory to add
+     * @param quantity Number of accessories to add
+     * @return Response containing the updated basket
+     * 
+     *         Adding some bling to your basket!
+     *         Your door is going to look fabulous! 
+     */
+    @PostMapping("/{id}/basket")
+    @Operation(summary = "Add accessory to basket", description = "Adds specified accessory to the user's shopping basket")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Accessory added to basket successfully"),
+            @ApiResponse(responseCode = "404", description = "Accessory not found"),
+            @ApiResponse(responseCode = "400", description = "Invalid quantity")
+    })
+    public ResponseEntity<BasketResponseDTO> addToBasket(
+            @Parameter(description = "ID of the accessory to add to basket") @PathVariable Long id,
+            @Parameter(description = "Quantity to add") @RequestParam(defaultValue = "1") int quantity) {
+        
+        BasketItemDTO itemDTO = new BasketItemDTO(id, ItemType.ACCESSORY, quantity);
+        return ResponseEntity.ok(BasketResponseDTO.fromBasket(basketService.addItem(itemDTO)));
     }
 }

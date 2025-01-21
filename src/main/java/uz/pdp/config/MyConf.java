@@ -76,6 +76,10 @@ public class MyConf {
                         .requestMatchers(HttpMethod.GET, "/api/contacts/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/door-accessories/**").permitAll()
 
+                        // Basket operations
+                        .requestMatchers(HttpMethod.POST, "/api/doors/*/basket").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/api/accessories/*/basket").authenticated()
+
                         // Protected endpoints
                         .requestMatchers("/api/doors/**").hasAnyRole("ADMIN", "SELLER")
                         .requestMatchers("/api/contacts/**").hasRole("ADMIN")

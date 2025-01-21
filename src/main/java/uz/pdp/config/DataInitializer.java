@@ -130,9 +130,11 @@ public class DataInitializer implements CommandLineRunner {
         seller.setLastname("Master");
         seller.setEmail("doormaster@example.com");
         seller.setPassword("$2a$12$IKEQb00u5QpZMx4v5zMweu.3wrq0pS7XLCHO4yHZ.BW/yvWu1feo2"); // "password123"
+        seller.setPhone("+1234567890"); // Add a default phone number for the Door Master
+        seller.setRole(Role.SELLER); // Ensure the role is set
         
         User savedSeller = userRepository.save(seller);
-        System.out.println("🎩 A new Door Master has been crowned!");
+        System.out.println("🎩 A new Door Master has been crowned! 📞 Reachable at: " + seller.getPhone());
         return savedSeller;
     }
 
@@ -355,7 +357,7 @@ public class DataInitializer implements CommandLineRunner {
             String imageId = HARDWARE_IMAGE_IDS[faker.number().numberBetween(0, HARDWARE_IMAGE_IDS.length)];
             images.add(String.format("https://images.unsplash.com/photo-%s?q=80&fm=jpg&w=400&h=300&fit=crop", imageId));
         }
-        door.setImageUrls(images);
+        door.setImages(images);
     }
 
     private String generateDescription(FurnitureType type, String material) {

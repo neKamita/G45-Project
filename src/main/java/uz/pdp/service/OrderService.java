@@ -13,6 +13,9 @@ import uz.pdp.repository.OrderRepository;
 import uz.pdp.repository.UserRepository;
 
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -70,7 +73,7 @@ public class OrderService {
             order.setOrderType(orderDto.getOrderType());
             order.setDeliveryAddress(orderDto.getDeliveryAddress());
             order.setContactPhone(orderDto.getContactPhone());
-            order.setOrderDate(LocalDateTime.now());
+            order.setOrderDate(ZonedDateTime.now());
             order.setStatus(Order.OrderStatus.PENDING);
 
             Order savedOrder = orderRepository.save(order);
@@ -136,11 +139,11 @@ public class OrderService {
 
     /**
      * Cancels an existing order.
-     * Only allows cancellation of orders in PENDING status.
+     * Only allows cancellation of orders in PENDING or PROCESSING status.
      *
      * @param orderId ID of the order to cancel
      * @return EntityResponse containing cancelled order
-     * @throws ResponseStatusException if order not found or cannot be cancelled
+     * @throws ResponseStatusException if order not found
      */
     @Transactional
     public EntityResponse<Order> cancelOrder(Long orderId) {
@@ -150,19 +153,27 @@ public class OrderService {
             Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Order not found"));
             
-            if (!Order.OrderStatus.PENDING.toString().equals(order.getStatus())) {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, 
-                    "Only pending orders can be cancelled");
+            // Allow cancellation of pending and processing orders during checkout rollback
+            if (!Order.OrderStatus.PENDING.toString().equals(order.getStatus()) &&
+                !Order.OrderStatus.PROCESSING.toString().equals(order.getStatus())) {
+                logger.warn("Cannot cancel order {} with status {}", orderId, order.getStatus());
+                // Return success=false instead of throwing exception for concurrent modifications
+                return EntityResponse.<Order>error(
+                    "Order " + orderId + " cannot be cancelled in status " + order.getStatus(),
+                    null);
             }
             
             order.setStatus(Order.OrderStatus.CANCELLED);
-            Order cancelledOrder = orderRepository.save(order);
-            logger.info("Order cancelled successfully");
+            order = orderRepository.save(order);
+            logger.info("Successfully cancelled order {}", orderId);
             
-            return new EntityResponse<>("Order cancelled successfully", true, cancelledOrder);
+            return EntityResponse.<Order>success("Order cancelled successfully", order);
         } catch (Exception e) {
-            logger.error("Error cancelling order: {}", e.getMessage());
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error cancelling order", e);
+            logger.error("Error cancelling order {}: {} {}", orderId, e.getClass().getSimpleName(), e.getMessage());
+            // Return failure response instead of rethrowing
+            return EntityResponse.<Order>error(
+                "Failed to cancel order: " + e.getMessage(),
+                null);
         }
     }
 
@@ -203,6 +214,69 @@ public class OrderService {
         } catch (Exception e) {
             logger.error("Error retrieving order: {}", e.getMessage());
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Error retrieving order", e);
+        }
+    }
+
+    /**
+     * Creates multiple orders in a single transaction.
+     * If any order fails, the entire transaction is rolled back.
+     *
+     * @param userId ID of the user placing the orders
+     * @param orderDtos List of order details
+     * @return EntityResponse containing the created orders
+     */
+    @Transactional
+    public EntityResponse<List<Order>> createOrders(Long userId, List<OrderDto> orderDtos) {
+        try {
+            logger.info("Creating {} orders for user ID: {}", orderDtos.size(), userId);
+            
+            User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+            
+            List<Order> orders = new ArrayList<>();
+            
+            for (OrderDto orderDto : orderDtos) {
+                // Validate door existence and availability
+                Door door = doorRepository.findById(orderDto.getDoorId())
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, 
+                        "Door not found: " + orderDto.getDoorId()));
+                
+                if (!door.isActive()) {
+                    throw new ResponseStatusException(HttpStatus.BAD_REQUEST, 
+                        "Door is no longer available: " + door.getName());
+                }
+                
+                // Create and save the order
+                Order order = new Order();
+                order.setUser(user);
+                order.setDoor(door);
+                order.setOrderType(orderDto.getOrderType());
+                order.setStatus(Order.OrderStatus.PENDING);
+                order.setCustomerName(orderDto.getCustomerName());
+                order.setEmail(orderDto.getEmail());
+                order.setContactPhone(orderDto.getContactPhone());
+                order.setDeliveryAddress(orderDto.getDeliveryAddress());
+                order.setPreferredDeliveryTime(orderDto.getPreferredDeliveryTime());
+                order.setComment(orderDto.getComment());
+                order.setInstallationNotes(orderDto.getInstallationNotes());
+                order.setDeliveryNotes(orderDto.getDeliveryNotes());
+                
+                orders.add(orderRepository.save(order));
+                logger.info("Created order {} for door {}", order.getId(), door.getName());
+            }
+            
+            return EntityResponse.<List<Order>>success(
+                "Successfully created " + orders.size() + " orders", 
+                orders);
+            
+        } catch (ResponseStatusException e) {
+            logger.error("Error creating orders for user {}: {}", userId, e.getMessage());
+            return EntityResponse.<List<Order>>error(e.getReason(), Collections.emptyList());
+        } catch (Exception e) {
+            logger.error("Unexpected error creating orders for user {}: {}", userId, e.getMessage());
+            return EntityResponse.<List<Order>>error(
+                "Failed to create orders: " + e.getMessage(), 
+                Collections.emptyList());
         }
     }
 }

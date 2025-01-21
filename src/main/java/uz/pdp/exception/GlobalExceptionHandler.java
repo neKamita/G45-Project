@@ -59,6 +59,7 @@ public class GlobalExceptionHandler {
             super(String.format(" Oops! Door #%d seems to be playing hide and seek. We couldn't find it in our records!", id),
                   HttpStatus.NOT_FOUND);
         }
+
     }
 
     /**

@@ -1,6 +1,8 @@
 package uz.pdp.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,6 +16,12 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * User entity representing a registered user in the system.
+ * Each user can be a regular customer, seller, or admin.
+ * 
+ * Fun fact: Like a door with multiple locks, each user has multiple security features! 🔐
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,22 +29,38 @@ import java.util.List;
 @Table(name = "users", indexes = {
     @Index(name = "idx_user_email", columnList = "email", unique = true),
     @Index(name = "idx_user_name", columnList = "name"),
+    @Index(name = "idx_user_phone", columnList = "phone"),
     @Index(name = "idx_user_role_active", columnList = "role,active")
 })
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotBlank(message = "Name is required")
     private String name;
+
     private String lastname;
+
+    @NotBlank(message = "Email is required")
+    @Column(unique = true)
     private String email;
+
+    @JsonIgnore
     private String password;
+
+    @NotBlank(message = "Phone number is required")
+    @Pattern(regexp = "^\\+?[1-9]\\d{1,14}$", message = "Please provide a valid phone number in international format")
+    @Column(nullable = false)
     private String phone;
+
     private boolean sellerRequestPending;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role = Role.USER;
-    private boolean active = true; 
+
+    private boolean active = true;
 
     @JsonIgnore
     @Override

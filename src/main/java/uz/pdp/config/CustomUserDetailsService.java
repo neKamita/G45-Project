@@ -6,6 +6,11 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import uz.pdp.repository.UserRepository;
 
+/**
+ * Custom user details service for authentication.
+ * Fun fact: This service is like a bouncer at a club,
+ * but instead of checking IDs, it checks names! 📧
+ */
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 

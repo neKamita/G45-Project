@@ -99,13 +99,9 @@ public class AuthService {
                 throw new BadRequestException("Validation failed", validationErrors);
             }
 
-            // Check for existing user
-            if (userRepository.existsByName(request.getName())) {
-                throw new ConflictException("An account with this username already exists");
-            }
-
+            // Check if email already exists
             if (userRepository.existsByEmail(request.getEmail())) {
-                throw new ConflictException("An account with this email address already exists");
+                throw new ConflictException("Email already registered");
             }
 
             // Create new user
@@ -113,22 +109,27 @@ public class AuthService {
             user.setName(request.getName());
             user.setLastname(request.getLastname());
             user.setEmail(request.getEmail());
+            user.setPhone(request.getPhone());
             user.setPassword(passwordEncoder.encode(request.getPassword()));
             user.setRole(Role.USER);
             user.setActive(true);
 
+            // Save user
             userRepository.save(user);
-            
-            // Generate JWT token
+            logger.info("Successfully registered new user: {}", user.getEmail());
+
+            // Generate token
             String token = jwtProvider.generateToken(user.getName());
-            return EntityResponse.success("Account created successfully", token);
-            
+            return EntityResponse.success(
+                String.format("Welcome aboard, %s! Your account is ready for some door shopping! 🚪✨", user.getName()),
+                token
+            );
+
         } catch (BadRequestException | ConflictException e) {
-            logger.error("Registration validation error: {}", e.getMessage());
             throw e;
         } catch (Exception e) {
-            logger.error("Unexpected error during registration: {}", e.getMessage(), e);
-            throw new BadRequestException("Unable to complete registration. Please try again later.");
+            logger.error("Registration failed for email {}: {}", request.getEmail(), e.getMessage());
+            throw new RuntimeException("Registration failed: " + e.getMessage());
         }
     }
 
@@ -182,40 +183,42 @@ public class AuthService {
     /**
      * Validates user registration fields.
      * Checks for required fields, email format, password strength, and phone number format.
-     *
+     * 
      * @param request Request containing user registration details
      * @return Map of validation errors
      */
     private Map<String, String> validateRegistration(SignUpRequest request) {
         Map<String, String> errors = new HashMap<>();
-        
-        if (request == null) {
-            errors.put("request", "Registration data cannot be null");
-            return errors;
-        }
 
+        // Validate name
         if (request.getName() == null || request.getName().trim().isEmpty()) {
-            errors.put("name", "Please enter your name");
-        } else if (request.getName().length() < 3 || request.getName().length() > 50) {
-            errors.put("name", "Name must be between 3 and 50 characters");
+            errors.put("name", "Name is required");
         }
 
+        // Validate lastname
         if (request.getLastname() == null || request.getLastname().trim().isEmpty()) {
-            errors.put("lastname", "Please enter your last name");
-        } else if (request.getLastname().length() < 2 || request.getLastname().length() > 50) {
-            errors.put("lastname", "Last name must be between 2 and 50 characters");
+            errors.put("lastname", "Last name is required");
         }
 
+        // Validate email
         if (request.getEmail() == null || request.getEmail().trim().isEmpty()) {
-            errors.put("email", "Please enter your email address");
+            errors.put("email", "Email is required");
         } else if (!request.getEmail().matches("^[A-Za-z0-9+_.-]+@(.+)$")) {
-            errors.put("email", "Please enter a valid email address");
+            errors.put("email", "Please provide a valid email address");
         }
 
+        // Validate password
         if (request.getPassword() == null || request.getPassword().trim().isEmpty()) {
-            errors.put("password", "Please enter a password");
+            errors.put("password", "Password is required");
         } else if (request.getPassword().length() < 6) {
             errors.put("password", "Password must be at least 6 characters long");
+        }
+
+        // Validate phone number
+        if (request.getPhone() == null || request.getPhone().trim().isEmpty()) {
+            errors.put("phone", "Phone number is required");
+        } else if (!request.getPhone().matches("^\\+?[1-9]\\d{1,14}$")) {
+            errors.put("phone", "Please provide a valid phone number in international format (e.g., +998901234567)");
         }
 
         return errors;
