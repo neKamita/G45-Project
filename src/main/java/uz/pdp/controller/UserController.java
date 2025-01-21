@@ -85,8 +85,8 @@ public class UserController {
     @Operation(summary = "Get user order history")
     public ResponseEntity<EntityResponse<List<Order>>> getUserOrders(@AuthenticationPrincipal User user) {
         try {
-            logger.info("Retrieving orders for user ID: {}", user.getId());
-            List<Order> orders = orderService.getUserOrders(user.getId());
+            logger.info("Retrieving orders for user ID: {}", user.getEmail());
+            List<Order> orders = orderService.getUserOrders(user.getEmail());
             return ResponseEntity.ok(EntityResponse.success("Orders retrieved successfully", orders));
         } catch (Exception e) {
             logger.error("Error retrieving user orders: {}", e.getMessage());

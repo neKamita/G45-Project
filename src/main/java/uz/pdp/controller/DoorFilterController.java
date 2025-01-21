@@ -9,6 +9,7 @@ import uz.pdp.dto.DoorFilterDto;
 import uz.pdp.dto.DoorFilterOptionsDto;
 import uz.pdp.entity.Door;
 import uz.pdp.enums.*;
+import uz.pdp.payload.EntityResponse;
 import uz.pdp.service.DoorFilterService;
 
 import java.util.Arrays;
@@ -30,70 +31,101 @@ import java.util.stream.Collectors;
 public class DoorFilterController {
     private final DoorFilterService doorFilterService;
 
+    /**
+     * Filters doors based on multiple criteria with smart fallback to partial matches.
+     * 
+     * @param locations Comma-separated list of door locations
+     * @param frameTypes Comma-separated list of frame types
+     * @param hardware Comma-separated list of hardware types
+     * @param color Desired door color
+     * @param size Door size in format: widthxheight (e.g., 200x2000)
+     * @return EntityResponse containing matching doors or appropriate message
+     * 
+     * 🚪 Where doors meet their perfect match! Or at least their close friends! ✨
+     */
     @Operation(summary = "Filter doors based on multiple criteria. Use comma-separated values for multiple options.")
     @GetMapping("/filter/{locations}/{frameTypes}/{hardware}/{color}/{size}")
-    public ResponseEntity<List<Door>> filterDoors(
-            @PathVariable(required = false) String locations,
-            @PathVariable(required = false) String frameTypes,
-            @PathVariable(required = false) String hardware,
-            @PathVariable(required = false) String color,
-            @PathVariable(required = false) String size) {
+    public ResponseEntity<EntityResponse<List<Door>>> filterDoors(
+            @PathVariable String locations,
+            @PathVariable String frameTypes,
+            @PathVariable String hardware,
+            @PathVariable String color,
+            @PathVariable String size) {
         
-        // Parse multiple locations from display names
-        Set<DoorLocation> locationSet = locations != null && !locations.equals("none") ?
-            Arrays.stream(locations.split(","))
-                .map(loc -> Arrays.stream(DoorLocation.values())
-                    .filter(l -> l.getDisplayName().equalsIgnoreCase(loc))
-                    .findFirst()
-                    .orElseThrow(() -> new IllegalArgumentException("Invalid location: " + loc)))
-                .collect(Collectors.toSet()) : new HashSet<>();
+        Set<DoorLocation> locationSet = new HashSet<>();
+        Set<FrameType> frameTypeSet = new HashSet<>();
+        Set<HardwareType> hardwareSet = new HashSet<>();
 
-        // Parse multiple frame types from display names
-        Set<FrameType> frameTypeSet = frameTypes != null && !frameTypes.equals("none") ?
-            Arrays.stream(frameTypes.split(","))
-                .map(frame -> Arrays.stream(FrameType.values())
-                    .filter(f -> f.getDisplayName().equalsIgnoreCase(frame))
-                    .findFirst()
-                    .orElseThrow(() -> new IllegalArgumentException("Invalid frame type: " + frame)))
-                .collect(Collectors.toSet()) : new HashSet<>();
+        // Parse locations
+        for (String location : locations.split(",")) {
+            try {
+                locationSet.add(DoorLocation.valueOf(location.toUpperCase()));
+            } catch (IllegalArgumentException ignored) {
+            }
+        }
 
-        // Parse multiple hardware options from display names
-        Set<HardwareType> hardwareSet = hardware != null && !hardware.equals("none") ?
-            Arrays.stream(hardware.split(","))
-                .map(hw -> Arrays.stream(HardwareType.values())
-                    .filter(h -> h.getDisplayName().equalsIgnoreCase(hw))
-                    .findFirst()
-                    .orElseThrow(() -> new IllegalArgumentException("Invalid hardware: " + hw)))
-                .collect(Collectors.toSet()) : new HashSet<>();
+        // Parse frame types
+        for (String frameType : frameTypes.split(",")) {
+            try {
+                frameTypeSet.add(FrameType.valueOf(frameType.toUpperCase()));
+            } catch (IllegalArgumentException ignored) {
+            }
+        }
 
-        // Parse color (single selection)
-        Color colorEnum = color != null && !color.equals("none") ? Color.valueOf(color) : null;
+        // Parse hardware types
+        for (String h : hardware.split(",")) {
+            try {
+                hardwareSet.add(HardwareType.valueOf(h.toUpperCase()));
+            } catch (IllegalArgumentException ignored) {
+            }
+        }
 
-        // Parse size (single selection)
+        // Convert size format from "200x2000" to "SIZE_200x2000"
         Size sizeEnum = null;
-        if (size != null && !size.equals("none")) {
-            if (size.equalsIgnoreCase("non-standard")) {
-                sizeEnum = Size.CUSTOM;
-            } else {
-                String[] dimensions = size.split("x");
-                if (dimensions.length == 2) {
-                    int width = Integer.parseInt(dimensions[0]);
-                    int height = Integer.parseInt(dimensions[1]);
-                    sizeEnum = Arrays.stream(Size.values())
-                        .filter(s -> s != Size.CUSTOM && s.getWidth() == width && s.getHeight() == height)
-                        .findFirst()
-                        .orElseThrow(() -> new IllegalArgumentException("Invalid size: " + size));
+        if (size != null && !size.equalsIgnoreCase("none")) {
+            try {
+                sizeEnum = Size.valueOf("SIZE_" + size.toUpperCase());
+            } catch (IllegalArgumentException e) {
+                // If not a standard size, check if it's a custom size
+                if (size.equalsIgnoreCase("custom")) {
+                    sizeEnum = Size.CUSTOM;
                 }
             }
         }
-        
-        return ResponseEntity.ok(doorFilterService.filterDoors(DoorFilterDto.builder()
+
+        // Try exact matches first
+        List<Door> exactMatches = doorFilterService.filterDoors(DoorFilterDto.builder()
                 .locations(locationSet)
                 .frameTypes(frameTypeSet)
                 .hardware(hardwareSet)
-                .color(colorEnum)
+                .color(color != null && !color.equalsIgnoreCase("none") ? Color.valueOf(color.toUpperCase()) : null)
                 .size(sizeEnum)
-                .build()));
+                .build());
+
+        if (!exactMatches.isEmpty()) {
+            return ResponseEntity.ok(EntityResponse.success(
+                "Found your perfect doors! All criteria matched! 🎯✨",
+                exactMatches
+            ));
+        }
+
+        // If no exact matches, try partial matches (at least 2 criteria)
+        List<Door> partialMatches = doorFilterService.findPartialMatches(
+                locationSet, frameTypeSet, hardwareSet, color, size, 2);
+
+        if (!partialMatches.isEmpty()) {
+            return ResponseEntity.ok(EntityResponse.success(
+                "🚪 We found some doors that partially match your criteria! " +
+                "They might not be exactly what you're looking for, but they're close! ✨",
+                partialMatches
+            ));
+        }
+
+        // If still no matches, return the "no results" message
+        return ResponseEntity.ok(EntityResponse.success(
+            "🚪 Oops! We couldn't find any doors matching even 2 of your criteria. " +
+            "Try adjusting your filters for more options - we've got lots of amazing doors to show you! ✨"
+        ));
     }
 
     @Operation(summary = "Get all available filter options")

@@ -54,12 +54,12 @@ public class EnumManagementService {
             throw new UnauthorizedException("You must be logged in to add custom enum values! 🔐");
         }
 
-        String username = authentication.getName();
-        logger.debug("Looking up user by username: {}", username);
+        String name = authentication.getName();
+        logger.debug("Looking up user by username: {}", name);
         
-        User currentUser = userRepository.findByEmail(username)
+        User currentUser = userRepository.findByName(name)
                 .orElseThrow(() -> new UnauthorizedException(
-                    "Hmm... We can't find your user account. Are you sure you're logged in? 🤔 (Email: " + username + ")"
+                    "Hmm... We can't find your user account. Are you sure you're logged in? 🤔 (name: " + name + ")"
                 ));
 
         // Validate enum type
@@ -81,7 +81,7 @@ public class EnumManagementService {
         customEnumValue.setActive(true);
 
         logger.debug("Creating new enum value: {} of type {} by user {}", 
-                    enumName, customEnumValue.getEnumType(), username);
+                    enumName, customEnumValue.getEnumType(), name);
                     
         return customEnumValueRepository.save(customEnumValue);
     }

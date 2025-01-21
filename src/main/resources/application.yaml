@@ -45,7 +45,7 @@ spring:
     enabled: true
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     show-sql: true
     properties:
       hibernate:

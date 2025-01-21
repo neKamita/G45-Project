@@ -5,12 +5,16 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import uz.pdp.dto.DoorFilterDto;
 import uz.pdp.entity.Door;
+import uz.pdp.enums.DoorLocation;
+import uz.pdp.enums.FrameType;
+import uz.pdp.enums.HardwareType;
 import uz.pdp.repository.DoorFilterRepository;
 
 import jakarta.persistence.criteria.Predicate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * Service for filtering doors based on user preferences.
@@ -62,5 +66,42 @@ public class DoorFilterService {
         };
 
         return doorFilterRepository.findAll(spec);
+    }
+
+    /**
+     * Finds doors that match at least the specified number of criteria.
+     * When exact matches aren't found, this helps users discover similar doors! 🚪
+     * 
+     * @param locations Set of door locations to match
+     * @param frameTypes Set of frame types to match
+     * @param hardwareTypes Set of hardware types to match
+     * @param color Color to match
+     * @param size Size to match
+     * @param minimumMatchingCriteria Minimum number of criteria that must match
+     * @return List of doors matching at least the minimum criteria
+     * 
+     * Think of it as a door matchmaker - finding your door soulmate! 💕
+     */
+    public List<Door> findPartialMatches(
+            Set<DoorLocation> locations,
+            Set<FrameType> frameTypes,
+            Set<HardwareType> hardwareTypes,
+            String color,
+            String size,
+            int minimumMatchingCriteria) {
+        
+        return doorFilterRepository.findAll().stream()
+            .filter(door -> {
+                int matchCount = 0;
+                
+                if (locations.contains(door.getDoorLocation())) matchCount++;
+                if (frameTypes.contains(door.getFrameType())) matchCount++;
+                if (hardwareTypes.contains(door.getHardware())) matchCount++;
+                if (color != null && color.equalsIgnoreCase(door.getColor().name())) matchCount++;
+                if (size != null && size.equalsIgnoreCase(door.getSize().name())) matchCount++;
+                
+                return matchCount >= minimumMatchingCriteria;
+            })
+            .collect(Collectors.toList());
     }
 }
