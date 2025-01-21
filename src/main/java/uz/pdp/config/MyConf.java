@@ -74,6 +74,7 @@ public class MyConf {
                         // Public API endpoints
                         .requestMatchers(HttpMethod.GET, "/api/doors/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/contacts/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/door-accessories/**").permitAll()
 
                         // Protected endpoints
                         .requestMatchers("/api/doors/**").hasAnyRole("ADMIN", "SELLER")
