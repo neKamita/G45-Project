@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import uz.pdp.enums.*;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -91,6 +93,24 @@ public class Door {
     @Enumerated(EnumType.STRING)
     @JsonProperty("hardware")  
     private HardwareType hardware;
+
+    @Column(name = "base_model_id")
+    private Long baseModelId;  // ID of the base model for color variants
+    
+    @Column(name = "custom_color_code")
+    private String customColorCode;  // For custom colored doors (hex code)
+    
+    @Column(name = "is_base_model")
+    private Boolean isBaseModel = false;  // True if this is the original model
+    
+    @Column(name = "available_colors")
+    @ElementCollection
+    @CollectionTable(
+        name = "door_available_colors",
+        joinColumns = @JoinColumn(name = "door_id")
+    )
+    @Enumerated(EnumType.STRING)
+    private Set<Color> availableColors = new HashSet<>();
 
     @PrePersist
     @PreUpdate

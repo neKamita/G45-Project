@@ -24,6 +24,7 @@ import uz.pdp.dto.BasketItemDTO;
 import uz.pdp.dto.BasketResponseDTO;
 import uz.pdp.entity.Door;
 import uz.pdp.entity.User;
+import uz.pdp.enums.Color;
 import uz.pdp.enums.ItemType;
 import uz.pdp.mutations.DoorConfigInput;
 import uz.pdp.payload.EntityResponse;
@@ -35,6 +36,7 @@ import uz.pdp.service.UserService;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 /**
  * REST controller for managing smart door operations.
@@ -456,5 +458,99 @@ public class DoorController {
         
         BasketItemDTO itemDTO = new BasketItemDTO(id, ItemType.DOOR, quantity);
         return ResponseEntity.ok(BasketResponseDTO.fromBasket(basketService.addItem(itemDTO)));
+    }
+
+    /**
+     * Get all doors of a specific color.
+     * For when you're feeling particularly picky about your door's fashion sense! 🎨
+     *
+     * @param color The color to filter by
+     * @return List of doors in that color
+     */
+    @GetMapping("/color/{color}")
+    @Operation(summary = "Get doors by color", description = "Retrieves all doors of a specific color")
+    public ResponseEntity<EntityResponse<?>> getDoorsByColor(@PathVariable Color color) {
+        logger.info("Getting doors with color: {}", color);
+        List<Door> doors = doorService.getDoorsByColor(color);
+        return ResponseEntity.ok(EntityResponse.success(
+            String.format("Found %d doors in %s", doors.size(), color.toString().toLowerCase()),
+            doors
+        ));
+    }
+
+    /**
+     * Get all color variants of a specific door model.
+     * It's like a door's family reunion - same genes, different outfits! 🚪👔
+     *
+     * @param id ID of the door to find variants for
+     * @return List of door variants
+     */
+    @GetMapping("/{id}/variants")
+    @Operation(summary = "Get door color variants", description = "Retrieves all color variants of a specific door model")
+    public ResponseEntity<EntityResponse<?>> getDoorVariants(@PathVariable Long id) {
+        logger.info("Getting color variants for door: {}", id);
+        List<Door> variants = doorService.getDoorColorVariants(id);
+        return ResponseEntity.ok(EntityResponse.success(
+            String.format("Found %d color variants", variants.size()),
+            variants
+        ));
+    }
+
+    /**
+     * Get available colors for a door model.
+     * If it's a base model, returns all available colors.
+     * If it's a variant, returns colors from its base model.
+     * 
+     * @param id Door ID to get colors for
+     * @return Set of available colors for the door
+     */
+    @GetMapping("/{id}/colors")
+    @Operation(summary = "Get available colors for a door model", description = "Returns all available colors for a door model")
+    public ResponseEntity<EntityResponse<Set<Color>>> getDoorColors(@PathVariable Long id) {
+        try {
+            Set<Color> colors = doorService.getDoorColors(id);
+            String message = colors.isEmpty() ? 
+                "No color variants available for this door" : 
+                "Available colors retrieved successfully";
+            return ResponseEntity.ok(EntityResponse.success(message, colors));
+        } catch (Exception e) {
+            logger.error("Error getting colors for door {}: {}", id, e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(EntityResponse.error(" Oops! Something unexpected happened. Our door experts are on it!"));
+        }
+    }
+
+    /**
+     * Create a new color variant of a door.
+     * Because every door deserves to express itself in different colors! 🚪🌈
+     */
+    @PostMapping("/{id}/variants")
+    @PreAuthorize("hasRole('SELLER')")
+    @Operation(summary = "Create a new color variant")
+    public ResponseEntity<EntityResponse<?>> createColorVariant(
+            @PathVariable Long id,
+            @RequestParam Color color) {
+        Door variant = doorService.createColorVariant(id, color);
+        return ResponseEntity.ok(EntityResponse.success(
+            "Color variant created successfully",
+            variant
+        ));
+    }
+
+    /**
+     * Create a custom colored variant of a door.
+     * For when the standard colors just aren't enough! 🎨✨
+     */
+    @PostMapping("/{id}/custom-color")
+    @PreAuthorize("hasRole('SELLER')")
+    @Operation(summary = "Create a custom colored variant")
+    public ResponseEntity<EntityResponse<?>> createCustomColorVariant(
+            @PathVariable Long id,
+            @RequestParam String colorCode) {
+        Door variant = doorService.createCustomColorVariant(id, colorCode);
+        return ResponseEntity.ok(EntityResponse.success(
+            "Custom color variant created successfully",
+            variant
+        ));
     }
 }

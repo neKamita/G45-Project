@@ -368,4 +368,112 @@ public class EmailService {
             return new EntityResponse<>("Failed to send password reset email: " + e.getMessage(), false, null);
         }
     }
+
+    /**
+     * Sends an order notification email to the seller.
+     * Because sellers need to know when their doors are going to new homes! 🏠
+     * 
+     * @param sellerEmail Seller's email address
+     * @param order Order details
+     * @param buyer Buyer information
+     * @throws MessagingException If the email server is having a bad day
+     */
+    public void sendOrderNotification(String sellerEmail, Order order, User buyer) throws MessagingException {
+        try {
+            MimeMessage message = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+            
+            helper.setTo(sellerEmail);
+            helper.setSubject("🚪 New Door Order #" + order.getId());
+            
+            StringBuilder itemsHtml = new StringBuilder();
+            double totalAmount = 0;
+            
+            for (OrderItem item : order.getItems()) {
+                Door door = item.getDoor();
+                totalAmount += door.getFinalPrice() * item.getQuantity();
+                
+                itemsHtml.append(String.format(
+                    "<tr>" +
+                    "<td>%s</td>" +
+                    "<td>%s</td>" +
+                    "<td>%d</td>" +
+                    "<td>$%.2f</td>" +
+                    "<td>$%.2f</td>" +
+                    "</tr>",
+                    door.getName(),
+                    door.getColor().getDisplayName(),
+                    item.getQuantity(),
+                    door.getFinalPrice(),
+                    door.getFinalPrice() * item.getQuantity()
+                ));
+            }
+            
+            String emailContent = String.format(
+                "<div style='font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;'>" +
+                "<div style='background-color: #4a90e2; color: white; padding: 20px; text-align: center; border-radius: 5px 5px 0 0;'>" +
+                "<h1>🚪 New Door Order!</h1>" +
+                "</div>" +
+                "<div style='padding: 20px; border: 1px solid #ddd;'>" +
+                "<p>Hello %s,</p>" +
+                "<p>Great news! You've received a new order for your amazing door(s). Here are the details:</p>" +
+                "<div style='background-color: #f9f9f9; padding: 15px; border-radius: 5px; margin: 15px 0;'>" +
+                "<h3>📦 Order Information</h3>" +
+                "<p><strong>Order ID:</strong> %d</p>" +
+                "<p><strong>Order Date:</strong> %s</p>" +
+                "<p><strong>Total Amount:</strong> $%.2f</p>" +
+                "<h3>👤 Customer Details</h3>" +
+                "<p><strong>Name:</strong> %s %s</p>" +
+                "<p><strong>Phone:</strong> %s</p>" +
+                "<p><strong>Email:</strong> %s</p>" +
+                "<h3>📍 Delivery Information</h3>" +
+                "<p><strong>Address:</strong> %s</p>" +
+                "<h3>🚪 Ordered Items</h3>" +
+                "<table style='width: 100%%; border-collapse: collapse; margin-top: 10px;'>" +
+                "<tr style='background-color: #f2f2f2;'>" +
+                "<th style='padding: 8px; text-align: left;'>Door</th>" +
+                "<th style='padding: 8px; text-align: left;'>Color</th>" +
+                "<th style='padding: 8px; text-align: left;'>Quantity</th>" +
+                "<th style='padding: 8px; text-align: left;'>Price</th>" +
+                "<th style='padding: 8px; text-align: left;'>Total</th>" +
+                "</tr>" +
+                "%s" +
+                "</table>" +
+                "</div>" +
+                "<div style='background-color: #fff3cd; border: 1px solid #ffeeba; padding: 10px; margin: 10px 0; border-radius: 5px;'>" +
+                "<p>⏰ <strong>Deadline:</strong> %s</p>" +
+                "<p>Please ensure the order is prepared and ready for delivery by this date.</p>" +
+                "</div>" +
+                "<p>You can view the complete order details and manage this order in your seller dashboard.</p>" +
+                "</div>" +
+                "<div style='text-align: center; margin-top: 20px; color: #666;'>" +
+                "<p>This is an automated message from your friends at Door Paradise 🏠</p>" +
+                "<p>Please do not reply directly to this email. Use your seller dashboard for all order-related communication.</p>" +
+                "</div>" +
+                "</div>",
+                order.getSeller().getName(),
+                order.getId(),
+                order.getCreatedAt().format(DateTimeFormatter.ofPattern("MMMM dd, yyyy HH:mm:ss")),
+                totalAmount,
+                buyer.getName(),
+                buyer.getLastname(),
+                buyer.getPhone(),
+                buyer.getEmail(),
+                order.getDeliveryAddress(),
+                itemsHtml.toString(),
+                order.getDeadline().format(DateTimeFormatter.ofPattern("MMMM dd, yyyy"))
+            );
+            
+            helper.setText(emailContent, true);
+            mailSender.send(message);
+            
+            log.info("🎉 Order notification email sent to seller {} for order #{}", 
+                    sellerEmail, order.getId());
+            
+        } catch (Exception e) {
+            log.error("📫 Failed to send order notification email to {}: {}", 
+                    sellerEmail, e.getMessage());
+            throw new MessagingException("Failed to send order notification email", e);
+        }
+    }
 }

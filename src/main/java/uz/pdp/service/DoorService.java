@@ -33,6 +33,12 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 
+import org.springframework.util.CollectionUtils;
+import org.springframework.beans.BeanUtils;
+
+import java.util.Collections;
+import java.util.Set;
+
 /**
  * Service class for managing door operations.
  * Handles door creation, configuration, access control, and image management.
@@ -618,5 +624,146 @@ public class DoorService {
             logger.error("Error updating door status {}: {}", doorId, e.getMessage());
             throw new BadRequestException("Failed to update door status: " + e.getMessage());
         }
+    }
+
+    /**
+     * Finds all doors with a specific color.
+     * Because sometimes you just need to match your door to your mood! 🎨
+     *
+     * @param color The color to filter doors by
+     * @return List of doors in that color, or an empty list if no doors are feeling that color today
+     */
+    @Transactional(readOnly = true)
+    public List<Door> getDoorsByColor(Color color) {
+        logger.info("Searching for doors with color: {}", color);
+        return doorRepository.findByColorAndActiveTrue(color);
+    }
+
+    /**
+     * Gets all color variants of a door, including the base model.
+     * Like a door's extended family reunion! 🚪👨‍👩‍👧‍👦
+     *
+     * @param doorId ID of any variant or base model
+     * @return List of all color variants
+     */
+    @Transactional(readOnly = true)
+    public List<Door> getDoorColorVariants(Long doorId) {
+        Door door = getDoor(doorId);
+        Long baseModelId = door.getIsBaseModel() ? door.getId() : door.getBaseModelId();
+        
+        if (baseModelId == null) {
+            return Collections.singletonList(door);
+        }
+        
+        return doorRepository.findByBaseModelIdOrId(baseModelId, baseModelId);
+    }
+
+    /**
+     * Creates a color variant of an existing door.
+     * It's like giving a door a new paint job, but fancier! 🎨
+     *
+     * @param doorId Base door ID to create variant from
+     * @param color New color for the variant
+     * @return The newly created door variant
+     */
+    @Transactional
+    @PreAuthorize("hasRole('SELLER')")
+    public Door createColorVariant(Long doorId, Color color) {
+        Door baseDoor = getDoor(doorId);
+        
+        // If this is first variant, mark the original as base model
+        if (!baseDoor.getIsBaseModel() && baseDoor.getBaseModelId() == null) {
+            baseDoor.setIsBaseModel(true);
+            baseDoor.getAvailableColors().add(baseDoor.getColor());
+            doorRepository.save(baseDoor);
+        }
+        
+        // Create new variant
+        Door variant = new Door();
+        // Copy all properties except ID and color
+        BeanUtils.copyProperties(baseDoor, variant, "id", "color", "images");
+        variant.setColor(color);
+        variant.setBaseModelId(baseDoor.getIsBaseModel() ? baseDoor.getId() : baseDoor.getBaseModelId());
+        variant.setIsBaseModel(false);
+        
+        // Update available colors on base model
+        Door baseModel = baseDoor.getIsBaseModel() ? baseDoor : getDoor(baseDoor.getBaseModelId());
+        baseModel.getAvailableColors().add(color);
+        doorRepository.save(baseModel);
+        
+        return doorRepository.save(variant);
+    }
+
+    /**
+     * Creates a custom colored variant of a door.
+     * For when standard colors just won't cut it! 🌈
+     *
+     * @param doorId Base door ID
+     * @param colorCode Hex color code (e.g., #FF5733)
+     * @return The custom colored door variant
+     */
+    @Transactional
+    @PreAuthorize("hasRole('SELLER')")
+    public Door createCustomColorVariant(Long doorId, String colorCode) {
+        Door baseDoor = getDoor(doorId);
+        Door baseModel = baseDoor.getIsBaseModel() ? baseDoor : getDoor(baseDoor.getBaseModelId());
+        
+        Door variant = new Door();
+        BeanUtils.copyProperties(baseDoor, variant, "id", "color", "images");
+        variant.setCustomColorCode(colorCode);
+        variant.setIsCustomColor(true);
+        variant.setBaseModelId(baseModel.getId());
+        variant.setIsBaseModel(false);
+        
+        return doorRepository.save(variant);
+    }
+
+    /**
+     * Gets all available colors for a door model.
+     * The door's color palette, if you will! 🎨
+     *
+     * @param doorId ID of any variant or base model
+     * @return Set of available colors
+     */
+    @Transactional(readOnly = true)
+    public Set<Color> getAvailableColors(Long doorId) {
+        Door door = getDoor(doorId);
+        Long baseModelId = door.getIsBaseModel() ? door.getId() : door.getBaseModelId();
+        
+        if (baseModelId == null) {
+            return Collections.singleton(door.getColor());
+        }
+        
+        Door baseModel = getDoor(baseModelId);
+        return baseModel.getAvailableColors();
+    }
+
+    /**
+     * Get available colors for a door model.
+     * If you thought choosing a Netflix show was hard, 
+     * wait until you see our color selection! 🎨
+     * 
+     * @param id Door ID to get colors for
+     * @return Set of available colors for the door
+     * @throws ResourceNotFoundException if door not found
+     */
+    @Transactional(readOnly = true)
+    public Set<Color> getDoorColors(Long id) {
+        Door door = getDoor(id);
+        
+        // If this is a variant, get colors from base model
+        if (!door.getIsBaseModel() && door.getBaseModelId() != null) {
+            door = getDoor(door.getBaseModelId());
+        }
+        
+        // If no colors are set, return an empty set
+        if (door.getAvailableColors() == null) {
+            logger.warn("Door {} has no available colors set! 🚪 This door is having an identity crisis.", id);
+            return Collections.emptySet();
+        }
+        
+        logger.info("Found {} fabulous colors for door {}! 🌈", 
+            door.getAvailableColors().size(), door.getName());
+        return door.getAvailableColors();
     }
 }

@@ -38,10 +38,12 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final UserRepository userRepository;
     private final DoorRepository doorRepository;
+    private final EmailService emailService;
 
     /**
      * Creates a new order for a user.
      * Validates user and door existence before creating the order.
+     * Also sends a notification email to the seller(s).
      *
      * @param email User's email address for placing the order
      * @param orderDto Order details including door information
@@ -77,6 +79,20 @@ public class OrderService {
             order.setStatus(Order.OrderStatus.PENDING);
 
             Order savedOrder = orderRepository.save(order);
+            
+            // Send email notification to seller
+            try {
+                User seller = door.getSeller();
+                if (seller != null && seller.getEmail() != null) {
+                    emailService.sendOrderNotification(seller.getEmail(), savedOrder, user);
+                    logger.info("🚪 Order notification sent to seller {} for order #{}", 
+                        seller.getEmail(), savedOrder.getId());
+                }
+            } catch (Exception e) {
+                // Log the error but don't fail the order creation
+                logger.error("📫 Failed to send order notification: {}", e.getMessage());
+            }
+
             logger.info("Order created successfully with ID: {}", savedOrder.getId());
             
             return new EntityResponse<>("Order created successfully", true, savedOrder);

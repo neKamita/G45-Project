@@ -9,10 +9,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import uz.pdp.entity.Door;
+import uz.pdp.entity.User;
 import uz.pdp.enums.Color;
 import uz.pdp.enums.Size;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Repository interface for Door entities.
@@ -106,7 +108,50 @@ public interface DoorRepository extends JpaRepository<Door, Long> {
             Pageable pageable
     );
 
-    List<Door> findByMaterialAndColorAndPriceBetweenAndIdNot(String material, Color color, double v, double v1, Long id, PageRequest of);
-
     List<Door> findByNameContainingIgnoreCaseOrDescriptionContainingIgnoreCase(String searchTerm, String searchTerm1);
+
+    /**
+     * Find all doors of a specific color that are active.
+     * Because every color deserves its moment to shine! 🌈
+     */
+    List<Door> findByColorAndActiveTrue(Color color);
+
+    /**
+     * Find all variants of a door model with different colors.
+     * It's like finding all the siblings in a door family! 🚪👨‍👩‍👧‍👦
+     */
+    List<Door> findByNameAndManufacturerAndSizeAndMaterialAndActiveTrue(
+        String name,
+        String manufacturer,
+        Size size,
+        String material
+    );
+
+    /**
+     * Find all color variants of an exact door model from the same seller.
+     * Like a door's identical siblings - same everything, just different colors! 🚪🎨
+     */
+    List<Door> findByNameAndManufacturerAndSizeAndMaterialAndSellerAndCustomWidthAndCustomHeightAndActiveTrueAndIdNot(
+        String name,
+        String manufacturer,
+        Size size,
+        String material,
+        User seller,
+        Double customWidth,
+        Double customHeight,
+        Long excludeDoorId
+    );
+
+    /**
+     * Find all variants of a door model by base model ID.
+     * Returns both the base model and all its color variants.
+     */
+    List<Door> findByBaseModelIdOrId(Long baseModelId, Long id);
+
+    /**
+     * Find a specific color variant of a door model.
+     */
+    Optional<Door> findByBaseModelIdAndColor(Long baseModelId, Color color);
+
+    List<Door> findByMaterialAndColorAndPriceBetweenAndIdNot(String material, Color color, double v, double v1, Long id, PageRequest of);
 }

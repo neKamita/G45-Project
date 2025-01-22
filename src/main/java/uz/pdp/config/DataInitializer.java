@@ -141,95 +141,165 @@ public class DataInitializer implements CommandLineRunner {
     private void initializeSampleDoors(User seller) {
         List<Door> sampleDoors = new ArrayList<>();
         
-        // Generate at least 20 sample doors
-        int doorCount = faker.number().numberBetween(20, 26); // 20-25 doors
+        // Generate base door models
+        int doorCount = faker.number().numberBetween(10, 16); // Reduced count since we'll add variants
         
         for (int i = 0; i < doorCount; i++) {
-            Door door = new Door();
+            Door door = createBaseDoor(seller);
+            door.setIsBaseModel(true); // Mark as base model
+            generateDoorImages(door); // Use our image generator
+            door = doorRepository.save(door);
             
-            // Generate a fancy door name with style and material
-            String style = DOOR_STYLES[faker.number().numberBetween(0, DOOR_STYLES.length)];
-            String material = DOOR_MATERIALS[faker.number().numberBetween(0, DOOR_MATERIALS.length)];
-            String adjective = faker.commerce().productName().split(" ")[0]; // Get first word as adjective
+            // Create 2-4 color variants for each base door
+            int variantCount = faker.number().numberBetween(2, 5);
+            Set<Color> usedColors = new HashSet<>();
+            usedColors.add(door.getColor()); // Add base door color
+            door.getAvailableColors().add(door.getColor());
             
-            // 33% chance to add a special prefix
-            String prefix = faker.number().numberBetween(0, 3) == 0 ? 
-                          faker.commerce().material() + "-Infused " : "";
-            
-            door.setName(prefix + style + " " + adjective + " " + material + " Door");
-            
-            // Add a witty description
-            door.setDescription(generateDoorDescription(material, style));
-            
-            // Set random size (75% standard, 25% custom)
-            if (faker.number().numberBetween(1, 100) <= 75) {
-                door.setSize(Size.values()[faker.number().numberBetween(0, Size.values().length - 1)]); // Excluding CUSTOM
-            } else {
-                door.setSize(Size.CUSTOM);
-                door.setCustomWidth(faker.number().numberBetween(60, 120) * 1.0);
-                door.setCustomHeight(faker.number().numberBetween(180, 240) * 1.0);
+            for (int j = 0; j < variantCount; j++) {
+                // Pick a random color that hasn't been used for this door
+                Color variantColor;
+                do {
+                    variantColor = Color.values()[faker.number().numberBetween(0, Color.values().length)];
+                } while (usedColors.contains(variantColor));
+                
+                usedColors.add(variantColor);
+                
+                Door variant = new Door();
+                copyDoorProperties(door, variant);
+                variant.setColor(variantColor);
+                variant.setBaseModelId(door.getId());
+                variant.setIsBaseModel(false);
+                generateDoorImages(variant); // Generate new images for variant
+                variant = doorRepository.save(variant);
+                
+                // Update available colors on base model
+                door.getAvailableColors().add(variantColor);
             }
             
-            // Set random color (85% standard, 15% custom)
-            door.setColor(Color.values()[faker.number().numberBetween(0, Color.values().length)]);
-            door.setIsCustomColor(faker.number().numberBetween(1, 100) <= 15);
+            // Save base door with updated available colors
+            doorRepository.save(door);
             
-            // Set door location (where the door will be used)
-            door.setDoorLocation(DoorLocation.values()[faker.number().numberBetween(0, DoorLocation.values().length)]);
-            
-            // Set frame type
-            door.setFrameType(FrameType.values()[faker.number().numberBetween(0, FrameType.values().length)]);
-            
-            // Set hardware type
-            door.setHardware(HardwareType.values()[faker.number().numberBetween(0, HardwareType.values().length)]);
-            
-            door.setMaterial(material);
-            door.setManufacturer(MANUFACTURERS[faker.number().numberBetween(0, MANUFACTURERS.length)]);
-            
-            // Premium materials get longer warranty
-            int baseWarranty = material.contains("Steel") || 
-                             Arrays.asList("Mahogany", "Teak", "Metal-Wood Hybrid")
-                                   .contains(material) ? 5 : 2;
-            door.setWarrantyYears(baseWarranty + faker.number().numberBetween(0, 6));
-            
-            // Price based on material quality and style
-            double basePrice = faker.number().numberBetween(20000, 100000) / 100.0;
-            // Premium materials cost more
-            if (material.contains("Steel") || 
-                Arrays.asList("Mahogany", "Teak", "Metal-Wood Hybrid", "Tempered Glass")
-                      .contains(material)) {
-                basePrice *= 1.5;
+            // Add custom color variant for 30% of doors
+            if (faker.number().numberBetween(1, 100) <= 30) {
+                Door customVariant = new Door();
+                copyDoorProperties(door, customVariant);
+                customVariant.setCustomColorCode(generateRandomHexColor());
+                customVariant.setIsCustomColor(true);
+                customVariant.setBaseModelId(door.getId());
+                customVariant.setIsBaseModel(false);
+                generateDoorImages(customVariant); // Generate new images for custom variant
+                doorRepository.save(customVariant);
             }
-            // Premium styles cost more
-            if (Arrays.asList("Art Deco", "Victorian", "Japanese", "Gothic")
-                      .contains(style)) {
-                basePrice *= 1.3;
-            }
-            door.setPrice(basePrice);
-            
-            generateDoorImages(door);
-            
-            door.setStatus(DoorStatus.AVAILABLE);
-            door.setSeller(seller);
-            door.setActive(true);
             
             sampleDoors.add(door);
         }
         
-        // Save all our magnificent doors
-        doorRepository.saveAll(sampleDoors);
-        
         // Celebrate the door creation!
         System.out.println("🚪 Welcome to the Door Paradise!");
-        System.out.println("✨ " + sampleDoors.size() + " magnificent doors have been crafted!");
+        System.out.println("✨ Created " + sampleDoors.size() + " base door models with their color variants!");
         System.out.println("\n🎨 Door Showcase:");
-        sampleDoors.forEach(door -> 
-            System.out.printf("   • %s - $%.2f (by %s, %d year warranty)%n", 
+        sampleDoors.forEach(door -> {
+            int variantCount = door.getAvailableColors().size();
+            System.out.printf("   • %s - $%.2f (%d color variants)%n", 
                 door.getName(), 
                 door.getFinalPrice(),
-                door.getManufacturer(),
-                door.getWarrantyYears())
-        );
+                variantCount);
+        });
+    }
+    
+    /**
+     * Creates a base door with random properties.
+     * Every door needs a good foundation! 🏗️
+     */
+    private Door createBaseDoor(User seller) {
+        Door door = new Door();
+        
+        // Generate a fancy door name with style and material
+        String style = DOOR_STYLES[faker.number().numberBetween(0, DOOR_STYLES.length)];
+        String material = DOOR_MATERIALS[faker.number().numberBetween(0, DOOR_MATERIALS.length)];
+        String adjective = faker.commerce().productName().split(" ")[0];
+        
+        String prefix = faker.number().numberBetween(0, 3) == 0 ? 
+                      faker.commerce().material() + "-Infused " : "";
+        
+        door.setName(prefix + style + " " + adjective + " " + material + " Door");
+        door.setDescription(generateDoorDescription(material, style));
+        
+        // Set random size (75% standard, 25% custom)
+        if (faker.number().numberBetween(1, 100) <= 75) {
+            door.setSize(Size.values()[faker.number().numberBetween(0, Size.values().length - 1)]);
+        } else {
+            door.setSize(Size.CUSTOM);
+            door.setCustomWidth(faker.number().numberBetween(60, 120) * 1.0);
+            door.setCustomHeight(faker.number().numberBetween(180, 240) * 1.0);
+        }
+        
+        door.setColor(Color.values()[faker.number().numberBetween(0, Color.values().length)]);
+        door.setDoorLocation(DoorLocation.values()[faker.number().numberBetween(0, DoorLocation.values().length)]);
+        door.setFrameType(FrameType.values()[faker.number().numberBetween(0, FrameType.values().length)]);
+        door.setHardware(HardwareType.values()[faker.number().numberBetween(0, HardwareType.values().length)]);
+        
+        door.setMaterial(material);
+        door.setManufacturer(MANUFACTURERS[faker.number().numberBetween(0, MANUFACTURERS.length)]);
+        
+        int baseWarranty = material.contains("Steel") || 
+                         Arrays.asList("Mahogany", "Teak", "Metal-Wood Hybrid")
+                               .contains(material) ? 5 : 2;
+        door.setWarrantyYears(baseWarranty + faker.number().numberBetween(0, 6));
+        
+        double basePrice = faker.number().numberBetween(20000, 100000) / 100.0;
+        if (material.contains("Steel") || 
+            Arrays.asList("Mahogany", "Teak", "Metal-Wood Hybrid", "Tempered Glass")
+                  .contains(material)) {
+            basePrice *= 1.5;
+        }
+        if (style.equals("Vintage") || style.equals("Art Deco")) {
+            basePrice *= 1.3;
+        }
+        
+        door.setPrice(basePrice);
+        door.setFinalPrice(basePrice); // Will be calculated by entity
+        door.setSeller(seller);
+        door.setStatus(DoorStatus.AVAILABLE);
+        door.setActive(true);
+        
+        return door;
+    }
+    
+    /**
+     * Copies door properties from source to target.
+     * Like a door's identical twin, but with its own personality! 👯‍♂️
+     */
+    private void copyDoorProperties(Door source, Door target) {
+        target.setName(source.getName());
+        target.setDescription(source.getDescription());
+        target.setSize(source.getSize());
+        target.setCustomWidth(source.getCustomWidth());
+        target.setCustomHeight(source.getCustomHeight());
+        target.setDoorLocation(source.getDoorLocation());
+        target.setFrameType(source.getFrameType());
+        target.setHardware(source.getHardware());
+        target.setMaterial(source.getMaterial());
+        target.setManufacturer(source.getManufacturer());
+        target.setWarrantyYears(source.getWarrantyYears());
+        target.setPrice(source.getPrice());
+        target.setFinalPrice(source.getFinalPrice());
+        target.setSeller(source.getSeller());
+        target.setStatus(source.getStatus());
+        target.setActive(source.isActive());
+        
+        // Create new list for images
+        List<String> images = new ArrayList<>(source.getImages());
+        target.setImages(images);
+    }
+    
+    /**
+     * Generates a random hex color code.
+     * For when standard colors just won't cut it! 🎨
+     */
+    private String generateRandomHexColor() {
+        return String.format("#%06x", faker.number().numberBetween(0, 0x1000000));
     }
 
     private void generateDoorImages(Door door) {
