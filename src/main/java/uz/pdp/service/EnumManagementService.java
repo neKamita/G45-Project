@@ -16,6 +16,7 @@ import uz.pdp.repository.UserRepository;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -113,9 +114,19 @@ public class EnumManagementService {
                         .map(HardwareType::getDisplayName)
                         .collect(Collectors.toList()));
                 break;
+            case "Color":
+                allValues.addAll(Arrays.stream(Color.values())
+                        .map(Enum::name)
+                        .collect(Collectors.toList()));
+                break;
+            case "Size":
+                allValues.addAll(Arrays.stream(Size.values())
+                        .map(size -> String.format("%dx%d", size.getWidth(), size.getHeight()))
+                        .collect(Collectors.toList()));
+                break;
             default:
                 throw new IllegalArgumentException(
-                    "Invalid enum type! Available types: DoorMaterial, DoorStyle, DoorManufacturer, HardwareType"
+                    "Invalid enum type! Available types: DoorMaterial, DoorStyle, DoorManufacturer, HardwareType, Color, Size"
                 );
         }
         
@@ -139,10 +150,10 @@ public class EnumManagementService {
     }
 
     private void validateEnumType(String enumType) {
-        if (!Arrays.asList("DoorMaterial", "DoorStyle", "DoorManufacturer", "HardwareType")
+        if (!Arrays.asList("DoorMaterial", "DoorStyle", "DoorManufacturer", "HardwareType", "Color", "Size")
                 .contains(enumType)) {
             throw new IllegalArgumentException(
-                "Invalid enum type! Available types: DoorMaterial, DoorStyle, DoorManufacturer, HardwareType"
+                "Invalid enum type! Available types: DoorMaterial, DoorStyle, DoorManufacturer, HardwareType, Color, Size"
             );
         }
     }
@@ -161,23 +172,29 @@ public class EnumManagementService {
      * @return Map of enum types to their example values
      */
     public Map<String, List<String>> getEnumExamples() {
-        return Map.of(
-            "DoorMaterial", List.of(
-                "Solid Oak", "Mahogany", "Walnut", "Pine", 
-                "Cherry Wood", "Bamboo", "Carbon Fiber", "Steel"
-            ),
-            "DoorStyle", List.of(
-                "Modern", "Victorian", "Rustic", "Contemporary",
-                "Art Deco", "Minimalist", "Craftsman", "Colonial"
-            ),
-            "DoorManufacturer", List.of(
-                "DoorMaster Pro", "Portal Paradise", "Elite Entries",
-                "Craftsman's Choice", "Modern Portals", "Heritage Doors"
-            ),
-            "HardwareType", List.of(
-                "Pivot", "Sliding", "Pocket", "Barn",
-                "French", "Bi-fold", "Dutch", "Smart Lock"
-            )
-        );
+        Map<String, List<String>> examples = new HashMap<>();
+        examples.put("DoorMaterial", List.of(
+            "Solid Oak", "Mahogany", "Walnut", "Pine", 
+            "Cherry Wood", "Bamboo", "Carbon Fiber", "Steel"
+        ));
+        examples.put("DoorStyle", List.of(
+            "Modern", "Victorian", "Rustic", "Contemporary",
+            "Art Deco", "Minimalist", "Craftsman", "Colonial"
+        ));
+        examples.put("DoorManufacturer", List.of(
+            "DoorMaster Pro", "Portal Paradise", "Elite Entries",
+            "Craftsman's Choice", "Modern Portals", "Heritage Doors"
+        ));
+        examples.put("HardwareType", List.of(
+            "Pivot", "Sliding", "Pocket", "Barn",
+            "French", "Bi-fold", "Dutch", "Smart Lock"
+        ));
+        examples.put("Color", List.of(
+            "WHITE", "BROWN", "BLACK", "CUSTOM"
+        ));
+        examples.put("Size", List.of(
+            "800x2000", "900x2000", "1000x2000", "CUSTOM"
+        ));
+        return examples;
     }
 }

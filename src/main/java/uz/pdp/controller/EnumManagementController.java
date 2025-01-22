@@ -27,6 +27,8 @@ import java.util.Map;
  * - Door Styles 🎨 (e.g., "Modern", "Victorian")
  * - Manufacturers 🏭 (e.g., "DoorMaster Pro", "Portal Paradise")
  * - Hardware Types 🔧 (e.g., "Pivot", "Sliding")
+ * - Colors 🎨 (e.g., "White", "Brown", "Custom")
+ * - Sizes 📏 (e.g., "800x2000", "Custom")
  * 
  * Note: All operations are tied to the authenticated user. No need to specify
  * the creator - we know who you are! 🕵️‍♂️
@@ -89,7 +91,7 @@ public class EnumManagementController {
     })
     public ResponseEntity<EntityResponse<List<String>>> getAllEnumValues(
             @Parameter(description = "Type of enum to retrieve", required = true, 
-                      schema = @Schema(allowableValues = {"DoorMaterial", "DoorStyle", "DoorManufacturer", "HardwareType"},
+                      schema = @Schema(allowableValues = {"DoorMaterial", "DoorStyle", "DoorManufacturer", "HardwareType", "Color", "Size"},
                                     example = "DoorMaterial"))
             @PathVariable String enumType) {
         try {
@@ -100,7 +102,7 @@ public class EnumManagementController {
             ));
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(EntityResponse.error(
-                "Invalid enum type! 🤔 Available types are: DoorMaterial, DoorStyle, DoorManufacturer, HardwareType. " +
+                "Invalid enum type! 🤔 Available types are: DoorMaterial, DoorStyle, DoorManufacturer, HardwareType, Color, Size. " +
                 "Example: GET /api/v1/enums/DoorMaterial",
                 null
             ));

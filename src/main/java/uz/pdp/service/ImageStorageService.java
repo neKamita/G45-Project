@@ -113,7 +113,7 @@ public class ImageStorageService {
         if (file.getSize() > MAX_FILE_SIZE) {
             logger.error("File size exceeds limit: {} bytes", file.getSize());
             throw new IllegalArgumentException(
-                    "Whoa there! That file is too thicc (over 5MB)! Put it on a diet first! 🏋️‍♂️");
+                    "Whoa there! That file is too thick (over 5MB)! Put it on a diet first! 🏋️‍♂️");
         }
 
         String contentType = file.getContentType();
@@ -167,7 +167,7 @@ public class ImageStorageService {
         if (originalFilename != null && originalFilename.contains(".")) {
             extension = originalFilename.substring(originalFilename.lastIndexOf("."));
         }
-        return UUID.randomUUID().toString() + extension;
+        return UUID.randomUUID() + extension;
     }
 
     /**
