@@ -1,6 +1,8 @@
 package uz.pdp.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import uz.pdp.entity.FurnitureDoor;
 import uz.pdp.exception.GlobalExceptionHandler.FurnitureDoorNotFoundException;
@@ -28,8 +30,22 @@ public class FurnitureDoorService {
     }
 
     /**
-     * Gets all furniture doors.
+     * Gets all furniture doors with pagination.
+     * Opening doors in an orderly fashion! 🚪✨
+     * Like a well-organized door parade, one page at a time!
+     * 
+     * @param page Page number (0-based)
+     * @param size Number of items per page
+     * @return Page of furniture doors
+     */
+    public Page<FurnitureDoor> getAll(int page, int size) {
+        return furnitureDoorRepository.findAll(PageRequest.of(page, size));
+    }
+
+    /**
+     * Gets all furniture doors without pagination.
      * Opening all the doors at once! 🚪🚪🚪
+     * Warning: Use with caution, may return a lot of doors!
      */
     public List<FurnitureDoor> getAll() {
         return furnitureDoorRepository.findAll();

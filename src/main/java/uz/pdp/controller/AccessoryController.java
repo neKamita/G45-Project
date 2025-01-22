@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -144,7 +145,8 @@ public class AccessoryController {
                     imageStorageService.deleteImage(oldImageUrl);
                 }
             } catch (Exception e) {
-                // logger.warn("Failed to delete old images: {}", e.getMessage());
+                logger.warn("Failed to delete old images: {}", e.getMessage());
+                throw new RuntimeException("Failed to delete old images", e);
             }
         }
 
@@ -175,25 +177,29 @@ public class AccessoryController {
     }
 
     /**
-     * Retrieves all furniture doors from the database.
+     * Retrieves all furniture doors from the database with pagination.
      * 
-     * @return Response containing list of all available doors
+     * @param page Page number to retrieve (0-based)
+     * @param size Number of items per page
+     * @return Response containing paginated list of available doors
      * 
      *         Open the gates, let them all out!
      *         Warning: May return more doors than your house has walls
      */
-    @Operation(summary = "Get all furniture doors", description = "Retrieves a list of all available furniture doors")
+    @Operation(summary = "Get all furniture doors", description = "Retrieves a paginated list of all available furniture doors")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Successfully retrieved the list"),
             @ApiResponse(responseCode = "500", description = "Internal server error")
     })
     @GetMapping("/door-accessories")
-    public ResponseEntity<EntityResponse<List<FurnitureDoorResponseDTO>>> getAll() {
-        List<FurnitureDoorResponseDTO> doors = furnitureDoorService.getAll()
-                .stream()
-                .map(furnitureDoorMapper::toDto)
-                .collect(Collectors.toList());
-        return ResponseEntity.ok(EntityResponse.success("Found " + doors.size() + " door accessories! ", doors));
+    public ResponseEntity<EntityResponse<Page<FurnitureDoorResponseDTO>>> getAll(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "20") int size) {
+        Page<FurnitureDoorResponseDTO> doors = furnitureDoorService.getAll(page, size)
+                .map(furnitureDoorMapper::toDto);
+        return ResponseEntity.ok(EntityResponse.success(
+                String.format("Found %d door accessories on page %d! ", doors.getNumberOfElements(), page + 1), 
+                doors));
     }
 
     /**
