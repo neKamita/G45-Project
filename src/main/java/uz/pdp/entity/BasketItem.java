@@ -26,7 +26,7 @@ public class BasketItem {
     private Long id;
 
     @Version
-    @Column(columnDefinition = "integer DEFAULT 0", nullable = false)
+    @Column(nullable = false)
     private Long version = 0L;
     
     @JsonBackReference
