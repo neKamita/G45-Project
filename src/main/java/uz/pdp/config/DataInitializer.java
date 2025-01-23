@@ -12,6 +12,8 @@ import uz.pdp.repository.DoorRepository;
 import uz.pdp.repository.FurnitureDoorRepository;
 import uz.pdp.repository.UserRepository;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.*;
 
 /**
@@ -248,18 +250,24 @@ public class DataInitializer implements CommandLineRunner {
                                .contains(material) ? 5 : 2;
         door.setWarrantyYears(baseWarranty + faker.number().numberBetween(0, 6));
         
-        double basePrice = faker.number().numberBetween(20000, 100000) / 100.0;
+        // Price calculation with BigDecimal for precision
+        BigDecimal basePrice = BigDecimal.valueOf(faker.number().numberBetween(20000, 100000))
+                .divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP);
+                
         if (material.contains("Steel") || 
             Arrays.asList("Mahogany", "Teak", "Metal-Wood Hybrid", "Tempered Glass")
                   .contains(material)) {
-            basePrice *= 1.5;
+            basePrice = basePrice.multiply(BigDecimal.valueOf(1.5));
         }
         if (style.equals("Vintage") || style.equals("Art Deco")) {
-            basePrice *= 1.3;
+            basePrice = basePrice.multiply(BigDecimal.valueOf(1.3));
         }
         
-        door.setPrice(basePrice);
-        door.setFinalPrice(basePrice); // Will be calculated by entity
+        // Round to 2 decimal places
+        basePrice = basePrice.setScale(2, RoundingMode.HALF_UP);
+        
+        door.setPrice(basePrice.doubleValue());
+        door.setFinalPrice(basePrice.doubleValue()); // Will be calculated by entity
         door.setSeller(seller);
         door.setStatus(DoorStatus.AVAILABLE);
         door.setActive(true);
@@ -397,24 +405,28 @@ public class DataInitializer implements CommandLineRunner {
         };
 
         // Generate price based on material and type
-        double basePrice = switch (type) {
-            case HANDLE -> faker.number().numberBetween(2999, 19999) / 100.0;
-            case LOCK -> faker.number().numberBetween(7999, 39999) / 100.0;
-            case HINGES -> faker.number().numberBetween(1999, 5999) / 100.0;
-            case AUTOMATIC_CLOSER -> faker.number().numberBetween(9999, 29999) / 100.0;
-            default -> 0.0;
+        BigDecimal basePrice = switch (type) {
+            case HANDLE -> BigDecimal.valueOf(faker.number().numberBetween(2999, 19999))
+                    .divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP);
+            case LOCK -> BigDecimal.valueOf(faker.number().numberBetween(7999, 39999))
+                    .divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP);
+            case HINGES -> BigDecimal.valueOf(faker.number().numberBetween(1999, 5999))
+                    .divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP);
+            case AUTOMATIC_CLOSER -> BigDecimal.valueOf(faker.number().numberBetween(9999, 29999))
+                    .divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP);
+            default -> BigDecimal.ZERO;
         };
         
         // Add premium for special materials
         if (material.contains("Gold") || material.contains("Titanium")) {
-            basePrice *= 1.5;
+            basePrice = basePrice.multiply(BigDecimal.valueOf(1.5));
         }
 
         FurnitureDoor door = new FurnitureDoor();
         door.setName(prefix + " " + faker.commerce().productName());
         door.setMaterial(material);
         door.setDescription(generateDescription(type, material));
-        door.setPrice(basePrice);
+        door.setPrice(basePrice.doubleValue());
         door.setDimensions(dimensions);
         door.setStockQuantity(faker.number().numberBetween(10, 100));
         door.setFurnitureType(type);

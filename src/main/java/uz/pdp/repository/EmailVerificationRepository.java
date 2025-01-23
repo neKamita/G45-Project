@@ -36,4 +36,6 @@ public interface EmailVerificationRepository extends JpaRepository<EmailVerifica
     @Modifying
     @Query("UPDATE EmailVerification e SET e.verified = true WHERE e.id = :id")
     void markAsVerified(@Param("id") Long id);
+
+    Optional<EmailVerification> findByUserIdAndTypeAndVerifiedTrueAndExpiryTimeAfter(Long userId, VerificationType verificationType, LocalDateTime now);
 } 

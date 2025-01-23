@@ -225,7 +225,8 @@ public class UserService {
 
     /**
      * Verifies seller email with provided verification code.
-     * Implements rate limiting and attempt tracking.
+     * This is step 1 of the seller approval process.
+     * After email verification, an admin must approve the request.
      *
      * @param userId           ID of the user
      * @param verificationCode Code to verify
@@ -266,16 +267,31 @@ public class UserService {
                 throw new BadRequestException("Invalid verification code");
             }
 
+            // Mark email as verified but keep request pending for admin approval
             emailVerification.setVerified(true);
             emailVerificationRepository.save(emailVerification);
 
-            user.setSellerRequestPending(false);
-            user.setRole(Role.SELLER);
-            User savedUser = userRepository.save(user);
+            // Send notification about successful verification and pending admin approval
+            emailService.sendHtmlEmail(
+                user.getEmail(),
+                "Email Verified - Awaiting Admin Approval",
+                String.format(
+                    "<div style='font-family: Arial, sans-serif;'>" +
+                    "<h1>🎉 Email Verification Successful!</h1>" +
+                    "<p>Dear %s,</p>" +
+                    "<p>Great news! Your email has been successfully verified.</p>" +
+                    "<p><strong>What's Next?</strong></p>" +
+                    "<p>Your seller request is now awaiting admin approval. This usually takes 1-2 business days.</p>" +
+                    "<p>We'll notify you as soon as an admin reviews your request.</p>" +
+                    "<p>Best regards,<br>The Door Paradise Team</p>" +
+                    "</div>",
+                    user.getName()
+                )
+            );
 
             clearFailedAttempts(userId);
-            logger.info("Seller email verified for user ID: {}", userId);
-            return EntityResponse.success("Email verified successfully", savedUser);
+            logger.info("Seller email verified for user ID: {}, awaiting admin approval", userId);
+            return EntityResponse.success("Email verified successfully. Your request is now pending admin approval.", user);
         } catch (ResourceNotFoundException | ForbiddenException | BadRequestException e) {
             logger.error("Error verifying seller email - ID {}: {}", userId, e.getMessage());
             throw e;

@@ -3,6 +3,34 @@
 All notable changes to this project will be documented in this file.
 
 <details>
+<summary><strong>Version 1.2.5 (2025-01-22)</strong></summary>
+
+### 🎨 Enhanced
+- Added comprehensive door color system with 25+ realistic options
+- Organized colors into logical categories (classic, wood tones, modern finishes)
+- Added display names for colors to improve UI presentation
+- Enhanced seller notification system with beautiful HTML emails
+
+### 📧 Added
+- Automatic email notifications to sellers for new door orders
+- Detailed HTML email templates with order information
+- Non-blocking email notification system
+- Comprehensive error handling for email failures
+
+### 💻 Technical
+- Integrated order notifications in OrderService
+- Enhanced EmailService with new notification methods
+- Added proper error handling and logging
+- Implemented fail-safe order creation (succeeds even if notification fails)
+
+### 🎯 User Experience
+- More intuitive color selection with organized categories
+- Professional-looking email notifications
+- Better color display names in UI
+- Enhanced seller dashboard notifications
+</details>
+
+<details>
 <summary><strong>Version 1.2.4 (2025-01-21)</strong></summary>
 
 ### 🛠 Enhanced

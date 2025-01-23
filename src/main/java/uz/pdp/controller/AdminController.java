@@ -10,6 +10,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import uz.pdp.entity.User;
+import uz.pdp.enums.*;
+import uz.pdp.exception.BadRequestException;
 import uz.pdp.exception.ResourceNotFoundException;
 import uz.pdp.exception.ForbiddenException;
 import uz.pdp.payload.EntityResponse;
@@ -47,42 +49,52 @@ public class AdminController {
     private AdminService adminService;
 
     /**
-     * Promotes a regular user to the esteemed position of Seller.
+     * Reviews and processes a seller application request.
      * 
-     * Technical details:
-     * - Validates user existence and eligibility
-     * - Updates user role and permissions
-     * - Sends notification emails
-     * - Updates audit logs
+     * Technical Process:
+     * 1. 📧 Verifies email verification is complete
+     * 2. 🔍 Validates user eligibility
+     * 3. 👑 Updates role if approved
+     * 4. 📨 Sends appropriate notification
      * 
-     * Fun fact: 90% of users think "seller" means they can sell anything.
-     * No, you can't sell your neighbor's car, Bob. 🚗
+     * Fun fact: Some users think being a seller means they can sell doors 
+     * made of chocolate. We had to add that to the FAQ. 🍫🚪
      *
-     * @param userId ID of the soon-to-be-promoted user
-     * @return Success message or a list of reasons why they're not worthy
-     * @throws ResourceNotFoundException if the user has ascended to a higher plane of existence
-     * @throws ForbiddenException if they tried to hack their way to seller status
+     * @param userId ID of the aspiring door merchant
+     * @param approved true to approve, false to reject the request
+     * @return Success message or detailed rejection reasons
+     * @throws ResourceNotFoundException if the user has vanished into thin air
+     * @throws BadRequestException if email verification is pending
+     * @throws ForbiddenException if they're trying to sneak through the back door
      */
-    @PostMapping("/approve-seller/{userId}")
-    @Operation(summary = "Approve a seller request")
-    public ResponseEntity<EntityResponse<Void>> approveSeller(@PathVariable Long userId) {
+    @PostMapping("/process-seller/{userId}")
+    @Operation(summary = "Process a seller request (approve/reject)")
+    public ResponseEntity<EntityResponse<Void>> processSellerRequest(
+            @PathVariable Long userId,
+            @RequestParam boolean approved) {
         try {
-            log.info("Processing seller approval request for user ID: {}", userId);
-            EntityResponse<Void> response = adminService.approveSeller(userId);
-            log.info("Successfully approved seller request for user ID: {}", userId);
+            log.info("Processing seller {} request for user ID: {}", 
+                    approved ? "approval" : "rejection", userId);
+            EntityResponse<Void> response = adminService.processSellerRequest(userId, approved);
+            log.info("Successfully processed seller request for user ID: {}", userId);
             return ResponseEntity.ok(response);
         } catch (ResourceNotFoundException e) {
-            log.error("User not found for seller approval - user ID {}: {}", userId, e.getMessage());
+            log.error("User not found for seller request - user ID {}: {}", userId, e.getMessage());
             return ResponseEntity.badRequest().body(
                 EntityResponse.error("User not found: " + e.getMessage())
             );
+        } catch (BadRequestException e) {
+            log.error("Invalid seller request - user ID {}: {}", userId, e.getMessage());
+            return ResponseEntity.badRequest().body(
+                EntityResponse.error(e.getMessage())
+            );
         } catch (ForbiddenException e) {
-            log.error("Forbidden operation for seller approval - user ID {}: {}", userId, e.getMessage());
+            log.error("Forbidden operation for seller request - user ID {}: {}", userId, e.getMessage());
             return ResponseEntity.badRequest().body(
                 EntityResponse.error("Operation not allowed: " + e.getMessage())
             );
         } catch (Exception e) {
-            log.error("Error processing seller approval for user ID {}: {}", userId, e.getMessage());
+            log.error("Error processing seller request for user ID {}: {}", userId, e.getMessage());
             return ResponseEntity.internalServerError().body(
                 EntityResponse.error("Internal server error: " + e.getMessage())
             );
@@ -158,6 +170,58 @@ public class AdminController {
             log.error("Error updating user profile: {}", e.getMessage());
             return ResponseEntity.badRequest()
                     .body(new EntityResponse<>("Failed to update user: " + e.getMessage(), false, null));
+        }
+    }
+
+    /**
+     * Changes a user's role - the ultimate power move! 👑
+     * 
+     * Technical details:
+     * - Validates user existence and role compatibility
+     * - Handles role-specific cleanup (e.g., deactivating seller listings)
+     * - Sends notification emails
+     * - Updates audit logs
+     * 
+     * Fun fact: Some users think being an admin means they can 
+     * make doors appear out of thin air. If only! 🪄🚪
+     *
+     * @param userId ID of the user getting the role makeover
+     * @param newRole The role they're destined to become
+     * @return Success message or a list of why we can't grant their wish
+     * @throws ResourceNotFoundException if the user has ghosted us
+     * @throws ForbiddenException if they're trying something sneaky
+     * @throws BadRequestException if the role change doesn't make sense
+     */
+    @PostMapping("/change-role/{userId}")
+    @Operation(summary = "Change a user's role")
+    public ResponseEntity<EntityResponse<Void>> changeUserRole(
+            @PathVariable Long userId,
+            @RequestParam Role newRole) {
+        try {
+            log.info("Processing role change request for user ID: {} to role: {}", userId, newRole);
+            EntityResponse<Void> response = adminService.changeUserRole(userId, newRole);
+            log.info("Successfully changed role for user ID: {}", userId);
+            return ResponseEntity.ok(response);
+        } catch (ResourceNotFoundException e) {
+            log.error("User not found for role change - user ID {}: {}", userId, e.getMessage());
+            return ResponseEntity.badRequest().body(
+                EntityResponse.error("User not found: " + e.getMessage())
+            );
+        } catch (ForbiddenException e) {
+            log.error("Forbidden operation for role change - user ID {}: {}", userId, e.getMessage());
+            return ResponseEntity.badRequest().body(
+                EntityResponse.error("Operation not allowed: " + e.getMessage())
+            );
+        } catch (BadRequestException e) {
+            log.error("Invalid role change request - user ID {}: {}", userId, e.getMessage());
+            return ResponseEntity.badRequest().body(
+                EntityResponse.error(e.getMessage())
+            );
+        } catch (Exception e) {
+            log.error("Error processing role change for user ID {}: {}", userId, e.getMessage());
+            return ResponseEntity.internalServerError().body(
+                EntityResponse.error("Internal server error: " + e.getMessage())
+            );
         }
     }
 }

@@ -32,4 +32,24 @@ public interface UserRepository extends JpaRepository<User, Long> {
     
     @Query("SELECT u FROM User u WHERE u.sellerRequestPending = true AND u.active = true ORDER BY u.id")
     List<User> findAllPendingSellers();
+
+    /**
+     * Counts the number of active users with a specific role.
+     * Like counting doors, but for users! 
+     *
+     * @param role The role to count
+     * @return Number of users with the specified role
+     */
+    @Query("SELECT COUNT(u) FROM User u WHERE u.role = :role AND u.active = true")
+    long countByRole(@Param("role") Role role);
+
+    /**
+     * Finds a user by their name (which serves as username).
+     * The digital equivalent of calling someone's name! 📢
+     *
+     * @param name The name to search for
+     * @return Optional containing the user if found
+     */
+    @Query("SELECT u FROM User u WHERE u.name = :name AND u.active = true")
+    Optional<User> findByUsername(@Param("name") String name);
 }

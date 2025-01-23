@@ -3,6 +3,8 @@ package uz.pdp.service;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailSendException;
@@ -10,13 +12,15 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import uz.pdp.entity.Door;
+import uz.pdp.entity.Order;
+import uz.pdp.entity.User;
 import uz.pdp.payload.EntityResponse;
 import uz.pdp.enums.VerificationType;
 
+import java.time.format.DateTimeFormatter;
 import java.util.Random;
 import java.util.UUID;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import java.util.regex.Pattern;
 
 /**
@@ -387,27 +391,23 @@ public class EmailService {
             helper.setSubject("🚪 New Door Order #" + order.getId());
             
             StringBuilder itemsHtml = new StringBuilder();
-            double totalAmount = 0;
+            double totalAmount = order.getDoor().getFinalPrice();
             
-            for (OrderItem item : order.getItems()) {
-                Door door = item.getDoor();
-                totalAmount += door.getFinalPrice() * item.getQuantity();
-                
-                itemsHtml.append(String.format(
-                    "<tr>" +
-                    "<td>%s</td>" +
-                    "<td>%s</td>" +
-                    "<td>%d</td>" +
-                    "<td>$%.2f</td>" +
-                    "<td>$%.2f</td>" +
-                    "</tr>",
-                    door.getName(),
-                    door.getColor().getDisplayName(),
-                    item.getQuantity(),
-                    door.getFinalPrice(),
-                    door.getFinalPrice() * item.getQuantity()
-                ));
-            }
+            Door door = order.getDoor();
+            itemsHtml.append(String.format(
+                "<tr>" +
+                "<td>%s</td>" +
+                "<td>%s</td>" +
+                "<td>%d</td>" +
+                "<td>$%.2f</td>" +
+                "<td>$%.2f</td>" +
+                "</tr>",
+                door.getName(),
+                door.getColor().getDisplayName(),
+                1,
+                door.getFinalPrice(),
+                door.getFinalPrice()
+            ));
             
             String emailContent = String.format(
                 "<div style='font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;'>" +
@@ -441,7 +441,7 @@ public class EmailService {
                 "</table>" +
                 "</div>" +
                 "<div style='background-color: #fff3cd; border: 1px solid #ffeeba; padding: 10px; margin: 10px 0; border-radius: 5px;'>" +
-                "<p>⏰ <strong>Deadline:</strong> %s</p>" +
+                "<p>⏰ <strong>Expected Delivery:</strong> %s</p>" +
                 "<p>Please ensure the order is prepared and ready for delivery by this date.</p>" +
                 "</div>" +
                 "<p>You can view the complete order details and manage this order in your seller dashboard.</p>" +
@@ -451,9 +451,9 @@ public class EmailService {
                 "<p>Please do not reply directly to this email. Use your seller dashboard for all order-related communication.</p>" +
                 "</div>" +
                 "</div>",
-                order.getSeller().getName(),
+                door.getSeller().getName(),
                 order.getId(),
-                order.getCreatedAt().format(DateTimeFormatter.ofPattern("MMMM dd, yyyy HH:mm:ss")),
+                order.getOrderDate().format(DateTimeFormatter.ofPattern("MMMM dd, yyyy HH:mm:ss")),
                 totalAmount,
                 buyer.getName(),
                 buyer.getLastname(),
@@ -461,7 +461,9 @@ public class EmailService {
                 buyer.getEmail(),
                 order.getDeliveryAddress(),
                 itemsHtml.toString(),
-                order.getDeadline().format(DateTimeFormatter.ofPattern("MMMM dd, yyyy"))
+                order.getPreferredDeliveryTime() != null 
+                    ? order.getPreferredDeliveryTime().format(DateTimeFormatter.ofPattern("MMMM dd, yyyy"))
+                    : "To be confirmed"
             );
             
             helper.setText(emailContent, true);
