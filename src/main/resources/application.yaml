@@ -52,7 +52,7 @@ spring:
         format_sql: true
         jdbc:
           batch_size: 25
-        order_inserts: true
+        order_inserts: true 
         order_updates: true
         dialect: org.hibernate.dialect.PostgreSQLDialect
 

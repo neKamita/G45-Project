@@ -11,9 +11,9 @@ import uz.pdp.enums.ItemType;
 /**
  * Represents an item in the shopping basket.
  * Can be either a door or an accessory.
- * 
+ *
  * Fun fact: This class doesn't discriminate between doors and accessories
- * It's like a nightclub bouncer - everyone's welcome! 
+ * It's like a nightclub bouncer - everyone's welcome!
  */
 @Entity
 @Getter
@@ -21,6 +21,7 @@ import uz.pdp.enums.ItemType;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BasketItem {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -28,21 +29,21 @@ public class BasketItem {
     @Version
     @Column(nullable = false)
     private Long version = 0L;
-    
+
     @JsonBackReference
     @ManyToOne
     private Basket basket;
 
     // The item can be either a door or an accessory
     private Long itemId;
-    
+
     // Type of item: "DOOR" or "ACCESSORY"
     @Enumerated(EnumType.STRING)
     private ItemType type;
 
     private int quantity;
     private double price; // Store price at time of adding to basket
-    
+
     private String name; // Store item name at time of adding
     private String image; // Store first image URL at time of adding
 }
