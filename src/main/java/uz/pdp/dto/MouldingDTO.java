@@ -9,13 +9,10 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class MouldingDTO {
-
-    @Data
-    @AllArgsConstructor
-    @NoArgsConstructor
-    public class MouldingDTO {
-
         private Long id;
         @NotBlank(message = "Name is required")
         private String name;
@@ -42,7 +39,6 @@ public class MouldingDTO {
                 this.priceOverall = 0.0;
             }
         }
-    }
 }
 
 
