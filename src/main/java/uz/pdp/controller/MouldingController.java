@@ -77,7 +77,7 @@ public class MouldingController {
         return ResponseEntity.noContent().build();
     }
     // Upload an image for a Moulding
-    @PostMapping("/upload-image")
+    @PostMapping("/upload-attachment")
     @PreAuthorize("hasAnyRole('ADMIN', 'SELLER')")
     public ResponseEntity<String> uploadImage(@RequestParam("file") MultipartFile file) {
         try {

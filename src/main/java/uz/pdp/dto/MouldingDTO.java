@@ -8,14 +8,12 @@ import lombok.*;
 
 import java.util.List;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class MouldingDTO {
 
-    @Data
-    @Getter
-    @Setter
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public class MouldingDTO {
+
 
         private Long id;
         @NotBlank(message = "Name is required")
@@ -45,6 +43,6 @@ public class MouldingDTO {
             }
         }
     }
-}
+
 
 
