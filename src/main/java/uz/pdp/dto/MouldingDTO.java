@@ -1,19 +1,20 @@
 package uz.pdp.dto;
 
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
 public class MouldingDTO {
 
     @Data
-    @AllArgsConstructor
+    @Getter
+    @Setter
     @NoArgsConstructor
+    @AllArgsConstructor
     public class MouldingDTO {
 
         private Long id;
@@ -34,6 +35,7 @@ public class MouldingDTO {
         private String title;
         private String description;
         private List<String> imagesUrl;
+
 
         public void calculatePriceOverall() {
             if (price != null && quantity != null) {

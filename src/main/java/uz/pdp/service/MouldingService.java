@@ -3,33 +3,43 @@ package uz.pdp.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import uz.pdp.dto.MouldingDTO;
 import uz.pdp.entity.Moulding;
 import uz.pdp.repository.MouldingRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class MouldingService {
-
     @Autowired
     private MouldingRepository mouldingRepository;
-    public List<Moulding> getAllMouldings() {
-        return mouldingRepository.findAll();
+
+    // Get all Moulding items
+    public List<MouldingDTO> getAllMouldings() {
+        return mouldingRepository.findAll().stream().map(this::convertToDTO).collect(Collectors.toList());
     }
-    public Optional<Moulding> getMouldingById(Long id) {
-        return mouldingRepository.findById(id);
+
+    // Get a specific Moulding by ID
+    public Optional<MouldingDTO> getMouldingById(Long id) {
+        return mouldingRepository.findById(id).map(this::convertToDTO);
     }
-    public Moulding saveMoulding(Moulding moulding) {
+
+    // Save or update a Moulding
+    public MouldingDTO saveMoulding(MouldingDTO mouldingDTO) {
+        Moulding moulding = convertToEntity(mouldingDTO);
         if (moulding.getPrice() != null && moulding.getQuantity() != null) {
             moulding.setPriceOverall(moulding.getPrice() * moulding.getQuantity()); // Calculate total price
         } else {
-            moulding.setPriceOverall(0.0);
+            moulding.setPriceOverall(0.0); // Default value if price or quantity is null
         }
-        return mouldingRepository.save(moulding);
+        return convertToDTO(mouldingRepository.save(moulding));
     }
 
+    // Delete a Moulding by ID
     public void deleteMoulding(Long id) {
         mouldingRepository.deleteById(id);
     }
+
 }
