@@ -26,10 +26,10 @@ import org.slf4j.LoggerFactory;
 public class ImageStorageService {
     private static final Logger logger = LoggerFactory.getLogger(ImageStorageService.class);
     private static final String DOOR_IMAGES_PREFIX = "doors/";
+    private static final String MOULDING_IMAGES_PREFIX = "mouldings/";
     private static final long MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
     private static final String[] ALLOWED_CONTENT_TYPES = {
             "image/jpeg", "image/png", "image/gif"
-
     };
 
     private final AmazonS3 s3Client;
@@ -51,13 +51,30 @@ public class ImageStorageService {
      * @throws IOException              if file processing fails
      */
     public String storeImage(MultipartFile file) throws IOException {
+        return storeImage(file, DOOR_IMAGES_PREFIX);
+    }
+
+    /**
+     * Uploads a moulding image to Amazon S3.
+     * Because mouldings need their own spotlight too! 
+     *
+     * @param file Image file to upload
+     * @return URL of the uploaded image
+     * @throws IllegalArgumentException if file is invalid
+     * @throws IOException              if file processing fails
+     */
+    public String storeMouldingImage(MultipartFile file) throws IOException {
+        return storeImage(file, MOULDING_IMAGES_PREFIX);
+    }
+
+    private String storeImage(MultipartFile file, String prefix) throws IOException {
         validateFile(file);
 
         String filename = generateUniqueFilename(file);
-        String key = DOOR_IMAGES_PREFIX + filename;
+        String key = prefix + filename;
 
         try {
-            logger.info("Uploading door image: {}", filename);
+            logger.info("Uploading image to {}: {}", prefix, filename);
             ObjectMetadata metadata = new ObjectMetadata();
             metadata.setContentType(file.getContentType());
             metadata.setContentLength(file.getSize());
@@ -65,12 +82,90 @@ public class ImageStorageService {
             s3Client.putObject(bucketName, key, file.getInputStream(), metadata);
             String imageUrl = s3Client.getUrl(bucketName, key).toString();
 
-            logger.info("Successfully uploaded door image: {}", filename);
+            logger.info("Successfully uploaded image to {}: {}", prefix, filename);
             return imageUrl;
         } catch (AmazonServiceException e) {
-            logger.error("Failed to upload door image: {}", e.getMessage());
+            logger.error("Failed to upload image to {}: {}", prefix, e.getMessage());
             throw new IOException("Failed to upload image to S3", e);
         }
+    }
+
+    /**
+     * Validates file properties including size and content type.
+     * Because we can't let just any file sneak into our S3 bucket! 
+     * 
+     * Think of this as our bouncer - checking IDs and making sure no troublemakers
+     * get in.
+     * Size matters! We keep things under 5MB because we're not made of money 
+     * 
+     * @param file File to validate - better be an image or it's getting bounced!
+     * @throws IllegalArgumentException if validation fails (sorry, no fake IDs
+     *                                  allowed)
+     */
+    private void validateFile(MultipartFile file) {
+        if (file == null || file.isEmpty()) {
+            logger.error("Empty file provided");
+            throw new IllegalArgumentException("Hey, you can't upload nothing! We need actual pixels here! ");
+        }
+
+        if (file.getSize() > MAX_FILE_SIZE) {
+            logger.error("File size exceeds limit: {} bytes", file.getSize());
+            throw new IllegalArgumentException(
+                    "Whoa there! That file is too thick (over 5MB)! Put it on a diet first! ");
+        }
+
+        String contentType = file.getContentType();
+        if (contentType == null || contentType.equals("application/octet-stream")) {
+            String fileName = file.getOriginalFilename();
+            if (fileName != null) {
+                String extension = fileName.substring(fileName.lastIndexOf(".") + 1).toLowerCase();
+                switch (extension) {
+                    case "jpg":
+                    case "jpeg":
+                        contentType = "image/jpeg";
+                        break;
+                    case "png":
+                        contentType = "image/png";
+                        break;
+                    case "gif":
+                        contentType = "image/gif";
+                        break;
+                    default:
+                        logger.error("Invalid file extension: {}", extension);
+                        throw new IllegalArgumentException(
+                                "Sorry, this file type isn't on the guest list! Only JPG, PNG, and GIF are VIP! ");
+                }
+            }
+        }
+
+        boolean isValidContentType = false;
+        for (String allowedType : ALLOWED_CONTENT_TYPES) {
+            if (allowedType.equals(contentType)) {
+                isValidContentType = true;
+                break;
+            }
+        }
+
+        if (!isValidContentType) {
+            logger.error("Invalid content type: {}", contentType);
+            throw new IllegalArgumentException(
+                    "Nice try, but we only accept real images here! JPG, PNG, or GIF - pick your fighter! ");
+        }
+    }
+
+    /**
+     * Generates a unique filename for the uploaded file.
+     *
+     * @param file Original file
+     * @return Generated unique filename
+     */
+    private String generateUniqueFilename(MultipartFile file) {
+        String originalFilename = file.getOriginalFilename();
+        String extension = "";
+        if (originalFilename != null && originalFilename.contains(".")) {
+            extension = originalFilename.substring(originalFilename.lastIndexOf("."));
+        }
+        return UUID.randomUUID() + extension;
     }
 
     /**
@@ -93,85 +188,8 @@ public class ImageStorageService {
     }
 
     /**
-     * Validates file properties including size and content type.
-     * Because we can't let just any file sneak into our S3 bucket! 🕵️‍♂️
-     * 
-     * Think of this as our bouncer - checking IDs and making sure no troublemakers
-     * get in.
-     * Size matters! We keep things under 5MB because we're not made of money 💰
-     * 
-     * @param file File to validate - better be an image or it's getting bounced!
-     * @throws IllegalArgumentException if validation fails (sorry, no fake IDs
-     *                                  allowed)
-     */
-    private void validateFile(MultipartFile file) {
-        if (file == null || file.isEmpty()) {
-            logger.error("Empty file provided");
-            throw new IllegalArgumentException("Hey, you can't upload nothing! We need actual pixels here! 🖼️");
-        }
-
-        if (file.getSize() > MAX_FILE_SIZE) {
-            logger.error("File size exceeds limit: {} bytes", file.getSize());
-            throw new IllegalArgumentException(
-                    "Whoa there! That file is too thick (over 5MB)! Put it on a diet first! 🏋️‍♂️");
-        }
-
-        String contentType = file.getContentType();
-        if (contentType == null || contentType.equals("application/octet-stream")) {
-            String fileName = file.getOriginalFilename();
-            if (fileName != null) {
-                String extension = fileName.substring(fileName.lastIndexOf(".") + 1).toLowerCase();
-                switch (extension) {
-                    case "jpg":
-                    case "jpeg":
-                        contentType = "image/jpeg";
-                        break;
-                    case "png":
-                        contentType = "image/png";
-                        break;
-                    case "gif":
-                        contentType = "image/gif";
-                        break;
-                    default:
-                        logger.error("Invalid file extension: {}", extension);
-                        throw new IllegalArgumentException(
-                                "Sorry, this file type isn't on the guest list! Only JPG, PNG, and GIF are VIP! 🎭");
-                }
-            }
-        }
-
-        boolean isValidContentType = false;
-        for (String allowedType : ALLOWED_CONTENT_TYPES) {
-            if (allowedType.equals(contentType)) {
-                isValidContentType = true;
-                break;
-            }
-        }
-
-        if (!isValidContentType) {
-            logger.error("Invalid content type: {}", contentType);
-            throw new IllegalArgumentException(
-                    "Nice try, but we only accept real images here! JPG, PNG, or GIF - pick your fighter! 🥊");
-        }
-    }
-
-    /**
-     * Generates a unique filename for the uploaded file.
-     *
-     * @param file Original file
-     * @return Generated unique filename
-     */
-    private String generateUniqueFilename(MultipartFile file) {
-        String originalFilename = file.getOriginalFilename();
-        String extension = "";
-        if (originalFilename != null && originalFilename.contains(".")) {
-            extension = originalFilename.substring(originalFilename.lastIndexOf("."));
-        }
-        return UUID.randomUUID() + extension;
-    }
-
-    /**
      * Extracts the S3 key from a full URL.
+     * Because URLs are like treasure maps - we need to know where X marks the spot! 🗺️
      *
      * @param url Full S3 URL
      * @return Extracted key
@@ -179,14 +197,28 @@ public class ImageStorageService {
      */
     private String extractKeyFromUrl(String url) {
         try {
-            String[] parts = url.split(bucketName + "/");
-            if (parts.length != 2) {
-                throw new IllegalArgumentException("Invalid S3 URL format");
+            if (url == null || url.trim().isEmpty()) {
+                throw new IllegalArgumentException("Empty URL provided");
             }
-            return parts[1];
+
+            // Extract the path after the domain
+            String path;
+            if (url.contains(".amazonaws.com/")) {
+                path = url.split(".amazonaws.com/")[1];
+            } else {
+                throw new IllegalArgumentException("Invalid S3 URL format: missing amazonaws.com domain");
+            }
+
+            // Validate the path contains our expected prefix
+            if (!path.startsWith("mouldings/") && !path.startsWith("doors/")) {
+                throw new IllegalArgumentException("Invalid S3 URL format: must be in mouldings/ or doors/ directory");
+            }
+
+            logger.info("Successfully extracted key from URL: {}", path);
+            return path;
         } catch (Exception e) {
             logger.error("Failed to extract key from URL: {}", url);
-            throw new IllegalArgumentException("Invalid S3 URL", e);
+            throw new IllegalArgumentException("Invalid S3 URL: " + e.getMessage());
         }
     }
 }

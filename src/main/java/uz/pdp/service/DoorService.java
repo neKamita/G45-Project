@@ -411,6 +411,7 @@ public class DoorService {
 
         try {
             for (MultipartFile image : images) {
+                String fileName = "doors/" + image.getOriginalFilename();
                 String imageUrl = imageStorageService.storeImage(image);
                 imageUrls.add(imageUrl);
             }
@@ -418,7 +419,7 @@ public class DoorService {
             return doorRepository.save(door);
         } catch (IOException e) {
             logger.error("Failed to upload images for door {}: {}", id, e.getMessage());
-            throw new BadRequestException("Failed to upload images: ",e.getMessage(), e);
+            throw new BadRequestException("Failed to upload images: " + e.getMessage());
         }
     }
 
@@ -440,7 +441,7 @@ public class DoorService {
             return doorRepository.save(door);
         } catch (Exception e) {
             logger.error("Failed to update status for door {}: {}", id, e.getMessage());
-            throw new BadRequestException("Failed to update door status: ", e.getMessage(), e);
+            throw new BadRequestException("Failed to update door status: " + e.getMessage());
         }
     }
 

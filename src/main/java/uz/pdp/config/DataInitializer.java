@@ -6,10 +6,12 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import uz.pdp.entity.Door;
 import uz.pdp.entity.FurnitureDoor;
+import uz.pdp.entity.Moulding;
 import uz.pdp.entity.User;
 import uz.pdp.enums.*;
 import uz.pdp.repository.DoorRepository;
 import uz.pdp.repository.FurnitureDoorRepository;
+import uz.pdp.repository.MouldingRepository;
 import uz.pdp.repository.UserRepository;
 
 import java.math.BigDecimal;
@@ -35,6 +37,7 @@ public class DataInitializer implements CommandLineRunner {
     private final FurnitureDoorRepository furnitureDoorRepository;
     private final DoorRepository doorRepository;
     private final UserRepository userRepository;
+    private final MouldingRepository mouldingRepository;
     private final Faker faker = new Faker(new Locale("en-US"));
 
     // Our premium materials for fancy doors
@@ -96,9 +99,37 @@ public class DataInitializer implements CommandLineRunner {
         "1541450805268-4822a3a774ca"   // Door accessories
     };
 
+    // Moulding-specific constants
+    private static final String[] MOULDING_MATERIALS = {
+        "MDF", "Pine", "Oak", "Polyurethane", "PVC",
+        "Hardwood", "Softwood", "Composite", "Plastic",
+        "Aluminum", "Foam", "Flexible PVC"
+    };
+
+    private static final String[] MOULDING_STYLES = {
+        "Crown Moulding", "Baseboard", "Chair Rail", "Picture Rail",
+        "Casing", "Panel Moulding", "Cove Moulding", "Dentil",
+        "Egg and Dart", "Rope Moulding", "Bead Moulding"
+    };
+
+    private static final String[] MOULDING_SIZES = {
+        "75*38*2100", "100*25*2400", "150*18*2700",
+        "120*40*3000", "90*30*2400", "60*20*2100",
+        "80*35*2700", "110*45*3000"
+    };
+
+    // Moulding image IDs from Unsplash
+    private static final String[] MOULDING_IMAGE_IDS = {
+        "1600585152220-90363fe7e115",  // Classic crown moulding
+        "1600573472550-8d929c783b6d",  // Modern baseboard
+        "1600571124505-01193eeb16cd",  // Decorative panel moulding
+        "1600585152915-d9d4b702c6bd",  // Elegant chair rail
+        "1600585153490-76fb20a32601"   // Contemporary casing
+    };
+
     @Override
     public void run(String... args) {
-        if (doorRepository.count() == 0 && furnitureDoorRepository.count() == 0) {
+        if (doorRepository.count() == 0 && furnitureDoorRepository.count() == 0 && mouldingRepository.count() == 0) {
             System.out.println("🎭 Welcome to the Door Paradise Initialization!");
             System.out.println("🏗️ Building your door empire...");
             
@@ -111,6 +142,9 @@ public class DataInitializer implements CommandLineRunner {
             
             // Now add some bling - door accessories
             initializeSampleFurnitureDoors();
+
+            // Finally, add the finishing touches - mouldings!
+            initializeSampleMouldings(seller);
             
             System.out.println("🎉 Door Paradise is ready for business!");
             System.out.println("🚪 May your doors be sturdy and your handles shiny!");
@@ -474,5 +508,104 @@ public class DataInitializer implements CommandLineRunner {
         String materialDesc = String.format("Crafted from premium %s for lasting beauty and durability.", material);
         
         return String.format(baseDesc, adj, emoji) + " " + materialDesc;
+    }
+
+    /**
+     * Initializes sample mouldings with various styles and materials.
+     * Because every door needs a beautiful frame! 🖼️
+     *
+     * @param seller The seller who owns these mouldings
+     */
+    private void initializeSampleMouldings(User seller) {
+        System.out.println("🎨 Creating beautiful mouldings...");
+        List<Moulding> mouldings = new ArrayList<>();
+
+        // Create 15-20 sample mouldings
+        int mouldingCount = faker.number().numberBetween(15, 21);
+
+        for (int i = 0; i < mouldingCount; i++) {
+            Moulding moulding = new Moulding();
+            
+            // Set basic properties
+            String style = MOULDING_STYLES[faker.number().numberBetween(0, MOULDING_STYLES.length)];
+            String material = MOULDING_MATERIALS[faker.number().numberBetween(0, MOULDING_MATERIALS.length)];
+            
+            moulding.setTitle(style + " - " + material);
+            moulding.setSize(MOULDING_SIZES[faker.number().numberBetween(0, MOULDING_SIZES.length)]);
+            moulding.setArticle("M-" + String.format("%05d", faker.number().numberBetween(1, 99999)));
+            
+            // Set price between $10 and $200
+            double price = 10 + (faker.number().randomDouble(2, 0, 190));
+            moulding.setPrice(price);
+            
+            // Set quantity between 50 and 500
+            int quantity = faker.number().numberBetween(50, 501);
+            moulding.setQuantity(quantity);
+            
+            // Calculate total price
+            moulding.setPriceOverall(price * quantity);
+            
+            // Set title and description
+            moulding.setTitle(String.format("%s %s Moulding", material, style));
+            moulding.setDescription(generateMouldingDescription(material, style));
+            
+            // Set seller
+            moulding.setUser(seller);
+            
+            // Generate and set image URLs
+            List<String> imageUrls = generateMouldingImages();
+            moulding.setImagesUrl(imageUrls);
+            
+            mouldings.add(moulding);
+        }
+        
+        // Save all mouldings
+        mouldingRepository.saveAll(mouldings);
+        System.out.println("✨ Created " + mouldingCount + " beautiful mouldings!");
+    }
+
+    /**
+     * Generates a creative description for a moulding.
+     * Because every moulding has a story to tell! 📖
+     */
+    private String generateMouldingDescription(String material, String style) {
+        String[] features = {
+            "Adds elegance to any room",
+            "Perfect for traditional and modern spaces",
+            "Easy to install",
+            "Durable and long-lasting",
+            "Excellent paint adhesion",
+            "Resistant to warping",
+            "Moisture-resistant",
+            "Premium finish"
+        };
+
+        String mainDesc = String.format("Exquisite %s %s crafted from premium %s material. ", 
+            style, material, material);
+
+        // Add 2-3 random features
+        Set<String> selectedFeatures = new HashSet<>();
+        int featureCount = faker.number().numberBetween(2, 4);
+        while (selectedFeatures.size() < featureCount) {
+            selectedFeatures.add(features[faker.number().numberBetween(0, features.length)]);
+        }
+
+        return mainDesc + String.join(". ", selectedFeatures) + ".";
+    }
+
+    /**
+     * Generates image URLs for mouldings using Unsplash IDs.
+     * A moulding without pictures is like a door without a handle! 📸
+     */
+    private List<String> generateMouldingImages() {
+        List<String> imageUrls = new ArrayList<>();
+        int imageCount = faker.number().numberBetween(1, 4);
+        
+        for (int i = 0; i < imageCount; i++) {
+            String imageId = MOULDING_IMAGE_IDS[faker.number().numberBetween(0, MOULDING_IMAGE_IDS.length)];
+            imageUrls.add("https://images.unsplash.com/photo-" + imageId);
+        }
+        
+        return imageUrls;
     }
 }

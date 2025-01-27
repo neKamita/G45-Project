@@ -22,7 +22,6 @@ import uz.pdp.repository.UserRepository;
     "uz.pdp.controller.graphql",
     "uz.pdp.service",
     "uz.pdp.config",
-    "uz.pdp.security",
     "uz.pdp.exception",
     "uz.pdp.mapper"  ,
     "uz.pdp"

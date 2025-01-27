@@ -8,8 +8,8 @@ import uz.pdp.entity.BasketItem;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-01-24T22:07:28+0500",
-    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 23.0.1 (Oracle Corporation)"
+    date = "2025-01-27T15:25:29+0500",
+    comments = "version: 1.5.5.Final, compiler: Eclipse JDT (IDE) 3.41.0.z20250115-2156, environment: Java 21.0.5 (Eclipse Adoptium)"
 )
 @Component
 public class BasketItemMapperImpl implements BasketItemMapper {
@@ -25,10 +25,10 @@ public class BasketItemMapperImpl implements BasketItemMapper {
         basketItemDTO.setImageUrl( basketItem.getImage() );
         basketItemDTO.setId( basketItem.getId() );
         basketItemDTO.setItemId( basketItem.getItemId() );
-        basketItemDTO.setType( basketItem.getType() );
-        basketItemDTO.setQuantity( basketItem.getQuantity() );
-        basketItemDTO.setPrice( BigDecimal.valueOf( basketItem.getPrice() ) );
         basketItemDTO.setName( basketItem.getName() );
+        basketItemDTO.setPrice( BigDecimal.valueOf( basketItem.getPrice() ) );
+        basketItemDTO.setQuantity( basketItem.getQuantity() );
+        basketItemDTO.setType( basketItem.getType() );
 
         basketItemDTO.setTotalPrice( calculateTotalPrice(basketItem) );
 
@@ -46,12 +46,12 @@ public class BasketItemMapperImpl implements BasketItemMapper {
         basketItem.setImage( dto.getImageUrl() );
         basketItem.setId( dto.getId() );
         basketItem.setItemId( dto.getItemId() );
-        basketItem.setType( dto.getType() );
-        basketItem.setQuantity( dto.getQuantity() );
+        basketItem.setName( dto.getName() );
         if ( dto.getPrice() != null ) {
             basketItem.setPrice( dto.getPrice().doubleValue() );
         }
-        basketItem.setName( dto.getName() );
+        basketItem.setQuantity( dto.getQuantity() );
+        basketItem.setType( dto.getType() );
 
         return basketItem;
     }
@@ -64,11 +64,11 @@ public class BasketItemMapperImpl implements BasketItemMapper {
 
         entity.setImage( dto.getImageUrl() );
         entity.setItemId( dto.getItemId() );
-        entity.setType( dto.getType() );
-        entity.setQuantity( dto.getQuantity() );
+        entity.setName( dto.getName() );
         if ( dto.getPrice() != null ) {
             entity.setPrice( dto.getPrice().doubleValue() );
         }
-        entity.setName( dto.getName() );
+        entity.setQuantity( dto.getQuantity() );
+        entity.setType( dto.getType() );
     }
 }
