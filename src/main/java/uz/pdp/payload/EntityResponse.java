@@ -6,6 +6,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.jetbrains.annotations.NotNull;
+import org.springframework.http.HttpStatus;
+import uz.pdp.entity.Moulding;
 
 import java.time.Instant;
 
@@ -26,6 +29,7 @@ public class EntityResponse<T> {
         this.success = b;
         this.data = (T) o;
     }
+
 
     public static <T> EntityResponse<T> success(String message) {
         return success(message, null);
@@ -51,5 +55,9 @@ public class EntityResponse<T> {
         response.setData(data);
         response.setTimestamp(Instant.now());
         return response;
+    }
+
+    public static Object success(@NotNull Moulding moulding) {
+        return new EntityResponse<>("Moulding created successfully", true, moulding);
     }
 }

@@ -1,13 +1,17 @@
 package uz.pdp.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import uz.pdp.dto.MouldingDTO;
 import uz.pdp.entity.Moulding;
+import uz.pdp.payload.EntityResponse;
 import uz.pdp.service.MouldingService;
 
 import java.io.IOException;
@@ -17,14 +21,19 @@ import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 
-
+/**
+ * Controller for managing moulding operations.
+ * Handles CRUD operations for mouldings, with role-based access control.
+ */
 @RestController
 @RequestMapping("/api/mouldings")
+@Tag(name = "Moulding Management", description = "APIs for managing mouldings")
 public class MouldingController {
     private static final String UPLOAD_DIR = "uploads/";
 
     @Autowired
     private MouldingService mouldingService;
+
     // Get all Moulding items (Accessible by all users)
     @GetMapping
     @PreAuthorize("hasAnyRole('USER', 'ADMIN', 'SELLER')")
@@ -53,29 +62,10 @@ public class MouldingController {
     public ResponseEntity<MouldingDTO> updateMoulding(@PathVariable Long id, @RequestBody MouldingDTO mouldingDetails) {
         Optional<MouldingDTO> moulding = mouldingService.getMouldingById(id);
         
-        if (moulding.isPresent()) {
-            MouldingDTO updatedMoulding = moulding.get();
-            updatedMoulding.setName(mouldingDetails.getName());
-            updatedMoulding.setSize(mouldingDetails.getSize());
-            updatedMoulding.setArticle(mouldingDetails.getArticle());
-            updatedMoulding.setPrice(mouldingDetails.getPrice());
-            updatedMoulding.setQuantity(mouldingDetails.getQuantity());
-            updatedMoulding.setTitle(mouldingDetails.getTitle());
-            updatedMoulding.setDescription(mouldingDetails.getDescription());
-            updatedMoulding.setImagesUrl(mouldingDetails.getImagesUrl());
-            return ResponseEntity.ok(mouldingService.saveMoulding(updatedMoulding));
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
 
     // Delete a Moulding by ID (Accessible by Admin and Seller)
-    @DeleteMapping("/{id}")
-    @PreAuthorize("hasAnyRole('ADMIN', 'SELLER')")
-    public ResponseEntity<Void> deleteMoulding(@PathVariable Long id) {
-        mouldingService.deleteMoulding(id);
-        return ResponseEntity.noContent().build();
-    }
+
+
     // Upload an image for a Moulding
     @PostMapping("/upload-attachment")
     @PreAuthorize("hasAnyRole('ADMIN', 'SELLER')")
@@ -100,7 +90,4 @@ public class MouldingController {
         }
     }
 }
-
-
-
 
