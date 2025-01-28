@@ -7,6 +7,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import uz.pdp.dto.AddressDTO;
 import uz.pdp.entity.Address;
@@ -41,15 +43,20 @@ public class ContactController {
 
     /**
      * Retrieves all store addresses.
+     * For ADMIN users: Returns all addresses in the system
+     * For other users: Returns only their own addresses
      * Like getting a directory of all the cool doors in town! 🏢
      *
      * @return EntityResponse containing a list of addresses
      */
     @GetMapping("/addresses")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER','SELLER')")
     @Operation(summary = "Get all store addresses")
     public EntityResponse<List<Address>> getAllAddresses() {
-        logger.info("Fetching all store addresses");
-        return addressService.getAllAddressesResponse();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String username = authentication.getName();
+        logger.info("Fetching store addresses for user: {}", username);
+        return addressService.getAllAddressesResponse(username);
     }
 
     /**

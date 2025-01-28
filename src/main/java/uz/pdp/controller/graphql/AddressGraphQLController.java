@@ -6,6 +6,8 @@ import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import uz.pdp.dto.AddressDTO;
 import uz.pdp.entity.Address;
@@ -35,13 +37,17 @@ public class AddressGraphQLController {
     /**
      * Gets all addresses.
      * Like a phone book, but for doors! 📚
+     * For ADMIN users: Returns all addresses in the system
+     * For other users: Returns only their own addresses
      */
     @QueryMapping
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     public EntityResponse<List<Address>> getAllAddresses() {
         try {
-            logger.info("GraphQL query: Retrieving all addresses");
-            return addressService.getAllAddressesResponse();
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String username = authentication.getName();
+            logger.info("GraphQL query: Retrieving addresses for user: {}", username);
+            return addressService.getAllAddressesResponse(username);
         } catch (Exception e) {
             logger.error("Error retrieving addresses via GraphQL: {}", e.getMessage());
             return EntityResponse.error("Failed to retrieve addresses: " + e.getMessage(), null);

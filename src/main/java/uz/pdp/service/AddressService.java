@@ -139,23 +139,36 @@ public class AddressService {
     }
 
     /**
-     * Retrieves all addresses for the current user.
+     * Retrieves all addresses based on user role.
+     * ADMIN users see all addresses, regular users see only their own.
      *
      * @return EntityResponse with list of addresses
      */
     @Transactional
-    @Cacheable(value = ADDRESSES_CACHE, key = "'all'", condition = "@securityService.isAuthenticated()")
-    public EntityResponse<List<Address>> getAllAddressesResponse() {
+    @Cacheable(value = ADDRESSES_CACHE, key = "'all_' + #username", condition = "@securityService.isAuthenticated()")
+    public EntityResponse<List<Address>> getAllAddressesResponse(String username) {
         if (!securityService.isAuthenticated()) {
             logger.error("Unauthorized access attempt to get all addresses");
             return EntityResponse.error("Please log in to view addresses", null);
         }
 
         try {
-            List<Address> addresses = getAllAddresses();
+            User currentUser = userService.getCurrentUser();
+            List<Address> addresses;
+
+            if (currentUser.getRole() == Role.ADMIN) {
+                // Admin can see all addresses
+                addresses = addressRepository.findAll();
+                logger.info("Admin user retrieved all {} addresses", addresses.size());
+            } else {
+                // Regular users can only see their own addresses
+                addresses = addressRepository.findByUserId(currentUser.getId());
+                logger.info("User {} retrieved their {} addresses", username, addresses.size());
+            }
+
             return EntityResponse.success("Addresses retrieved successfully", addresses);
         } catch (Exception e) {
-            logger.error("Error retrieving all addresses: {}", e.getMessage());
+            logger.error("Error retrieving addresses for user {}: {}", username, e.getMessage());
             return EntityResponse.error("Failed to retrieve addresses: " + e.getMessage(), null);
         }
     }
@@ -439,18 +452,14 @@ public class AddressService {
         try {
             logger.info("Retrieving address with ID: {}", id);
             User currentUser = userService.getCurrentUser();
-            Address address;
             
             if (currentUser.getRole() == Role.ADMIN) {
-                address = addressRepository.findById(id)
+                return addressRepository.findById(id)
                     .orElseThrow(() -> new ResourceNotFoundException("Address not found"));
             } else {
-                address = addressRepository.findByIdAndUserId(id, currentUser.getId())
+                return addressRepository.findByIdAndUserId(id, currentUser.getId())
                     .orElseThrow(() -> new ResourceNotFoundException("Address not found or access denied"));
             }
-            
-            logger.info("Retrieved address: {}", address.getStreet());
-            return address;
         } catch (ResourceNotFoundException e) {
             logger.error("Address not found - ID {}: {}", id, e.getMessage());
             throw e;
