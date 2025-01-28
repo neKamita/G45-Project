@@ -1,73 +1,66 @@
 package uz.pdp.service;
 
-import java.util.List;
+import java.io.IOException;
 import java.util.ArrayList;
-
-import uz.pdp.enums.Role;
-import uz.pdp.exception.ResourceNotFoundException;
-import uz.pdp.exception.BadRequestException;
-import uz.pdp.exception.ConflictException;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import jakarta.persistence.EntityNotFoundException;
+import lombok.SneakyThrows;
 import uz.pdp.dto.DoorDto;
 import uz.pdp.entity.Door;
 import uz.pdp.entity.User;
-import uz.pdp.enums.Color;
-import uz.pdp.enums.Size;
-import uz.pdp.enums.DoorStatus;
+import uz.pdp.enums.*;
+import uz.pdp.exception.*;
 import uz.pdp.payload.EntityResponse;
 import uz.pdp.repository.DoorHistoryRepository;
 import uz.pdp.repository.DoorRepository;
-import jakarta.persistence.EntityNotFoundException;
-import lombok.SneakyThrows;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.multipart.MultipartFile;
-import java.io.IOException;
-
-import org.springframework.util.CollectionUtils;
-import org.springframework.beans.BeanUtils;
-
-import java.util.Collections;
-import java.util.Set;
 
 /**
  * Service class for managing door operations.
- * Handles door creation, configuration, access control, and image management.
- * Implements security checks and maintains audit logs for door operations.
- * 
- * WARNING: Here be dragons! This service contains the dark magic that makes doors work.
- * If you break this, thousands of doors will stop working and chaos will ensue.
- * Proceed with caution, brave developer!
+ * Now with turbocharged Redis caching! 
+ * Because the only thing faster than our doors is our data access.
  *
  * @version 1.0
  * @since 2025-01-17
  */
 @Service
 public class DoorService {
-    // This logger has seen things you wouldn't believe...
     private static final Logger logger = LoggerFactory.getLogger(DoorService.class);
+    private static final String DOORS_CACHE = "doors";
+    private static final String DOOR_CACHE = "door";
+    private static final String DOOR_COLORS_CACHE = "door-colors";
+    private static final String DOOR_VARIANTS_CACHE = "door-variants";
 
-    // The keeper of all doors. Handle with care or doors might escape!
-    @Autowired
-    private DoorRepository doorRepository;
-    
-    @Autowired
-    private UserService userService;
+    private final DoorRepository doorRepository;
+    private final UserService userService;
+    private final ImageStorageService imageStorageService;
+    private final DoorHistoryRepository doorHistoryRepository;
 
     @Autowired
-    private ImageStorageService imageStorageService;
-
-    @Autowired
-    private DoorHistoryRepository doorHistoryRepository;
+    public DoorService(DoorRepository doorRepository, UserService userService, ImageStorageService imageStorageService,
+                       DoorHistoryRepository doorHistoryRepository) {
+        this.doorRepository = doorRepository;
+        this.userService = userService;
+        this.imageStorageService = imageStorageService;
+        this.doorHistoryRepository = doorHistoryRepository;
+    }
 
     /**
      * Retrieves a door by its ID.
@@ -79,6 +72,7 @@ public class DoorService {
      */
     // Open to all users - no @PreAuthorize needed
     @Transactional(readOnly = true)
+    @Cacheable(value = DOOR_CACHE, key = "#id")
     public Door getDoor(Long id) {
         return doorRepository.findById(id)
             .orElseThrow(() -> new ResourceNotFoundException("Door not found with id: " + id));
@@ -92,6 +86,7 @@ public class DoorService {
      */
     // Open to all users - no @PreAuthorize needed
     @Transactional(readOnly = true)
+    @Cacheable(value = DOORS_CACHE, key = "'page:' + #page + ':size:' + #size")
     public Page<Door> getAllDoors(int page, int size) {
         return doorRepository.findAll(PageRequest.of(page, size));
     }
@@ -107,7 +102,7 @@ public class DoorService {
      */
     @Transactional
     @PreAuthorize("hasRole('ADMIN') or hasRole('SELLER')")
-    @CachePut(value = "doors", key = "#result.id")
+    @CacheEvict(value = DOORS_CACHE, allEntries = true)
     public Door createDoor(DoorDto doorDto) {
         if (doorDto == null) {
             throw new BadRequestException("Door data cannot be null");
@@ -154,7 +149,13 @@ public class DoorService {
      */
     @Transactional
     @PreAuthorize("hasRole('ADMIN') or (hasRole('SELLER') and @doorSecurityService.isSeller(#id))")
-    @CachePut(value = "doors", key = "#id")
+    @Caching(put = {
+        @CachePut(value = DOOR_CACHE, key = "#id")
+    }, evict = {
+        @CacheEvict(value = DOORS_CACHE, allEntries = true),
+        @CacheEvict(value = DOOR_COLORS_CACHE, key = "#id"),
+        @CacheEvict(value = DOOR_VARIANTS_CACHE, key = "#id")
+    })
     public Door updateDoor(Long id, DoorDto doorDto) {
         if (doorDto == null) {
             throw new BadRequestException("Door data cannot be null");
@@ -178,7 +179,12 @@ public class DoorService {
      */
     @PreAuthorize("hasRole('ADMIN')")
     @Transactional
-    @CacheEvict(value = "doors", key = "#id")
+    @Caching(evict = {
+        @CacheEvict(value = DOOR_CACHE, key = "#id"),
+        @CacheEvict(value = DOORS_CACHE, allEntries = true),
+        @CacheEvict(value = DOOR_COLORS_CACHE, key = "#id"),
+        @CacheEvict(value = DOOR_VARIANTS_CACHE, key = "#id")
+    })
     public EntityResponse<Void> deleteDoor(Long id) {
         try {
             logger.info("Deleting door with ID: {}", id);
@@ -225,7 +231,7 @@ public class DoorService {
      */
     @Transactional(rollbackFor = Exception.class)
     @PreAuthorize("hasRole('ADMIN') or (hasRole('SELLER') and @doorSecurityService.isSeller(#id))")
-    @CachePut(value = "doors", key = "#id")
+    @CachePut(value = DOOR_CACHE, key = "#id")
     @SneakyThrows
     public Door configureDoor(Long id, Size size, Color color, Double width, Double height) {
         logger.info("Configuring door with ID: {}, size: {}, color: {}, width: {}, height: {}", 
@@ -267,7 +273,7 @@ public class DoorService {
      */
     @Transactional
     @PreAuthorize("hasRole('ADMIN') or (hasRole('SELLER') and @doorSecurityService.isSeller(#id))")
-    @CachePut(value = "doors", key = "#id")
+    @CachePut(value = DOOR_CACHE, key = "#id")
     public Door addImages(Long id, List<MultipartFile> images) {
         Door door = getDoor(id);
         List<String> imageUrls = new ArrayList<>();
@@ -297,7 +303,7 @@ public class DoorService {
      */
     @Transactional
     @PreAuthorize("hasRole('ADMIN') or (hasRole('SELLER') and @doorSecurityService.isSeller(#id))")
-    @CachePut(value = "doors", key = "#id")
+    @CachePut(value = DOOR_CACHE, key = "#id")
     public Door deleteImages(Long id, List<String> imageUrls) {
         Door door = getDoor(id);
         door.getImages().removeAll(imageUrls);
@@ -327,7 +333,7 @@ public class DoorService {
      */
     @Transactional
     @PreAuthorize("hasRole('ADMIN') or (hasRole('SELLER') and @doorSecurityService.isSeller(#id))")
-    @CachePut(value = "doors", key = "#id")
+    @CachePut(value = DOOR_CACHE, key = "#id")
     public Door updateImages(Long id, List<String> deleteUrls, List<MultipartFile> newImages) {
         // First delete old images
         deleteImages(id, deleteUrls);
@@ -348,6 +354,7 @@ public class DoorService {
      */
     @Transactional
     @PreAuthorize("hasRole('ADMIN') or (hasRole('SELLER') and @doorSecurityService.isSeller(#doorId))")
+    @CachePut(value = DOOR_CACHE, key = "#doorId")
     public Door configureDoorDimensions(Long doorId, Double customWidth, Double customHeight) {
         Door door = getDoor(doorId);
         if (door.getSize() == Size.CUSTOM) {
@@ -405,6 +412,7 @@ public class DoorService {
      */
     @Transactional
     @PreAuthorize("hasRole('ADMIN') or (hasRole('SELLER') and @doorSecurityService.isSeller(#id))")
+    @CachePut(value = DOOR_CACHE, key = "#id")
     public Door uploadImages(Long id, List<MultipartFile> images) {
         Door door = getDoor(id);
         List<String> imageUrls = new ArrayList<>();
@@ -434,6 +442,11 @@ public class DoorService {
      */
     @Transactional
     @PreAuthorize("hasRole('ADMIN') or (hasRole('SELLER') and @doorSecurityService.isSeller(#id))")
+    @Caching(put = {
+        @CachePut(value = DOOR_CACHE, key = "#id")
+    }, evict = {
+        @CacheEvict(value = DOORS_CACHE, allEntries = true)
+    })
     public Door updateStatus(Long id, DoorStatus status) {
         try {
             Door door = getDoor(id);
@@ -486,6 +499,7 @@ public class DoorService {
      * @return Door if found
      * @throws ResourceNotFoundException if door not found
      */
+    @Cacheable(value = DOOR_CACHE, key = "#id")
     public Door getDoorById(Long id) {
         try {
             logger.info("Retrieving door with ID: {}", id);
@@ -530,6 +544,7 @@ public class DoorService {
      */
     @PreAuthorize("hasAnyRole('SELLER', 'ADMIN')")
     @Transactional
+    @CacheEvict(value = DOORS_CACHE, allEntries = true)
     public EntityResponse<Door> createDoor(Door door) {
         try {
             logger.info("Creating new door");
@@ -559,6 +574,13 @@ public class DoorService {
      */
     @PreAuthorize("hasAnyRole('SELLER', 'ADMIN')")
     @Transactional
+    @Caching(put = {
+        @CachePut(value = DOOR_CACHE, key = "#id")
+    }, evict = {
+        @CacheEvict(value = DOORS_CACHE, allEntries = true),
+        @CacheEvict(value = DOOR_COLORS_CACHE, key = "#id"),
+        @CacheEvict(value = DOOR_VARIANTS_CACHE, key = "#id")
+    })
     public EntityResponse<Door> updateDoor(Long id, Door updatedDoor) {
         try {
             logger.info("Updating door with ID: {}", id);
@@ -599,6 +621,11 @@ public class DoorService {
      */
     @PreAuthorize("hasAnyRole('SELLER', 'ADMIN')")
     @Transactional
+    @Caching(put = {
+        @CachePut(value = DOOR_CACHE, key = "#doorId")
+    }, evict = {
+        @CacheEvict(value = DOORS_CACHE, allEntries = true)
+    })
     public Door updateDoorStatus(Long doorId, Boolean isAvailable, Boolean isActive) {
         try {
             logger.info("Updating status for door ID: {}", doorId);
@@ -629,12 +656,13 @@ public class DoorService {
 
     /**
      * Finds all doors with a specific color.
-     * Because sometimes you just need to match your door to your mood! 🎨
+     * Because sometimes you just need to match your door to your mood! 
      *
      * @param color The color to filter doors by
      * @return List of doors in that color, or an empty list if no doors are feeling that color today
      */
     @Transactional(readOnly = true)
+    @Cacheable(value = DOOR_COLORS_CACHE, key = "#color")
     public List<Door> getDoorsByColor(Color color) {
         logger.info("Searching for doors with color: {}", color);
         return doorRepository.findByColorAndActiveTrue(color);
@@ -642,12 +670,13 @@ public class DoorService {
 
     /**
      * Gets all color variants of a door, including the base model.
-     * Like a door's extended family reunion! 🚪👨‍👩‍👧‍👦
+     * Like a door's extended family reunion! 
      *
      * @param doorId ID of any variant or base model
      * @return List of all color variants
      */
     @Transactional(readOnly = true)
+    @Cacheable(value = DOOR_VARIANTS_CACHE, key = "#doorId")
     public List<Door> getDoorColorVariants(Long doorId) {
         Door door = getDoor(doorId);
         Long baseModelId = door.getIsBaseModel() ? door.getId() : door.getBaseModelId();
@@ -661,7 +690,7 @@ public class DoorService {
 
     /**
      * Creates a color variant of an existing door.
-     * It's like giving a door a new paint job, but fancier! 🎨
+     * It's like giving a door a new paint job, but fancier! 
      *
      * @param doorId Base door ID to create variant from
      * @param color New color for the variant
@@ -669,6 +698,11 @@ public class DoorService {
      */
     @Transactional
     @PreAuthorize("hasRole('SELLER')")
+    @Caching(evict = {
+        @CacheEvict(value = DOORS_CACHE, allEntries = true),
+        @CacheEvict(value = DOOR_COLORS_CACHE, key = "#doorId"),
+        @CacheEvict(value = DOOR_VARIANTS_CACHE, key = "#doorId")
+    })
     public Door createColorVariant(Long doorId, Color color) {
         Door baseDoor = getDoor(doorId);
         
@@ -697,7 +731,7 @@ public class DoorService {
 
     /**
      * Creates a custom colored variant of a door.
-     * For when standard colors just won't cut it! 🌈
+     * For when standard colors just won't cut it! 
      *
      * @param doorId Base door ID
      * @param colorCode Hex color code (e.g., #FF5733)
@@ -705,6 +739,11 @@ public class DoorService {
      */
     @Transactional
     @PreAuthorize("hasRole('SELLER')")
+    @Caching(evict = {
+        @CacheEvict(value = DOORS_CACHE, allEntries = true),
+        @CacheEvict(value = DOOR_COLORS_CACHE, key = "#doorId"),
+        @CacheEvict(value = DOOR_VARIANTS_CACHE, key = "#doorId")
+    })
     public Door createCustomColorVariant(Long doorId, String colorCode) {
         Door baseDoor = getDoor(doorId);
         Door baseModel = baseDoor.getIsBaseModel() ? baseDoor : getDoor(baseDoor.getBaseModelId());
@@ -721,12 +760,13 @@ public class DoorService {
 
     /**
      * Gets all available colors for a door model.
-     * The door's color palette, if you will! 🎨
+     * The door's color palette, if you will! 
      *
      * @param doorId ID of any variant or base model
      * @return Set of available colors
      */
     @Transactional(readOnly = true)
+    @Cacheable(value = DOOR_COLORS_CACHE, key = "#doorId")
     public Set<Color> getAvailableColors(Long doorId) {
         Door door = getDoor(doorId);
         Long baseModelId = door.getIsBaseModel() ? door.getId() : door.getBaseModelId();
@@ -742,13 +782,14 @@ public class DoorService {
     /**
      * Get available colors for a door model.
      * If you thought choosing a Netflix show was hard, 
-     * wait until you see our color selection! 🎨
+     * wait until you see our color selection! 
      * 
      * @param id Door ID to get colors for
      * @return Set of available colors for the door
      * @throws ResourceNotFoundException if door not found
      */
     @Transactional(readOnly = true)
+    @Cacheable(value = DOOR_COLORS_CACHE, key = "#id")
     public Set<Color> getDoorColors(Long id) {
         Door door = getDoor(id);
         
@@ -759,11 +800,11 @@ public class DoorService {
         
         // If no colors are set, return an empty set
         if (door.getAvailableColors() == null) {
-            logger.warn("Door {} has no available colors set! 🚪 This door is having an identity crisis.", id);
+            logger.warn("Door {} has no available colors set!  This door is having an identity crisis.", id);
             return Collections.emptySet();
         }
         
-        logger.info("Found {} fabulous colors for door {}! 🌈", 
+        logger.info("Found {} fabulous colors for door {}! ", 
             door.getAvailableColors().size(), door.getName());
         return door.getAvailableColors();
     }

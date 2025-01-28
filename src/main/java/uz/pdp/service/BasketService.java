@@ -2,32 +2,42 @@ package uz.pdp.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import uz.pdp.entity.*;
 import uz.pdp.enums.ItemType;
+import uz.pdp.exception.GlobalExceptionHandler.FurnitureDoorNotFoundException;
+import uz.pdp.dto.BasketItemDTO;
 import uz.pdp.repository.BasketItemRepository;
 import uz.pdp.repository.BasketRepository;
 import uz.pdp.repository.UserRepository;
-import uz.pdp.exception.GlobalExceptionHandler.FurnitureDoorNotFoundException;
-import uz.pdp.dto.BasketItemDTO;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
 /**
  * Service for managing shopping basket operations.
- * 
- * Fun fact: This service is like a digital shopping assistant,
- * but it won't judge your door choices! 
+ * Now with turbocharged Redis caching! 🛒✨
+ * Because your shopping cart should move at the speed of light!
+ *
+ * @version 1.0
+ * @since 2025-01-17
  */
 @Service
 @RequiredArgsConstructor
 @Transactional
 @Slf4j
 public class BasketService {
+    private static final String BASKET_CACHE = "basket";
+    private static final String USER_BASKET_CACHE = "user-basket";
+    private static final String BASKET_ITEMS_CACHE = "basket-items";
+
     private final BasketRepository basketRepository;
     private final BasketItemRepository basketItemRepository;
     private final DoorService doorService;
@@ -52,7 +62,9 @@ public class BasketService {
     /**
      * Get the current user's basket.
      * Creates a new basket if one doesn't exist.
+     * Cached per user - because your cart is your castle! 🏰
      */
+    @Cacheable(value = USER_BASKET_CACHE, key = "#root.target.getCurrentUser().id")
     public Basket getBasket() {
         User user = getCurrentUser();
         return basketRepository.findByUserId(user.getId())
@@ -64,21 +76,49 @@ public class BasketService {
     }
 
     /**
-     * Add an item to the basket using DTO.
-     * @param itemDTO The item to add
-     * @return Updated basket
+     * Get a basket by ID.
+     * Cached individually - every basket deserves VIP treatment! 🌟
      */
+    @Cacheable(value = BASKET_CACHE, key = "#id")
+    public Basket getBasketById(Long id) {
+        return basketRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Basket not found with id: " + id));
+    }
+
+    /**
+     * Get basket items.
+     * Cached per basket - because nobody likes a slow cart! 🏃‍♂️
+     */
+    @Cacheable(value = BASKET_ITEMS_CACHE, key = "#basketId")
+    public List<BasketItem> getBasketItems(Long basketId) {
+        Basket basket = getBasketById(basketId);
+        return basket.getItems();
+    }
+
+    /**
+     * Add an item to the basket using DTO.
+     * Updates caches because shopping waits for no one! 🛍️
+     */
+    @Caching(put = {
+        @CachePut(value = BASKET_CACHE, key = "#root.target.getBasket().id"),
+        @CachePut(value = USER_BASKET_CACHE, key = "#root.target.getCurrentUser().id")
+    }, evict = {
+        @CacheEvict(value = BASKET_ITEMS_CACHE, key = "#root.target.getBasket().id")
+    })
     public Basket addItem(BasketItemDTO itemDTO) {
         return addItem(itemDTO.getItemId(), itemDTO.getType(), itemDTO.getQuantity());
     }
 
     /**
      * Add an item to the basket.
-     * @param itemId ID of the item to add
-     * @param type Type of item (DOOR or ACCESSORY)
-     * @param quantity Quantity to add
-     * @return Updated basket
+     * Updates caches because shopping waits for no one! 🛍️
      */
+    @Caching(put = {
+        @CachePut(value = BASKET_CACHE, key = "#root.target.getBasket().id"),
+        @CachePut(value = USER_BASKET_CACHE, key = "#root.target.getCurrentUser().id")
+    }, evict = {
+        @CacheEvict(value = BASKET_ITEMS_CACHE, key = "#root.target.getBasket().id")
+    })
     public Basket addItem(Long itemId, ItemType type, int quantity) {
         Basket basket = getBasket();
         
@@ -136,12 +176,19 @@ public class BasketService {
 
     /**
      * Remove an item from the basket.
+     * Cleans up caches like a neat freak! 🧹
      */
+    @Caching(put = {
+        @CachePut(value = BASKET_CACHE, key = "#root.target.getBasket().id"),
+        @CachePut(value = USER_BASKET_CACHE, key = "#root.target.getCurrentUser().id")
+    }, evict = {
+        @CacheEvict(value = BASKET_ITEMS_CACHE, key = "#root.target.getBasket().id")
+    })
     public void removeBasketItem(Long basketItemId) {
         BasketItem basketItem = basketItemRepository.findById(basketItemId)
                 .orElseThrow(() -> new IllegalArgumentException("Basket item not found: " + basketItemId));
         
-        if (!Objects.equals(basketItem.getBasket().getId(), getCurrentUserBasket().getId())) {
+        if (!Objects.equals(basketItem.getBasket().getId(), getBasket().getId())) {
             throw new IllegalStateException("Cannot remove item from another user's basket");
         }
 
@@ -151,8 +198,14 @@ public class BasketService {
 
     /**
      * Update the quantity of an item in the basket.
+     * Updates caches faster than you can say "checkout"! 💨
      */
-    @Transactional
+    @Caching(put = {
+        @CachePut(value = BASKET_CACHE, key = "#root.target.getBasket().id"),
+        @CachePut(value = USER_BASKET_CACHE, key = "#root.target.getCurrentUser().id")
+    }, evict = {
+        @CacheEvict(value = BASKET_ITEMS_CACHE, key = "#root.target.getBasket().id")
+    })
     public Basket updateItemQuantity(Long itemId, int quantity) {
         if (quantity < 0) {
             throw new IllegalArgumentException("Quantity cannot be negative");
@@ -173,13 +226,15 @@ public class BasketService {
 
     /**
      * Clear all items from the basket.
-     * 
-     * Fun fact: This is like a digital spring cleaning for your door collection!
-     * Sometimes items play hide and seek, but we'll find them all! 
+     * Evicts all caches because sometimes you need a fresh start! 🌅
      */
-    @Transactional
+    @Caching(evict = {
+        @CacheEvict(value = BASKET_CACHE, key = "#root.target.getBasket().id"),
+        @CacheEvict(value = USER_BASKET_CACHE, key = "#root.target.getCurrentUser().id"),
+        @CacheEvict(value = BASKET_ITEMS_CACHE, key = "#root.target.getBasket().id")
+    })
     public void clearBasket() {
-        Basket basket = getCurrentUserBasket();
+        Basket basket = getBasket();
         log.info("Clearing basket with ID: {} containing {} items", basket.getId(), basket.getItems().size());
         basketItemRepository.deleteAllByBasketId(basket.getId());
         log.info("Successfully cleared all items from basket {}", basket.getId());

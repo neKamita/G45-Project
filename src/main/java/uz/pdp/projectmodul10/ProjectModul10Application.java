@@ -8,13 +8,9 @@ import org.springframework.boot.autoconfigure.graphql.GraphQlSourceBuilderCustom
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import graphql.schema.GraphQLScalarType;
 import graphql.scalars.ExtendedScalars;
 import graphql.schema.Coercing;
-import uz.pdp.entity.User;
-import uz.pdp.enums.Role;
-import uz.pdp.repository.UserRepository;
 
 @SpringBootApplication
 @ComponentScan(basePackages = {
@@ -23,7 +19,7 @@ import uz.pdp.repository.UserRepository;
     "uz.pdp.service",
     "uz.pdp.config",
     "uz.pdp.exception",
-    "uz.pdp.mapper"  ,
+    "uz.pdp.mapper",
     "uz.pdp"
 })
 @EntityScan(basePackages = "uz.pdp.entity")
@@ -53,23 +49,5 @@ public class ProjectModul10Application {
     public static void main(String[] args) {
         System.setProperty("aws.java.v1.disableDeprecationAnnouncement", "true");
         SpringApplication.run(ProjectModul10Application.class, args);
-    }
-
-    @Bean
-    ApplicationRunner applicationRunner(UserRepository userRepository, PasswordEncoder passwordEncoder) {
-        return args -> {
-            // Check if admin already exists
-            if (!userRepository.findByName("etadoor").isPresent()) {
-                User admin = new User();
-                admin.setName("etadoor");
-                admin.setEmail("admin@etadoor.com");
-                admin.setPassword(passwordEncoder.encode("admin123"));
-                admin.setRole(Role.ADMIN);
-                admin.setLastname("Admin");
-                admin.setPhone("+1234567890");
-                
-                userRepository.save(admin);
-            }
-        };
     }
 }

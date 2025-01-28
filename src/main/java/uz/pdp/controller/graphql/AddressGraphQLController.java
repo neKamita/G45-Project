@@ -1,22 +1,24 @@
 package uz.pdp.controller.graphql;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
+import uz.pdp.dto.AddressDTO;
 import uz.pdp.entity.Address;
 import uz.pdp.payload.EntityResponse;
 import uz.pdp.service.AddressService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
 /**
- * GraphQL controller for address-related operations.
- * Handles queries and mutations for managing user and door addresses.
- * Implements security controls for address management.
+ * GraphQL controller for address operations.
+ * Because REST is too mainstream and GraphQL is the cool kid now! 😎
+ * 
+ * Fun fact: This controller can find addresses faster than a GPS on steroids! 🗺️
  *
  * @version 1.0
  * @since 2025-01-17
@@ -24,7 +26,6 @@ import java.util.List;
 @Controller
 public class AddressGraphQLController {
     private static final Logger logger = LoggerFactory.getLogger(AddressGraphQLController.class);
-    
     private final AddressService addressService;
 
     public AddressGraphQLController(AddressService addressService) {
@@ -32,140 +33,128 @@ public class AddressGraphQLController {
     }
 
     /**
-     * GraphQL query to retrieve all addresses.
-     * Requires admin privileges.
-     *
-     * @return List of all addresses in the system
+     * Gets all addresses.
+     * Like a phone book, but for doors! 📚
      */
     @QueryMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public List<Address> getAllAddresses() {
+    public EntityResponse<List<Address>> getAllAddresses() {
         try {
             logger.info("GraphQL query: Retrieving all addresses");
-            List<Address> addresses = addressService.getAllAddresses();
-            logger.info("Retrieved {} addresses", addresses.size());
-            return addresses;
+            return addressService.getAllAddressesResponse();
         } catch (Exception e) {
             logger.error("Error retrieving addresses via GraphQL: {}", e.getMessage());
-            throw e;
+            return EntityResponse.error("Failed to retrieve addresses: " + e.getMessage(), null);
         }
     }
 
     /**
-     * GraphQL query to retrieve an address by ID.
-     *
-     * @param id ID of the address to retrieve
-     * @return Address details if found
+     * Gets an address by ID.
+     * Finding addresses like a door-to-door salesman! 🚪
      */
     @QueryMapping
-    public Address getAddressById(@Argument Long id) {
+    public EntityResponse<Address> getAddress(@Argument Long id) {
         try {
             logger.info("GraphQL query: Retrieving address with ID: {}", id);
-            Address address = addressService.getAddressById(id);
-            logger.info("Retrieved address: {}", address.getStreet());
-            return address;
+            return addressService.getAddressResponse(id);
         } catch (Exception e) {
             logger.error("Error retrieving address {} via GraphQL: {}", id, e.getMessage());
-            throw e;
+            return EntityResponse.error("Failed to retrieve address: " + e.getMessage(), null);
         }
     }
 
     /**
-     * GraphQL query to retrieve addresses by city.
-     *
-     * @param city Name of the city
-     * @return List of addresses in the specified city
-     */
-    @QueryMapping
-    public List<Address> getAddressesByCity(@Argument String city) {
-        try {
-            logger.info("GraphQL query: Retrieving addresses for city: {}", city);
-            List<Address> addresses = addressService.getAddressesByCity(city);
-            logger.info("Retrieved {} addresses for city {}", addresses.size(), city);
-            return addresses;
-        } catch (Exception e) {
-            logger.error("Error retrieving addresses for city {} via GraphQL: {}", city, e.getMessage());
-            throw e;
-        }
-    }
-
-    /**
-     * GraphQL mutation to create a new address.
-     *
-     * @param address Address details to create
-     * @return Created address information
+     * Creates a new address.
+     * Building new homes for doors, one address at a time! 🏗️
      */
     @MutationMapping
-    public Address createAddress(@Argument Address address) {
+    public EntityResponse<Address> createAddress(@Argument AddressDTO addressDTO) {
         try {
             logger.info("GraphQL mutation: Creating new address");
-            EntityResponse<Address> response = addressService.createAddress(address);
-            logger.info("Created address: {}", response.getData().getStreet());
-            return response.getData();
+            return addressService.addAddressResponse(addressDTO);
         } catch (Exception e) {
             logger.error("Error creating address via GraphQL: {}", e.getMessage());
-            throw e;
+            return EntityResponse.error("Failed to create address: " + e.getMessage(), null);
         }
     }
 
     /**
-     * GraphQL mutation to update an existing address.
-     *
-     * @param id ID of the address to update
-     * @param address Updated address details
-     * @return Updated address information
+     * Updates an address.
+     * Because sometimes doors need a change of scenery! 🌅
      */
     @MutationMapping
-    public Address updateAddress(@Argument Long id, @Argument Address address) {
+    public EntityResponse<Address> updateAddress(
+            @Argument Long id,
+            @Argument AddressDTO addressDTO) {
         try {
             logger.info("GraphQL mutation: Updating address with ID: {}", id);
-            EntityResponse<Address> response = addressService.updateAddress(id, address);
-            logger.info("Updated address: {}", response.getData().getStreet());
-            return response.getData();
+            return addressService.updateAddressResponse(id, addressDTO);
         } catch (Exception e) {
             logger.error("Error updating address {} via GraphQL: {}", id, e.getMessage());
-            throw e;
+            return EntityResponse.error("Failed to update address: " + e.getMessage(), null);
         }
     }
 
     /**
-     * GraphQL mutation to delete an address.
-     * Requires admin privileges.
-     *
-     * @param id ID of the address to delete
-     * @return true if deletion successful
+     * Deletes an address.
+     * Saying goodbye to addresses, but never to memories! 👋
      */
     @MutationMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public boolean deleteAddress(@Argument Long id) {
+    public EntityResponse<Void> deleteAddress(@Argument Long id) {
         try {
             logger.info("GraphQL mutation: Deleting address with ID: {}", id);
-            EntityResponse<Void> response = addressService.deleteAddress(id);
-            logger.info("Address {} deleted successfully", id);
-            return response.isSuccess();
+            return addressService.deleteAddressResponse(id);
         } catch (Exception e) {
             logger.error("Error deleting address {} via GraphQL: {}", id, e.getMessage());
-            throw e;
+            return EntityResponse.error("Failed to delete address: " + e.getMessage(), null);
         }
     }
 
     /**
-     * GraphQL mutation to validate an address.
-     * Checks if the address exists and is properly formatted.
-     *
-     * @param address Address to validate
-     * @return true if address is valid
+     * Gets all map points.
+     * Mapping doors like a treasure hunt! 🗺️
      */
-    @MutationMapping
-    public boolean validateAddress(@Argument Address address) {
+    @QueryMapping
+    public EntityResponse<List<AddressDTO.LocationDTO>> getAllMapPoints() {
         try {
-            logger.info("GraphQL mutation: Validating address");
-            boolean isValid = addressService.validateAddress(address);
-            logger.info("Address validation result: {}", isValid);
-            return isValid;
+            logger.info("GraphQL query: Retrieving all map points");
+            return addressService.getAllMapPointsResponse();
         } catch (Exception e) {
-            logger.error("Error validating address via GraphQL: {}", e.getMessage());
-            throw e;
+            logger.error("Error retrieving map points via GraphQL: {}", e.getMessage());
+            return EntityResponse.error("Failed to retrieve map points: " + e.getMessage(), null);
+        }
+    }
+
+    /**
+     * Searches addresses by city.
+     * City-hopping like a door-to-door adventurer! 🌆
+     */
+    @QueryMapping
+    public EntityResponse<List<Address>> searchAddressesByCity(@Argument String city) {
+        try {
+            logger.info("GraphQL query: Retrieving addresses for city: {}", city);
+            return addressService.searchAddressesByCityResponse(city);
+        } catch (Exception e) {
+            logger.error("Error retrieving addresses for city {} via GraphQL: {}", city, e.getMessage());
+            return EntityResponse.error("Failed to search addresses: " + e.getMessage(), null);
+        }
+    }
+
+    /**
+     * Finds the nearest address to given coordinates.
+     * Like a GPS, but with more personality! 📍
+     */
+    @QueryMapping
+    public EntityResponse<Address> findNearestAddress(
+            @Argument Double latitude,
+            @Argument Double longitude) {
+        try {
+            logger.info("GraphQL query: Finding nearest address to coordinates: lat={}, lon={}", latitude, longitude);
+            return addressService.findNearestAddressResponse(latitude, longitude);
+        } catch (Exception e) {
+            logger.error("Error finding nearest address via GraphQL: {}", e.getMessage());
+            return EntityResponse.error("Failed to find nearest address: " + e.getMessage(), null);
         }
     }
 }

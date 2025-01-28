@@ -1,5 +1,7 @@
 package uz.pdp.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
@@ -16,6 +18,8 @@ import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 import java.time.Duration;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 🚀 The Speed Force: Redis Configuration
@@ -25,14 +29,14 @@ import java.time.Duration;
  * 
  * Technical Features:
  * - Standalone Redis setup (because cluster is for the brave)
- * - JSON serialization (because binary is so 1999)
+ * - JSON serialization with Java 8 time support (because time waits for no door!)
  * - TTL management (because even cached data needs a retirement plan)
  * - Connection pooling (because sharing is caring)
  * 
- * Warning Signs That Redis Is Unhappy:
- * 1. Your API suddenly runs slower than a turtle in molasses
- * 2. Memory usage graph looks like a hockey stick
- * 3. Developers start avoiding eye contact with you
+ * Cache TTLs:
+ * - Addresses: 1 hour (they don't move that often!)
+ * - Map Points: 2 hours (our doors are pretty stationary)
+ * - Search Results: 30 minutes (fresh but not too fresh)
  * 
  * Remember: Redis is like a good cup of coffee ☕
  * - Too little: Everything is slow
@@ -46,15 +50,12 @@ import java.time.Duration;
 @EnableCaching
 public class RedisConfig {
     
-    // The address of our speed machine
     @Value("${spring.data.redis.host}")
     private String redisHost;
-
-    // The portal number (default: 15073, because tradition)
+    
     @Value("${spring.data.redis.port}")
     private int redisPort;
-
-    // The secret handshake (empty = trust everyone, which is fine... right?)
+    
     @Value("${spring.data.redis.password}")
     private String redisPassword;
 
@@ -83,13 +84,20 @@ public class RedisConfig {
         
         return new LettuceConnectionFactory(redisConfig);
     }
-
+    
+    @Bean
+    public ObjectMapper redisObjectMapper() {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(new JavaTimeModule());
+        return mapper;
+    }
+    
     /**
      * Crafts the legendary RedisTemplate.
      * The Swiss Army knife for all your Redis operations!
      * 
      * Features:
-     * - JSON serialization (because byte arrays give us headaches)
+     * - JSON serialization with Java 8 time support (because time waits for no door!)
      * - String keys (because who needs more complexity?)
      * - Automatic type conversion (it's basically magic)
      * 
@@ -104,10 +112,14 @@ public class RedisConfig {
     public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory connectionFactory) {
         RedisTemplate<String, Object> template = new RedisTemplate<>();
         template.setConnectionFactory(connectionFactory);
+        
+        // Use our custom ObjectMapper with Java 8 time support
+        GenericJackson2JsonRedisSerializer serializer = new GenericJackson2JsonRedisSerializer(redisObjectMapper());
+        
         template.setKeySerializer(new StringRedisSerializer());
-        template.setValueSerializer(new GenericJackson2JsonRedisSerializer());
+        template.setValueSerializer(serializer);
         template.setHashKeySerializer(new StringRedisSerializer());
-        template.setHashValueSerializer(new GenericJackson2JsonRedisSerializer());
+        template.setHashValueSerializer(serializer);
         template.setEnableTransactionSupport(true);
         template.afterPropertiesSet();
         return template;
@@ -139,7 +151,7 @@ public class RedisConfig {
      * 
      * Configuration:
      * - TTL: 1 hour (because forever is a really long time)
-     * - JSON serialization (readable by humans and machines alike)
+     * - JSON serialization with Java 8 time support (because time waits for no door!)
      * - Null value handling (because sometimes nothing is something)
      * 
      * Remember: Cache invalidation is one of the hardest things in CS.
@@ -150,13 +162,28 @@ public class RedisConfig {
      */
     @Bean
     public CacheManager cacheManager(RedisConnectionFactory connectionFactory) {
-        RedisCacheConfiguration config = RedisCacheConfiguration.defaultCacheConfig()
-            .entryTtl(Duration.ofMinutes(30))
+        // Default configuration with Java 8 time support
+        RedisCacheConfiguration defaultConfig = RedisCacheConfiguration.defaultCacheConfig()
+            .entryTtl(Duration.ofMinutes(30))  // Default TTL
             .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer()))
-            .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer()));
-
+            .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(
+                new GenericJackson2JsonRedisSerializer(redisObjectMapper())
+            ));
+        
+        // Custom configurations for different caches
+        Map<String, RedisCacheConfiguration> cacheConfigs = new HashMap<>();
+        
+        // Address caches (1 hour TTL)
+        cacheConfigs.put("addresses", defaultConfig.entryTtl(Duration.ofHours(1)));
+        cacheConfigs.put("address", defaultConfig.entryTtl(Duration.ofHours(1)));
+        
+        // Map points cache (2 hours TTL)
+        cacheConfigs.put("map-points", defaultConfig.entryTtl(Duration.ofHours(2)));
+        
+        // Build cache manager
         return RedisCacheManager.builder(connectionFactory)
-            .cacheDefaults(config)
+            .cacheDefaults(defaultConfig)
+            .withInitialCacheConfigurations(cacheConfigs)
             .build();
     }
 }

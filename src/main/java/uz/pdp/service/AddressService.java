@@ -2,9 +2,15 @@ package uz.pdp.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import uz.pdp.dto.AddressDTO;
@@ -14,6 +20,7 @@ import uz.pdp.entity.User;
 import uz.pdp.enums.Role;
 import uz.pdp.exception.BadRequestException;
 import uz.pdp.exception.ResourceNotFoundException;
+import uz.pdp.exception.UnauthorizedException;
 import uz.pdp.payload.EntityResponse;
 import uz.pdp.repository.AddressRepository;
 
@@ -27,6 +34,11 @@ import java.util.Objects;
  * Handles creation, retrieval, update, and deletion of addresses.
  * Includes functionality for managing default addresses and finding nearest
  * locations.
+ * 
+ * Now with turbocharged Redis caching! 
+ * Because waiting for address data is like waiting for a door to install itself.
+ * 
+ * And with authentication checks - because we don't let just anyone through our doors! 
  *
  * @version 1.0
  * @since 2025-01-17
@@ -35,6 +47,9 @@ import java.util.Objects;
 public class AddressService {
 
     private static final Logger logger = LoggerFactory.getLogger(AddressService.class);
+    private static final String ADDRESSES_CACHE = "addresses";
+    private static final String ADDRESS_CACHE = "address";
+    private static final String MAP_POINTS_CACHE = "map-points";
 
     private final AddressRepository addressRepository;
     private final UserService userService;
@@ -54,7 +69,11 @@ public class AddressService {
      * @throws BadRequestException if required fields are missing or user doesn't have permission
      */
     @Transactional
-    public ResponseEntity<EntityResponse<Address>> addAddressResponse(AddressDTO addressDTO) {
+    @Caching(evict = {
+        @CacheEvict(value = ADDRESSES_CACHE, key = "'all'", condition = "#root.target.isAuthenticated()"),
+        @CacheEvict(value = MAP_POINTS_CACHE, key = "'all'")
+    })
+    public EntityResponse<Address> addAddressResponse(AddressDTO addressDTO) {
         try {
             logger.info("Adding new address: {}", addressDTO);
 
@@ -105,8 +124,7 @@ public class AddressService {
             address = addressRepository.save(address);
             logger.info("Successfully added new address with ID: {}", address.getId());
 
-            return ResponseEntity.status(HttpStatus.CREATED)
-                    .body(EntityResponse.success("Store address added successfully", address));
+            return EntityResponse.success("Store address added successfully", address);
 
         } catch (BadRequestException e) {
             logger.error("Permission error adding new address: {}", e.getMessage());
@@ -123,40 +141,49 @@ public class AddressService {
      * @return EntityResponse with list of addresses
      */
     @Transactional
-    public ResponseEntity<EntityResponse<List<Address>>> getAllAddressesResponse() {
+    @Cacheable(value = ADDRESSES_CACHE, key = "'all'", condition = "#root.target.isAuthenticated()")
+    public EntityResponse<List<Address>> getAllAddressesResponse() {
+        if (!isAuthenticated()) {
+            logger.error("Unauthorized access attempt to view all addresses");
+            return EntityResponse.error("Please log in to view addresses", null);
+        }
+
         try {
             logger.info("Fetching all store addresses");
-            List<Address> addresses = addressRepository.findByUserId(userService.getCurrentUser().getId());
-            return ResponseEntity.ok(EntityResponse.success("Addresses retrieved successfully", addresses));
+            List<Address> addresses = getAllAddresses();
+            return EntityResponse.success("Addresses retrieved successfully", addresses);
         } catch (Exception e) {
             logger.error("Error retrieving all addresses: {}", e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(EntityResponse.error("Error retrieving addresses: " + e.getMessage()));
+            return EntityResponse.error("Failed to retrieve addresses: " + e.getMessage(), null);
         }
     }
 
     /**
      * Retrieves an address by ID.
+     * Users can only access their own addresses unless they are ADMIN.
      *
      * @param id Address ID to retrieve
      * @return EntityResponse with retrieved address
      * @throws ResourceNotFoundException if address not found
      */
     @Transactional
-    public ResponseEntity<EntityResponse<Address>> getAddressResponse(Long id) {
+    @Cacheable(value = ADDRESS_CACHE, key = "#id", condition = "#root.target.isAuthenticated()")
+    public EntityResponse<Address> getAddressResponse(Long id) {
+        if (!isAuthenticated()) {
+            logger.error("Unauthorized access attempt to view address with ID: {}", id);
+            return EntityResponse.error("Please log in to view addresses", null);
+        }
+
         try {
             logger.info("Fetching address with id: {}", id);
-            Address address = addressRepository.findByIdAndUserId(id, userService.getCurrentUser().getId())
-                    .orElseThrow(() -> new ResourceNotFoundException("Address not found with id: " + id));
-            return ResponseEntity.ok(EntityResponse.success("Address retrieved successfully", address));
+            Address address = getAddressById(id);
+            return EntityResponse.success("Address retrieved successfully", address);
         } catch (ResourceNotFoundException e) {
             logger.error("Address not found: {}", e.getMessage());
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(EntityResponse.error(e.getMessage()));
+            return EntityResponse.error("Address not found", null);
         } catch (Exception e) {
             logger.error("Error retrieving address: {}", e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(EntityResponse.error("Error retrieving address: " + e.getMessage()));
+            return EntityResponse.error("Failed to retrieve address: " + e.getMessage(), null);
         }
     }
 
@@ -170,7 +197,17 @@ public class AddressService {
      * @throws BadRequestException if address not found or not owned by user
      */
     @Transactional
-    public EntityResponse<?> updateAddress(Long id, AddressDTO addressDTO) {
+    @Caching(evict = {
+        @CacheEvict(value = ADDRESSES_CACHE, key = "'all'", condition = "#root.target.isAuthenticated()"),
+        @CacheEvict(value = MAP_POINTS_CACHE, key = "'all'")
+    })
+    @CachePut(value = ADDRESS_CACHE, key = "#id", condition = "#root.target.isAuthenticated()")
+    public EntityResponse<Address> updateAddressResponse(Long id, AddressDTO addressDTO) {
+        if (!isAuthenticated()) {
+            logger.error("Unauthorized access attempt to update address with ID: {}", id);
+            return EntityResponse.error("Please log in to update addresses", null);
+        }
+
         try {
             validateAddressDTO(addressDTO);
             Address address = addressRepository.findByIdAndUserId(id, userService.getCurrentUser().getId())
@@ -203,29 +240,27 @@ public class AddressService {
      */
     @Transactional
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
-    public EntityResponse<Void> deleteAddress(Long id) {
+    @Caching(evict = {
+        @CacheEvict(value = ADDRESSES_CACHE, key = "'all'", condition = "#root.target.isAuthenticated()"),
+        @CacheEvict(value = ADDRESS_CACHE, key = "#id"),
+        @CacheEvict(value = MAP_POINTS_CACHE, key = "'all'")
+    })
+    public EntityResponse<Void> deleteAddressResponse(Long id) {
+        if (!isAuthenticated()) {
+            logger.error("Unauthorized access attempt to delete address with ID: {}", id);
+            return EntityResponse.error("Please log in to delete addresses", null);
+        }
+
         try {
             logger.info("Deleting address with ID: {}", id);
-            User currentUser = userService.getCurrentUser();
-            Address address;
-
-            if (currentUser.getRole() == Role.ADMIN) {
-                address = addressRepository.findById(id)
-                    .orElseThrow(() -> new ResourceNotFoundException("Address not found"));
-            } else {
-                address = addressRepository.findByIdAndUserId(id, currentUser.getId())
-                    .orElseThrow(() -> new ResourceNotFoundException("Address not found or access denied"));
-            }
-
-            addressRepository.delete(address);
-            logger.info("Successfully deleted address with ID: {}", id);
-            return EntityResponse.success("Address deleted successfully");
+            deleteAddress(id);
+            return EntityResponse.success("Address deleted successfully", null);
         } catch (ResourceNotFoundException e) {
-            logger.error("Address not found - ID {}: {}", id, e.getMessage());
-            throw e;
+            logger.error("Address not found: {}", e.getMessage());
+            return EntityResponse.error(e.getMessage(), null);
         } catch (Exception e) {
-            logger.error("Error deleting address {}: {}", id, e.getMessage());
-            throw new BadRequestException("Failed to delete address: " + e.getMessage());
+            logger.error("Error deleting address: {}", e.getMessage());
+            return EntityResponse.error("Failed to delete address: " + e.getMessage(), null);
         }
     }
 
@@ -237,14 +272,20 @@ public class AddressService {
      * @throws BadRequestException if city parameter is empty
      */
     @Transactional
-    public ResponseEntity<EntityResponse<List<Address>>> searchAddressesByCityResponse(String city) {
+    @Cacheable(value = ADDRESSES_CACHE, key = "'city:' + #city", condition = "#root.target.isAuthenticated()")
+    public EntityResponse<List<Address>> searchAddressesByCityResponse(String city) {
+        if (!isAuthenticated()) {
+            logger.error("Unauthorized access attempt to search addresses by city: {}", city);
+            return EntityResponse.error("Please log in to search addresses", null);
+        }
+
         try {
             logger.info("Searching addresses by city: {}", city);
             if (city == null || city.trim().isEmpty()) {
                 throw new BadRequestException("City parameter cannot be empty");
             }
             List<Address> addresses = addressRepository.findByCityContainingIgnoreCaseAndUserId(city.trim(), userService.getCurrentUser().getId());
-            return ResponseEntity.ok(EntityResponse.success("Addresses found successfully", addresses));
+            return EntityResponse.success("Addresses retrieved successfully", addresses);
         } catch (BadRequestException e) {
             logger.error("Invalid city parameter: {}", e.getMessage());
             throw e;
@@ -260,28 +301,20 @@ public class AddressService {
      * @return EntityResponse with list of map points
      */
     @Transactional
-    public ResponseEntity<EntityResponse<List<AddressDTO.LocationDTO>>> getAllMapPointsResponse() {
+    @Cacheable(value = MAP_POINTS_CACHE, key = "'all'")
+    public EntityResponse<List<AddressDTO.LocationDTO>> getAllMapPointsResponse() {
+        if (!isAuthenticated()) {
+            logger.error("Unauthorized access attempt to get map points");
+            return EntityResponse.error("Please log in to view map points", null);
+        }
+
         try {
             logger.info("Fetching all map points");
-            List<AddressDTO.LocationDTO> points = addressRepository.findAllByUserId(userService.getCurrentUser().getId()).stream()
-                    .map(address -> {
-                        Address addr = (Address) address;
-                        Location location = addr.getLocation();
-                        if (location == null) {
-                            return null;
-                        }
-                        AddressDTO.LocationDTO locationDTO = new AddressDTO.LocationDTO();
-                        locationDTO.setLatitude(location.getLatitude());
-                        locationDTO.setLongitude(location.getLongitude());
-                        locationDTO.setMarkerTitle(location.getMarkerTitle());
-                        return locationDTO;
-                    })
-                    .filter(Objects::nonNull)
-                    .collect(Collectors.toList());
-            return ResponseEntity.ok(EntityResponse.success("Map points retrieved successfully", points));
+            List<AddressDTO.LocationDTO> points = getAllMapPoints();
+            return EntityResponse.success("Map points retrieved successfully", points);
         } catch (Exception e) {
             logger.error("Error retrieving map points: {}", e.getMessage());
-            throw new BadRequestException("Failed to retrieve map points: " + e.getMessage());
+            return EntityResponse.error("Failed to retrieve map points: " + e.getMessage(), null);
         }
     }
 
@@ -292,14 +325,14 @@ public class AddressService {
      * @param longitude Longitude coordinate
      * @return EntityResponse containing the nearest address
      */
-    public EntityResponse<?> findNearestAddress(Double latitude, Double longitude) {
+    public Optional<Address> findNearestAddress(Double latitude, Double longitude) {
         List<Address> nearestAddresses = addressRepository.findNearestAddresses(latitude, longitude);
         if (nearestAddresses.isEmpty()) {
             throw new ResourceNotFoundException("No addresses found");
         }
         
         Address nearestAddress = nearestAddresses.get(0);
-        return EntityResponse.success("Found nearest address", nearestAddress);
+        return Optional.of(nearestAddress);
     }
 
     /**
@@ -571,48 +604,6 @@ public class AddressService {
         return dto;
     }
 
-    /**
-     * Updates an address and returns a ResponseEntity.
-     * Wraps updateAddress method for controller use.
-     *
-     * @param id Address ID to update
-     * @param addressDTO Updated address details
-     * @return ResponseEntity with updated address
-     */
-    @Transactional
-    public ResponseEntity<EntityResponse<Address>> updateAddressResponse(Long id, AddressDTO addressDTO) {
-        try {
-            EntityResponse<Address> response = (EntityResponse<Address>) updateAddress(id, addressDTO);
-            return ResponseEntity.ok(response);
-        } catch (ResourceNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body(EntityResponse.error(e.getMessage()));
-        } catch (BadRequestException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(EntityResponse.error(e.getMessage()));
-        }
-    }
-
-    /**
-     * Deletes an address and returns a ResponseEntity.
-     * Wraps deleteAddress method for controller use.
-     *
-     * @param id Address ID to delete
-     * @return ResponseEntity with deletion result
-     */
-    @Transactional
-    public ResponseEntity<EntityResponse<Void>> deleteAddressResponse(Long id) {
-        try {
-            EntityResponse<Void> response = deleteAddress(id);
-            return ResponseEntity.ok(response);
-        } catch (ResourceNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body(EntityResponse.error(e.getMessage()));
-        } catch (BadRequestException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(EntityResponse.error(e.getMessage()));
-        }
-    }
 
     /**
      * Finds nearest address and returns a ResponseEntity.
@@ -623,16 +614,104 @@ public class AddressService {
      * @return ResponseEntity with nearest address
      */
     @Transactional
-    public ResponseEntity<EntityResponse<Address>> findNearestAddressResponse(Double latitude, Double longitude) {
-        try {
-            EntityResponse<Address> response = (EntityResponse<Address>) findNearestAddress(latitude, longitude);
-            return ResponseEntity.ok(response);
-        } catch (ResourceNotFoundException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body(EntityResponse.error(e.getMessage()));
-        } catch (BadRequestException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body(EntityResponse.error(e.getMessage()));
+    public EntityResponse<Address> findNearestAddressResponse(Double latitude, Double longitude) {
+        if (!isAuthenticated()) {
+            logger.error("Unauthorized access attempt to find nearest address");
+            return EntityResponse.error("Please log in to find nearest address", null);
         }
+
+        try {
+            if (latitude == null || longitude == null) {
+                logger.error("Invalid coordinates provided: latitude={}, longitude={}", latitude, longitude);
+                return EntityResponse.error("Invalid coordinates provided", null);
+            }
+
+            Optional<Address> nearestAddress = findNearestAddress(latitude, longitude);
+            if (nearestAddress == null) {
+                logger.info("No addresses found near coordinates: latitude={}, longitude={}", latitude, longitude);
+                return EntityResponse.error("No addresses found near the provided coordinates", null);
+            }
+
+            logger.info("Found nearest address: {}", nearestAddress.get().getStreet());
+            return EntityResponse.success("Nearest address found successfully", nearestAddress.get());
+        } catch (Exception e) {
+            logger.error("Error finding nearest address: {}", e.getMessage());
+            return EntityResponse.error("Failed to find nearest address: " + e.getMessage(), null);
+        }
+    }
+
+    /**
+     * Deletes an address.
+     * Only admins can delete any address, users can only delete their own.
+     *
+     * @param id ID of the address to delete
+     */
+    @Transactional
+    @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
+    public void deleteAddress(Long id) {
+        try {
+            logger.info("Deleting address with ID: {}", id);
+            User currentUser = userService.getCurrentUser();
+            Address address;
+
+            if (currentUser.getRole() == Role.ADMIN) {
+                address = addressRepository.findById(id)
+                    .orElseThrow(() -> new ResourceNotFoundException("Address not found"));
+            } else {
+                address = addressRepository.findByIdAndUserId(id, currentUser.getId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Address not found or access denied"));
+            }
+
+            addressRepository.delete(address);
+            logger.info("Successfully deleted address with ID: {}", id);
+        } catch (ResourceNotFoundException e) {
+            logger.error("Address not found - ID {}: {}", id, e.getMessage());
+            throw e;
+        } catch (Exception e) {
+            logger.error("Error deleting address {}: {}", id, e.getMessage());
+            throw new BadRequestException("Failed to delete address: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Retrieves all map points.
+     *
+     * @return List of map points
+     */
+    @Transactional
+    public List<AddressDTO.LocationDTO> getAllMapPoints() {
+        try {
+            logger.info("Fetching all map points");
+            List<AddressDTO.LocationDTO> points = addressRepository.findAllByUserId(userService.getCurrentUser().getId()).stream()
+                    .map(address -> {
+                        Address addr = (Address) address;
+                        Location location = addr.getLocation();
+                        if (location == null) {
+                            return null;
+                        }
+                        AddressDTO.LocationDTO locationDTO = new AddressDTO.LocationDTO();
+                        locationDTO.setLatitude(location.getLatitude());
+                        locationDTO.setLongitude(location.getLongitude());
+                        locationDTO.setMarkerTitle(location.getMarkerTitle());
+                        return locationDTO;
+                    })
+                    .filter(Objects::nonNull)
+                    .collect(Collectors.toList());
+            return points;
+        } catch (Exception e) {
+            logger.error("Error retrieving map points: {}", e.getMessage());
+            throw new BadRequestException("Failed to retrieve map points: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Checks if the current user is authenticated.
+     * Like a bouncer at a fancy door club! 
+     */
+    private boolean isAuthenticated() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return authentication != null && 
+               authentication.isAuthenticated() && 
+               !"anonymousUser".equals(authentication.getPrincipal());
     }
 }

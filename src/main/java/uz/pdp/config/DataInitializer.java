@@ -3,6 +3,7 @@ package uz.pdp.config;
 import com.github.javafaker.Faker;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import uz.pdp.entity.Door;
 import uz.pdp.entity.FurnitureDoor;
@@ -38,6 +39,7 @@ public class DataInitializer implements CommandLineRunner {
     private final DoorRepository doorRepository;
     private final UserRepository userRepository;
     private final MouldingRepository mouldingRepository;
+    private final PasswordEncoder passwordEncoder;
     private final Faker faker = new Faker(new Locale("en-US"));
 
     // Our premium materials for fancy doors
@@ -129,6 +131,7 @@ public class DataInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
+        initializeDefaultAdmin();
         if (doorRepository.count() == 0 && furnitureDoorRepository.count() == 0 && mouldingRepository.count() == 0) {
             System.out.println("🎭 Welcome to the Door Paradise Initialization!");
             System.out.println("🏗️ Building your door empire...");
@@ -150,6 +153,24 @@ public class DataInitializer implements CommandLineRunner {
             System.out.println("🚪 May your doors be sturdy and your handles shiny!");
         } else {
             System.out.println("🏪 Door Paradise is already stocked and ready!");
+        }
+    }
+
+    /**
+     * Initializes the default admin account.
+     * Every kingdom needs a ruler, and our door empire is no exception! 👑
+     */
+    private void initializeDefaultAdmin() {
+        if (!userRepository.findByName("etadoor").isPresent()) {
+            User admin = new User();
+            admin.setName("etadoor");
+            admin.setEmail("admin@etadoor.com");
+            admin.setPassword(passwordEncoder.encode("admin123"));
+            admin.setRole(Role.ADMIN);
+            admin.setLastname("Admin");
+            admin.setPhone("+1234567890");
+            
+            userRepository.save(admin);
         }
     }
 
