@@ -10917,3 +10917,95 @@ Caused by: java.lang.IllegalArgumentException: Invalid S3 URL format
         door_available_colors ac1_0 
     where
         ac1_0.door_id=?
+2025-01-28 15:00:43 [main] DEBUG org.hibernate.SQL - 
+    select
+        i1_0.door_id,
+        i1_0.images 
+    from
+        door_images i1_0 
+    where
+        i1_0.door_id=?
+2025-01-28 15:00:43 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_available_colors
+        (door_id, available_colors) 
+    values
+        (?, ?)
+2025-01-28 15:00:43 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_available_colors
+        (door_id, available_colors) 
+    values
+        (?, ?)
+2025-01-28 15:00:43 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_available_colors
+        (door_id, available_colors) 
+    values
+        (?, ?)
+2025-01-28 15:00:44 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        doors
+        (active, base_model_id, color, custom_color_code, custom_height, custom_width, description, door_location, final_price, frame_type, hardware, is_base_model, is_custom_color, manufacturer, material, name, price, seller_id, size, status, warranty_years) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-01-28 15:00:44 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-28 15:00:44 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-28 15:00:44 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-28 15:00:44 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-28 15:00:45 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        doors
+        (active, base_model_id, color, custom_color_code, custom_height, custom_width, description, door_location, final_price, frame_type, hardware, is_base_model, is_custom_color, manufacturer, material, name, price, seller_id, size, status, warranty_years) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-01-28 15:00:45 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-28 15:00:45 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-28 15:00:45 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
