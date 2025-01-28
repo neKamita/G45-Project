@@ -40,9 +40,9 @@ spring:
 
   # Consolidated cache and Redis configuration
   cache:
-    type: redis
+    type: none
   redis:
-    enabled: true
+    enabled: false
   jpa:
     hibernate:
       ddl-auto: update

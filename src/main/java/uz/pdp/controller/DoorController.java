@@ -10,7 +10,6 @@ import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -149,33 +148,28 @@ public class DoorController {
     }
 
     /**
-     * Retrieves all doors in the system.
-     * Open to all users. Now with extra security! 🚪🔒
-     * No sensitive seller data exposed here, folks!
+     * Retrieves all doors with pagination.
+     * Because we can't fit all our doors on one page!
      *
-     * @param page Page number to retrieve
-     * @param size Number of doors to retrieve per page
-     * @return ResponseEntity with list of door DTOs
-     *         - 200 OK with list of doors
+     * @param page Page number (0-based)
+     * @param size Number of doors per page
+     * @return ResponseEntity with door list
      */
     @GetMapping
-    @Operation(summary = "Get all doors", description = "Open to all users")
-    public ResponseEntity<EntityResponse<Page<DoorDto>>> getAllDoors(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "20") int size) {
+    @Operation(summary = "Get all doors with pagination", description = "Open to all users")
+    public ResponseEntity<EntityResponse<List<Door>>> getAllDoors(
+            @Parameter(description = "Page number (0-based)") @RequestParam(defaultValue = "0") int page,
+            @Parameter(description = "Number of items per page") @RequestParam(defaultValue = "20") int size) {
         try {
-            logger.info("Fetching doors page {} with size {}", page, size);
-            Page<Door> doors = doorService.getAllDoors(page, size);
-            Page<DoorDto> doorDtos = doors.map(DoorDto::fromEntity);
-            return ResponseEntity.ok(EntityResponse.success("Doors retrieved successfully", doorDtos));
-        } catch (IllegalArgumentException e) {
-            logger.error("Invalid pagination parameters: {}", e.getMessage());
-            return ResponseEntity.badRequest()
-                    .body(EntityResponse.error("Invalid pagination parameters: " + e.getMessage()));
+            List<Door> doors = doorService.getAllDoors(page, size);
+            return ResponseEntity.ok(EntityResponse.success(
+                "Doors retrieved successfully",
+                doors
+            ));
         } catch (Exception e) {
-            logger.error("Error fetching doors: {}", e.getMessage());
+            logger.error("Failed to fetch doors: {}", e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(EntityResponse.error("Failed to fetch doors: " + e.getMessage()));
+                .body(EntityResponse.error("Failed to fetch doors: " + e.getMessage()));
         }
     }
 

@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
+import org.hibernate.service.spi.ServiceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -15,6 +16,7 @@ import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
@@ -82,13 +84,32 @@ public class DoorService {
      * Retrieves all doors accessible to the current user.
      * Admins can see all doors, while regular users only see doors they have access to.
      *
-     * @return Page of accessible doors
+     * @return List of accessible doors
      */
     // Open to all users - no @PreAuthorize needed
     @Transactional(readOnly = true)
-    @Cacheable(value = DOORS_CACHE, key = "'page:' + #page + ':size:' + #size")
-    public Page<Door> getAllDoors(int page, int size) {
-        return doorRepository.findAll(PageRequest.of(page, size));
+    @Cacheable(value = DOORS_CACHE, key = "'doors:page:' + #page + ':size:' + #size", unless = "#result == null")
+    public List<Door> getAllDoors(int page, int size) {
+        try {
+            logger.debug("🚪 Fetching doors from page {} with size {}", page, size);
+            Page<Door> doors = doorRepository.findAll(PageRequest.of(page, size));
+            
+            // Initialize lazy collections to avoid serialization issues
+            List<Door> content = doors.getContent();
+            content.forEach(door -> {
+                if (door.getImages() != null) {
+                    door.getImages().size(); // Initialize images collection
+                }
+                if (door.getColor() != null) {
+                    door.getColor().name(); // Initialize enum
+                }
+            });
+            
+            return new ArrayList<>(content);
+        } catch (Exception e) {
+            logger.error("❌ Failed to fetch doors: {}", e.getMessage());
+            throw new ServiceException("Failed to fetch doors", e);
+        }
     }
 
     /**
@@ -374,10 +395,10 @@ public class DoorService {
      * Internal helper method for door operations.
      *
      * @param pageRequest Page request
-     * @return Page of doors
+     * @return List of doors
      */
-    public Page<Door> getAllDoors(PageRequest pageRequest) {
-        return doorRepository.findAll(pageRequest);
+    public List<Door> getAllDoors(PageRequest pageRequest) {
+        return doorRepository.findAll(pageRequest).getContent();
     }
 
     /**

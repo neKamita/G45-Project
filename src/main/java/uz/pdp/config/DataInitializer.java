@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 import uz.pdp.entity.Address;
 import uz.pdp.entity.Door;
 import uz.pdp.entity.FurnitureDoor;
+import uz.pdp.entity.Location;
 import uz.pdp.entity.Moulding;
 import uz.pdp.entity.User;
 import uz.pdp.enums.*;
@@ -134,17 +135,17 @@ public class DataInitializer implements CommandLineRunner {
 
     // Store locations with a door theme!
     private static final String[][] STORE_LOCATIONS = {
-        // City, Street, Latitude, Longitude
-        {"New York", "Portal Plaza 123", "40.7128", "-74.0060"},
-        {"Los Angeles", "Doorway Drive 456", "34.0522", "-118.2437"},
-        {"Chicago", "Threshold Avenue 789", "41.8781", "-87.6298"},
-        {"Houston", "Hinge Highway 321", "29.7604", "-95.3698"},
-        {"Phoenix", "Knocker Lane 654", "33.4484", "-112.0740"},
-        {"Philadelphia", "Frame Street 987", "39.9526", "-75.1652"},
-        {"San Antonio", "Jamb Junction 147", "29.4241", "-98.4936"},
-        {"San Diego", "Lock Loop 258", "32.7157", "-117.1611"},
-        {"Dallas", "Entry Expressway 369", "32.7767", "-96.7970"},
-        {"San Jose", "Gateway Grove 741", "37.3382", "-121.8863"}
+        // City, Street, Name, Working Hours, Phone, Email, Latitude, Longitude
+        {"New York", "Portal Plaza 123", "Door Paradise NYC", "9:00 AM - 6:00 PM", "+1-212-555-0123", "nyc@doorparadise.com", "40.7128", "-74.0060"},
+        {"Los Angeles", "Doorway Drive 456", "Door Paradise LA", "8:00 AM - 7:00 PM", "+1-310-555-0124", "la@doorparadise.com", "34.0522", "-118.2437"},
+        {"Chicago", "Threshold Avenue 789", "Door Paradise Chicago", "9:00 AM - 5:00 PM", "+1-312-555-0125", "chicago@doorparadise.com", "41.8781", "-87.6298"},
+        {"Houston", "Hinge Highway 321", "Door Paradise Houston", "8:30 AM - 6:30 PM", "+1-713-555-0126", "houston@doorparadise.com", "29.7604", "-95.3698"},
+        {"Phoenix", "Knocker Lane 654", "Door Paradise Phoenix", "8:00 AM - 5:00 PM", "+1-602-555-0127", "phoenix@doorparadise.com", "33.4484", "-112.0740"},
+        {"Philadelphia", "Frame Street 987", "Door Paradise Philly", "9:00 AM - 6:00 PM", "+1-215-555-0128", "philly@doorparadise.com", "39.9526", "-75.1652"},
+        {"San Antonio", "Jamb Junction 147", "Door Paradise SA", "8:00 AM - 7:00 PM", "+1-210-555-0129", "sa@doorparadise.com", "29.4241", "-98.4936"},
+        {"San Diego", "Lock Loop 258", "Door Paradise SD", "9:00 AM - 5:00 PM", "+1-619-555-0130", "sd@doorparadise.com", "32.7157", "-117.1611"},
+        {"Dallas", "Entry Expressway 369", "Door Paradise Dallas", "8:30 AM - 6:30 PM", "+1-214-555-0131", "dallas@doorparadise.com", "32.7767", "-96.7970"},
+        {"San Jose", "Gateway Grove 741", "Door Paradise SJ", "8:00 AM - 5:00 PM", "+1-408-555-0132", "sj@doorparadise.com", "37.3382", "-121.8863"}
     };
 
     @Override
@@ -659,13 +660,29 @@ public class DataInitializer implements CommandLineRunner {
     private void initializeSampleAddresses() {
         System.out.println("📍 Setting up our door destinations...");
         
-        for (String[] location : STORE_LOCATIONS) {
+        for (String[] locationData : STORE_LOCATIONS) {
+            // Create location first
+            Location location = new Location();
+            location.setLatitude(Double.parseDouble(locationData[6]));
+            location.setLongitude(Double.parseDouble(locationData[7]));
+            location.setMarkerTitle(locationData[2]); // Use store name as marker title
+            
+            // Create address
             Address address = new Address();
-            address.setCity(location[0]);
-            address.setStreet(location[1]);
-            address.setLatitude(Double.parseDouble(location[2]));
-            address.setLongitude(Double.parseDouble(location[3]));
-            address.setStatus(Status.ACTIVE);
+            address.setCity(locationData[0]);
+            address.setStreet(locationData[1]);
+            address.setName(locationData[2]);
+            address.setWorkingHours(locationData[3]);
+            address.setPhoneNumber(locationData[4]);
+            address.setEmail(locationData[5]);
+            address.setDefault(false);
+            address.setLocation(location);
+            
+            // Set up some social links
+            Map<Socials, String> socialLinks = new HashMap<>();
+            socialLinks.put(Socials.FACEBOOK, "https://facebook.com/doorparadise" + locationData[0].toLowerCase().replace(" ", ""));
+            socialLinks.put(Socials.INSTAGRAM, "https://instagram.com/doorparadise" + locationData[0].toLowerCase().replace(" ", ""));
+            address.setSocialLinks(socialLinks);
             
             addressRepository.save(address);
         }
