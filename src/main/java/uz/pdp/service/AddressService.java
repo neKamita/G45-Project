@@ -141,15 +141,14 @@ public class AddressService {
      * @return EntityResponse with list of addresses
      */
     @Transactional
-    @Cacheable(value = ADDRESSES_CACHE, key = "'all'", condition = "#root.target.isAuthenticated()")
+    @Cacheable(value = ADDRESSES_CACHE, key = "'all'", condition = "#this.isAuthenticated()")
     public EntityResponse<List<Address>> getAllAddressesResponse() {
         if (!isAuthenticated()) {
-            logger.error("Unauthorized access attempt to view all addresses");
+            logger.error("Unauthorized access attempt to get all addresses");
             return EntityResponse.error("Please log in to view addresses", null);
         }
 
         try {
-            logger.info("Fetching all store addresses");
             List<Address> addresses = getAllAddresses();
             return EntityResponse.success("Addresses retrieved successfully", addresses);
         } catch (Exception e) {
@@ -167,7 +166,7 @@ public class AddressService {
      * @throws ResourceNotFoundException if address not found
      */
     @Transactional
-    @Cacheable(value = ADDRESS_CACHE, key = "#id", condition = "#root.target.isAuthenticated()")
+    @Cacheable(value = ADDRESS_CACHE, key = "#id", condition = "#this.isAuthenticated()")
     public EntityResponse<Address> getAddressResponse(Long id) {
         if (!isAuthenticated()) {
             logger.error("Unauthorized access attempt to view address with ID: {}", id);
@@ -198,10 +197,10 @@ public class AddressService {
      */
     @Transactional
     @Caching(evict = {
-        @CacheEvict(value = ADDRESSES_CACHE, key = "'all'", condition = "#root.target.isAuthenticated()"),
+        @CacheEvict(value = ADDRESSES_CACHE, key = "'all'", condition = "#this.isAuthenticated()"),
         @CacheEvict(value = MAP_POINTS_CACHE, key = "'all'")
     })
-    @CachePut(value = ADDRESS_CACHE, key = "#id", condition = "#root.target.isAuthenticated()")
+    @CachePut(value = ADDRESS_CACHE, key = "#id", condition = "#this.isAuthenticated()")
     public EntityResponse<Address> updateAddressResponse(Long id, AddressDTO addressDTO) {
         if (!isAuthenticated()) {
             logger.error("Unauthorized access attempt to update address with ID: {}", id);
@@ -241,7 +240,7 @@ public class AddressService {
     @Transactional
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @Caching(evict = {
-        @CacheEvict(value = ADDRESSES_CACHE, key = "'all'", condition = "#root.target.isAuthenticated()"),
+        @CacheEvict(value = ADDRESSES_CACHE, key = "'all'", condition = "#this.isAuthenticated()"),
         @CacheEvict(value = ADDRESS_CACHE, key = "#id"),
         @CacheEvict(value = MAP_POINTS_CACHE, key = "'all'")
     })
@@ -272,7 +271,7 @@ public class AddressService {
      * @throws BadRequestException if city parameter is empty
      */
     @Transactional
-    @Cacheable(value = ADDRESSES_CACHE, key = "'city:' + #city", condition = "#root.target.isAuthenticated()")
+    @Cacheable(value = ADDRESSES_CACHE, key = "'city:' + #city", condition = "#this.isAuthenticated()")
     public EntityResponse<List<Address>> searchAddressesByCityResponse(String city) {
         if (!isAuthenticated()) {
             logger.error("Unauthorized access attempt to search addresses by city: {}", city);
@@ -706,12 +705,16 @@ public class AddressService {
 
     /**
      * Checks if the current user is authenticated.
-     * Like a bouncer at a fancy door club! 
+     * Like a bouncer at a fancy door club! 🚪
+     *
+     * @return true if user is authenticated, false otherwise
      */
-    private boolean isAuthenticated() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return authentication != null && 
-               authentication.isAuthenticated() && 
-               !"anonymousUser".equals(authentication.getPrincipal());
+    public boolean isAuthenticated() {
+        try {
+            return userService.getCurrentUser() != null;
+        } catch (Exception e) {
+            logger.error("Error checking authentication: {}", e.getMessage());
+            return false;
+        }
     }
 }
