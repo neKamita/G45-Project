@@ -260,11 +260,12 @@ public class AddressService {
      */
     @Transactional
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
-    @Caching(evict = {
-        @CacheEvict(value = ADDRESSES_CACHE, key = "'all'", condition = "@securityService.isAuthenticated()"),
-        @CacheEvict(value = ADDRESS_CACHE, key = "#id"),
-        @CacheEvict(value = MAP_POINTS_CACHE, key = "'all'")
-    })
+    // Temporarily disabled Redis caching while we sort out serialization issues
+    // @Caching(evict = {
+    //     @CacheEvict(value = ADDRESSES_CACHE, key = "'all'", condition = "@securityService.isAuthenticated()"),
+    //     @CacheEvict(value = ADDRESS_CACHE, key = "#id"),
+    //     @CacheEvict(value = MAP_POINTS_CACHE, key = "'all'")
+    // })
     public EntityResponse<Void> deleteAddressResponse(Long id) {
         if (!securityService.isAuthenticated()) {
             logger.error("Unauthorized access attempt to delete address with ID: {}", id);
@@ -292,7 +293,8 @@ public class AddressService {
      * @throws BadRequestException if city parameter is empty
      */
     @Transactional
-    @Cacheable(value = ADDRESSES_CACHE, key = "'city:' + #city", condition = "@securityService.isAuthenticated()")
+    // Temporarily disabled Redis caching while we sort out serialization issues
+    // @Cacheable(value = ADDRESSES_CACHE, key = "'city:' + #city", condition = "@securityService.isAuthenticated()")
     public EntityResponse<List<Address>> searchAddressesByCityResponse(String city) {
         if (!securityService.isAuthenticated()) {
             logger.error("Unauthorized access attempt to search addresses by city: {}", city);
@@ -321,7 +323,8 @@ public class AddressService {
      * @return EntityResponse with list of map points
      */
     @Transactional
-    @Cacheable(value = MAP_POINTS_CACHE, key = "'all'")
+    // Temporarily disabled Redis caching while we sort out serialization issues
+    // @Cacheable(value = MAP_POINTS_CACHE, key = "'all'")
     public EntityResponse<List<AddressDTO.LocationDTO>> getAllMapPointsResponse() {
         if (!securityService.isAuthenticated()) {
             logger.error("Unauthorized access attempt to get map points");
@@ -432,7 +435,6 @@ public class AddressService {
      *
      * @return List of all addresses
      */
-    @PreAuthorize("hasRole('ADMIN')")
     public List<Address> getAllAddresses() {
         try {
             logger.info("Retrieving all addresses");
