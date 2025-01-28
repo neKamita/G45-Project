@@ -58,6 +58,7 @@ spring:
 
   data:
     redis:
+      enabled: false
       host: ${SPRING_REDIS_HOST:redis-15073.crce175.eu-north-1-1.ec2.redns.redis-cloud.com}
       port: ${SPRING_REDIS_PORT:15073}
       password: ${SPRING_REDIS_PASSWORD:stdi3YBD24cdrO2zBd0oYrqXhl2xtWML}
@@ -72,7 +73,6 @@ spring:
           min-idle: 0
           max-wait: -1
       url: ${REDIS_URL}
-      enabled: true
 
   security:
     filter:

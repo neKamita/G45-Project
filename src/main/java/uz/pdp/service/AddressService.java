@@ -72,10 +72,11 @@ public class AddressService {
      * @throws BadRequestException if required fields are missing or user doesn't have permission
      */
     @Transactional
-    @Caching(evict = {
-        @CacheEvict(value = ADDRESSES_CACHE, key = "'all'", condition = "@securityService.isAuthenticated()"),
-        @CacheEvict(value = MAP_POINTS_CACHE, key = "'all'")
-    })
+    // Temporarily disabled Redis caching while we sort out serialization issues
+    // @Caching(evict = {
+    //     @CacheEvict(value = ADDRESSES_CACHE, key = "'all'", condition = "@securityService.isAuthenticated()"),
+    //     @CacheEvict(value = MAP_POINTS_CACHE, key = "'all'")
+    // })
     public EntityResponse<Address> addAddressResponse(AddressDTO addressDTO) {
         try {
             logger.info("Adding new address: {}", addressDTO);
@@ -145,7 +146,8 @@ public class AddressService {
      * @return EntityResponse with list of addresses
      */
     @Transactional
-    @Cacheable(value = ADDRESSES_CACHE, key = "'all_' + #username", condition = "@securityService.isAuthenticated()")
+    // Temporarily disabled Redis caching while we sort out serialization issues
+    // @Cacheable(value = ADDRESSES_CACHE, key = "'all_' + #username", condition = "@securityService.isAuthenticated()")
     public EntityResponse<List<Address>> getAllAddressesResponse(String username) {
         if (!securityService.isAuthenticated()) {
             logger.error("Unauthorized access attempt to get all addresses");
@@ -181,8 +183,9 @@ public class AddressService {
      * @return EntityResponse with retrieved address
      * @throws ResourceNotFoundException if address not found
      */
-    @Transactional
-    @Cacheable(value = ADDRESS_CACHE, key = "#id", condition = "@securityService.isAuthenticated()")
+    @Transactional(readOnly = true)
+    // Temporarily disabled Redis caching while we sort out serialization issues
+    // @Cacheable(value = ADDRESS_CACHE, key = "#id", condition = "@securityService.isAuthenticated()")
     public EntityResponse<Address> getAddressResponse(Long id) {
         if (!securityService.isAuthenticated()) {
             logger.error("Unauthorized access attempt to view address with ID: {}", id);
@@ -212,10 +215,12 @@ public class AddressService {
      * @throws BadRequestException if address not found or not owned by user
      */
     @Transactional
-    @Caching(evict = {
-        @CacheEvict(value = ADDRESSES_CACHE, key = "'all'", condition = "@securityService.isAuthenticated()"),
-        @CacheEvict(value = MAP_POINTS_CACHE, key = "'all'")
-    })
+    // Temporarily disabled Redis caching while we sort out serialization issues
+    // @Caching(evict = {
+    //     @CacheEvict(value = ADDRESS_CACHE, key = "#id"),
+    //     @CacheEvict(value = ADDRESSES_CACHE, key = "'all'"),
+    //     @CacheEvict(value = MAP_POINTS_CACHE, key = "'all'")
+    // })
     @CachePut(value = ADDRESS_CACHE, key = "#id", condition = "@securityService.isAuthenticated()")
     public EntityResponse<Address> updateAddressResponse(Long id, AddressDTO addressDTO) {
         if (!securityService.isAuthenticated()) {
