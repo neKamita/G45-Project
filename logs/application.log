@@ -30798,3 +30798,94 @@ org.springframework.expression.spel.SpelEvaluationException: EL1004E: Method cal
 2025-01-28 15:58:33 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
 2025-01-28 15:58:33 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
 2025-01-28 15:58:33 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-01-28 15:58:36 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@7b45f7ef
+2025-01-28 15:58:36 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-01-28 15:58:36 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-01-28 15:58:37 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-01-28 15:58:56 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-01-28 15:58:56 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-01-28 15:58:58 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-01-28 15:58:58 [main] INFO  o.s.g.e.DefaultSchemaResourceGraphQlSourceBuilder - Loaded 1 resource(s) in the GraphQL schema.
+2025-01-28 15:58:58 [main] INFO  o.s.b.a.g.GraphQlAutoConfiguration - GraphQL schema inspection:
+	Unmapped fields: {Query=[door, doors, user, address, addresses, searchAddresses, nearestAddress, doorHistory, order, userOrders, userAddresses], Mutation=[configureDoor, updateProfile, approveSeller, deactivateAccount, createOrder, updateOrderStatus, addAddress], Address=[id, street, city, country, zipCode, location], Subscription=[orderStatusChanged, newDoorAdded]}
+	Unmapped registrations: {Query.getDoorById=DoorGraphQLController#getDoorById[1 args], Query.getRecentHistory=DoorHistoryGraphQLController#getRecentHistory[1 args], Query.getAllMapPoints=AddressGraphQLController#getAllMapPoints[0 args], Query.getAddress=AddressGraphQLController#getAddress[1 args], Query.findNearestAddress=AddressGraphQLController#findNearestAddress[2 args], Query.getUserDoorHistory=DoorHistoryGraphQLController#getUserDoorHistory[2 args], Query.getDoorHistory=DoorHistoryGraphQLController#getDoorHistory[1 args], Query.getAllDoors=DoorGraphQLController#getAllDoors[0 args], Query.searchAddressesByCity=AddressGraphQLController#searchAddressesByCity[1 args], Query.getAllAddresses=AddressGraphQLController#getAllAddresses[0 args], Query.getUserHistory=DoorHistoryGraphQLController#getUserHistory[1 args], Mutation.updateDoorStatus=DoorGraphQLController#updateDoorStatus[3 args]}
+	Skipped types: []
+2025-01-28 15:58:58 [main] INFO  o.s.b.a.g.s.GraphQlWebMvcAutoConfiguration - GraphQL endpoint HTTP POST /graphql
+2025-01-28 15:58:58 [main] INFO  o.s.b.a.g.s.GraphQlWebMvcAutoConfiguration - GraphQL endpoint WebSocket /graphql-ws
+2025-01-28 15:58:58 [main] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 26 endpoint(s) beneath base path '/actuator'
+2025-01-28 15:58:59 [main] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@93a6a7d, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@4ca98517, org.springframework.security.web.context.SecurityContextHolderFilter@6e860133, org.springframework.security.web.header.HeaderWriterFilter@745b78a7, org.springframework.web.filter.CorsFilter@18e41995, org.springframework.security.web.authentication.logout.LogoutFilter@4fdd53f9, uz.pdp.config.filtr.MyFilter@4ac0d49, org.springframework.security.web.authentication.www.BasicAuthenticationFilter@7ac363d6, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@627a8c58, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@76f3595, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@14323fbc, org.springframework.security.web.access.ExceptionTranslationFilter@79b8aa20, org.springframework.security.web.access.intercept.AuthorizationFilter@229b9b8b]
+2025-01-28 15:58:59 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+2025-01-28 15:58:59 [main] INFO  u.p.p.ProjectModul10Application - Started ProjectModul10Application in 28.283 seconds (process running for 28.54)
+2025-01-28 15:58:59 [main] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.email,
+        u1_0.lastname,
+        u1_0.name,
+        u1_0.password,
+        u1_0.phone,
+        u1_0.role,
+        u1_0.seller_request_pending 
+    from
+        users u1_0 
+    where
+        u1_0.name=? 
+        and u1_0.active=true
+2025-01-28 15:59:00 [main] DEBUG org.hibernate.SQL - 
+    select
+        count(*) 
+    from
+        doors d1_0
+2025-01-28 15:59:01 [RMI TCP Connection(1)-127.0.0.1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-01-28 15:59:01 [RMI TCP Connection(1)-127.0.0.1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-01-28 15:59:01 [RMI TCP Connection(1)-127.0.0.1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 2 ms
+2025-01-28 15:59:30 [http-nio-8080-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.email,
+        u1_0.lastname,
+        u1_0.name,
+        u1_0.password,
+        u1_0.phone,
+        u1_0.role,
+        u1_0.seller_request_pending 
+    from
+        users u1_0 
+    where
+        u1_0.name=? 
+        and u1_0.active=true
+2025-01-28 15:59:30 [http-nio-8080-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.email,
+        u1_0.lastname,
+        u1_0.name,
+        u1_0.password,
+        u1_0.phone,
+        u1_0.role,
+        u1_0.seller_request_pending 
+    from
+        users u1_0 
+    where
+        u1_0.name=? 
+        and u1_0.active=true
+2025-01-28 15:59:30 [http-nio-8080-exec-1] INFO  uz.pdp.controller.ContactController - Fetching all store addresses
+2025-01-28 15:59:31 [http-nio-8080-exec-1] INFO  uz.pdp.service.AddressService - Retrieving all addresses
+2025-01-28 15:59:31 [http-nio-8080-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        a1_0.id,
+        a1_0.city,
+        a1_0.email,
+        a1_0.is_default,
+        a1_0.location_id,
+        a1_0.name,
+        a1_0.phone_number,
+        a1_0.street,
+        a1_0.user_id,
+        a1_0.working_hours 
+    from
+        addresses a1_0
+2025-01-28 15:59:31 [http-nio-8080-exec-1] INFO  uz.pdp.service.AddressService - Retrieved 0 addresses

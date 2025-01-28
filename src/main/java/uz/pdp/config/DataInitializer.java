@@ -5,11 +5,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+import uz.pdp.entity.Address;
 import uz.pdp.entity.Door;
 import uz.pdp.entity.FurnitureDoor;
 import uz.pdp.entity.Moulding;
 import uz.pdp.entity.User;
 import uz.pdp.enums.*;
+import uz.pdp.repository.AddressRepository;
 import uz.pdp.repository.DoorRepository;
 import uz.pdp.repository.FurnitureDoorRepository;
 import uz.pdp.repository.MouldingRepository;
@@ -39,6 +41,7 @@ public class DataInitializer implements CommandLineRunner {
     private final DoorRepository doorRepository;
     private final UserRepository userRepository;
     private final MouldingRepository mouldingRepository;
+    private final AddressRepository addressRepository;
     private final PasswordEncoder passwordEncoder;
     private final Faker faker = new Faker(new Locale("en-US"));
 
@@ -129,10 +132,26 @@ public class DataInitializer implements CommandLineRunner {
         "1600585153490-76fb20a32601"   // Contemporary casing
     };
 
+    // Store locations with a door theme!
+    private static final String[][] STORE_LOCATIONS = {
+        // City, Street, Latitude, Longitude
+        {"New York", "Portal Plaza 123", "40.7128", "-74.0060"},
+        {"Los Angeles", "Doorway Drive 456", "34.0522", "-118.2437"},
+        {"Chicago", "Threshold Avenue 789", "41.8781", "-87.6298"},
+        {"Houston", "Hinge Highway 321", "29.7604", "-95.3698"},
+        {"Phoenix", "Knocker Lane 654", "33.4484", "-112.0740"},
+        {"Philadelphia", "Frame Street 987", "39.9526", "-75.1652"},
+        {"San Antonio", "Jamb Junction 147", "29.4241", "-98.4936"},
+        {"San Diego", "Lock Loop 258", "32.7157", "-117.1611"},
+        {"Dallas", "Entry Expressway 369", "32.7767", "-96.7970"},
+        {"San Jose", "Gateway Grove 741", "37.3382", "-121.8863"}
+    };
+
     @Override
     public void run(String... args) {
         initializeDefaultAdmin();
-        if (doorRepository.count() == 0 && furnitureDoorRepository.count() == 0 && mouldingRepository.count() == 0) {
+        if (doorRepository.count() == 0 && furnitureDoorRepository.count() == 0 && 
+            mouldingRepository.count() == 0 && addressRepository.count() == 0) {
             System.out.println("🎭 Welcome to the Door Paradise Initialization!");
             System.out.println("🏗️ Building your door empire...");
             
@@ -148,6 +167,9 @@ public class DataInitializer implements CommandLineRunner {
 
             // Finally, add the finishing touches - mouldings!
             initializeSampleMouldings(seller);
+            
+            // Set up our store locations
+            initializeSampleAddresses();
             
             System.out.println("🎉 Door Paradise is ready for business!");
             System.out.println("🚪 May your doors be sturdy and your handles shiny!");
@@ -628,5 +650,26 @@ public class DataInitializer implements CommandLineRunner {
         }
         
         return imageUrls;
+    }
+
+    /**
+     * Initialize sample store addresses.
+     * Because every door needs a home! 🏠
+     */
+    private void initializeSampleAddresses() {
+        System.out.println("📍 Setting up our door destinations...");
+        
+        for (String[] location : STORE_LOCATIONS) {
+            Address address = new Address();
+            address.setCity(location[0]);
+            address.setStreet(location[1]);
+            address.setLatitude(Double.parseDouble(location[2]));
+            address.setLongitude(Double.parseDouble(location[3]));
+            address.setStatus(Status.ACTIVE);
+            
+            addressRepository.save(address);
+        }
+        
+        System.out.println("🎯 Door destinations are ready for visitors!");
     }
 }
