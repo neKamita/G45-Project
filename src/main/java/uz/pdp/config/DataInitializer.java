@@ -113,9 +113,9 @@ public class DataInitializer implements CommandLineRunner {
     };
 
     private static final String[] MOULDING_SIZES = {
-        "75*38*2100", "100*25*2400", "150*18*2700",
-        "120*40*3000", "90*30*2400", "60*20*2100",
-        "80*35*2700", "110*45*3000"
+        "75*38", "100*25", "150*18",
+        "120*40", "90*30", "60*20",
+        "80*35  ", "110*45"
     };
 
     // Moulding image IDs from Unsplash

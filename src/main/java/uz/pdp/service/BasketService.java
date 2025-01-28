@@ -15,6 +15,7 @@ import uz.pdp.exception.GlobalExceptionHandler.FurnitureDoorNotFoundException;
 import uz.pdp.dto.BasketItemDTO;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * Service for managing shopping basket operations.
@@ -31,6 +32,7 @@ public class BasketService {
     private final BasketItemRepository basketItemRepository;
     private final DoorService doorService;
     private final FurnitureDoorService furnitureDoorService;
+    private final MouldingService mouldingService;
     private final UserRepository userRepository;
 
     /**
@@ -90,6 +92,15 @@ public class BasketService {
             name = door.getName();
             image = door.getImages().isEmpty() ? null : door.getImages().get(0);
             price = door.getFinalPrice() != null ? door.getFinalPrice() : door.getPrice();
+        } else if (type == ItemType.MOULDING) {
+            Optional<Moulding> moulding = mouldingService.getMouldingById(itemId);
+            if (moulding.isEmpty()) {
+                throw new IllegalArgumentException("Moulding not found: " + itemId);
+            }
+            Moulding moulding1 = moulding.get();
+            name = moulding1.getTitle();
+            image = moulding1.getImagesUrl().isEmpty() ? null : moulding1.getImagesUrl().get(0);
+            price = moulding1.getPrice();
         } else {
             FurnitureDoor accessory = furnitureDoorService.getById(itemId)
                 .orElseThrow(() -> new FurnitureDoorNotFoundException(itemId));
@@ -180,6 +191,7 @@ public class BasketService {
     private double getItemPrice(Long itemId, ItemType type) {
         return switch (type) {
             case DOOR -> doorService.getDoorById(itemId).getPrice();
+            case MOULDING -> mouldingService.getMouldingById(itemId).get().getPrice();
             case ACCESSORY -> furnitureDoorService.getById(itemId)
                 .orElseThrow(() -> new FurnitureDoorNotFoundException(itemId))
                 .getPrice();

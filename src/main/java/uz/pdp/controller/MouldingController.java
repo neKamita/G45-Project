@@ -23,12 +23,16 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import uz.pdp.dto.BasketItemDTO;
 import uz.pdp.dto.MouldingCreateDTO;
 import uz.pdp.dto.MouldingDTO;
+import uz.pdp.entity.Basket;
 import uz.pdp.entity.Moulding;
 import uz.pdp.entity.User;
+import uz.pdp.enums.ItemType;
 import uz.pdp.payload.EntityResponse;
 import uz.pdp.repository.UserRepository;
+import uz.pdp.service.BasketService;
 import uz.pdp.service.MouldingService;
 import uz.pdp.service.ImageStorageService;
 
@@ -50,6 +54,7 @@ public class MouldingController {
     private final MouldingService mouldingService;
     private final UserRepository userRepository;
     private final ImageStorageService imageStorageService;
+    private final BasketService basketService;
 
     private static final String MOULDING_IMAGES_PREFIX = "mouldings/";
     private final Logger logger = LoggerFactory.getLogger(MouldingController.class);
@@ -82,23 +87,35 @@ public class MouldingController {
     }
 
     /**
-     * Get all mouldings without pagination.
-     * For when you want the whole collection! 
+     * Add a moulding to the user's basket.
+     * Because every moulding deserves a chance to decorate someone's door! 🚪✨
+     *
+     * @param mouldingId The ID of the moulding to add
+     * @param quantity The quantity to add
+     * @return Response containing the updated basket
      */
-    @GetMapping("/all")
-    @PreAuthorize("hasAnyRole('USER', 'ADMIN', 'SELLER')")
-    @Operation(summary = "Get all mouldings without pagination", description = "Retrieves all mouldings")
+    @PostMapping("/{mouldingId}/basket")
+    @PreAuthorize("hasAnyRole('USER', 'ADMIN')")
+    @Operation(summary = "Add moulding to basket", description = "Adds specified quantity of moulding to user's basket")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Successfully retrieved all mouldings"),
-        @ApiResponse(responseCode = "401", description = "Not authorized to view mouldings")
+        @ApiResponse(responseCode = "200", description = "Successfully added to basket"),
+        @ApiResponse(responseCode = "401", description = "Not authorized"),
+        @ApiResponse(responseCode = "404", description = "Moulding not found")
     })
-    public EntityResponse<List<MouldingDTO>> getAllMouldingsWithoutPagination() {
+    public EntityResponse<Basket> addToBasket(
+            @PathVariable Long mouldingId,
+            @RequestParam(defaultValue = "1") int quantity) {
         try {
-            List<MouldingDTO> mouldings = mouldingService.getAllMouldings();
-            return EntityResponse.success("All mouldings retrieved successfully", mouldings);
+            BasketItemDTO itemDTO = new BasketItemDTO();
+            itemDTO.setItemId(mouldingId);
+            itemDTO.setType(ItemType.MOULDING);
+            itemDTO.setQuantity(quantity);
+            
+            Basket updatedBasket = basketService.addItem(itemDTO);
+            return EntityResponse.success("Moulding added to basket successfully", updatedBasket);
         } catch (Exception e) {
-            logger.error("Failed to retrieve all mouldings: {}", e.getMessage());
-            return EntityResponse.error("Failed to retrieve all mouldings: " + e.getMessage());
+            logger.error("Failed to add moulding to basket: {}", e.getMessage());
+            return EntityResponse.error("Failed to add moulding to basket: " + e.getMessage());
         }
     }
 
@@ -308,4 +325,4 @@ public class MouldingController {
             return EntityResponse.error("An unexpected error occurred: " + e.getMessage());
         }
     }
-}
+}   
