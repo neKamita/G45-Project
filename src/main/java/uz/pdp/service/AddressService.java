@@ -23,6 +23,7 @@ import uz.pdp.exception.ResourceNotFoundException;
 import uz.pdp.exception.UnauthorizedException;
 import uz.pdp.payload.EntityResponse;
 import uz.pdp.repository.AddressRepository;
+import uz.pdp.security.SecurityService;
 
 import java.util.List;
 import java.util.Optional;
@@ -53,10 +54,12 @@ public class AddressService {
 
     private final AddressRepository addressRepository;
     private final UserService userService;
+    private final SecurityService securityService;
 
-    public AddressService(AddressRepository addressRepository, UserService userService) {
+    public AddressService(AddressRepository addressRepository, UserService userService, SecurityService securityService) {
         this.addressRepository = addressRepository;
         this.userService = userService;
+        this.securityService = securityService;
     }
 
     /**
@@ -70,7 +73,7 @@ public class AddressService {
      */
     @Transactional
     @Caching(evict = {
-        @CacheEvict(value = ADDRESSES_CACHE, key = "'all'", condition = "#root.target.isAuthenticated()"),
+        @CacheEvict(value = ADDRESSES_CACHE, key = "'all'", condition = "@securityService.isAuthenticated()"),
         @CacheEvict(value = MAP_POINTS_CACHE, key = "'all'")
     })
     public EntityResponse<Address> addAddressResponse(AddressDTO addressDTO) {
@@ -141,9 +144,9 @@ public class AddressService {
      * @return EntityResponse with list of addresses
      */
     @Transactional
-    @Cacheable(value = ADDRESSES_CACHE, key = "'all'", condition = "#this.isAuthenticated()")
+    @Cacheable(value = ADDRESSES_CACHE, key = "'all'", condition = "@securityService.isAuthenticated()")
     public EntityResponse<List<Address>> getAllAddressesResponse() {
-        if (!isAuthenticated()) {
+        if (!securityService.isAuthenticated()) {
             logger.error("Unauthorized access attempt to get all addresses");
             return EntityResponse.error("Please log in to view addresses", null);
         }
@@ -166,11 +169,11 @@ public class AddressService {
      * @throws ResourceNotFoundException if address not found
      */
     @Transactional
-    @Cacheable(value = ADDRESS_CACHE, key = "#id", condition = "#this.isAuthenticated()")
+    @Cacheable(value = ADDRESS_CACHE, key = "#id", condition = "@securityService.isAuthenticated()")
     public EntityResponse<Address> getAddressResponse(Long id) {
-        if (!isAuthenticated()) {
+        if (!securityService.isAuthenticated()) {
             logger.error("Unauthorized access attempt to view address with ID: {}", id);
-            return EntityResponse.error("Please log in to view addresses", null);
+            return EntityResponse.error("Please log in to view address details", null);
         }
 
         try {
@@ -197,14 +200,14 @@ public class AddressService {
      */
     @Transactional
     @Caching(evict = {
-        @CacheEvict(value = ADDRESSES_CACHE, key = "'all'", condition = "#this.isAuthenticated()"),
+        @CacheEvict(value = ADDRESSES_CACHE, key = "'all'", condition = "@securityService.isAuthenticated()"),
         @CacheEvict(value = MAP_POINTS_CACHE, key = "'all'")
     })
-    @CachePut(value = ADDRESS_CACHE, key = "#id", condition = "#this.isAuthenticated()")
+    @CachePut(value = ADDRESS_CACHE, key = "#id", condition = "@securityService.isAuthenticated()")
     public EntityResponse<Address> updateAddressResponse(Long id, AddressDTO addressDTO) {
-        if (!isAuthenticated()) {
+        if (!securityService.isAuthenticated()) {
             logger.error("Unauthorized access attempt to update address with ID: {}", id);
-            return EntityResponse.error("Please log in to update addresses", null);
+            return EntityResponse.error("Please log in to update address", null);
         }
 
         try {
@@ -240,12 +243,12 @@ public class AddressService {
     @Transactional
     @PreAuthorize("hasAnyRole('ADMIN', 'USER')")
     @Caching(evict = {
-        @CacheEvict(value = ADDRESSES_CACHE, key = "'all'", condition = "#this.isAuthenticated()"),
+        @CacheEvict(value = ADDRESSES_CACHE, key = "'all'", condition = "@securityService.isAuthenticated()"),
         @CacheEvict(value = ADDRESS_CACHE, key = "#id"),
         @CacheEvict(value = MAP_POINTS_CACHE, key = "'all'")
     })
     public EntityResponse<Void> deleteAddressResponse(Long id) {
-        if (!isAuthenticated()) {
+        if (!securityService.isAuthenticated()) {
             logger.error("Unauthorized access attempt to delete address with ID: {}", id);
             return EntityResponse.error("Please log in to delete addresses", null);
         }
@@ -271,9 +274,9 @@ public class AddressService {
      * @throws BadRequestException if city parameter is empty
      */
     @Transactional
-    @Cacheable(value = ADDRESSES_CACHE, key = "'city:' + #city", condition = "#this.isAuthenticated()")
+    @Cacheable(value = ADDRESSES_CACHE, key = "'city:' + #city", condition = "@securityService.isAuthenticated()")
     public EntityResponse<List<Address>> searchAddressesByCityResponse(String city) {
-        if (!isAuthenticated()) {
+        if (!securityService.isAuthenticated()) {
             logger.error("Unauthorized access attempt to search addresses by city: {}", city);
             return EntityResponse.error("Please log in to search addresses", null);
         }
@@ -302,7 +305,7 @@ public class AddressService {
     @Transactional
     @Cacheable(value = MAP_POINTS_CACHE, key = "'all'")
     public EntityResponse<List<AddressDTO.LocationDTO>> getAllMapPointsResponse() {
-        if (!isAuthenticated()) {
+        if (!securityService.isAuthenticated()) {
             logger.error("Unauthorized access attempt to get map points");
             return EntityResponse.error("Please log in to view map points", null);
         }
@@ -614,7 +617,7 @@ public class AddressService {
      */
     @Transactional
     public EntityResponse<Address> findNearestAddressResponse(Double latitude, Double longitude) {
-        if (!isAuthenticated()) {
+        if (!securityService.isAuthenticated()) {
             logger.error("Unauthorized access attempt to find nearest address");
             return EntityResponse.error("Please log in to find nearest address", null);
         }
@@ -705,7 +708,7 @@ public class AddressService {
 
     /**
      * Checks if the current user is authenticated.
-     * Like a bouncer at a fancy door club! 🚪
+     * Like a bouncer at a fancy door club! 
      *
      * @return true if user is authenticated, false otherwise
      */
