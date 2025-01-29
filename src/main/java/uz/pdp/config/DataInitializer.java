@@ -153,35 +153,68 @@ public class DataInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-        initializeDefaultAdmin();
-        createDefaultCategories();
-        createDefaultDoors();
-        if (doorRepository.count() == 0 && furnitureDoorRepository.count() == 0 && 
-            mouldingRepository.count() == 0 && addressRepository.count() == 0) {
-            System.out.println("🎭 Welcome to the Door Paradise Initialization!");
-            System.out.println("🏗️ Building your door empire...");
-            
-            // First, create our legendary door master
-            User seller = createSampleSeller();
-            System.out.println("👔 Door Master has entered the building!");
-            
-            // Create the main attractions - the doors!
-            initializeSampleDoors(seller);
-            
-            // Now add some bling - door accessories
-            initializeSampleFurnitureDoors();
-
-            // Finally, add the finishing touches - mouldings!
-            initializeSampleMouldings(seller);
-            
-            // Set up our store locations
-            initializeSampleAddresses();
-            
-            System.out.println("🎉 Door Paradise is ready for business!");
-            System.out.println("🚪 May your doors be sturdy and your handles shiny!");
-        } else {
-            System.out.println("🏪 Door Paradise is already stocked and ready!");
+        System.out.println("🎭 Welcome to the Door Paradise Initialization!");
+        
+        // Initialize admin if needed
+        if (!userRepository.findByName("etadoor").isPresent()) {
+            System.out.println("👑 Crowning the Admin of Door Paradise...");
+            initializeDefaultAdmin();
+            System.out.println("✨ Admin has been crowned successfully!");
         }
+        
+        // Initialize categories if needed
+        if (categoryRepository.count() == 0) {
+            System.out.println("📁 Creating door categories...");
+            createDefaultCategories();
+            System.out.println("✨ Door categories have been organized!");
+        }
+        
+        // Initialize default doors if needed
+        if (doorRepository.count() == 0) {
+            System.out.println("🚪 Creating default door collection...");
+            createDefaultDoors();
+            System.out.println("✨ Default doors have been crafted!");
+        }
+        
+        // Initialize sample doors if needed
+        User seller = null;
+        if (!userRepository.findByEmail("doormaster@example.com").isPresent()) {
+            System.out.println("👔 Appointing the Door Master...");
+            seller = createSampleSeller();
+            System.out.println("✨ Door Master has entered the building!");
+        } else {
+            seller = userRepository.findByEmail("doormaster@example.com").get();
+        }
+        
+        if (doorRepository.count() < 20) { // Assuming we want at least 20 sample doors
+            System.out.println("🏗️ Creating sample door collection...");
+            initializeSampleDoors(seller);
+            System.out.println("✨ Sample doors have been installed!");
+        }
+        
+        // Initialize door accessories if needed
+        if (furnitureDoorRepository.count() == 0) {
+            System.out.println("🔨 Adding door accessories to the catalog...");
+            initializeSampleFurnitureDoors();
+            System.out.println("✨ Door accessories have been added successfully!");
+        }
+        
+        // Initialize mouldings if needed
+        if (mouldingRepository.count() == 0) {
+            System.out.println("🖼️ Creating moulding collection...");
+            initializeSampleMouldings(seller);
+            System.out.println("✨ Mouldings have been crafted perfectly!");
+        }
+        
+        // Initialize store addresses if needed
+        if (addressRepository.count() == 0) {
+            System.out.println("🏪 Setting up store locations...");
+            initializeSampleAddresses();
+            System.out.println("✨ Store locations are ready for business!");
+        }
+        
+        System.out.println("🎉 Door Paradise initialization complete!");
+        System.out.println("🚪 May your doors be sturdy and your handles shiny!");
     }
 
     /**
@@ -751,7 +784,7 @@ public class DataInitializer implements CommandLineRunner {
             for (DoorLocation location : Arrays.asList(DoorLocation.BEDROOM, DoorLocation.LIVING_ROOM, DoorLocation.BATHROOM)) {
                 Door door = new Door();
                 door.setName("Classic Oak " + location.name());
-                door.setDescription("Timeless oak door perfect for your " + location.name().toLowerCase());
+                door.setDescription("Timeless oak door perfect for your " + location.name().toLowerCase);
                 door.setPrice(299.99);
                 door.setFinalPrice(299.99);
                 door.setCategory(interior);
