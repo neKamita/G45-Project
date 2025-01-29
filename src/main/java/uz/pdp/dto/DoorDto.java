@@ -10,6 +10,8 @@ import uz.pdp.enums.*;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 /**
  * DTO for Door entity with all customization options.
  * 🚪 Every door tells a story, and this class tells it in JSON! 
@@ -63,8 +65,12 @@ public class DoorDto {
     private Boolean isCustomColor;
 
     private Double finalPrice; // Final price after calculations
-    private Long categoryId;
-    private String categoryName;
+    
+    // Category fields - categoryId for input, categoryName for output
+    private Long categoryId;      // Used when creating/updating doors
+
+    private String categoryName;  // Used when returning door details
+    
     private List<String> images; // Door images
     private String status; // Door status (AVAILABLE, etc)
 
@@ -93,8 +99,15 @@ public class DoorDto {
         dto.setCustomWidth(door.getCustomWidth());
         dto.setCustomHeight(door.getCustomHeight());
         dto.setIsCustomColor(door.getIsCustomColor());
-        dto.setImages(door.getImages());
         dto.setStatus(door.getStatus().toString());
+        dto.setImages(door.getImages());
+        
+        // Set just the category name if category is present
+        if (door.getCategory() != null) {
+            dto.setCategoryName(door.getCategory().getName());
+            // Don't set categoryId in fromEntity to keep it out of responses
+        }
+        
         return dto;
     }
 }

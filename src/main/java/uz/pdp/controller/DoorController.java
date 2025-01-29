@@ -226,6 +226,7 @@ public class DoorController {
                           "customWidth": null,
                           "customHeight": null,
                           "isCustomColor": false,
+                          "category": "Security",
                           "images": [
                             "https://example.com/door1.jpg"
                           ]
@@ -486,51 +487,38 @@ public class DoorController {
     }
 
     /**
-     * Get all doors of a specific color.
-     * For when you're feeling particularly picky about your door's fashion sense! 👗
+     * Get all doors in a specific category.
+     * Because organization is key... and so are doors! 🗂️🚪
      */
     @Operation(
-        summary = "Get doors by color",
-        description = "Retrieves all doors of a specific color. Use URL-encoded color names (e.g., 'Classic%20White', 'Light%20Oak')"
+        summary = "Get doors by category",
+        description = "Retrieves all doors in a specific category"
     )
     @ApiResponses({
         @ApiResponse(responseCode = "200", description = "Successfully retrieved doors"),
-        @ApiResponse(responseCode = "400", description = "Invalid color name provided")
+        @ApiResponse(responseCode = "404", description = "Category not found")
     })
-    @GetMapping("/color/{colorName}")
-    public EntityResponse<List<DoorDto>> getDoorsByColor(
-        @Parameter(
-            description = "Color name (e.g., 'Classic White', 'Light Oak')", 
-            example = "Classic White",
-            required = true
-        )
-        @PathVariable String colorName
+    @GetMapping("/category/{categoryId}")
+    public EntityResponse<List<DoorDto>> getDoorsByCategory(
+        @Parameter(description = "Category ID", example = "1", required = true)
+        @PathVariable Long categoryId
     ) {
         try {
-            // Convert display name to enum name (e.g., "Classic White" -> "WHITE")
-            Color color = Arrays.stream(Color.values())
-                .filter(c -> c.getDisplayName().equalsIgnoreCase(colorName))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Color not found: " + colorName));
-            
-            List<DoorDto> doors = doorService.getDoorsByColor(color)
+            List<DoorDto> doors = doorService.getDoorsByCategory(categoryId)
                 .stream()
-                .map(doorMapper::toDto)
+                .map(doorMapper::toDto)  // Use doorMapper to ensure consistent DTO mapping
                 .toList();
                 
             return EntityResponse.success(
-                String.format("Found %d doors in %s", doors.size(), color.getDisplayName()),
+                String.format("Found %d doors in this category", doors.size()),
                 doors
             );
-        } catch (IllegalArgumentException e) {
-            logger.error("Invalid color name provided: {}", colorName);
-            return EntityResponse.error("Color not found: " + colorName + ". Available colors: " + 
-                Arrays.stream(Color.values())
-                    .map(Color::getDisplayName)
-                    .toList());
+        } catch (EntityNotFoundException e) {
+            logger.error("Category not found: {}", categoryId);
+            return EntityResponse.error("Category not found: " + categoryId);
         } catch (Exception e) {
-            logger.error("Error retrieving doors by color {}: {}", colorName, e.getMessage());
-            return EntityResponse.error("Error retrieving doors by color: " + e.getMessage());
+            logger.error("Error retrieving doors by category {}: {}", categoryId, e.getMessage());
+            return EntityResponse.error("Error retrieving doors: " + e.getMessage());
         }
     }
 
@@ -608,5 +596,54 @@ public class DoorController {
             "Custom color variant created successfully",
             variant
         ));
+    }
+
+    /**
+     * Get all doors of a specific color.
+     * For when you're feeling particularly picky about your door's fashion sense! 👗
+     */
+    @Operation(
+        summary = "Get doors by color",
+        description = "Retrieves all doors of a specific color. Use URL-encoded color names (e.g., 'Classic%20White', 'Light%20Oak')"
+    )
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Successfully retrieved doors"),
+        @ApiResponse(responseCode = "400", description = "Invalid color name provided")
+    })
+    @GetMapping("/color/{colorName}")
+    public EntityResponse<List<DoorDto>> getDoorsByColor(
+        @Parameter(
+            description = "Color name (e.g., 'Classic White', 'Light Oak')", 
+            example = "Classic White",
+            required = true
+        )
+        @PathVariable String colorName
+    ) {
+        try {
+            // Convert display name to enum name (e.g., "Classic White" -> "WHITE")
+            Color color = Arrays.stream(Color.values())
+                .filter(c -> c.getDisplayName().equalsIgnoreCase(colorName))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Color not found: " + colorName));
+            
+            List<DoorDto> doors = doorService.getDoorsByColor(color)
+                .stream()
+                .map(doorMapper::toDto)
+                .toList();
+                
+            return EntityResponse.success(
+                String.format("Found %d doors in %s", doors.size(), color.getDisplayName()),
+                doors
+            );
+        } catch (IllegalArgumentException e) {
+            logger.error("Invalid color name provided: {}", colorName);
+            return EntityResponse.error("Color not found: " + colorName + ". Available colors: " + 
+                Arrays.stream(Color.values())
+                    .map(Color::getDisplayName)
+                    .toList());
+        } catch (Exception e) {
+            logger.error("Error retrieving doors by color {}: {}", colorName, e.getMessage());
+            return EntityResponse.error("Error retrieving doors by color: " + e.getMessage());
+        }
     }
 }

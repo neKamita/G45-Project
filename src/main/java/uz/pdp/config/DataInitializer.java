@@ -342,7 +342,7 @@ public class DataInitializer implements CommandLineRunner {
                       faker.commerce().material() + "-Infused " : "";
         
         door.setName(prefix + style + " " + adjective + " " + material + " Door");
-        door.setDescription(generateDoorDescription(material, style));
+        door.setDescription(generateDoorDescription(door, material, style));
         
         // Set random size (75% standard, 25% custom)
         if (faker.number().numberBetween(1, 100) <= 75) {
@@ -387,6 +387,13 @@ public class DataInitializer implements CommandLineRunner {
         door.setSeller(seller);
         door.setStatus(DoorStatus.AVAILABLE);
         door.setActive(true);
+
+        // Assign a random category
+        List<Category> categories = categoryRepository.findAll();
+        if (!categories.isEmpty()) {
+            int randomIndex = faker.number().numberBetween(0, categories.size());
+            door.setCategory(categories.get(randomIndex));
+        }
         
         return door;
     }
@@ -447,22 +454,83 @@ public class DataInitializer implements CommandLineRunner {
         door.setImages(images);
     }
 
-    private String generateDoorDescription(String material, String style) {
-        String[] templates = {
-            "A %s door that makes your neighbors' doors look like they're trying too hard! Made from premium %s.",
-            "This %s masterpiece isn't just a door, it's a conversation starter! Crafted from finest %s.",
-            "When %s meets %s, magic happens! Your guests will be too busy admiring it to notice your messy house.",
-            "A door so %s, it makes other doors feel inadequate. Premium %s construction for those with exquisite taste.",
-            "This %s %s door doesn't just open and close, it makes an entrance! Perfect for dramatic exits too!",
-            "Crafted from %s with a touch of %s magic - because your home deserves nothing less!",
-            "A %s statement piece that says 'I have arrived!' (Through a very nice %s door, obviously)",
-            "The perfect blend of %s style and %s durability. Your neighbors called - they want their envy back!",
-            "When %s craftsmanship meets %s design, doors become art. This isn't just a door, it's a masterpiece!",
-            "Warning: This %s door with %s finish may cause spontaneous home renovation desires in your guests."
-        };
+    /**
+     * Generates a creative description for a door.
+     * Because every door deserves its own story! 📖
+     * 
+     * @param door The door to generate description for
+     * @param material Material of the door
+     * @param style Style of the door
+     * @return A witty description that'll make customers smile! 😊
+     */
+    private String generateDoorDescription(Door door, String material, String style) {
+        StringBuilder description = new StringBuilder();
         
-        String template = templates[faker.number().numberBetween(0, templates.length)];
-        return String.format(template, style.toLowerCase(), material.toLowerCase());
+        // Base description with material and style
+        description.append(String.format("Exquisite %s door crafted in the %s style. ", material, style));
+        
+        // Material-specific features
+        if (material.contains("Steel") || material.equals("Metal-Wood Hybrid")) {
+            description.append("Built like a tank, but looks like a masterpiece! 💪 ");
+        } else if (Arrays.asList("Mahogany", "Teak", "Oak", "Walnut").contains(material)) {
+            description.append("Mother Nature's finest, hand-picked for your home! 🌳 ");
+        } else if (material.equals("Tempered Glass")) {
+            description.append("See-through strength that's anything but fragile! ✨ ");
+        }
+        
+        // Style-specific charm
+        switch (style) {
+            case "Modern":
+                description.append("Clean lines and contemporary charm that'll make minimalists weak in the knees!");
+                break;
+            case "Classic":
+                description.append("Timeless elegance that never goes out of style - like a little black dress, but for your home!");
+                break;
+            case "Rustic":
+                description.append("Bringing that cozy cabin feel, minus the bears! 🌲");
+                break;
+            case "Art Deco":
+                description.append("Gatsby would be jealous of this beauty! ✨");
+                break;
+            case "Gothic":
+                description.append("Perfect for dramatic entrances - cape not included! 🦇");
+                break;
+            default:
+                description.append("A perfect blend of form and function!");
+        }
+        
+        // Category-specific features (if category is set)
+        if (door.getCategory() != null) {
+            description.append("\n\n");
+            switch (door.getCategory().getName()) {
+                case "Interior Doors":
+                    description.append("🏠 Perfect for creating cozy spaces inside your home! Comes with our patented Whisper-Close™ technology - because nobody likes a door that talks back!");
+                    break;
+                case "Exterior Doors":
+                    description.append("🏰 Your home's first line of defense against the elements (and those pesky door-to-door salespeople)! Weather-resistant and neighbor-impressing.");
+                    break;
+                case "Security Doors":
+                    description.append("🔒 Fort Knox called - they want their door back! Features state-of-the-art security that would make a superhero proud.");
+                    break;
+                case "Sliding Doors":
+                    description.append("🌊 Smooth like butter, quiet like a ninja! Perfect for those who want to make an entrance without actually opening a door.");
+                    break;
+                case "French Doors":
+                    description.append("🥖 Ooh la la! Bring a touch of Parisian elegance to your home. Warning: May cause sudden urges to eat croissants.");
+                    break;
+                case "Barn Doors":
+                    description.append("🚜 All the charm of country living, none of the hay! Perfect for adding rustic character without the actual barn.");
+                    break;
+                case "Smart Doors":
+                    description.append("🤖 So smart it might finish your sentences! Packed with tech that makes sci-fi movies look outdated.");
+                    break;
+            }
+        }
+        
+        // Add warranty info with a touch of humor
+        description.append(String.format("\n\nComes with a %d-year warranty - because we stand behind our doors, literally! 🛡️", door.getWarrantyYears()));
+        
+        return description.toString();
     }
 
     private void initializeSampleFurnitureDoors() {
@@ -783,8 +851,8 @@ public class DataInitializer implements CommandLineRunner {
             // Classic Oak Interior Door Series
             for (DoorLocation location : Arrays.asList(DoorLocation.BEDROOM, DoorLocation.LIVING_ROOM, DoorLocation.BATHROOM)) {
                 Door door = new Door();
-                door.setName("Classic Oak " + location.name());
-                door.setDescription("Timeless oak door perfect for your " + location.name().toLowerCase());
+                door.setName("Classic Oak " + location.toString().toLowerCase());
+                door.setDescription("Timeless oak door perfect for your " + location.toString().toLowerCase());
                 door.setPrice(299.99);
                 door.setFinalPrice(299.99);
                 door.setCategory(interior);
@@ -806,7 +874,7 @@ public class DataInitializer implements CommandLineRunner {
             // Modern Security Series
             for (Color color : Arrays.asList(Color.BLACK, Color.CHARCOAL, Color.GRAY)) {
                 Door door = new Door();
-                door.setName("Modern Security " + color.name());
+                door.setName("Modern Security " + color.toString());
                 door.setDescription("High-security door with modern aesthetics");
                 door.setPrice(899.99);
                 door.setFinalPrice(899.99);
@@ -852,8 +920,8 @@ public class DataInitializer implements CommandLineRunner {
             // Modern Sliding Series
             for (FrameType frameType : Arrays.asList(FrameType.REBATED, FrameType.NON_REBATED, FrameType.TELESCOPIC)) {
                 Door door = new Door();
-                door.setName("Modern " + frameType.name() + " Slider");
-                door.setDescription("Contemporary sliding door with " + frameType.name().toLowerCase() + " frame");
+                door.setName("Modern " + frameType.toString() + " Slider");
+                door.setDescription("Contemporary sliding door with " + frameType.toString().toLowerCase() + " frame");
                 door.setPrice(799.99);
                 door.setFinalPrice(799.99);
                 door.setCategory(sliding);

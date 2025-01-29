@@ -825,21 +825,45 @@ public class DoorService {
         doorDto.setId(door.getId());
         
         if (door.getCategory() != null) {
-            doorDto.setCategoryId(door.getCategory().getId());
-            doorDto.setCategoryName(door.getCategory().getName());
+            doorDto.setCategoryName(door.getCategory().getName());  // Only set categoryName for responses
         }
         
         doorDto.setName(door.getName());
         doorDto.setDescription(door.getDescription());
         doorDto.setPrice(door.getPrice());
+        doorDto.setFinalPrice(door.getFinalPrice());
         doorDto.setSize(door.getSize());
         doorDto.setColor(door.getColor());
         doorDto.setMaterial(door.getMaterial());
         doorDto.setManufacturer(door.getManufacturer());
+        doorDto.setFrameType(door.getFrameType());
+        doorDto.setHardware(door.getHardware());
+        doorDto.setDoorLocation(door.getDoorLocation());
         doorDto.setWarrantyYears(door.getWarrantyYears());
         doorDto.setCustomWidth(door.getCustomWidth());
         doorDto.setCustomHeight(door.getCustomHeight());
         doorDto.setIsCustomColor(door.getIsCustomColor());
+        doorDto.setImages(door.getImages());
+        doorDto.setStatus(door.getStatus().toString());
         return doorDto;
+    }
+
+    /**
+     * Get all doors in a specific category.
+     * Because every door needs a family! 🏠
+     *
+     * @param categoryId ID of the category to fetch doors from
+     * @return List of doors in the category
+     * @throws EntityNotFoundException if category not found
+     */
+    public List<Door> getDoorsByCategory(Long categoryId) {
+        Category category = categoryRepository.findById(categoryId)
+            .orElseThrow(() -> new EntityNotFoundException("Category not found: " + categoryId));
+
+        logger.info("Fetching doors for category: {} ({})", category.getName(), categoryId);
+        List<Door> doors = doorRepository.findByCategory(category);
+        logger.info("Found {} doors in category {}", doors.size(), category.getName());
+        
+        return doors;
     }
 }

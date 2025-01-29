@@ -270,7 +270,11 @@ public class BasketService {
             itemsToCheckout.size(), String.format("%.2f", totalAmount));
 
         // Remove checked out items from basket
-        basketItemRepository.deleteAllById(basketItemIds);
+        for (BasketItem item : itemsToCheckout) {
+            basketItemRepository.delete(item); // Use delete instead of deleteById for better transactional behavior
+            userBasket.getItems().remove(item); // Also remove from the basket's items collection
+        }
+        basketRepository.save(userBasket); // Save the updated basket
 
         log.info("Successfully checked out {} items from basket {}", 
             itemsToCheckout.size(), userBasket.getId());

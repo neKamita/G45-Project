@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import uz.pdp.entity.Category;
 import uz.pdp.entity.Door;
 import uz.pdp.entity.User;
 import uz.pdp.enums.Color;
@@ -154,4 +155,13 @@ public interface DoorRepository extends JpaRepository<Door, Long> {
     Optional<Door> findByBaseModelIdAndColor(Long baseModelId, Color color);
 
     List<Door> findByMaterialAndColorAndPriceBetweenAndIdNot(String material, Color color, double v, double v1, Long id, PageRequest of);
+
+    /**
+     * Find all doors in a specific category.
+     * The doors are like a big family, and categories are their homes! 🏠
+     *
+     * @param category The category to search in
+     * @return List of doors in the category
+     */
+    List<Door> findByCategory(Category category);
 }

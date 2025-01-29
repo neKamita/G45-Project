@@ -13,7 +13,7 @@ import uz.pdp.entity.User;
 import java.io.IOException;
 
 @Component
-public class MyFilter implements Filter {
+public class    MyFilter implements Filter {
 
     @Autowired
     @Lazy

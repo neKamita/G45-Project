@@ -33,6 +33,7 @@ public interface DoorMapper {
      * Like taking a door from the warehouse to the showroom! 
      */
     @Mapping(target = "status", expression = "java(door.getStatus().toString())")
+    @Mapping(target = "categoryName", expression = "java(door.getCategory() != null ? door.getCategory().getName() : null)")
     DoorDto toDto(Door door);
 
     /**
