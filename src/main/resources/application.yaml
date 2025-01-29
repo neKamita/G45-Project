@@ -110,11 +110,11 @@ springdoc:
       - name: Development
         url: /v3/api-docs
       - name: Production
-        url: https://etadoor.koyeb.app/v3/api-docs
+        url: https://etadoor.up.railway.app/v3/api-docs
   servers:
     - url: http://localhost:8080
       description: Local Development Server
-    - url: https://etadoor.koyeb.app
+    - url: https://etadoor.up.railway.app
       description: Production Server
   info:
     title: Etadoor API

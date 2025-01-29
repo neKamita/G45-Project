@@ -17,4 +17,4 @@ service:
     - name: REDIS_PASSWORD
       value: "stdi3YBD24cdrO2zBd0oYrqXhl2xtWML"
     - name: APP_URL
-      value: "https://etadoor.koyeb.app"
+      value: "https://etadoor.up.railway.app"

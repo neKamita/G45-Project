@@ -37,7 +37,7 @@ import uz.pdp.config.filtr.MyFilter;
 @EnableWebSecurity
 @EnableMethodSecurity(prePostEnabled = true)
 @OpenAPIDefinition(info = @Info(title = "Etadoor API", version = "1.1.2"), servers = {
-        @Server(url = "https://etadoor.koyeb.app", description = "Production Server"),
+        @Server(url = "https://etadoor.up.railway.app", description = "Production Server"),
         @Server(url = "http://localhost:8080", description = "Local Development Server")
 }, security = @SecurityRequirement(name = "bearerAuth"))
 @SecurityScheme(name = "bearerAuth", type = SecuritySchemeType.HTTP, scheme = "bearer", bearerFormat = "JWT")
@@ -101,7 +101,7 @@ public class MyConf {
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedOrigins(List.of(
                 "http://localhost:8080",
-                "https://etadoor.koyeb.app",
+                "https://etadoor.up.railway.app",
                 "http://localhost:5173"));
         config.setAllowCredentials(true);
         source.registerCorsConfiguration("/**", config);
