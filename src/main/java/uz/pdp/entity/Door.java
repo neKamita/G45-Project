@@ -1,5 +1,6 @@
 package uz.pdp.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -45,6 +46,7 @@ public class Door {
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
+    @JsonIgnore  // Ignore this field during serialization
     private Category category;
     
     @ElementCollection
@@ -83,6 +85,7 @@ public class Door {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "seller_id")
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @JsonIgnore  // Ignore this field during serialization
     private User seller;
 
     @Enumerated(EnumType.STRING)

@@ -21,21 +21,30 @@ import uz.pdp.dto.DoorDto;
 import uz.pdp.dto.UserDoorHistoryDto;
 import uz.pdp.dto.BasketItemDTO;
 import uz.pdp.dto.BasketResponseDTO;
+import uz.pdp.dto.DoorResponseDTO;
 import uz.pdp.entity.Door;
 import uz.pdp.entity.User;
 import uz.pdp.enums.Color;
 import uz.pdp.enums.ItemType;
 import uz.pdp.mutations.DoorConfigInput;
 import uz.pdp.payload.EntityResponse;
-import uz.pdp.service.BasketService;
-import uz.pdp.service.DoorHistoryService;
-import uz.pdp.service.DoorService;
-import uz.pdp.service.UserService;
+import uz.pdp.service.*;
+import uz.pdp.mapper.DoorMapper;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+
+import org.springframework.util.StringUtils;
+import org.springframework.web.multipart.support.StandardMultipartHttpServletRequest;
+
+import jakarta.persistence.PersistenceException;
+import java.io.IOException;
+import java.util.ArrayList;
+
+import org.hibernate.Hibernate;
+import org.springframework.beans.BeanUtils;
 
 /**
  * REST controller for managing smart door operations.
@@ -69,6 +78,12 @@ public class DoorController {
 
     @Autowired
     private BasketService basketService;
+
+    @Autowired
+    private DoorMapper doorMapper;
+
+    @Autowired
+    private ImageStorageService imageStorageService;
 
     /**
      * Retrieves a user's door history because apparently, 
@@ -331,35 +346,58 @@ public class DoorController {
      * Only administrators and the door's owner can upload images.
      *
      * @param id Door ID to upload images for
-     * @param images Images to upload
+     * @param image Image to upload
      * @return ResponseEntity with updated door
      *         - 200 OK if images uploaded successfully
      *         - 400 Bad Request if validation fails
      *         - 404 Not Found if door doesn't exist
      */
-    @PostMapping(value = "/{id}/images", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/{id}/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @PreAuthorize("hasRole('ADMIN') or (hasRole('SELLER') and @doorSecurityService.isSeller(#id))")
-    @Operation(summary = "Upload door images (ADMIN or owner SELLER)")
-    public ResponseEntity<EntityResponse<Door>> uploadImages(
+    @Operation(summary = "Upload door image (ADMIN or owner SELLER)")
+    public ResponseEntity<EntityResponse<DoorResponseDTO>> uploadImage(
             @PathVariable Long id,
-            @RequestPart("images") MultipartFile[] images) {
-        try {
-            logger.info("Uploading {} images for door ID: {}", images.length, id);
-            Door updatedDoor = doorService.uploadImages(id, Arrays.asList(images));
-            return ResponseEntity.ok(EntityResponse.success("Images uploaded successfully", updatedDoor));
-        } catch (IllegalArgumentException e) {
-            logger.error("Invalid image upload request: {}", e.getMessage());
-            return ResponseEntity.badRequest()
-                    .body(EntityResponse.error(e.getMessage()));
-        } catch (EntityNotFoundException e) {
-            logger.error("Door not found: {}", e.getMessage());
+            @RequestPart("image") MultipartFile image) throws IOException {
+
+        Door door = doorService.getDoorById(id);
+        if (door == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(EntityResponse.error(e.getMessage()));
-        } catch (Exception e) {
-            logger.error("Error uploading images: {}", e.getMessage());
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(EntityResponse.error("Failed to upload images: " + e.getMessage()));
+                    .body(EntityResponse.error("Door not found"));
         }
+
+        // Upload new image
+        String imageUrl;
+        try {
+            imageUrl = imageStorageService.storeDoorImage(image);
+            logger.info("Successfully uploaded new image: {}", imageUrl);
+        } catch (IOException e) {
+            logger.error("Failed to upload new image: {}", e.getMessage());
+            throw new IllegalStateException("Failed to upload new image: " + e.getMessage());
+        }
+
+        // Create new list with existing images plus new one
+        List<String> imageUrls = new ArrayList<>(door.getImages() != null ? door.getImages() : new ArrayList<>());
+        imageUrls.add(imageUrl); // Add the new image to the collection
+
+        // Update door with new images
+        door.setImages(imageUrls);
+        Door updated = doorService.updateDoor(id, door).getData();
+
+        // Convert to DTO to avoid lazy loading issues
+        DoorResponseDTO responseDTO = doorMapper.toResponseDto(updated);
+        
+        return ResponseEntity.ok(EntityResponse.success(
+                "Image added successfully! Your door's photo album is growing! 🚪📸✨",
+                responseDTO));
+    }
+
+    private String validateAndGetContentType(MultipartFile file) {
+        String contentType = file.getContentType();
+        if (contentType == null || !contentType.startsWith("image/")) {
+            throw new IllegalArgumentException(
+                    "Sorry, this file type isn't invited to the door party! Only images are allowed! ");
+        }
+        return contentType;
     }
 
     /**
@@ -431,8 +469,8 @@ public class DoorController {
      * @param quantity Number of doors to add (default: 1)
      * @return Response containing the updated basket
      * 
-     *         🚪 → 🛒 Door successfully added to basket!
-     *         Hope you have enough walls for all these doors! 😄
+     *         → Door successfully added to basket!
+     *         Hope you have enough walls for all these doors! 🚧
      */
     @PostMapping("/{id}/basket")
     @PreAuthorize("hasAnyRole('USER', 'ADMIN', 'SELLER')")
@@ -456,7 +494,7 @@ public class DoorController {
 
     /**
      * Get all doors of a specific color.
-     * For when you're feeling particularly picky about your door's fashion sense! 🎨
+     * For when you're feeling particularly picky about your door's fashion sense! 👗
      *
      * @param color The color to filter by
      * @return List of doors in that color
@@ -474,7 +512,7 @@ public class DoorController {
 
     /**
      * Get all color variants of a specific door model.
-     * It's like a door's family reunion - same genes, different outfits! 🚪👔
+     * It's like a door's family reunion - same genes, different outfits! 👪
      *
      * @param id ID of the door to find variants for
      * @return List of door variants
@@ -516,7 +554,7 @@ public class DoorController {
 
     /**
      * Create a new color variant of a door.
-     * Because every door deserves to express itself in different colors! 🚪🌈
+     * Because every door deserves to express itself in different colors! 🎨
      */
     @PostMapping("/{id}/variants")
     @PreAuthorize("hasRole('SELLER')")
@@ -533,7 +571,7 @@ public class DoorController {
 
     /**
      * Create a custom colored variant of a door.
-     * For when the standard colors just aren't enough! 🎨✨
+     * For when the standard colors just aren't enough! 🌈
      */
     @PostMapping("/{id}/custom-color")
     @PreAuthorize("hasRole('SELLER')")

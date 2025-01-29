@@ -116,7 +116,50 @@ public class AccessoryController {
         FurnitureDoor door = furnitureDoorService.getById(id)
                 .orElseThrow(() -> new FurnitureDoorNotFoundException(id));
 
-        // Handle image upload
+        // Validate image content type
+        String contentType = validateAndGetContentType(image);
+
+        // Upload new image
+        String imageUrl;
+        try {
+            imageUrl = imageStorageService.storeAccessoryImage(image);
+            logger.info("Successfully uploaded new image: {}", imageUrl);
+        } catch (IOException e) {
+            logger.error("Failed to upload new image: {}", e.getMessage());
+            throw new IllegalStateException("Failed to upload new image: " + e.getMessage());
+        }
+
+        // Update door with new image - keeping existing ones
+        FurnitureDoor updatedDoor = new FurnitureDoor();
+        updatedDoor.setId(door.getId());
+        updatedDoor.setName(door.getName());
+        updatedDoor.setMaterial(door.getMaterial());
+        updatedDoor.setDescription(door.getDescription());
+        updatedDoor.setPrice(door.getPrice());
+        updatedDoor.setDimensions(door.getDimensions());
+        updatedDoor.setStockQuantity(door.getStockQuantity());
+        updatedDoor.setFurnitureType(door.getFurnitureType());
+
+        // Create new list with existing images plus new one
+        List<String> imageUrls = new ArrayList<>(door.getImages() != null ? door.getImages() : new ArrayList<>());
+        imageUrls.add(imageUrl); // Add the new image to the collection
+        updatedDoor.setImages(imageUrls);
+
+        FurnitureDoor updated = furnitureDoorService.update(id, updatedDoor);
+        return ResponseEntity.ok(EntityResponse.success(
+                "Image added successfully! Your door's photo album is growing! 🚪📸✨",
+                furnitureDoorMapper.toDto(updated)));
+    }
+
+    /**
+     * Validates and determines the content type of an uploaded image.
+     * Because every image deserves a proper ID check! 🎫
+     *
+     * @param image The image file to validate
+     * @return The determined content type
+     * @throws IllegalArgumentException if the image type is invalid
+     */
+    private String validateAndGetContentType(MultipartFile image) {
         String contentType = image.getContentType();
         if (contentType == null || contentType.equals("application/octet-stream")) {
             String fileName = image.getOriginalFilename();
@@ -134,52 +177,20 @@ public class AccessoryController {
                         contentType = "image/gif";
                         break;
                     default:
+                        logger.error("Invalid file extension: {}", extension);
                         throw new IllegalArgumentException(
-                                "Invalid file type. Only JPG, PNG, and GIF are allowed! ");
+                                "Sorry, this file type isn't invited to the door party! Only JPG, PNG, and GIF get VIP access! 🎭");
                 }
             }
         }
 
         if (!contentType.startsWith("image/")) {
-            throw new IllegalArgumentException("Invalid file type. Only images are allowed! ");
+            logger.error("Invalid content type: {}", contentType);
+            throw new IllegalArgumentException(
+                    "Hey, that's not an image! Our doors only wear proper image accessories! 🖼️");
         }
 
-        // Delete old image if exists
-        if (door.getImages() != null && !door.getImages().isEmpty()) {
-            try {
-                for (String oldImageUrl : door.getImages()) {
-                    imageStorageService.deleteImage(oldImageUrl);
-                }
-            } catch (Exception e) {
-                logger.warn("Failed to delete old images: {}", e.getMessage());
-                throw new RuntimeException("Failed to delete old images", e);
-            }
-        }
-
-        String imageUrl = imageStorageService.storeImage(image);
-
-        // Time to play dress-up with our door!
-        // First, let's keep all the door's existing fancy features
-        FurnitureDoor updatedDoor = new FurnitureDoor();
-        updatedDoor.setId(door.getId()); // ID card - don't lose it!
-        updatedDoor.setName(door.getName()); // A door by any other name...
-        updatedDoor.setMaterial(door.getMaterial()); // The stuff it's made of
-        updatedDoor.setDescription(door.getDescription()); // Its life story
-        updatedDoor.setPrice(door.getPrice()); // Ka-ching!
-        updatedDoor.setDimensions(door.getDimensions()); // Size matters!
-        updatedDoor.setStockQuantity(door.getStockQuantity()); // How many clones we have
-        updatedDoor.setFurnitureType(door.getFurnitureType()); // What kind of door-some creature it is
-
-        // Now for the glamour shot!
-        List<String> imageUrls = new ArrayList<>(door.getImages()); // Keep existing images
-        imageUrls.add(imageUrl); // Add the new one
-        updatedDoor.setImages(imageUrls); // Set all images
-
-        // Save our door's new look to the fashion catalog
-        FurnitureDoor updated = furnitureDoorService.update(id, updatedDoor);
-        return ResponseEntity.ok(EntityResponse.success(
-                "Image uploaded successfully! Your accessory is looking fabulous! ",
-                furnitureDoorMapper.toDto(updated)));
+        return contentType;
     }
 
     /**

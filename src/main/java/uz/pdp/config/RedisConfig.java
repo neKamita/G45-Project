@@ -56,7 +56,7 @@ import java.util.Map;
  * - Just right: Pure magic!
  */
 @Configuration
-@EnableCaching
+//@EnableCaching  // Temporarily disabled
 public class RedisConfig {
 
     @Value("${spring.data.redis.host}")
@@ -138,125 +138,51 @@ public class RedisConfig {
     }
 
     /**
-     * Creates the mythical Redis connection factory.
-     * This is where the magic begins! 
+     * Mock Redis connection factory.
+     * Our pretend connection to nowhere! 
      * 
-     * Technical Details:
-     * - Sets up standalone Redis connection
-     * - Configures authentication
-     * - Establishes connection pooling
-     * 
-     * Pro tip: If this fails, check if Redis is actually running
-     * before spending 3 hours debugging your code. We've all been there. 
-     *
-     * @return A shiny new Lettuce connection factory
+     * @return A mock connection factory that doesn't actually connect
      */
     @Bean
-    public RedisConnectionFactory redisConnectionFactory() {
-        RedisStandaloneConfiguration redisConfig = new RedisStandaloneConfiguration();
-        redisConfig.setHostName(redisHost);
-        redisConfig.setPort(redisPort);
-        if (!redisPassword.isEmpty()) {
-            redisConfig.setPassword(redisPassword);
-        }
-        
-        return new LettuceConnectionFactory(redisConfig);
+    public RedisConnectionFactory connectionFactory() {
+        // Using LettuceConnectionFactory with default settings
+        // This won't actually connect to Redis
+        return new LettuceConnectionFactory();
     }
 
     /**
-     * Crafts the legendary RedisTemplate.
-     * The Swiss Army knife for all your Redis operations!
+     * Mock RedisTemplate for String-Integer operations.
+     * This is our "pretend" Redis implementation! 
      * 
-     * Features:
-     * - JSON serialization with Java 8 time support (because time waits for no door!)
-     * - String keys (because who needs more complexity?)
-     * - Automatic type conversion (it's basically magic)
-     * 
-     * Note: If you're storing something weird and it breaks,
-     * remember: Redis is like a refrigerator - it works best
-     * when you don't try to store your car in it. 
-     *
-     * @param connectionFactory The connection to our Redis sanctuary
-     * @return A fully loaded RedisTemplate
+     * @return A mock RedisTemplate that doesn't actually store data
      */
     @Bean
-    public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory connectionFactory) {
-        RedisTemplate<String, Object> template = new RedisTemplate<>();
-        template.setConnectionFactory(connectionFactory);
-        
-        // Use our custom ObjectMapper with Java 8 time support
-        GenericJackson2JsonRedisSerializer serializer = new GenericJackson2JsonRedisSerializer(redisObjectMapper());
-        
-        template.setKeySerializer(new StringRedisSerializer());
-        template.setValueSerializer(serializer);
-        template.setHashKeySerializer(new StringRedisSerializer());
-        template.setHashValueSerializer(serializer);
-        template.setEnableTransactionSupport(true);
-        template.afterPropertiesSet();
-        return template;
-    }
-
-    /**
-     * Creates a specialized RedisTemplate for String-Integer operations.
-     * This template is optimized for numeric operations and counters.
-     *
-     * @param connectionFactory The Redis connection factory
-     * @return A RedisTemplate specifically for String keys and Integer values
-     */
-    @Bean
-    public RedisTemplate<String, Integer> stringIntegerRedisTemplate(RedisConnectionFactory connectionFactory) {
+    public RedisTemplate<String, Integer> redisTemplate() {
         RedisTemplate<String, Integer> template = new RedisTemplate<>();
-        template.setConnectionFactory(connectionFactory);
+        template.setConnectionFactory(connectionFactory());
         template.setKeySerializer(new StringRedisSerializer());
         template.setValueSerializer(new GenericJackson2JsonRedisSerializer());
         template.setHashKeySerializer(new StringRedisSerializer());
         template.setHashValueSerializer(new GenericJackson2JsonRedisSerializer());
-        template.setEnableTransactionSupport(true);
         template.afterPropertiesSet();
         return template;
     }
 
     /**
-     * Conjures the CacheManager of legends.
-     * Because manually managing cache is so last century!
+     * Mock RedisTemplate for Object storage.
+     * Another member of our pretend Redis family! 
      * 
-     * Configuration:
-     * - TTL: 1 hour (because forever is a really long time)
-     * - JSON serialization with Java 8 time support (because time waits for no door!)
-     * - Null value handling (because sometimes nothing is something)
-     * 
-     * Remember: Cache invalidation is one of the hardest things in CS.
-     * The other two are naming things and off-by-one errors. 
-     *
-     * @param connectionFactory Your ticket to Redis paradise
-     * @return The keeper of the cache
+     * @return A mock RedisTemplate that doesn't actually store data
      */
     @Bean
-    public CacheManager cacheManager(RedisConnectionFactory connectionFactory) {
-        // Create a custom serializer with type information
-        GenericJackson2JsonRedisSerializer serializer = new GenericJackson2JsonRedisSerializer(redisObjectMapper());
-
-        // Default configuration with Java 8 time support and custom serializer
-        RedisCacheConfiguration defaultConfig = RedisCacheConfiguration.defaultCacheConfig()
-            .entryTtl(Duration.ofMinutes(30))  // Default TTL
-            .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer()))
-            .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(serializer))
-            .disableCachingNullValues(); // Don't cache null values
-        
-        // Custom configurations for different caches
-        Map<String, RedisCacheConfiguration> cacheConfigs = new HashMap<>();
-        
-        // Address caches (1 hour TTL)
-        cacheConfigs.put("addresses", defaultConfig.entryTtl(Duration.ofHours(1)));
-        cacheConfigs.put("address", defaultConfig.entryTtl(Duration.ofHours(1)));
-        
-        // Map points cache (2 hours TTL)
-        cacheConfigs.put("map-points", defaultConfig.entryTtl(Duration.ofHours(2)));
-        
-        // Build cache manager with custom configurations
-        return RedisCacheManager.builder(connectionFactory)
-            .cacheDefaults(defaultConfig)
-            .withInitialCacheConfigurations(cacheConfigs)
-            .build();
+    public RedisTemplate<String, Object> redisTemplateObject() {
+        RedisTemplate<String, Object> template = new RedisTemplate<>();
+        template.setConnectionFactory(connectionFactory());
+        template.setKeySerializer(new StringRedisSerializer());
+        template.setValueSerializer(new GenericJackson2JsonRedisSerializer());
+        template.setHashKeySerializer(new StringRedisSerializer());
+        template.setHashValueSerializer(new GenericJackson2JsonRedisSerializer());
+        template.afterPropertiesSet();
+        return template;
     }
 }

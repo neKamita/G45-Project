@@ -1,16 +1,18 @@
 package uz.pdp.mapper;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.processing.Generated;
 import org.springframework.stereotype.Component;
 import uz.pdp.dto.DoorDto;
+import uz.pdp.dto.DoorResponseDTO;
 import uz.pdp.entity.Door;
 import uz.pdp.enums.DoorStatus;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-01-29T15:15:35+0500",
+    date = "2025-01-29T16:49:44+0500",
     comments = "version: 1.5.5.Final, compiler: Eclipse JDT (IDE) 3.41.0.z20250115-2156, environment: Java 21.0.5 (Eclipse Adoptium)"
 )
 @Component
@@ -126,5 +128,31 @@ public class DoorMapperImpl implements DoorMapper {
         door.setWarrantyYears( dto.getWarrantyYears() );
 
         afterMapping( door );
+    }
+
+    @Override
+    public DoorResponseDTO toResponseDto(Door door) {
+        if ( door == null ) {
+            return null;
+        }
+
+        DoorResponseDTO.DoorResponseDTOBuilder doorResponseDTO = DoorResponseDTO.builder();
+
+        doorResponseDTO.color( door.getColor() );
+        doorResponseDTO.description( door.getDescription() );
+        doorResponseDTO.id( door.getId() );
+        List<String> list = door.getImages();
+        if ( list != null ) {
+            doorResponseDTO.images( new ArrayList<String>( list ) );
+        }
+        doorResponseDTO.name( door.getName() );
+        if ( door.getPrice() != null ) {
+            doorResponseDTO.price( BigDecimal.valueOf( door.getPrice() ) );
+        }
+        doorResponseDTO.status( door.getStatus() );
+
+        doorResponseDTO.category( mapCategory(door.getCategory()) );
+
+        return doorResponseDTO.build();
     }
 }

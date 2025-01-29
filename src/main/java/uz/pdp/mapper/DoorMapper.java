@@ -2,7 +2,10 @@ package uz.pdp.mapper;
 
 import org.mapstruct.*;
 import uz.pdp.dto.DoorDto;
+import uz.pdp.dto.DoorResponseDTO;
 import uz.pdp.entity.Door;
+import uz.pdp.entity.Category;
+import uz.pdp.dto.CategoryDTO;
 
 /**
  * Mapper for converting between Door entities and DTOs.
@@ -65,6 +68,32 @@ public interface DoorMapper {
     @Mapping(target = "isBaseModel", ignore = true)
     @Mapping(target = "availableColors", ignore = true)
     void updateEntityFromDto(DoorDto dto, @MappingTarget Door door);
+
+    /**
+     * Converts a Door entity to a DoorResponseDTO.
+     * Making sure our door looks its best for the response! 
+     *
+     * @param door The door entity to convert
+     * @return The response DTO with all the door's glamour shots
+     */
+    @Mapping(target = "category", expression = "java(mapCategory(door.getCategory()))")
+    DoorResponseDTO toResponseDto(Door door);
+
+    /**
+     * Maps a Category entity to CategoryDTO, handling null and lazy loading.
+     * 
+     * @param category The category to map
+     * @return Mapped CategoryDTO
+     */
+    default CategoryDTO mapCategory(Category category) {
+        if (category == null) {
+            return null;
+        }
+        CategoryDTO dto = new CategoryDTO();
+        dto.setId(category.getId());
+        dto.setName(category.getName());
+        return dto;
+    }
 
     /**
      * After mapping, initialize collections and calculate final price.

@@ -314,7 +314,7 @@ public class DoorService {
         
         for (MultipartFile image : images) {
             try {
-                String imageUrl = imageStorageService.storeImage(image);
+                String imageUrl = imageStorageService.storeDoorImage(image);
                 imageUrls.add(imageUrl);
             } catch (IOException e) {
                 logger.error("Failed to store image for door {}: {}", id, e.getMessage());
@@ -453,8 +453,7 @@ public class DoorService {
 
         try {
             for (MultipartFile image : images) {
-                String fileName = "doors/" + image.getOriginalFilename();
-                String imageUrl = imageStorageService.storeImage(image);
+                String imageUrl = imageStorageService.storeDoorImage(image);
                 imageUrls.add(imageUrl);
             }
             door.setImages(imageUrls);

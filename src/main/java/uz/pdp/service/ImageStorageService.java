@@ -27,6 +27,7 @@ public class ImageStorageService {
     private static final Logger logger = LoggerFactory.getLogger(ImageStorageService.class);
     private static final String DOOR_IMAGES_PREFIX = "doors/";
     private static final String MOULDING_IMAGES_PREFIX = "mouldings/";
+    private static final String ACCESSORY_IMAGES_PREFIX = "accessories/";
     private static final long MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
     private static final String[] ALLOWED_CONTENT_TYPES = {
             "image/jpeg", "image/png", "image/gif"
@@ -43,14 +44,14 @@ public class ImageStorageService {
 
     /**
      * Uploads a door image to Amazon S3.
-     * Generates a unique filename and validates file type and size.
+     * Because doors need their glamour shots too! 
      *
      * @param file Image file to upload
      * @return URL of the uploaded image
      * @throws IllegalArgumentException if file is invalid
      * @throws IOException              if file processing fails
      */
-    public String storeImage(MultipartFile file) throws IOException {
+    public String storeDoorImage(MultipartFile file) throws IOException {
         return storeImage(file, DOOR_IMAGES_PREFIX);
     }
 
@@ -65,6 +66,19 @@ public class ImageStorageService {
      */
     public String storeMouldingImage(MultipartFile file) throws IOException {
         return storeImage(file, MOULDING_IMAGES_PREFIX);
+    }
+
+    /**
+     * Uploads a door accessory image to Amazon S3.
+     * Because accessories need to look their best! 
+     *
+     * @param file Image file to upload
+     * @return URL of the uploaded image
+     * @throws IllegalArgumentException if file is invalid
+     * @throws IOException              if file processing fails
+     */
+    public String storeAccessoryImage(MultipartFile file) throws IOException {
+        return storeImage(file, ACCESSORY_IMAGES_PREFIX);
     }
 
     private String storeImage(MultipartFile file, String prefix) throws IOException {
@@ -177,6 +191,10 @@ public class ImageStorageService {
     public void deleteImage(String imageUrl) {
         try {
             String key = extractKeyFromUrl(imageUrl);
+            if (key == null) {
+                logger.info("External URL detected, skipping deletion: {}", imageUrl);
+                return;
+            }
             logger.info("Deleting image with key: {}", key);
 
             s3Client.deleteObject(bucketName, key);
@@ -189,7 +207,7 @@ public class ImageStorageService {
 
     /**
      * Extracts the S3 key from a full URL.
-     * Because URLs are like treasure maps - we need to know where X marks the spot! 🗺️
+     * Because URLs are like treasure maps - we need to know where X marks the spot! 
      *
      * @param url Full S3 URL
      * @return Extracted key
@@ -201,7 +219,13 @@ public class ImageStorageService {
                 throw new IllegalArgumentException("Empty URL provided");
             }
 
-            // Extract the path after the domain
+            // Handle external URLs (non-S3)
+            if (!url.contains("amazonaws.com")) {
+                logger.info("External URL detected, skipping deletion: {}", url);
+                return null;
+            }
+
+            // Extract the path after the domain for S3 URLs
             String path;
             if (url.contains(".amazonaws.com/")) {
                 path = url.split(".amazonaws.com/")[1];
@@ -210,8 +234,11 @@ public class ImageStorageService {
             }
 
             // Validate the path contains our expected prefix
-            if (!path.startsWith("mouldings/") && !path.startsWith("doors/")) {
-                throw new IllegalArgumentException("Invalid S3 URL format: must be in mouldings/ or doors/ directory");
+            if (!path.startsWith(MOULDING_IMAGES_PREFIX) && 
+                !path.startsWith(DOOR_IMAGES_PREFIX) && 
+                !path.startsWith(ACCESSORY_IMAGES_PREFIX)) {
+                throw new IllegalArgumentException(
+                    "Invalid S3 URL format: must be in mouldings/, doors/, or accessories/ directory");
             }
 
             logger.info("Successfully extracted key from URL: {}", path);

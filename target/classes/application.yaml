@@ -44,7 +44,7 @@ spring:
   redis:
     host: ${SPRING_REDIS_HOST:localhost}
     port: ${SPRING_REDIS_PORT:6379}
-    enabled: true
+    enabled: false
   jpa:
     hibernate:
       ddl-auto: update

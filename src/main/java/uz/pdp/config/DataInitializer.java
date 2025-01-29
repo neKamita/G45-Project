@@ -784,7 +784,7 @@ public class DataInitializer implements CommandLineRunner {
             for (DoorLocation location : Arrays.asList(DoorLocation.BEDROOM, DoorLocation.LIVING_ROOM, DoorLocation.BATHROOM)) {
                 Door door = new Door();
                 door.setName("Classic Oak " + location.name());
-                door.setDescription("Timeless oak door perfect for your " + location.name().toLowerCase);
+                door.setDescription("Timeless oak door perfect for your " + location.name().toLowerCase());
                 door.setPrice(299.99);
                 door.setFinalPrice(299.99);
                 door.setCategory(interior);
