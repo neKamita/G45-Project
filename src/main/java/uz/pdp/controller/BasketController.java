@@ -238,7 +238,7 @@ public class BasketController {
                 .collect(Collectors.toList());
             
             // Create all orders in a single transaction
-            EntityResponse<List<Order>> orderResponse = orderService.createOrders(String.valueOf(currentUser.getId()), orderDtos);
+            EntityResponse<List<Order>> orderResponse = orderService.createOrders(currentUser.getEmail(), orderDtos);
             
             if (orderResponse.isSuccess()) {
                 // Clear the basket items using a bulk delete
@@ -249,7 +249,7 @@ public class BasketController {
                     "We'll contact you at %s when they're ready for delivery. " +
                     "Get those doorframes ready! 🚪✨",
                     orderResponse.getData().size(),
-                    String.valueOf(currentUser.getId()), 
+                    checkoutDto.getDeliveryAddress(), 
                     currentUser.getEmail()
                 );
                 
@@ -291,34 +291,87 @@ public class BasketController {
         @ApiResponse(responseCode = "400", description = "Invalid request or items not found"),
         @ApiResponse(responseCode = "403", description = "Not authorized to checkout these items")
     })
-    public EntityResponse<CheckoutResponseDTO> checkoutItems(
-            @Parameter(description = "List of basket item IDs to checkout", required = true)
+    @Transactional
+    public ResponseEntity<EntityResponse<List<Order>>> checkoutItems(
+            @Parameter(description = "List of basket item IDs to checkout with delivery information", required = true)
             @Valid @RequestBody CheckoutItemsDTO checkoutItemsDTO) {
         try {
-            List<BasketItem> checkedOutItems = basketService.checkoutItems(checkoutItemsDTO.getBasketItemIds());
-            CheckoutResponseDTO response = CheckoutResponseDTO.from(checkedOutItems);
+            Basket basket = basketService.getBasket();
+            User currentUser = UserService.getCurrentUser();
             
-            return new EntityResponse<>(
-                String.format("Successfully checked out %d items! Total: $%.2f 🎉", 
-                    response.getItemCount(), 
-                    response.getTotalAmount()),
-                true,
-                response
-            );
-        } catch (IllegalArgumentException e) {
-            log.warn("Invalid checkout request", e);
-            return new EntityResponse<>(
-                "Oops! " + e.getMessage() + " Did someone try to checkout through the wrong door? 🚪",
-                false,
-                null
-            );
+            // Filter basket items by the requested IDs
+            List<BasketItem> itemsToCheckout = basket.getItems().stream()
+                .filter(item -> checkoutItemsDTO.getBasketItemIds().contains(item.getId()))
+                .collect(Collectors.toList());
+            
+            if (itemsToCheckout.isEmpty()) {
+                return ResponseEntity.ok(EntityResponse.error(
+                    "None of the requested items were found in your basket! 🔍",
+                    Collections.emptyList()
+                ));
+            }
+            
+            // Create order DTOs for the selected items
+            List<OrderDto> orderDtos = itemsToCheckout.stream()
+                .map(item -> {
+                    OrderDto orderDto = new OrderDto();
+                    orderDto.setDoorId(item.getItemId());
+                    orderDto.setOrderType(checkoutItemsDTO.getOrderType());
+                    
+                    // Use authenticated user's information
+                    orderDto.setCustomerName(currentUser.getName());
+                    orderDto.setEmail(currentUser.getEmail());
+                    orderDto.setContactPhone(currentUser.getPhone());
+                    
+                    // Use delivery information from checkout DTO
+                    orderDto.setDeliveryAddress(checkoutItemsDTO.getDeliveryAddress());
+                    orderDto.setPreferredDeliveryTime(checkoutItemsDTO.getPreferredDeliveryTime());
+                    orderDto.setComment(checkoutItemsDTO.getComment());
+                    orderDto.setInstallationNotes(checkoutItemsDTO.getInstallationNotes());
+                    orderDto.setDeliveryNotes(checkoutItemsDTO.getDeliveryNotes());
+                    
+                    return orderDto;
+                })
+                .collect(Collectors.toList());
+            
+            // Create orders and remove items from basket
+            EntityResponse<List<Order>> orderResponse = orderService.createOrders(currentUser.getEmail(), orderDtos);
+            
+            if (orderResponse.isSuccess()) {
+                // Remove the checked out items from basket
+                itemsToCheckout.forEach(item -> basketService.updateItemQuantity(item.getId(), 0));
+                
+                String successMessage = String.format(
+                    "✅ Success! Your %d selected door(s) are on their way to %s! " +
+                    "We'll contact you at %s when they're ready for delivery. " +
+                    "Get those doorframes ready! 🚪✨",
+                    orderResponse.getData().size(),
+                    checkoutItemsDTO.getDeliveryAddress(),
+                    currentUser.getEmail()
+                );
+                
+                return ResponseEntity.ok(EntityResponse.success(successMessage, orderResponse.getData()));
+            } else {
+                return ResponseEntity.ok(EntityResponse.error(
+                    "Oops! " + orderResponse.getMessage() + " 🔧",
+                    Collections.emptyList()
+                ));
+            }
+            
+        } catch (ObjectOptimisticLockingFailureException e) {
+            log.error("Concurrent modification during checkout: {}", e.getMessage());
+            return ResponseEntity.ok(EntityResponse.error(
+                "Oops! Your basket was modified by another session. " +
+                "Please review your basket and try again. 🔄",
+                Collections.emptyList()
+            ));
         } catch (Exception e) {
-            log.error("Error during checkout", e);
-            return new EntityResponse<>(
-                "Our checkout system is temporarily stuck in a revolving door! Please try again later. 🔄",
-                false,
-                null
-            );
+            log.error("Checkout failed: {}", e.getMessage(), e);
+            return ResponseEntity.ok(EntityResponse.error(
+                "Oops! Something went wrong while processing your order. " +
+                "Please try again or contact support if the problem persists. 🛠️",
+                Collections.emptyList()
+            ));
         }
     }
 }

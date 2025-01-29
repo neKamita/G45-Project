@@ -36,15 +36,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
-import org.springframework.util.StringUtils;
-import org.springframework.web.multipart.support.StandardMultipartHttpServletRequest;
-
-import jakarta.persistence.PersistenceException;
 import java.io.IOException;
 import java.util.ArrayList;
-
-import org.hibernate.Hibernate;
-import org.springframework.beans.BeanUtils;
 
 /**
  * REST controller for managing smart door operations.
@@ -495,19 +488,50 @@ public class DoorController {
     /**
      * Get all doors of a specific color.
      * For when you're feeling particularly picky about your door's fashion sense! 👗
-     *
-     * @param color The color to filter by
-     * @return List of doors in that color
      */
-    @GetMapping("/color/{color}")
-    @Operation(summary = "Get doors by color", description = "Retrieves all doors of a specific color")
-    public ResponseEntity<EntityResponse<?>> getDoorsByColor(@PathVariable Color color) {
-        logger.info("Getting doors with color: {}", color);
-        List<Door> doors = doorService.getDoorsByColor(color);
-        return ResponseEntity.ok(EntityResponse.success(
-            String.format("Found %d doors in %s", doors.size(), color.toString().toLowerCase()),
-            doors
-        ));
+    @Operation(
+        summary = "Get doors by color",
+        description = "Retrieves all doors of a specific color. Use URL-encoded color names (e.g., 'Classic%20White', 'Light%20Oak')"
+    )
+    @ApiResponses({
+        @ApiResponse(responseCode = "200", description = "Successfully retrieved doors"),
+        @ApiResponse(responseCode = "400", description = "Invalid color name provided")
+    })
+    @GetMapping("/color/{colorName}")
+    public EntityResponse<List<DoorDto>> getDoorsByColor(
+        @Parameter(
+            description = "Color name (e.g., 'Classic White', 'Light Oak')", 
+            example = "Classic White",
+            required = true
+        )
+        @PathVariable String colorName
+    ) {
+        try {
+            // Convert display name to enum name (e.g., "Classic White" -> "WHITE")
+            Color color = Arrays.stream(Color.values())
+                .filter(c -> c.getDisplayName().equalsIgnoreCase(colorName))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("Color not found: " + colorName));
+            
+            List<DoorDto> doors = doorService.getDoorsByColor(color)
+                .stream()
+                .map(doorMapper::toDto)
+                .toList();
+                
+            return EntityResponse.success(
+                String.format("Found %d doors in %s", doors.size(), color.getDisplayName()),
+                doors
+            );
+        } catch (IllegalArgumentException e) {
+            logger.error("Invalid color name provided: {}", colorName);
+            return EntityResponse.error("Color not found: " + colorName + ". Available colors: " + 
+                Arrays.stream(Color.values())
+                    .map(Color::getDisplayName)
+                    .toList());
+        } catch (Exception e) {
+            logger.error("Error retrieving doors by color {}: {}", colorName, e.getMessage());
+            return EntityResponse.error("Error retrieving doors by color: " + e.getMessage());
+        }
     }
 
     /**

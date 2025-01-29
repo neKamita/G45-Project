@@ -46,6 +46,7 @@ public class Door {
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
+
     @JsonIgnore  // Ignore this field during serialization
     private Category category;
     

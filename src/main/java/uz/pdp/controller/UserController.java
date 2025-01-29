@@ -22,8 +22,9 @@ import uz.pdp.exception.ResourceNotFoundException;
 import uz.pdp.service.OrderService;
 import uz.pdp.service.UserService;
 import uz.pdp.payload.EntityResponse;
-
+import uz.pdp.dto.OrderResponseDTO;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * REST controller for managing user-related operations.
@@ -83,11 +84,14 @@ public class UserController {
      */
     @GetMapping("/orders")
     @Operation(summary = "Get user order history")
-    public ResponseEntity<EntityResponse<List<Order>>> getUserOrders(@AuthenticationPrincipal User user) {
+    public ResponseEntity<EntityResponse<List<OrderResponseDTO>>> getUserOrders(@AuthenticationPrincipal User user) {
         try {
             logger.info("Retrieving orders for user ID: {}", user.getEmail());
             List<Order> orders = orderService.getUserOrders(user.getEmail());
-            return ResponseEntity.ok(EntityResponse.success("Orders retrieved successfully", orders));
+            List<OrderResponseDTO> orderDTOs = orders.stream()
+                .map(OrderResponseDTO::fromOrder)
+                .collect(Collectors.toList());
+            return ResponseEntity.ok(EntityResponse.success("Orders retrieved successfully", orderDTOs));
         } catch (Exception e) {
             logger.error("Error retrieving user orders: {}", e.getMessage());
             return ResponseEntity.badRequest()
