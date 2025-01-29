@@ -74,6 +74,7 @@ public class CategoryService {
                 });
 
         category.setName(categoryDTO.getName());
+        category.setActive(categoryDTO.isActive());  
         
         return mapToDTO(categoryRepository.save(category));
     }

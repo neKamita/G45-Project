@@ -1289,3 +1289,3187 @@ uz.pdp.exception.ResourceNotFoundException: Category not found with id: 2
 2025-01-29 13:25:19 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
 2025-01-29 13:25:19 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
 2025-01-29 13:25:20 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-01-29 15:03:31 [main] INFO  u.p.p.ProjectModul10Application - Starting ProjectModul10Application using Java 17.0.14 with PID 153653 (/home/lantanium/Documents/G45-Project/target/classes started by lantanium in /home/lantanium/Documents/G45-Project)
+2025-01-29 15:03:31 [main] DEBUG u.p.p.ProjectModul10Application - Running with Spring Boot v3.2.1, Spring v6.1.2
+2025-01-29 15:03:31 [main] INFO  u.p.p.ProjectModul10Application - No active profile set, falling back to 1 default profile: "default"
+2025-01-29 15:03:32 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-01-29 15:03:32 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-01-29 15:03:32 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 134 ms. Found 13 JPA repository interfaces.
+2025-01-29 15:03:33 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-01-29 15:03:33 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-01-29 15:03:33 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 7 ms. Found 0 Redis repository interfaces.
+2025-01-29 15:03:33 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'webMvcConfig' of type [uz.pdp.config.WebMvcConfig$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). The currently created BeanPostProcessor [methodValidationPostProcessor] is declared through a non-static factory method on that class; consider declaring it as static instead.
+2025-01-29 15:03:34 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-01-29 15:03:34 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-01-29 15:03:34 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.17]
+2025-01-29 15:03:34 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-01-29 15:03:34 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2367 ms
+2025-01-29 15:03:34 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-01-29 15:03:34 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.1.Final
+2025-01-29 15:03:34 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-01-29 15:03:35 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-01-29 15:03:35 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-01-29 15:03:37 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@15ade272
+2025-01-29 15:03:37 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-01-29 15:03:38 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-01-29 15:03:39 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-01-29 15:03:40 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists moulding 
+       alter column price set data type DECIMAL(10,2)
+2025-01-29 15:03:41 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists moulding 
+       alter column price_overall set data type DECIMAL(10,2)
+2025-01-29 15:03:59 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-01-29 15:04:01 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-01-29 15:04:03 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-01-29 15:04:03 [main] INFO  o.s.g.e.DefaultSchemaResourceGraphQlSourceBuilder - Loaded 1 resource(s) in the GraphQL schema.
+2025-01-29 15:04:03 [main] INFO  o.s.b.a.g.GraphQlAutoConfiguration - GraphQL schema inspection:
+	Unmapped fields: {Query=[door, doors, user, address, addresses, searchAddresses, nearestAddress, doorHistory, order, userOrders, userAddresses], Mutation=[configureDoor, updateProfile, approveSeller, deactivateAccount, createOrder, updateOrderStatus, addAddress], Address=[id, street, city, country, zipCode, location], Subscription=[orderStatusChanged, newDoorAdded]}
+	Unmapped registrations: {Query.getDoorById=DoorGraphQLController#getDoorById[1 args], Query.getRecentHistory=DoorHistoryGraphQLController#getRecentHistory[1 args], Query.getAllMapPoints=AddressGraphQLController#getAllMapPoints[0 args], Query.getAddress=AddressGraphQLController#getAddress[1 args], Query.findNearestAddress=AddressGraphQLController#findNearestAddress[2 args], Query.getUserDoorHistory=DoorHistoryGraphQLController#getUserDoorHistory[2 args], Query.getDoorHistory=DoorHistoryGraphQLController#getDoorHistory[1 args], Query.getAllDoors=DoorGraphQLController#getAllDoors[0 args], Query.searchAddressesByCity=AddressGraphQLController#searchAddressesByCity[1 args], Query.getAllAddresses=AddressGraphQLController#getAllAddresses[0 args], Query.getUserHistory=DoorHistoryGraphQLController#getUserHistory[1 args], Mutation.updateDoorStatus=DoorGraphQLController#updateDoorStatus[3 args]}
+	Skipped types: []
+2025-01-29 15:04:03 [main] INFO  o.s.b.a.g.s.GraphQlWebMvcAutoConfiguration - GraphQL endpoint HTTP POST /graphql
+2025-01-29 15:04:04 [main] INFO  o.s.b.a.g.s.GraphQlWebMvcAutoConfiguration - GraphQL endpoint WebSocket /graphql-ws
+2025-01-29 15:04:04 [main] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 26 endpoint(s) beneath base path '/actuator'
+2025-01-29 15:04:04 [main] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@653dbf34, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@1573ee1b, org.springframework.security.web.context.SecurityContextHolderFilter@421f392e, org.springframework.security.web.header.HeaderWriterFilter@7f3ca861, org.springframework.web.filter.CorsFilter@768f4c02, org.springframework.security.web.authentication.logout.LogoutFilter@6d648bd7, uz.pdp.config.filtr.MyFilter@374ba492, org.springframework.security.web.authentication.www.BasicAuthenticationFilter@2e9680e2, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@350b3c06, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@ff75e38, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@76264392, org.springframework.security.web.access.ExceptionTranslationFilter@400882d9, org.springframework.security.web.access.intercept.AuthorizationFilter@2c9403ae]
+2025-01-29 15:04:05 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+2025-01-29 15:04:05 [main] INFO  u.p.p.ProjectModul10Application - Started ProjectModul10Application in 34.041 seconds (process running for 34.636)
+2025-01-29 15:04:05 [main] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.email,
+        u1_0.lastname,
+        u1_0.name,
+        u1_0.password,
+        u1_0.phone,
+        u1_0.role,
+        u1_0.seller_request_pending 
+    from
+        users u1_0 
+    where
+        u1_0.name=? 
+        and u1_0.active=true
+2025-01-29 15:04:06 [main] DEBUG org.hibernate.SQL - 
+    select
+        count(*) 
+    from
+        doors d1_0
+2025-01-29 15:04:07 [RMI TCP Connection(5)-127.0.0.1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-01-29 15:04:07 [RMI TCP Connection(5)-127.0.0.1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-01-29 15:04:07 [RMI TCP Connection(5)-127.0.0.1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 6 ms
+2025-01-29 15:04:10 [http-nio-8080-exec-9] INFO  o.s.api.AbstractOpenApiResource - Init duration for springdoc-openapi is: 1113 ms
+2025-01-29 15:04:24 [http-nio-8080-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.email,
+        u1_0.lastname,
+        u1_0.name,
+        u1_0.password,
+        u1_0.phone,
+        u1_0.role,
+        u1_0.seller_request_pending 
+    from
+        users u1_0 
+    where
+        u1_0.name=? 
+        and u1_0.active=true
+2025-01-29 15:04:25 [http-nio-8080-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.email,
+        u1_0.lastname,
+        u1_0.name,
+        u1_0.password,
+        u1_0.phone,
+        u1_0.role,
+        u1_0.seller_request_pending 
+    from
+        users u1_0 
+    where
+        u1_0.name=? 
+        and u1_0.active=true
+2025-01-29 15:04:25 [http-nio-8080-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        b1_0.id,
+        b1_0.user_id 
+    from
+        basket b1_0 
+    left join
+        users u1_0 
+            on u1_0.id=b1_0.user_id 
+    where
+        u1_0.id=?
+2025-01-29 15:04:26 [http-nio-8080-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        i1_0.basket_id,
+        i1_0.id,
+        i1_0.image,
+        i1_0.item_id,
+        i1_0.name,
+        i1_0.price,
+        i1_0.quantity,
+        i1_0.type,
+        i1_0.version 
+    from
+        basket_item i1_0 
+    where
+        i1_0.basket_id=?
+2025-01-29 15:17:24 [http-nio-8080-exec-8] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.email,
+        u1_0.lastname,
+        u1_0.name,
+        u1_0.password,
+        u1_0.phone,
+        u1_0.role,
+        u1_0.seller_request_pending 
+    from
+        users u1_0 
+    where
+        u1_0.name=? 
+        and u1_0.active=true
+2025-01-29 15:17:25 [http-nio-8080-exec-8] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.email,
+        u1_0.lastname,
+        u1_0.name,
+        u1_0.password,
+        u1_0.phone,
+        u1_0.role,
+        u1_0.seller_request_pending 
+    from
+        users u1_0 
+    where
+        u1_0.name=? 
+        and u1_0.active=true
+2025-01-29 15:17:25 [http-nio-8080-exec-8] DEBUG org.hibernate.SQL - 
+    select
+        b1_0.id,
+        b1_0.user_id 
+    from
+        basket b1_0 
+    left join
+        users u1_0 
+            on u1_0.id=b1_0.user_id 
+    where
+        u1_0.id=?
+2025-01-29 15:17:26 [http-nio-8080-exec-8] DEBUG org.hibernate.SQL - 
+    select
+        i1_0.basket_id,
+        i1_0.id,
+        i1_0.image,
+        i1_0.item_id,
+        i1_0.name,
+        i1_0.price,
+        i1_0.quantity,
+        i1_0.type,
+        i1_0.version 
+    from
+        basket_item i1_0 
+    where
+        i1_0.basket_id=?
+2025-01-29 15:18:38 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-01-29 15:18:38 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-01-29 15:18:39 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-01-29 15:25:45 [main] INFO  u.p.p.ProjectModul10Application - Starting ProjectModul10Application using Java 17.0.14 with PID 260765 (/home/lantanium/Documents/G45-Project/target/classes started by lantanium in /home/lantanium/Documents/G45-Project)
+2025-01-29 15:25:45 [main] DEBUG u.p.p.ProjectModul10Application - Running with Spring Boot v3.2.1, Spring v6.1.2
+2025-01-29 15:25:45 [main] INFO  u.p.p.ProjectModul10Application - No active profile set, falling back to 1 default profile: "default"
+2025-01-29 15:25:46 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-01-29 15:25:46 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-01-29 15:25:46 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 97 ms. Found 13 JPA repository interfaces.
+2025-01-29 15:25:46 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-01-29 15:25:46 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-01-29 15:25:46 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 5 ms. Found 0 Redis repository interfaces.
+2025-01-29 15:25:47 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'webMvcConfig' of type [uz.pdp.config.WebMvcConfig$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). The currently created BeanPostProcessor [methodValidationPostProcessor] is declared through a non-static factory method on that class; consider declaring it as static instead.
+2025-01-29 15:25:47 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-01-29 15:25:47 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-01-29 15:25:47 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.17]
+2025-01-29 15:25:47 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-01-29 15:25:47 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1854 ms
+2025-01-29 15:25:47 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-01-29 15:25:47 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.1.Final
+2025-01-29 15:25:47 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-01-29 15:25:48 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-01-29 15:25:48 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-01-29 15:25:50 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@1ae26c59
+2025-01-29 15:25:50 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-01-29 15:25:51 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-01-29 15:25:52 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-01-29 15:25:54 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists moulding 
+       alter column price set data type DECIMAL(10,2)
+2025-01-29 15:25:54 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists moulding 
+       alter column price_overall set data type DECIMAL(10,2)
+2025-01-29 15:26:13 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-01-29 15:26:13 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-01-29 15:26:16 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-01-29 15:26:16 [main] INFO  o.s.g.e.DefaultSchemaResourceGraphQlSourceBuilder - Loaded 1 resource(s) in the GraphQL schema.
+2025-01-29 15:26:16 [main] INFO  o.s.b.a.g.GraphQlAutoConfiguration - GraphQL schema inspection:
+	Unmapped fields: {Query=[door, doors, user, address, addresses, searchAddresses, nearestAddress, doorHistory, order, userOrders, userAddresses], Mutation=[configureDoor, updateProfile, approveSeller, deactivateAccount, createOrder, updateOrderStatus, addAddress], Address=[id, street, city, country, zipCode, location], Subscription=[orderStatusChanged, newDoorAdded]}
+	Unmapped registrations: {Query.getDoorById=DoorGraphQLController#getDoorById[1 args], Query.getRecentHistory=DoorHistoryGraphQLController#getRecentHistory[1 args], Query.getAllMapPoints=AddressGraphQLController#getAllMapPoints[0 args], Query.getAddress=AddressGraphQLController#getAddress[1 args], Query.findNearestAddress=AddressGraphQLController#findNearestAddress[2 args], Query.getUserDoorHistory=DoorHistoryGraphQLController#getUserDoorHistory[2 args], Query.getDoorHistory=DoorHistoryGraphQLController#getDoorHistory[1 args], Query.getAllDoors=DoorGraphQLController#getAllDoors[0 args], Query.searchAddressesByCity=AddressGraphQLController#searchAddressesByCity[1 args], Query.getAllAddresses=AddressGraphQLController#getAllAddresses[0 args], Query.getUserHistory=DoorHistoryGraphQLController#getUserHistory[1 args], Mutation.updateDoorStatus=DoorGraphQLController#updateDoorStatus[3 args]}
+	Skipped types: []
+2025-01-29 15:26:16 [main] INFO  o.s.b.a.g.s.GraphQlWebMvcAutoConfiguration - GraphQL endpoint HTTP POST /graphql
+2025-01-29 15:26:17 [main] INFO  o.s.b.a.g.s.GraphQlWebMvcAutoConfiguration - GraphQL endpoint WebSocket /graphql-ws
+2025-01-29 15:26:17 [main] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 26 endpoint(s) beneath base path '/actuator'
+2025-01-29 15:26:17 [main] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@509d77ee, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@5be2850c, org.springframework.security.web.context.SecurityContextHolderFilter@ccae68f, org.springframework.security.web.header.HeaderWriterFilter@75001f9f, org.springframework.web.filter.CorsFilter@2c59de30, org.springframework.security.web.authentication.logout.LogoutFilter@28a9f2b8, uz.pdp.config.filtr.MyFilter@6a562255, org.springframework.security.web.authentication.www.BasicAuthenticationFilter@436b4a36, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@2e4d24d6, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@768f4c02, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@11aafd0f, org.springframework.security.web.access.ExceptionTranslationFilter@3b678480, org.springframework.security.web.access.intercept.AuthorizationFilter@61df4db7]
+2025-01-29 15:26:19 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+2025-01-29 15:26:19 [main] INFO  u.p.p.ProjectModul10Application - Started ProjectModul10Application in 34.345 seconds (process running for 34.748)
+2025-01-29 15:26:19 [main] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.email,
+        u1_0.lastname,
+        u1_0.name,
+        u1_0.password,
+        u1_0.phone,
+        u1_0.role,
+        u1_0.seller_request_pending 
+    from
+        users u1_0 
+    where
+        u1_0.name=? 
+        and u1_0.active=true
+2025-01-29 15:26:20 [main] DEBUG org.hibernate.SQL - 
+    select
+        count(*) 
+    from
+        categories c1_0
+2025-01-29 15:26:20 [main] DEBUG org.hibernate.SQL - 
+    select
+        count(*) 
+    from
+        doors d1_0
+2025-01-29 15:26:21 [main] DEBUG org.hibernate.SQL - 
+    select
+        count(*) 
+    from
+        doors d1_0
+2025-01-29 15:26:22 [RMI TCP Connection(3)-127.0.0.1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-01-29 15:26:22 [RMI TCP Connection(3)-127.0.0.1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-01-29 15:26:22 [RMI TCP Connection(3)-127.0.0.1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 5 ms
+2025-01-29 15:26:40 [http-nio-8080-exec-9] INFO  o.s.api.AbstractOpenApiResource - Init duration for springdoc-openapi is: 1241 ms
+2025-01-29 15:27:03 [http-nio-8080-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.email,
+        u1_0.lastname,
+        u1_0.name,
+        u1_0.password,
+        u1_0.phone,
+        u1_0.role,
+        u1_0.seller_request_pending 
+    from
+        users u1_0 
+    where
+        u1_0.name=? 
+        and u1_0.active=true
+2025-01-29 15:27:03 [http-nio-8080-exec-6] INFO  uz.pdp.controller.ContactController - Fetching store addresses for user: etadoor
+2025-01-29 15:27:03 [http-nio-8080-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.email,
+        u1_0.lastname,
+        u1_0.name,
+        u1_0.password,
+        u1_0.phone,
+        u1_0.role,
+        u1_0.seller_request_pending 
+    from
+        users u1_0 
+    where
+        u1_0.name=? 
+        and u1_0.active=true
+2025-01-29 15:27:04 [http-nio-8080-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        a1_0.id,
+        a1_0.city,
+        a1_0.email,
+        a1_0.is_default,
+        a1_0.location_id,
+        a1_0.name,
+        a1_0.phone_number,
+        a1_0.street,
+        a1_0.user_id,
+        a1_0.working_hours 
+    from
+        addresses a1_0
+2025-01-29 15:27:04 [http-nio-8080-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        l1_0.id,
+        a1_0.id,
+        a1_0.city,
+        a1_0.email,
+        a1_0.is_default,
+        a1_0.name,
+        a1_0.phone_number,
+        a1_0.street,
+        a1_0.user_id,
+        a1_0.working_hours,
+        l1_0.latitude,
+        l1_0.longitude,
+        l1_0.marker_title 
+    from
+        locations l1_0 
+    left join
+        addresses a1_0 
+            on l1_0.id=a1_0.location_id 
+    where
+        l1_0.id=?
+2025-01-29 15:27:04 [http-nio-8080-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        l1_0.id,
+        a1_0.id,
+        a1_0.city,
+        a1_0.email,
+        a1_0.is_default,
+        a1_0.name,
+        a1_0.phone_number,
+        a1_0.street,
+        a1_0.user_id,
+        a1_0.working_hours,
+        l1_0.latitude,
+        l1_0.longitude,
+        l1_0.marker_title 
+    from
+        locations l1_0 
+    left join
+        addresses a1_0 
+            on l1_0.id=a1_0.location_id 
+    where
+        l1_0.id=?
+2025-01-29 15:27:05 [http-nio-8080-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        l1_0.id,
+        a1_0.id,
+        a1_0.city,
+        a1_0.email,
+        a1_0.is_default,
+        a1_0.name,
+        a1_0.phone_number,
+        a1_0.street,
+        a1_0.user_id,
+        a1_0.working_hours,
+        l1_0.latitude,
+        l1_0.longitude,
+        l1_0.marker_title 
+    from
+        locations l1_0 
+    left join
+        addresses a1_0 
+            on l1_0.id=a1_0.location_id 
+    where
+        l1_0.id=?
+2025-01-29 15:27:05 [http-nio-8080-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        l1_0.id,
+        a1_0.id,
+        a1_0.city,
+        a1_0.email,
+        a1_0.is_default,
+        a1_0.name,
+        a1_0.phone_number,
+        a1_0.street,
+        a1_0.user_id,
+        a1_0.working_hours,
+        l1_0.latitude,
+        l1_0.longitude,
+        l1_0.marker_title 
+    from
+        locations l1_0 
+    left join
+        addresses a1_0 
+            on l1_0.id=a1_0.location_id 
+    where
+        l1_0.id=?
+2025-01-29 15:27:05 [http-nio-8080-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        l1_0.id,
+        a1_0.id,
+        a1_0.city,
+        a1_0.email,
+        a1_0.is_default,
+        a1_0.name,
+        a1_0.phone_number,
+        a1_0.street,
+        a1_0.user_id,
+        a1_0.working_hours,
+        l1_0.latitude,
+        l1_0.longitude,
+        l1_0.marker_title 
+    from
+        locations l1_0 
+    left join
+        addresses a1_0 
+            on l1_0.id=a1_0.location_id 
+    where
+        l1_0.id=?
+2025-01-29 15:27:05 [http-nio-8080-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        l1_0.id,
+        a1_0.id,
+        a1_0.city,
+        a1_0.email,
+        a1_0.is_default,
+        a1_0.name,
+        a1_0.phone_number,
+        a1_0.street,
+        a1_0.user_id,
+        a1_0.working_hours,
+        l1_0.latitude,
+        l1_0.longitude,
+        l1_0.marker_title 
+    from
+        locations l1_0 
+    left join
+        addresses a1_0 
+            on l1_0.id=a1_0.location_id 
+    where
+        l1_0.id=?
+2025-01-29 15:27:06 [http-nio-8080-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        l1_0.id,
+        a1_0.id,
+        a1_0.city,
+        a1_0.email,
+        a1_0.is_default,
+        a1_0.name,
+        a1_0.phone_number,
+        a1_0.street,
+        a1_0.user_id,
+        a1_0.working_hours,
+        l1_0.latitude,
+        l1_0.longitude,
+        l1_0.marker_title 
+    from
+        locations l1_0 
+    left join
+        addresses a1_0 
+            on l1_0.id=a1_0.location_id 
+    where
+        l1_0.id=?
+2025-01-29 15:27:06 [http-nio-8080-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        l1_0.id,
+        a1_0.id,
+        a1_0.city,
+        a1_0.email,
+        a1_0.is_default,
+        a1_0.name,
+        a1_0.phone_number,
+        a1_0.street,
+        a1_0.user_id,
+        a1_0.working_hours,
+        l1_0.latitude,
+        l1_0.longitude,
+        l1_0.marker_title 
+    from
+        locations l1_0 
+    left join
+        addresses a1_0 
+            on l1_0.id=a1_0.location_id 
+    where
+        l1_0.id=?
+2025-01-29 15:27:06 [http-nio-8080-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        l1_0.id,
+        a1_0.id,
+        a1_0.city,
+        a1_0.email,
+        a1_0.is_default,
+        a1_0.name,
+        a1_0.phone_number,
+        a1_0.street,
+        a1_0.user_id,
+        a1_0.working_hours,
+        l1_0.latitude,
+        l1_0.longitude,
+        l1_0.marker_title 
+    from
+        locations l1_0 
+    left join
+        addresses a1_0 
+            on l1_0.id=a1_0.location_id 
+    where
+        l1_0.id=?
+2025-01-29 15:27:06 [http-nio-8080-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        l1_0.id,
+        a1_0.id,
+        a1_0.city,
+        a1_0.email,
+        a1_0.is_default,
+        a1_0.name,
+        a1_0.phone_number,
+        a1_0.street,
+        a1_0.user_id,
+        a1_0.working_hours,
+        l1_0.latitude,
+        l1_0.longitude,
+        l1_0.marker_title 
+    from
+        locations l1_0 
+    left join
+        addresses a1_0 
+            on l1_0.id=a1_0.location_id 
+    where
+        l1_0.id=?
+2025-01-29 15:27:07 [http-nio-8080-exec-6] INFO  uz.pdp.service.AddressService - Admin user retrieved all 10 addresses
+2025-01-29 15:27:07 [http-nio-8080-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        sl1_0.address_id,
+        sl1_0.social_type,
+        sl1_0.link 
+    from
+        address_social_links sl1_0 
+    where
+        sl1_0.address_id=?
+2025-01-29 15:27:07 [http-nio-8080-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        sl1_0.address_id,
+        sl1_0.social_type,
+        sl1_0.link 
+    from
+        address_social_links sl1_0 
+    where
+        sl1_0.address_id=?
+2025-01-29 15:27:08 [http-nio-8080-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        sl1_0.address_id,
+        sl1_0.social_type,
+        sl1_0.link 
+    from
+        address_social_links sl1_0 
+    where
+        sl1_0.address_id=?
+2025-01-29 15:27:08 [http-nio-8080-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        sl1_0.address_id,
+        sl1_0.social_type,
+        sl1_0.link 
+    from
+        address_social_links sl1_0 
+    where
+        sl1_0.address_id=?
+2025-01-29 15:27:08 [http-nio-8080-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        sl1_0.address_id,
+        sl1_0.social_type,
+        sl1_0.link 
+    from
+        address_social_links sl1_0 
+    where
+        sl1_0.address_id=?
+2025-01-29 15:27:09 [http-nio-8080-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        sl1_0.address_id,
+        sl1_0.social_type,
+        sl1_0.link 
+    from
+        address_social_links sl1_0 
+    where
+        sl1_0.address_id=?
+2025-01-29 15:27:09 [http-nio-8080-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        sl1_0.address_id,
+        sl1_0.social_type,
+        sl1_0.link 
+    from
+        address_social_links sl1_0 
+    where
+        sl1_0.address_id=?
+2025-01-29 15:27:09 [http-nio-8080-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        sl1_0.address_id,
+        sl1_0.social_type,
+        sl1_0.link 
+    from
+        address_social_links sl1_0 
+    where
+        sl1_0.address_id=?
+2025-01-29 15:27:09 [http-nio-8080-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        sl1_0.address_id,
+        sl1_0.social_type,
+        sl1_0.link 
+    from
+        address_social_links sl1_0 
+    where
+        sl1_0.address_id=?
+2025-01-29 15:27:10 [http-nio-8080-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        sl1_0.address_id,
+        sl1_0.social_type,
+        sl1_0.link 
+    from
+        address_social_links sl1_0 
+    where
+        sl1_0.address_id=?
+2025-01-29 15:27:18 [http-nio-8080-exec-8] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.email,
+        u1_0.lastname,
+        u1_0.name,
+        u1_0.password,
+        u1_0.phone,
+        u1_0.role,
+        u1_0.seller_request_pending 
+    from
+        users u1_0 
+    where
+        u1_0.name=? 
+        and u1_0.active=true
+2025-01-29 15:27:18 [http-nio-8080-exec-8] DEBUG org.hibernate.SQL - 
+    select
+        c1_0.id,
+        c1_0.active,
+        c1_0.name 
+    from
+        categories c1_0 
+    where
+        c1_0.active
+2025-01-29 15:27:32 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-01-29 15:27:32 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-01-29 15:27:33 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-01-29 15:27:35 [main] INFO  u.p.p.ProjectModul10Application - Starting ProjectModul10Application using Java 17.0.14 with PID 270182 (/home/lantanium/Documents/G45-Project/target/classes started by lantanium in /home/lantanium/Documents/G45-Project)
+2025-01-29 15:27:35 [main] DEBUG u.p.p.ProjectModul10Application - Running with Spring Boot v3.2.1, Spring v6.1.2
+2025-01-29 15:27:35 [main] INFO  u.p.p.ProjectModul10Application - No active profile set, falling back to 1 default profile: "default"
+2025-01-29 15:27:36 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-01-29 15:27:36 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-01-29 15:27:36 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 94 ms. Found 13 JPA repository interfaces.
+2025-01-29 15:27:36 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-01-29 15:27:36 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-01-29 15:27:36 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 7 ms. Found 0 Redis repository interfaces.
+2025-01-29 15:27:37 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'webMvcConfig' of type [uz.pdp.config.WebMvcConfig$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). The currently created BeanPostProcessor [methodValidationPostProcessor] is declared through a non-static factory method on that class; consider declaring it as static instead.
+2025-01-29 15:27:37 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-01-29 15:27:37 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-01-29 15:27:37 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.17]
+2025-01-29 15:27:37 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-01-29 15:27:37 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1861 ms
+2025-01-29 15:27:37 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-01-29 15:27:37 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.1.Final
+2025-01-29 15:27:37 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-01-29 15:27:37 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-01-29 15:27:37 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-01-29 15:27:40 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@15ade272
+2025-01-29 15:27:40 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-01-29 15:27:40 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-01-29 15:27:41 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-01-29 15:27:41 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists address_social_links 
+       drop constraint if exists FKf8co3916tiiox4iohci7ybiyg
+2025-01-29 15:27:42 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists addresses 
+       drop constraint if exists FK7wf86ejdl44syummkme09y06f
+2025-01-29 15:27:43 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists addresses 
+       drop constraint if exists FK1fa36y2oqhao3wgg2rw1pi459
+2025-01-29 15:27:43 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists basket 
+       drop constraint if exists FK810a8gq30miyp6j1eub97qm6k
+2025-01-29 15:27:43 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists basket_item 
+       drop constraint if exists FKara19f2xv7ml3a24f50v6bsk2
+2025-01-29 15:27:43 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists company 
+       drop constraint if exists FKlgeojgfhu94pbgyev43gtwdyq
+2025-01-29 15:27:44 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists company_socials_list 
+       drop constraint if exists FKt90ivcl5f3phabfuqw6k3t9ow
+2025-01-29 15:27:44 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists custom_enum_values 
+       drop constraint if exists FKbmmwc1jeq02ocr0c6mgv45yiy
+2025-01-29 15:27:44 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists door_available_colors 
+       drop constraint if exists FKd2g3blkiuq2wj2trx3wnjk5me
+2025-01-29 15:27:44 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists door_history 
+       drop constraint if exists FKlskx5ehjqd7u0dmumo4bhuliu
+2025-01-29 15:27:45 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists door_history 
+       drop constraint if exists FKajibco0vlgy0ngsyg33k0wb0u
+2025-01-29 15:27:45 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists door_images 
+       drop constraint if exists FK33nbb6c7curx5h7rp8479q7ea
+2025-01-29 15:27:45 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists doors 
+       drop constraint if exists FKkw5etuyedlsnyrr9wcbjeuyp4
+2025-01-29 15:27:45 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists doors 
+       drop constraint if exists FKgbgrx2rwc3wskrr30uptj4tmy
+2025-01-29 15:27:46 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists email_verifications 
+       drop constraint if exists FKou1xuy3rdeao75p2x1v4v3xs
+2025-01-29 15:27:46 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists furniture_door_images 
+       drop constraint if exists FKtncfqos5bn3jhhxs9m55tsgjk
+2025-01-29 15:27:46 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists moulding 
+       drop constraint if exists FKkieeklwkgvfbf39kekutcssax
+2025-01-29 15:27:47 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists moulding_images 
+       drop constraint if exists FKgtkn0xv5nd1nfc0qd8vjfxxlx
+2025-01-29 15:27:47 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists orders 
+       drop constraint if exists FKf50k9uqc2hstd0yl9uujhoq74
+2025-01-29 15:27:47 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists orders 
+       drop constraint if exists FK32ql8ubntj5uh44ph9659tiih
+2025-01-29 15:27:47 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists address_social_links cascade
+2025-01-29 15:27:48 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists addresses cascade
+2025-01-29 15:27:48 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists basket cascade
+2025-01-29 15:27:48 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists basket_item cascade
+2025-01-29 15:27:48 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists categories cascade
+2025-01-29 15:27:49 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists company cascade
+2025-01-29 15:27:49 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists company_socials_list cascade
+2025-01-29 15:27:49 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists custom_enum_values cascade
+2025-01-29 15:27:50 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists door_available_colors cascade
+2025-01-29 15:27:50 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists door_history cascade
+2025-01-29 15:27:50 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists door_images cascade
+2025-01-29 15:27:50 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists doors cascade
+2025-01-29 15:27:51 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists email_verifications cascade
+2025-01-29 15:27:51 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists furniture_door_images cascade
+2025-01-29 15:27:51 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists furniture_doors cascade
+2025-01-29 15:27:51 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists locations cascade
+2025-01-29 15:27:52 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists moulding cascade
+2025-01-29 15:27:52 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists moulding_images cascade
+2025-01-29 15:27:52 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists orders cascade
+2025-01-29 15:27:52 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists ticket cascade
+2025-01-29 15:27:53 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists users cascade
+2025-01-29 15:27:53 [main] DEBUG org.hibernate.SQL - 
+    create table address_social_links (
+        address_id bigint not null,
+        link varchar(255),
+        social_type varchar(255) not null check (social_type in ('FACEBOOK','TWITTER','INSTAGRAM','LINKEDIN','TELEGRAM')),
+        primary key (address_id, social_type)
+    )
+2025-01-29 15:27:53 [main] DEBUG org.hibernate.SQL - 
+    create table addresses (
+        is_default boolean not null,
+        id bigserial not null,
+        location_id bigint unique,
+        user_id bigint,
+        city varchar(255),
+        email varchar(255),
+        name varchar(255),
+        phone_number varchar(255),
+        street varchar(255),
+        working_hours varchar(255),
+        primary key (id)
+    )
+2025-01-29 15:27:54 [main] DEBUG org.hibernate.SQL - 
+    create table basket (
+        id bigserial not null,
+        user_id bigint unique,
+        primary key (id)
+    )
+2025-01-29 15:27:54 [main] DEBUG org.hibernate.SQL - 
+    create table basket_item (
+        price float(53) not null,
+        quantity integer not null,
+        basket_id bigint,
+        id bigserial not null,
+        item_id bigint,
+        version bigint not null,
+        image varchar(255),
+        name varchar(255),
+        type varchar(255) check (type in ('DOOR','ACCESSORY','MOULDING')),
+        primary key (id)
+    )
+2025-01-29 15:27:54 [main] DEBUG org.hibernate.SQL - 
+    create table categories (
+        active boolean not null,
+        id bigserial not null,
+        name varchar(255) not null unique,
+        primary key (id)
+    )
+2025-01-29 15:27:54 [main] DEBUG org.hibernate.SQL - 
+    create table company (
+        work_time date,
+        address_id bigint unique,
+        id bigserial not null,
+        email varchar(255),
+        name varchar(255),
+        phone varchar(255),
+        primary key (id)
+    )
+2025-01-29 15:27:55 [main] DEBUG org.hibernate.SQL - 
+    create table company_socials_list (
+        company_id bigint not null,
+        socials_list varchar(255) check (socials_list in ('FACEBOOK','TWITTER','INSTAGRAM','LINKEDIN','TELEGRAM'))
+    )
+2025-01-29 15:27:55 [main] DEBUG org.hibernate.SQL - 
+    create table custom_enum_values (
+        is_active boolean not null,
+        created_at timestamp(6),
+        created_by bigint,
+        id bigserial not null,
+        display_name varchar(255) not null,
+        enum_type varchar(255) not null,
+        name varchar(255) not null unique,
+        primary key (id)
+    )
+2025-01-29 15:27:55 [main] DEBUG org.hibernate.SQL - 
+    create table door_available_colors (
+        door_id bigint not null,
+        available_colors varchar(255) check (available_colors in ('WHITE','OFF_WHITE','CREAM','IVORY','LIGHT_OAK','GOLDEN_OAK','DARK_OAK','WALNUT','MAHOGANY','TEAK','CHERRY','ESPRESSO','LIGHT_GRAY','GRAY','CHARCOAL','BLACK','BEIGE','TAN','BROWN','BRONZE','NAVY','FOREST_GREEN','WINE_RED','BURGUNDY','GUNMETAL','BRUSHED_STEEL','ANTIQUE_BRASS','CUSTOM'))
+    )
+2025-01-29 15:27:55 [main] DEBUG org.hibernate.SQL - 
+    create table door_history (
+        accessed_at timestamp(6),
+        door_id bigint not null,
+        id bigserial not null,
+        user_id bigint not null,
+        primary key (id)
+    )
+2025-01-29 15:27:56 [main] DEBUG org.hibernate.SQL - 
+    create table door_images (
+        door_id bigint not null,
+        images varchar(255)
+    )
+2025-01-29 15:27:56 [main] DEBUG org.hibernate.SQL - 
+    create table doors (
+        active boolean not null,
+        custom_height float(53),
+        custom_width float(53),
+        final_price float(53),
+        is_base_model boolean,
+        is_custom_color boolean,
+        price float(53),
+        warranty_years integer,
+        base_model_id bigint,
+        category_id bigint,
+        id bigserial not null,
+        seller_id bigint,
+        color varchar(255) check (color in ('WHITE','OFF_WHITE','CREAM','IVORY','LIGHT_OAK','GOLDEN_OAK','DARK_OAK','WALNUT','MAHOGANY','TEAK','CHERRY','ESPRESSO','LIGHT_GRAY','GRAY','CHARCOAL','BLACK','BEIGE','TAN','BROWN','BRONZE','NAVY','FOREST_GREEN','WINE_RED','BURGUNDY','GUNMETAL','BRUSHED_STEEL','ANTIQUE_BRASS','CUSTOM')),
+        custom_color_code varchar(255),
+        description varchar(255),
+        door_location varchar(255) check (door_location in ('WINDOW','ROOM','BATHROOM','KITCHEN','ENTRANCE','BEDROOM','LIVING_ROOM','BALCONY','GARAGE')),
+        frame_type varchar(255) check (frame_type in ('STANDARD','TELESCOPIC','HIDDEN','REBATED','NON_REBATED')),
+        hardware varchar(255) check (hardware in ('STANDARD_HINGES','PIVOT','SLIDING','POCKET','BARN_DOOR','BI_FOLD','CONCEALED_HINGES','SPRING_HINGES','DOUBLE_ACTION','AUTOMATIC')),
+        manufacturer varchar(255),
+        material varchar(255),
+        name varchar(255),
+        size varchar(255) check (size in ('SIZE_200x2000','SIZE_300x2000','SIZE_400x2000','SIZE_500x2000','SIZE_600x2000','SIZE_700x2000','SIZE_800x2000','SIZE_900x2000','SIZE_1000x2000','SIZE_1100x2000','SIZE_1200x2000','CUSTOM')),
+        status varchar(255) not null check (status in ('AVAILABLE','PENDING','SOLD','INACTIVE','UNAVAILABLE')),
+        primary key (id)
+    )
+2025-01-29 15:27:56 [main] DEBUG org.hibernate.SQL - 
+    create table email_verifications (
+        verified boolean not null,
+        created_at timestamp(6),
+        expiry_time timestamp(6) not null,
+        id bigserial not null,
+        updated_at timestamp(6),
+        user_id bigint not null,
+        type varchar(255) not null check (type in ('SELLER_REQUEST','PASSWORD_RESET','EMAIL_CONFIRMATION')),
+        verification_code varchar(255) not null,
+        primary key (id)
+    )
+2025-01-29 15:27:56 [main] DEBUG org.hibernate.SQL - 
+    create table furniture_door_images (
+        furniture_door_id bigint not null,
+        image_url varchar(255)
+    )
+2025-01-29 15:27:57 [main] DEBUG org.hibernate.SQL - 
+    create table furniture_doors (
+        price float(53) not null,
+        stock_quantity integer not null,
+        id bigserial not null,
+        description varchar(255),
+        dimensions varchar(255),
+        furniture_type varchar(255) not null check (furniture_type in ('LOCK','HANDLE','HINGES','AUTOMATIC_CLOSER','NO_FURNITURE')),
+        material varchar(255) not null,
+        name varchar(255) not null,
+        primary key (id)
+    )
+2025-01-29 15:27:57 [main] DEBUG org.hibernate.SQL - 
+    create table locations (
+        latitude float(53),
+        longitude float(53),
+        id bigserial not null,
+        marker_title varchar(255),
+        primary key (id)
+    )
+2025-01-29 15:27:57 [main] DEBUG org.hibernate.SQL - 
+    create table moulding (
+        price DECIMAL(10,2) not null,
+        price_overall DECIMAL(10,2),
+        quantity integer not null,
+        id bigserial not null,
+        user_id bigint not null,
+        title varchar(100) not null,
+        description varchar(1000),
+        article varchar(255) not null unique,
+        size varchar(255) not null,
+        primary key (id)
+    )
+2025-01-29 15:27:58 [main] DEBUG org.hibernate.SQL - 
+    create table moulding_images (
+        moulding_id bigint not null,
+        image_url varchar(255)
+    )
+2025-01-29 15:27:58 [main] DEBUG org.hibernate.SQL - 
+    create table orders (
+        door_id bigint not null,
+        id bigserial not null,
+        order_date timestamp(6) with time zone not null,
+        preferred_delivery_time timestamp(6) with time zone,
+        user_id bigint not null,
+        comment varchar(1000),
+        delivery_notes varchar(1000),
+        installation_notes varchar(1000),
+        contact_phone varchar(255) not null,
+        customer_name varchar(255) not null,
+        delivery_address varchar(255) not null,
+        email varchar(255) not null,
+        order_type varchar(255) not null check (order_type in ('FULL_SET','POLOTNO')),
+        status varchar(255) not null check (status in ('PENDING','CONFIRMED','PROCESSING','SHIPPED','DELIVERED','CANCELLED')),
+        primary key (id)
+    )
+2025-01-29 15:27:59 [main] DEBUG org.hibernate.SQL - 
+    create table ticket (
+        id bigserial not null,
+        user_id bigint,
+        primary key (id)
+    )
+2025-01-29 15:27:59 [main] DEBUG org.hibernate.SQL - 
+    create table users (
+        active boolean not null,
+        seller_request_pending boolean not null,
+        id bigserial not null,
+        email varchar(255) unique,
+        lastname varchar(255),
+        name varchar(255),
+        password varchar(255),
+        phone varchar(255) not null,
+        role varchar(255) not null check (role in ('USER','SELLER','ADMIN')),
+        primary key (id)
+    )
+2025-01-29 15:27:59 [main] DEBUG org.hibernate.SQL - 
+    create index idx_door_material 
+       on doors (material)
+2025-01-29 15:27:59 [main] DEBUG org.hibernate.SQL - 
+    create index idx_door_manufacturer 
+       on doors (manufacturer)
+2025-01-29 15:28:00 [main] DEBUG org.hibernate.SQL - 
+    create index idx_door_price 
+       on doors (price)
+2025-01-29 15:28:00 [main] DEBUG org.hibernate.SQL - 
+    create index idx_door_name 
+       on doors (name)
+2025-01-29 15:28:00 [main] DEBUG org.hibernate.SQL - 
+    create index idx_door_active_status 
+       on doors (active, status)
+2025-01-29 15:28:00 [main] DEBUG org.hibernate.SQL - 
+    create index idx_order_user 
+       on orders (user_id)
+2025-01-29 15:28:01 [main] DEBUG org.hibernate.SQL - 
+    create index idx_order_door 
+       on orders (door_id)
+2025-01-29 15:28:01 [main] DEBUG org.hibernate.SQL - 
+    create index idx_order_status_date 
+       on orders (status, order_date)
+2025-01-29 15:28:01 [main] DEBUG org.hibernate.SQL - 
+    create index idx_order_type_date 
+       on orders (order_type, order_date)
+2025-01-29 15:28:01 [main] DEBUG org.hibernate.SQL - 
+    create index idx_user_name 
+       on users (name)
+2025-01-29 15:28:02 [main] DEBUG org.hibernate.SQL - 
+    create index idx_user_phone 
+       on users (phone)
+2025-01-29 15:28:02 [main] DEBUG org.hibernate.SQL - 
+    create index idx_user_role_active 
+       on users (role, active)
+2025-01-29 15:28:02 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists address_social_links 
+       add constraint FKf8co3916tiiox4iohci7ybiyg 
+       foreign key (address_id) 
+       references addresses
+2025-01-29 15:28:03 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists addresses 
+       add constraint FK7wf86ejdl44syummkme09y06f 
+       foreign key (location_id) 
+       references locations
+2025-01-29 15:28:03 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists addresses 
+       add constraint FK1fa36y2oqhao3wgg2rw1pi459 
+       foreign key (user_id) 
+       references users
+2025-01-29 15:28:03 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists basket 
+       add constraint FK810a8gq30miyp6j1eub97qm6k 
+       foreign key (user_id) 
+       references users
+2025-01-29 15:28:03 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists basket_item 
+       add constraint FKara19f2xv7ml3a24f50v6bsk2 
+       foreign key (basket_id) 
+       references basket
+2025-01-29 15:28:04 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists company 
+       add constraint FKlgeojgfhu94pbgyev43gtwdyq 
+       foreign key (address_id) 
+       references addresses
+2025-01-29 15:28:04 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists company_socials_list 
+       add constraint FKt90ivcl5f3phabfuqw6k3t9ow 
+       foreign key (company_id) 
+       references company
+2025-01-29 15:28:05 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists custom_enum_values 
+       add constraint FKbmmwc1jeq02ocr0c6mgv45yiy 
+       foreign key (created_by) 
+       references users
+2025-01-29 15:28:05 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists door_available_colors 
+       add constraint FKd2g3blkiuq2wj2trx3wnjk5me 
+       foreign key (door_id) 
+       references doors
+2025-01-29 15:28:05 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists door_history 
+       add constraint FKlskx5ehjqd7u0dmumo4bhuliu 
+       foreign key (door_id) 
+       references doors
+2025-01-29 15:28:06 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists door_history 
+       add constraint FKajibco0vlgy0ngsyg33k0wb0u 
+       foreign key (user_id) 
+       references users
+2025-01-29 15:28:06 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists door_images 
+       add constraint FK33nbb6c7curx5h7rp8479q7ea 
+       foreign key (door_id) 
+       references doors
+2025-01-29 15:28:06 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists doors 
+       add constraint FKkw5etuyedlsnyrr9wcbjeuyp4 
+       foreign key (category_id) 
+       references categories
+2025-01-29 15:28:06 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists doors 
+       add constraint FKgbgrx2rwc3wskrr30uptj4tmy 
+       foreign key (seller_id) 
+       references users
+2025-01-29 15:28:07 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists email_verifications 
+       add constraint FKou1xuy3rdeao75p2x1v4v3xs 
+       foreign key (user_id) 
+       references users
+2025-01-29 15:28:07 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists furniture_door_images 
+       add constraint FKtncfqos5bn3jhhxs9m55tsgjk 
+       foreign key (furniture_door_id) 
+       references furniture_doors
+2025-01-29 15:28:07 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists moulding 
+       add constraint FKkieeklwkgvfbf39kekutcssax 
+       foreign key (user_id) 
+       references users
+2025-01-29 15:28:07 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists moulding_images 
+       add constraint FKgtkn0xv5nd1nfc0qd8vjfxxlx 
+       foreign key (moulding_id) 
+       references moulding
+2025-01-29 15:28:08 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists orders 
+       add constraint FKf50k9uqc2hstd0yl9uujhoq74 
+       foreign key (door_id) 
+       references doors
+2025-01-29 15:28:08 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists orders 
+       add constraint FK32ql8ubntj5uh44ph9659tiih 
+       foreign key (user_id) 
+       references users
+2025-01-29 15:28:08 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-01-29 15:28:09 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-01-29 15:28:11 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-01-29 15:28:12 [main] INFO  o.s.g.e.DefaultSchemaResourceGraphQlSourceBuilder - Loaded 1 resource(s) in the GraphQL schema.
+2025-01-29 15:28:12 [main] INFO  o.s.b.a.g.GraphQlAutoConfiguration - GraphQL schema inspection:
+	Unmapped fields: {Query=[door, doors, user, address, addresses, searchAddresses, nearestAddress, doorHistory, order, userOrders, userAddresses], Mutation=[configureDoor, updateProfile, approveSeller, deactivateAccount, createOrder, updateOrderStatus, addAddress], Address=[id, street, city, country, zipCode, location], Subscription=[orderStatusChanged, newDoorAdded]}
+	Unmapped registrations: {Query.getDoorById=DoorGraphQLController#getDoorById[1 args], Query.getRecentHistory=DoorHistoryGraphQLController#getRecentHistory[1 args], Query.getAllMapPoints=AddressGraphQLController#getAllMapPoints[0 args], Query.getAddress=AddressGraphQLController#getAddress[1 args], Query.findNearestAddress=AddressGraphQLController#findNearestAddress[2 args], Query.getUserDoorHistory=DoorHistoryGraphQLController#getUserDoorHistory[2 args], Query.getDoorHistory=DoorHistoryGraphQLController#getDoorHistory[1 args], Query.getAllDoors=DoorGraphQLController#getAllDoors[0 args], Query.searchAddressesByCity=AddressGraphQLController#searchAddressesByCity[1 args], Query.getAllAddresses=AddressGraphQLController#getAllAddresses[0 args], Query.getUserHistory=DoorHistoryGraphQLController#getUserHistory[1 args], Mutation.updateDoorStatus=DoorGraphQLController#updateDoorStatus[3 args]}
+	Skipped types: []
+2025-01-29 15:28:12 [main] INFO  o.s.b.a.g.s.GraphQlWebMvcAutoConfiguration - GraphQL endpoint HTTP POST /graphql
+2025-01-29 15:28:12 [main] INFO  o.s.b.a.g.s.GraphQlWebMvcAutoConfiguration - GraphQL endpoint WebSocket /graphql-ws
+2025-01-29 15:28:12 [main] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 26 endpoint(s) beneath base path '/actuator'
+2025-01-29 15:28:12 [main] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@50cc77f0, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@4cd979f9, org.springframework.security.web.context.SecurityContextHolderFilter@70161ca1, org.springframework.security.web.header.HeaderWriterFilter@5365c33b, org.springframework.web.filter.CorsFilter@3d76a548, org.springframework.security.web.authentication.logout.LogoutFilter@2de7efef, uz.pdp.config.filtr.MyFilter@581d5b33, org.springframework.security.web.authentication.www.BasicAuthenticationFilter@712c8e89, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@38bbeba1, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@4351e452, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@37b45722, org.springframework.security.web.access.ExceptionTranslationFilter@2f7e303e, org.springframework.security.web.access.intercept.AuthorizationFilter@3ab99b86]
+2025-01-29 15:28:13 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+2025-01-29 15:28:13 [main] INFO  u.p.p.ProjectModul10Application - Started ProjectModul10Application in 38.633 seconds (process running for 39.038)
+2025-01-29 15:28:13 [main] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.email,
+        u1_0.lastname,
+        u1_0.name,
+        u1_0.password,
+        u1_0.phone,
+        u1_0.role,
+        u1_0.seller_request_pending 
+    from
+        users u1_0 
+    where
+        u1_0.name=? 
+        and u1_0.active=true
+2025-01-29 15:28:14 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        users
+        (active, email, lastname, name, password, phone, role, seller_request_pending) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?)
+2025-01-29 15:28:14 [main] DEBUG org.hibernate.SQL - 
+    select
+        count(*) 
+    from
+        categories c1_0
+2025-01-29 15:28:15 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        categories
+        (active, name) 
+    values
+        (?, ?)
+2025-01-29 15:28:15 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        categories
+        (active, name) 
+    values
+        (?, ?)
+2025-01-29 15:28:16 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        categories
+        (active, name) 
+    values
+        (?, ?)
+2025-01-29 15:28:16 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        categories
+        (active, name) 
+    values
+        (?, ?)
+2025-01-29 15:28:16 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        categories
+        (active, name) 
+    values
+        (?, ?)
+2025-01-29 15:28:16 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        categories
+        (active, name) 
+    values
+        (?, ?)
+2025-01-29 15:28:17 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        categories
+        (active, name) 
+    values
+        (?, ?)
+2025-01-29 15:28:17 [main] DEBUG org.hibernate.SQL - 
+    select
+        count(*) 
+    from
+        doors d1_0
+2025-01-29 15:28:18 [main] DEBUG org.hibernate.SQL - 
+    select
+        c1_0.id,
+        c1_0.active,
+        c1_0.name 
+    from
+        categories c1_0 
+    where
+        c1_0.name=?
+2025-01-29 15:28:18 [main] DEBUG org.hibernate.SQL - 
+    select
+        c1_0.id,
+        c1_0.active,
+        c1_0.name 
+    from
+        categories c1_0 
+    where
+        c1_0.name=?
+2025-01-29 15:28:18 [main] DEBUG org.hibernate.SQL - 
+    select
+        c1_0.id,
+        c1_0.active,
+        c1_0.name 
+    from
+        categories c1_0 
+    where
+        c1_0.name=?
+2025-01-29 15:28:18 [main] DEBUG org.hibernate.SQL - 
+    select
+        c1_0.id,
+        c1_0.active,
+        c1_0.name 
+    from
+        categories c1_0 
+    where
+        c1_0.name=?
+2025-01-29 15:28:19 [main] DEBUG org.hibernate.SQL - 
+    select
+        c1_0.id,
+        c1_0.active,
+        c1_0.name 
+    from
+        categories c1_0 
+    where
+        c1_0.name=?
+2025-01-29 15:28:19 [main] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.email,
+        u1_0.lastname,
+        u1_0.name,
+        u1_0.password,
+        u1_0.phone,
+        u1_0.role,
+        u1_0.seller_request_pending 
+    from
+        users u1_0 
+    where
+        u1_0.role=?
+2025-01-29 15:28:19 [main] INFO  o.s.b.a.l.ConditionEvaluationReportLogger - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2025-01-29 15:28:19 [main] ERROR o.s.boot.SpringApplication - Application run failed
+jakarta.validation.ConstraintViolationException: Validation failed for classes [uz.pdp.entity.User] during persist time for groups [jakarta.validation.groups.Default, ]
+List of constraint violations:[
+	ConstraintViolationImpl{interpolatedMessage='Phone number is required', propertyPath=phone, rootBeanClass=class uz.pdp.entity.User, messageTemplate='Phone number is required'}
+]
+	at org.hibernate.boot.beanvalidation.BeanValidationEventListener.validate(BeanValidationEventListener.java:151)
+	at org.hibernate.boot.beanvalidation.BeanValidationEventListener.onPreInsert(BeanValidationEventListener.java:81)
+	at org.hibernate.action.internal.EntityIdentityInsertAction.preInsert(EntityIdentityInsertAction.java:186)
+	at org.hibernate.action.internal.EntityIdentityInsertAction.execute(EntityIdentityInsertAction.java:75)
+	at org.hibernate.engine.spi.ActionQueue.execute(ActionQueue.java:670)
+	at org.hibernate.engine.spi.ActionQueue.addResolvedEntityInsertAction(ActionQueue.java:291)
+	at org.hibernate.engine.spi.ActionQueue.addInsertAction(ActionQueue.java:272)
+	at org.hibernate.engine.spi.ActionQueue.addAction(ActionQueue.java:322)
+	at org.hibernate.event.internal.AbstractSaveEventListener.addInsertAction(AbstractSaveEventListener.java:386)
+	at org.hibernate.event.internal.AbstractSaveEventListener.performSaveOrReplicate(AbstractSaveEventListener.java:300)
+	at org.hibernate.event.internal.AbstractSaveEventListener.performSave(AbstractSaveEventListener.java:219)
+	at org.hibernate.event.internal.AbstractSaveEventListener.saveWithGeneratedId(AbstractSaveEventListener.java:134)
+	at org.hibernate.event.internal.DefaultPersistEventListener.entityIsTransient(DefaultPersistEventListener.java:175)
+	at org.hibernate.event.internal.DefaultPersistEventListener.persist(DefaultPersistEventListener.java:93)
+	at org.hibernate.event.internal.DefaultPersistEventListener.onPersist(DefaultPersistEventListener.java:77)
+	at org.hibernate.event.internal.DefaultPersistEventListener.onPersist(DefaultPersistEventListener.java:54)
+	at org.hibernate.event.service.internal.EventListenerGroupImpl.fireEventOnEachListener(EventListenerGroupImpl.java:127)
+	at org.hibernate.internal.SessionImpl.firePersist(SessionImpl.java:774)
+	at org.hibernate.internal.SessionImpl.persist(SessionImpl.java:758)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at org.springframework.orm.jpa.SharedEntityManagerCreator$SharedEntityManagerInvocationHandler.invoke(SharedEntityManagerCreator.java:319)
+	at jdk.proxy2/jdk.proxy2.$Proxy210.persist(Unknown Source)
+	at org.springframework.data.jpa.repository.support.SimpleJpaRepository.save(SimpleJpaRepository.java:618)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:352)
+	at org.springframework.data.repository.core.support.RepositoryMethodInvoker$RepositoryFragmentMethodInvoker.lambda$new$0(RepositoryMethodInvoker.java:277)
+	at org.springframework.data.repository.core.support.RepositoryMethodInvoker.doInvoke(RepositoryMethodInvoker.java:170)
+	at org.springframework.data.repository.core.support.RepositoryMethodInvoker.invoke(RepositoryMethodInvoker.java:158)
+	at org.springframework.data.repository.core.support.RepositoryComposition$RepositoryFragments.invoke(RepositoryComposition.java:516)
+	at org.springframework.data.repository.core.support.RepositoryComposition.invoke(RepositoryComposition.java:285)
+	at org.springframework.data.repository.core.support.RepositoryFactorySupport$ImplementationMethodExecutionInterceptor.invoke(RepositoryFactorySupport.java:628)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at org.springframework.data.repository.core.support.QueryExecutorMethodInterceptor.doInvoke(QueryExecutorMethodInterceptor.java:168)
+	at org.springframework.data.repository.core.support.QueryExecutorMethodInterceptor.invoke(QueryExecutorMethodInterceptor.java:143)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at org.springframework.data.projection.DefaultMethodInvokingMethodInterceptor.invoke(DefaultMethodInvokingMethodInterceptor.java:70)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at org.springframework.transaction.interceptor.TransactionInterceptor$1.proceedWithInvocation(TransactionInterceptor.java:123)
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:385)
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:119)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:137)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at org.springframework.data.jpa.repository.support.CrudMethodMetadataPostProcessor$CrudMethodMetadataPopulatingMethodInterceptor.invoke(CrudMethodMetadataPostProcessor.java:164)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:97)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:249)
+	at jdk.proxy2/jdk.proxy2.$Proxy226.save(Unknown Source)
+	at uz.pdp.config.DataInitializer.lambda$createDefaultDoors$2(DataInitializer.java:743)
+	at java.base/java.util.Optional.orElseGet(Optional.java:364)
+	at uz.pdp.config.DataInitializer.createDefaultDoors(DataInitializer.java:737)
+	at uz.pdp.config.DataInitializer.run(DataInitializer.java:158)
+	at org.springframework.boot.SpringApplication.lambda$callRunner$5(SpringApplication.java:798)
+	at org.springframework.util.function.ThrowingConsumer$1.acceptWithException(ThrowingConsumer.java:83)
+	at org.springframework.util.function.ThrowingConsumer.accept(ThrowingConsumer.java:60)
+	at org.springframework.util.function.ThrowingConsumer$1.accept(ThrowingConsumer.java:88)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:806)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:797)
+	at org.springframework.boot.SpringApplication.lambda$callRunners$3(SpringApplication.java:782)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.accept(ForEachOps.java:183)
+	at java.base/java.util.stream.SortedOps$SizedRefSortingSink.end(SortedOps.java:357)
+	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:510)
+	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:499)
+	at java.base/java.util.stream.ForEachOps$ForEachOp.evaluateSequential(ForEachOps.java:150)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.evaluateSequential(ForEachOps.java:173)
+	at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234)
+	at java.base/java.util.stream.ReferencePipeline.forEach(ReferencePipeline.java:596)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:782)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:341)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1358)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1347)
+	at uz.pdp.projectmodul10.ProjectModul10Application.main(ProjectModul10Application.java:51)
+2025-01-29 15:28:19 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-01-29 15:28:19 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-01-29 15:28:21 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-01-29 15:28:35 [main] INFO  u.p.p.ProjectModul10Application - Starting ProjectModul10Application using Java 17.0.14 with PID 275691 (/home/lantanium/Documents/G45-Project/target/classes started by lantanium in /home/lantanium/Documents/G45-Project)
+2025-01-29 15:28:35 [main] DEBUG u.p.p.ProjectModul10Application - Running with Spring Boot v3.2.1, Spring v6.1.2
+2025-01-29 15:28:35 [main] INFO  u.p.p.ProjectModul10Application - No active profile set, falling back to 1 default profile: "default"
+2025-01-29 15:28:36 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-01-29 15:28:36 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-01-29 15:28:36 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 86 ms. Found 13 JPA repository interfaces.
+2025-01-29 15:28:36 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-01-29 15:28:36 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-01-29 15:28:36 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 7 ms. Found 0 Redis repository interfaces.
+2025-01-29 15:28:37 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'webMvcConfig' of type [uz.pdp.config.WebMvcConfig$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). The currently created BeanPostProcessor [methodValidationPostProcessor] is declared through a non-static factory method on that class; consider declaring it as static instead.
+2025-01-29 15:28:37 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-01-29 15:28:37 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1749 ms
+2025-01-29 15:28:37 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-01-29 15:28:37 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.1.Final
+2025-01-29 15:28:37 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-01-29 15:28:38 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-01-29 15:28:38 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-01-29 15:28:43 [main] INFO  u.p.p.ProjectModul10Application - Starting ProjectModul10Application using Java 17.0.14 with PID 276130 (/home/lantanium/Documents/G45-Project/target/classes started by lantanium in /home/lantanium/Documents/G45-Project)
+2025-01-29 15:28:43 [main] DEBUG u.p.p.ProjectModul10Application - Running with Spring Boot v3.2.1, Spring v6.1.2
+2025-01-29 15:28:43 [main] INFO  u.p.p.ProjectModul10Application - No active profile set, falling back to 1 default profile: "default"
+2025-01-29 15:28:43 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-01-29 15:28:43 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-01-29 15:28:43 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 80 ms. Found 13 JPA repository interfaces.
+2025-01-29 15:28:44 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-01-29 15:28:44 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-01-29 15:28:44 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 6 ms. Found 0 Redis repository interfaces.
+2025-01-29 15:28:44 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'webMvcConfig' of type [uz.pdp.config.WebMvcConfig$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). The currently created BeanPostProcessor [methodValidationPostProcessor] is declared through a non-static factory method on that class; consider declaring it as static instead.
+2025-01-29 15:28:44 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-01-29 15:28:44 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-01-29 15:28:44 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.17]
+2025-01-29 15:28:44 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-01-29 15:28:44 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1647 ms
+2025-01-29 15:28:45 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-01-29 15:28:45 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.1.Final
+2025-01-29 15:28:45 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-01-29 15:28:45 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-01-29 15:28:45 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-01-29 15:28:47 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@47a90d2a
+2025-01-29 15:28:47 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-01-29 15:28:48 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-01-29 15:28:49 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-01-29 15:28:49 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists address_social_links 
+       drop constraint if exists FKf8co3916tiiox4iohci7ybiyg
+2025-01-29 15:28:49 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists addresses 
+       drop constraint if exists FK7wf86ejdl44syummkme09y06f
+2025-01-29 15:28:50 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists addresses 
+       drop constraint if exists FK1fa36y2oqhao3wgg2rw1pi459
+2025-01-29 15:28:50 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists basket 
+       drop constraint if exists FK810a8gq30miyp6j1eub97qm6k
+2025-01-29 15:28:50 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists basket_item 
+       drop constraint if exists FKara19f2xv7ml3a24f50v6bsk2
+2025-01-29 15:28:50 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists company 
+       drop constraint if exists FKlgeojgfhu94pbgyev43gtwdyq
+2025-01-29 15:28:51 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists company_socials_list 
+       drop constraint if exists FKt90ivcl5f3phabfuqw6k3t9ow
+2025-01-29 15:28:51 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists custom_enum_values 
+       drop constraint if exists FKbmmwc1jeq02ocr0c6mgv45yiy
+2025-01-29 15:28:51 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists door_available_colors 
+       drop constraint if exists FKd2g3blkiuq2wj2trx3wnjk5me
+2025-01-29 15:28:51 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists door_history 
+       drop constraint if exists FKlskx5ehjqd7u0dmumo4bhuliu
+2025-01-29 15:28:52 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists door_history 
+       drop constraint if exists FKajibco0vlgy0ngsyg33k0wb0u
+2025-01-29 15:28:52 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists door_images 
+       drop constraint if exists FK33nbb6c7curx5h7rp8479q7ea
+2025-01-29 15:28:52 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists doors 
+       drop constraint if exists FKkw5etuyedlsnyrr9wcbjeuyp4
+2025-01-29 15:28:52 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists doors 
+       drop constraint if exists FKgbgrx2rwc3wskrr30uptj4tmy
+2025-01-29 15:28:53 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists email_verifications 
+       drop constraint if exists FKou1xuy3rdeao75p2x1v4v3xs
+2025-01-29 15:28:53 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists furniture_door_images 
+       drop constraint if exists FKtncfqos5bn3jhhxs9m55tsgjk
+2025-01-29 15:28:53 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists moulding 
+       drop constraint if exists FKkieeklwkgvfbf39kekutcssax
+2025-01-29 15:28:54 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists moulding_images 
+       drop constraint if exists FKgtkn0xv5nd1nfc0qd8vjfxxlx
+2025-01-29 15:28:54 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists orders 
+       drop constraint if exists FKf50k9uqc2hstd0yl9uujhoq74
+2025-01-29 15:28:54 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists orders 
+       drop constraint if exists FK32ql8ubntj5uh44ph9659tiih
+2025-01-29 15:28:54 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists address_social_links cascade
+2025-01-29 15:28:55 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists addresses cascade
+2025-01-29 15:28:55 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists basket cascade
+2025-01-29 15:28:55 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists basket_item cascade
+2025-01-29 15:28:55 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists categories cascade
+2025-01-29 15:28:56 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists company cascade
+2025-01-29 15:28:56 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists company_socials_list cascade
+2025-01-29 15:28:56 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists custom_enum_values cascade
+2025-01-29 15:28:56 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists door_available_colors cascade
+2025-01-29 15:28:57 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists door_history cascade
+2025-01-29 15:28:57 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists door_images cascade
+2025-01-29 15:28:57 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists doors cascade
+2025-01-29 15:28:57 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists email_verifications cascade
+2025-01-29 15:28:58 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists furniture_door_images cascade
+2025-01-29 15:28:58 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists furniture_doors cascade
+2025-01-29 15:28:58 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists locations cascade
+2025-01-29 15:28:58 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists moulding cascade
+2025-01-29 15:28:59 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists moulding_images cascade
+2025-01-29 15:28:59 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists orders cascade
+2025-01-29 15:28:59 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists ticket cascade
+2025-01-29 15:29:00 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists users cascade
+2025-01-29 15:29:00 [main] DEBUG org.hibernate.SQL - 
+    create table address_social_links (
+        address_id bigint not null,
+        link varchar(255),
+        social_type varchar(255) not null check (social_type in ('FACEBOOK','TWITTER','INSTAGRAM','LINKEDIN','TELEGRAM')),
+        primary key (address_id, social_type)
+    )
+2025-01-29 15:29:00 [main] DEBUG org.hibernate.SQL - 
+    create table addresses (
+        is_default boolean not null,
+        id bigserial not null,
+        location_id bigint unique,
+        user_id bigint,
+        city varchar(255),
+        email varchar(255),
+        name varchar(255),
+        phone_number varchar(255),
+        street varchar(255),
+        working_hours varchar(255),
+        primary key (id)
+    )
+2025-01-29 15:29:00 [main] DEBUG org.hibernate.SQL - 
+    create table basket (
+        id bigserial not null,
+        user_id bigint unique,
+        primary key (id)
+    )
+2025-01-29 15:29:01 [main] DEBUG org.hibernate.SQL - 
+    create table basket_item (
+        price float(53) not null,
+        quantity integer not null,
+        basket_id bigint,
+        id bigserial not null,
+        item_id bigint,
+        version bigint not null,
+        image varchar(255),
+        name varchar(255),
+        type varchar(255) check (type in ('DOOR','ACCESSORY','MOULDING')),
+        primary key (id)
+    )
+2025-01-29 15:29:01 [main] DEBUG org.hibernate.SQL - 
+    create table categories (
+        active boolean not null,
+        id bigserial not null,
+        name varchar(255) not null unique,
+        primary key (id)
+    )
+2025-01-29 15:29:01 [main] DEBUG org.hibernate.SQL - 
+    create table company (
+        work_time date,
+        address_id bigint unique,
+        id bigserial not null,
+        email varchar(255),
+        name varchar(255),
+        phone varchar(255),
+        primary key (id)
+    )
+2025-01-29 15:29:01 [main] DEBUG org.hibernate.SQL - 
+    create table company_socials_list (
+        company_id bigint not null,
+        socials_list varchar(255) check (socials_list in ('FACEBOOK','TWITTER','INSTAGRAM','LINKEDIN','TELEGRAM'))
+    )
+2025-01-29 15:29:02 [main] DEBUG org.hibernate.SQL - 
+    create table custom_enum_values (
+        is_active boolean not null,
+        created_at timestamp(6),
+        created_by bigint,
+        id bigserial not null,
+        display_name varchar(255) not null,
+        enum_type varchar(255) not null,
+        name varchar(255) not null unique,
+        primary key (id)
+    )
+2025-01-29 15:29:02 [main] DEBUG org.hibernate.SQL - 
+    create table door_available_colors (
+        door_id bigint not null,
+        available_colors varchar(255) check (available_colors in ('WHITE','OFF_WHITE','CREAM','IVORY','LIGHT_OAK','GOLDEN_OAK','DARK_OAK','WALNUT','MAHOGANY','TEAK','CHERRY','ESPRESSO','LIGHT_GRAY','GRAY','CHARCOAL','BLACK','BEIGE','TAN','BROWN','BRONZE','NAVY','FOREST_GREEN','WINE_RED','BURGUNDY','GUNMETAL','BRUSHED_STEEL','ANTIQUE_BRASS','CUSTOM'))
+    )
+2025-01-29 15:29:02 [main] DEBUG org.hibernate.SQL - 
+    create table door_history (
+        accessed_at timestamp(6),
+        door_id bigint not null,
+        id bigserial not null,
+        user_id bigint not null,
+        primary key (id)
+    )
+2025-01-29 15:29:03 [main] DEBUG org.hibernate.SQL - 
+    create table door_images (
+        door_id bigint not null,
+        images varchar(255)
+    )
+2025-01-29 15:29:03 [main] DEBUG org.hibernate.SQL - 
+    create table doors (
+        active boolean not null,
+        custom_height float(53),
+        custom_width float(53),
+        final_price float(53),
+        is_base_model boolean,
+        is_custom_color boolean,
+        price float(53),
+        warranty_years integer,
+        base_model_id bigint,
+        category_id bigint,
+        id bigserial not null,
+        seller_id bigint,
+        color varchar(255) check (color in ('WHITE','OFF_WHITE','CREAM','IVORY','LIGHT_OAK','GOLDEN_OAK','DARK_OAK','WALNUT','MAHOGANY','TEAK','CHERRY','ESPRESSO','LIGHT_GRAY','GRAY','CHARCOAL','BLACK','BEIGE','TAN','BROWN','BRONZE','NAVY','FOREST_GREEN','WINE_RED','BURGUNDY','GUNMETAL','BRUSHED_STEEL','ANTIQUE_BRASS','CUSTOM')),
+        custom_color_code varchar(255),
+        description varchar(255),
+        door_location varchar(255) check (door_location in ('WINDOW','ROOM','BATHROOM','KITCHEN','ENTRANCE','BEDROOM','LIVING_ROOM','BALCONY','GARAGE')),
+        frame_type varchar(255) check (frame_type in ('STANDARD','TELESCOPIC','HIDDEN','REBATED','NON_REBATED')),
+        hardware varchar(255) check (hardware in ('STANDARD_HINGES','PIVOT','SLIDING','POCKET','BARN_DOOR','BI_FOLD','CONCEALED_HINGES','SPRING_HINGES','DOUBLE_ACTION','AUTOMATIC')),
+        manufacturer varchar(255),
+        material varchar(255),
+        name varchar(255),
+        size varchar(255) check (size in ('SIZE_200x2000','SIZE_300x2000','SIZE_400x2000','SIZE_500x2000','SIZE_600x2000','SIZE_700x2000','SIZE_800x2000','SIZE_900x2000','SIZE_1000x2000','SIZE_1100x2000','SIZE_1200x2000','CUSTOM')),
+        status varchar(255) not null check (status in ('AVAILABLE','PENDING','SOLD','INACTIVE','UNAVAILABLE')),
+        primary key (id)
+    )
+2025-01-29 15:29:03 [main] DEBUG org.hibernate.SQL - 
+    create table email_verifications (
+        verified boolean not null,
+        created_at timestamp(6),
+        expiry_time timestamp(6) not null,
+        id bigserial not null,
+        updated_at timestamp(6),
+        user_id bigint not null,
+        type varchar(255) not null check (type in ('SELLER_REQUEST','PASSWORD_RESET','EMAIL_CONFIRMATION')),
+        verification_code varchar(255) not null,
+        primary key (id)
+    )
+2025-01-29 15:29:03 [main] DEBUG org.hibernate.SQL - 
+    create table furniture_door_images (
+        furniture_door_id bigint not null,
+        image_url varchar(255)
+    )
+2025-01-29 15:29:04 [main] DEBUG org.hibernate.SQL - 
+    create table furniture_doors (
+        price float(53) not null,
+        stock_quantity integer not null,
+        id bigserial not null,
+        description varchar(255),
+        dimensions varchar(255),
+        furniture_type varchar(255) not null check (furniture_type in ('LOCK','HANDLE','HINGES','AUTOMATIC_CLOSER','NO_FURNITURE')),
+        material varchar(255) not null,
+        name varchar(255) not null,
+        primary key (id)
+    )
+2025-01-29 15:29:04 [main] DEBUG org.hibernate.SQL - 
+    create table locations (
+        latitude float(53),
+        longitude float(53),
+        id bigserial not null,
+        marker_title varchar(255),
+        primary key (id)
+    )
+2025-01-29 15:29:04 [main] DEBUG org.hibernate.SQL - 
+    create table moulding (
+        price DECIMAL(10,2) not null,
+        price_overall DECIMAL(10,2),
+        quantity integer not null,
+        id bigserial not null,
+        user_id bigint not null,
+        title varchar(100) not null,
+        description varchar(1000),
+        article varchar(255) not null unique,
+        size varchar(255) not null,
+        primary key (id)
+    )
+2025-01-29 15:29:04 [main] DEBUG org.hibernate.SQL - 
+    create table moulding_images (
+        moulding_id bigint not null,
+        image_url varchar(255)
+    )
+2025-01-29 15:29:05 [main] DEBUG org.hibernate.SQL - 
+    create table orders (
+        door_id bigint not null,
+        id bigserial not null,
+        order_date timestamp(6) with time zone not null,
+        preferred_delivery_time timestamp(6) with time zone,
+        user_id bigint not null,
+        comment varchar(1000),
+        delivery_notes varchar(1000),
+        installation_notes varchar(1000),
+        contact_phone varchar(255) not null,
+        customer_name varchar(255) not null,
+        delivery_address varchar(255) not null,
+        email varchar(255) not null,
+        order_type varchar(255) not null check (order_type in ('FULL_SET','POLOTNO')),
+        status varchar(255) not null check (status in ('PENDING','CONFIRMED','PROCESSING','SHIPPED','DELIVERED','CANCELLED')),
+        primary key (id)
+    )
+2025-01-29 15:29:05 [main] DEBUG org.hibernate.SQL - 
+    create table ticket (
+        id bigserial not null,
+        user_id bigint,
+        primary key (id)
+    )
+2025-01-29 15:29:05 [main] DEBUG org.hibernate.SQL - 
+    create table users (
+        active boolean not null,
+        seller_request_pending boolean not null,
+        id bigserial not null,
+        email varchar(255) unique,
+        lastname varchar(255),
+        name varchar(255),
+        password varchar(255),
+        phone varchar(255) not null,
+        role varchar(255) not null check (role in ('USER','SELLER','ADMIN')),
+        primary key (id)
+    )
+2025-01-29 15:29:06 [main] DEBUG org.hibernate.SQL - 
+    create index idx_door_material 
+       on doors (material)
+2025-01-29 15:29:06 [main] DEBUG org.hibernate.SQL - 
+    create index idx_door_manufacturer 
+       on doors (manufacturer)
+2025-01-29 15:29:06 [main] DEBUG org.hibernate.SQL - 
+    create index idx_door_price 
+       on doors (price)
+2025-01-29 15:29:06 [main] DEBUG org.hibernate.SQL - 
+    create index idx_door_name 
+       on doors (name)
+2025-01-29 15:29:07 [main] DEBUG org.hibernate.SQL - 
+    create index idx_door_active_status 
+       on doors (active, status)
+2025-01-29 15:29:07 [main] DEBUG org.hibernate.SQL - 
+    create index idx_order_user 
+       on orders (user_id)
+2025-01-29 15:29:07 [main] DEBUG org.hibernate.SQL - 
+    create index idx_order_door 
+       on orders (door_id)
+2025-01-29 15:29:08 [main] DEBUG org.hibernate.SQL - 
+    create index idx_order_status_date 
+       on orders (status, order_date)
+2025-01-29 15:29:08 [main] DEBUG org.hibernate.SQL - 
+    create index idx_order_type_date 
+       on orders (order_type, order_date)
+2025-01-29 15:29:08 [main] DEBUG org.hibernate.SQL - 
+    create index idx_user_name 
+       on users (name)
+2025-01-29 15:29:08 [main] DEBUG org.hibernate.SQL - 
+    create index idx_user_phone 
+       on users (phone)
+2025-01-29 15:29:09 [main] DEBUG org.hibernate.SQL - 
+    create index idx_user_role_active 
+       on users (role, active)
+2025-01-29 15:29:09 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists address_social_links 
+       add constraint FKf8co3916tiiox4iohci7ybiyg 
+       foreign key (address_id) 
+       references addresses
+2025-01-29 15:29:09 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists addresses 
+       add constraint FK7wf86ejdl44syummkme09y06f 
+       foreign key (location_id) 
+       references locations
+2025-01-29 15:29:09 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists addresses 
+       add constraint FK1fa36y2oqhao3wgg2rw1pi459 
+       foreign key (user_id) 
+       references users
+2025-01-29 15:29:10 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists basket 
+       add constraint FK810a8gq30miyp6j1eub97qm6k 
+       foreign key (user_id) 
+       references users
+2025-01-29 15:29:10 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists basket_item 
+       add constraint FKara19f2xv7ml3a24f50v6bsk2 
+       foreign key (basket_id) 
+       references basket
+2025-01-29 15:29:10 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists company 
+       add constraint FKlgeojgfhu94pbgyev43gtwdyq 
+       foreign key (address_id) 
+       references addresses
+2025-01-29 15:29:10 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists company_socials_list 
+       add constraint FKt90ivcl5f3phabfuqw6k3t9ow 
+       foreign key (company_id) 
+       references company
+2025-01-29 15:29:11 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists custom_enum_values 
+       add constraint FKbmmwc1jeq02ocr0c6mgv45yiy 
+       foreign key (created_by) 
+       references users
+2025-01-29 15:29:11 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists door_available_colors 
+       add constraint FKd2g3blkiuq2wj2trx3wnjk5me 
+       foreign key (door_id) 
+       references doors
+2025-01-29 15:29:11 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists door_history 
+       add constraint FKlskx5ehjqd7u0dmumo4bhuliu 
+       foreign key (door_id) 
+       references doors
+2025-01-29 15:29:12 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists door_history 
+       add constraint FKajibco0vlgy0ngsyg33k0wb0u 
+       foreign key (user_id) 
+       references users
+2025-01-29 15:29:12 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists door_images 
+       add constraint FK33nbb6c7curx5h7rp8479q7ea 
+       foreign key (door_id) 
+       references doors
+2025-01-29 15:29:12 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists doors 
+       add constraint FKkw5etuyedlsnyrr9wcbjeuyp4 
+       foreign key (category_id) 
+       references categories
+2025-01-29 15:29:13 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists doors 
+       add constraint FKgbgrx2rwc3wskrr30uptj4tmy 
+       foreign key (seller_id) 
+       references users
+2025-01-29 15:29:13 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists email_verifications 
+       add constraint FKou1xuy3rdeao75p2x1v4v3xs 
+       foreign key (user_id) 
+       references users
+2025-01-29 15:29:13 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists furniture_door_images 
+       add constraint FKtncfqos5bn3jhhxs9m55tsgjk 
+       foreign key (furniture_door_id) 
+       references furniture_doors
+2025-01-29 15:29:13 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists moulding 
+       add constraint FKkieeklwkgvfbf39kekutcssax 
+       foreign key (user_id) 
+       references users
+2025-01-29 15:29:14 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists moulding_images 
+       add constraint FKgtkn0xv5nd1nfc0qd8vjfxxlx 
+       foreign key (moulding_id) 
+       references moulding
+2025-01-29 15:29:14 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists orders 
+       add constraint FKf50k9uqc2hstd0yl9uujhoq74 
+       foreign key (door_id) 
+       references doors
+2025-01-29 15:29:14 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists orders 
+       add constraint FK32ql8ubntj5uh44ph9659tiih 
+       foreign key (user_id) 
+       references users
+2025-01-29 15:29:14 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-01-29 15:29:15 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-01-29 15:29:17 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-01-29 15:29:18 [main] INFO  o.s.g.e.DefaultSchemaResourceGraphQlSourceBuilder - Loaded 1 resource(s) in the GraphQL schema.
+2025-01-29 15:29:18 [main] INFO  o.s.b.a.g.GraphQlAutoConfiguration - GraphQL schema inspection:
+	Unmapped fields: {Query=[door, doors, user, address, addresses, searchAddresses, nearestAddress, doorHistory, order, userOrders, userAddresses], Mutation=[configureDoor, updateProfile, approveSeller, deactivateAccount, createOrder, updateOrderStatus, addAddress], Address=[id, street, city, country, zipCode, location], Subscription=[orderStatusChanged, newDoorAdded]}
+	Unmapped registrations: {Query.getDoorById=DoorGraphQLController#getDoorById[1 args], Query.getRecentHistory=DoorHistoryGraphQLController#getRecentHistory[1 args], Query.getAllMapPoints=AddressGraphQLController#getAllMapPoints[0 args], Query.getAddress=AddressGraphQLController#getAddress[1 args], Query.findNearestAddress=AddressGraphQLController#findNearestAddress[2 args], Query.getUserDoorHistory=DoorHistoryGraphQLController#getUserDoorHistory[2 args], Query.getDoorHistory=DoorHistoryGraphQLController#getDoorHistory[1 args], Query.getAllDoors=DoorGraphQLController#getAllDoors[0 args], Query.searchAddressesByCity=AddressGraphQLController#searchAddressesByCity[1 args], Query.getAllAddresses=AddressGraphQLController#getAllAddresses[0 args], Query.getUserHistory=DoorHistoryGraphQLController#getUserHistory[1 args], Mutation.updateDoorStatus=DoorGraphQLController#updateDoorStatus[3 args]}
+	Skipped types: []
+2025-01-29 15:29:18 [main] INFO  o.s.b.a.g.s.GraphQlWebMvcAutoConfiguration - GraphQL endpoint HTTP POST /graphql
+2025-01-29 15:29:18 [main] INFO  o.s.b.a.g.s.GraphQlWebMvcAutoConfiguration - GraphQL endpoint WebSocket /graphql-ws
+2025-01-29 15:29:18 [main] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 26 endpoint(s) beneath base path '/actuator'
+2025-01-29 15:29:18 [main] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@1fe8b5ec, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@5dcd1bc2, org.springframework.security.web.context.SecurityContextHolderFilter@4a78a61b, org.springframework.security.web.header.HeaderWriterFilter@2bd3faf0, org.springframework.web.filter.CorsFilter@6fc36160, org.springframework.security.web.authentication.logout.LogoutFilter@1ee7e8a4, uz.pdp.config.filtr.MyFilter@2e1e7bc6, org.springframework.security.web.authentication.www.BasicAuthenticationFilter@607057b8, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@42edcb56, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@5658d44c, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@3fa603df, org.springframework.security.web.access.ExceptionTranslationFilter@66c4bbff, org.springframework.security.web.access.intercept.AuthorizationFilter@7c53390f]
+2025-01-29 15:29:19 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+2025-01-29 15:29:19 [main] INFO  u.p.p.ProjectModul10Application - Started ProjectModul10Application in 37.131 seconds (process running for 37.589)
+2025-01-29 15:29:19 [main] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.email,
+        u1_0.lastname,
+        u1_0.name,
+        u1_0.password,
+        u1_0.phone,
+        u1_0.role,
+        u1_0.seller_request_pending 
+    from
+        users u1_0 
+    where
+        u1_0.name=? 
+        and u1_0.active=true
+2025-01-29 15:29:20 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        users
+        (active, email, lastname, name, password, phone, role, seller_request_pending) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?)
+2025-01-29 15:29:21 [main] DEBUG org.hibernate.SQL - 
+    select
+        count(*) 
+    from
+        categories c1_0
+2025-01-29 15:29:21 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        categories
+        (active, name) 
+    values
+        (?, ?)
+2025-01-29 15:29:21 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        categories
+        (active, name) 
+    values
+        (?, ?)
+2025-01-29 15:29:22 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        categories
+        (active, name) 
+    values
+        (?, ?)
+2025-01-29 15:29:22 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        categories
+        (active, name) 
+    values
+        (?, ?)
+2025-01-29 15:29:22 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        categories
+        (active, name) 
+    values
+        (?, ?)
+2025-01-29 15:29:22 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        categories
+        (active, name) 
+    values
+        (?, ?)
+2025-01-29 15:29:23 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        categories
+        (active, name) 
+    values
+        (?, ?)
+2025-01-29 15:29:23 [main] DEBUG org.hibernate.SQL - 
+    select
+        count(*) 
+    from
+        doors d1_0
+2025-01-29 15:29:24 [main] DEBUG org.hibernate.SQL - 
+    select
+        c1_0.id,
+        c1_0.active,
+        c1_0.name 
+    from
+        categories c1_0 
+    where
+        c1_0.name=?
+2025-01-29 15:29:24 [main] DEBUG org.hibernate.SQL - 
+    select
+        c1_0.id,
+        c1_0.active,
+        c1_0.name 
+    from
+        categories c1_0 
+    where
+        c1_0.name=?
+2025-01-29 15:29:24 [main] DEBUG org.hibernate.SQL - 
+    select
+        c1_0.id,
+        c1_0.active,
+        c1_0.name 
+    from
+        categories c1_0 
+    where
+        c1_0.name=?
+2025-01-29 15:29:25 [main] DEBUG org.hibernate.SQL - 
+    select
+        c1_0.id,
+        c1_0.active,
+        c1_0.name 
+    from
+        categories c1_0 
+    where
+        c1_0.name=?
+2025-01-29 15:29:25 [main] DEBUG org.hibernate.SQL - 
+    select
+        c1_0.id,
+        c1_0.active,
+        c1_0.name 
+    from
+        categories c1_0 
+    where
+        c1_0.name=?
+2025-01-29 15:29:25 [main] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.email,
+        u1_0.lastname,
+        u1_0.name,
+        u1_0.password,
+        u1_0.phone,
+        u1_0.role,
+        u1_0.seller_request_pending 
+    from
+        users u1_0 
+    where
+        u1_0.role=?
+2025-01-29 15:29:26 [main] INFO  o.s.b.a.l.ConditionEvaluationReportLogger - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2025-01-29 15:29:26 [main] ERROR o.s.boot.SpringApplication - Application run failed
+jakarta.validation.ConstraintViolationException: Validation failed for classes [uz.pdp.entity.User] during persist time for groups [jakarta.validation.groups.Default, ]
+List of constraint violations:[
+	ConstraintViolationImpl{interpolatedMessage='Phone number is required', propertyPath=phone, rootBeanClass=class uz.pdp.entity.User, messageTemplate='Phone number is required'}
+]
+	at org.hibernate.boot.beanvalidation.BeanValidationEventListener.validate(BeanValidationEventListener.java:151)
+	at org.hibernate.boot.beanvalidation.BeanValidationEventListener.onPreInsert(BeanValidationEventListener.java:81)
+	at org.hibernate.action.internal.EntityIdentityInsertAction.preInsert(EntityIdentityInsertAction.java:186)
+	at org.hibernate.action.internal.EntityIdentityInsertAction.execute(EntityIdentityInsertAction.java:75)
+	at org.hibernate.engine.spi.ActionQueue.execute(ActionQueue.java:670)
+	at org.hibernate.engine.spi.ActionQueue.addResolvedEntityInsertAction(ActionQueue.java:291)
+	at org.hibernate.engine.spi.ActionQueue.addInsertAction(ActionQueue.java:272)
+	at org.hibernate.engine.spi.ActionQueue.addAction(ActionQueue.java:322)
+	at org.hibernate.event.internal.AbstractSaveEventListener.addInsertAction(AbstractSaveEventListener.java:386)
+	at org.hibernate.event.internal.AbstractSaveEventListener.performSaveOrReplicate(AbstractSaveEventListener.java:300)
+	at org.hibernate.event.internal.AbstractSaveEventListener.performSave(AbstractSaveEventListener.java:219)
+	at org.hibernate.event.internal.AbstractSaveEventListener.saveWithGeneratedId(AbstractSaveEventListener.java:134)
+	at org.hibernate.event.internal.DefaultPersistEventListener.entityIsTransient(DefaultPersistEventListener.java:175)
+	at org.hibernate.event.internal.DefaultPersistEventListener.persist(DefaultPersistEventListener.java:93)
+	at org.hibernate.event.internal.DefaultPersistEventListener.onPersist(DefaultPersistEventListener.java:77)
+	at org.hibernate.event.internal.DefaultPersistEventListener.onPersist(DefaultPersistEventListener.java:54)
+	at org.hibernate.event.service.internal.EventListenerGroupImpl.fireEventOnEachListener(EventListenerGroupImpl.java:127)
+	at org.hibernate.internal.SessionImpl.firePersist(SessionImpl.java:774)
+	at org.hibernate.internal.SessionImpl.persist(SessionImpl.java:758)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at org.springframework.orm.jpa.SharedEntityManagerCreator$SharedEntityManagerInvocationHandler.invoke(SharedEntityManagerCreator.java:319)
+	at jdk.proxy2/jdk.proxy2.$Proxy210.persist(Unknown Source)
+	at org.springframework.data.jpa.repository.support.SimpleJpaRepository.save(SimpleJpaRepository.java:618)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:352)
+	at org.springframework.data.repository.core.support.RepositoryMethodInvoker$RepositoryFragmentMethodInvoker.lambda$new$0(RepositoryMethodInvoker.java:277)
+	at org.springframework.data.repository.core.support.RepositoryMethodInvoker.doInvoke(RepositoryMethodInvoker.java:170)
+	at org.springframework.data.repository.core.support.RepositoryMethodInvoker.invoke(RepositoryMethodInvoker.java:158)
+	at org.springframework.data.repository.core.support.RepositoryComposition$RepositoryFragments.invoke(RepositoryComposition.java:516)
+	at org.springframework.data.repository.core.support.RepositoryComposition.invoke(RepositoryComposition.java:285)
+	at org.springframework.data.repository.core.support.RepositoryFactorySupport$ImplementationMethodExecutionInterceptor.invoke(RepositoryFactorySupport.java:628)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at org.springframework.data.repository.core.support.QueryExecutorMethodInterceptor.doInvoke(QueryExecutorMethodInterceptor.java:168)
+	at org.springframework.data.repository.core.support.QueryExecutorMethodInterceptor.invoke(QueryExecutorMethodInterceptor.java:143)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at org.springframework.data.projection.DefaultMethodInvokingMethodInterceptor.invoke(DefaultMethodInvokingMethodInterceptor.java:70)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at org.springframework.transaction.interceptor.TransactionInterceptor$1.proceedWithInvocation(TransactionInterceptor.java:123)
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:385)
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:119)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at org.springframework.dao.support.PersistenceExceptionTranslationInterceptor.invoke(PersistenceExceptionTranslationInterceptor.java:137)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at org.springframework.data.jpa.repository.support.CrudMethodMetadataPostProcessor$CrudMethodMetadataPopulatingMethodInterceptor.invoke(CrudMethodMetadataPostProcessor.java:164)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:97)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:184)
+	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:249)
+	at jdk.proxy2/jdk.proxy2.$Proxy226.save(Unknown Source)
+	at uz.pdp.config.DataInitializer.lambda$createDefaultDoors$2(DataInitializer.java:743)
+	at java.base/java.util.Optional.orElseGet(Optional.java:364)
+	at uz.pdp.config.DataInitializer.createDefaultDoors(DataInitializer.java:737)
+	at uz.pdp.config.DataInitializer.run(DataInitializer.java:158)
+	at org.springframework.boot.SpringApplication.lambda$callRunner$5(SpringApplication.java:798)
+	at org.springframework.util.function.ThrowingConsumer$1.acceptWithException(ThrowingConsumer.java:83)
+	at org.springframework.util.function.ThrowingConsumer.accept(ThrowingConsumer.java:60)
+	at org.springframework.util.function.ThrowingConsumer$1.accept(ThrowingConsumer.java:88)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:806)
+	at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:797)
+	at org.springframework.boot.SpringApplication.lambda$callRunners$3(SpringApplication.java:782)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.accept(ForEachOps.java:183)
+	at java.base/java.util.stream.SortedOps$SizedRefSortingSink.end(SortedOps.java:357)
+	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:510)
+	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:499)
+	at java.base/java.util.stream.ForEachOps$ForEachOp.evaluateSequential(ForEachOps.java:150)
+	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.evaluateSequential(ForEachOps.java:173)
+	at java.base/java.util.stream.AbstractPipeline.evaluate(AbstractPipeline.java:234)
+	at java.base/java.util.stream.ReferencePipeline.forEach(ReferencePipeline.java:596)
+	at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:782)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:341)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1358)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1347)
+	at uz.pdp.projectmodul10.ProjectModul10Application.main(ProjectModul10Application.java:51)
+2025-01-29 15:29:26 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-01-29 15:29:26 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-01-29 15:29:27 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-01-29 15:30:10 [main] INFO  u.p.p.ProjectModul10Application - Starting ProjectModul10Application using Java 17.0.14 with PID 283669 (/home/lantanium/Documents/G45-Project/target/classes started by lantanium in /home/lantanium/Documents/G45-Project)
+2025-01-29 15:30:10 [main] DEBUG u.p.p.ProjectModul10Application - Running with Spring Boot v3.2.1, Spring v6.1.2
+2025-01-29 15:30:10 [main] INFO  u.p.p.ProjectModul10Application - No active profile set, falling back to 1 default profile: "default"
+2025-01-29 15:30:11 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-01-29 15:30:11 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-01-29 15:30:11 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 106 ms. Found 13 JPA repository interfaces.
+2025-01-29 15:30:12 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-01-29 15:30:12 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-01-29 15:30:12 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 6 ms. Found 0 Redis repository interfaces.
+2025-01-29 15:30:12 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'webMvcConfig' of type [uz.pdp.config.WebMvcConfig$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). The currently created BeanPostProcessor [methodValidationPostProcessor] is declared through a non-static factory method on that class; consider declaring it as static instead.
+2025-01-29 15:30:12 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-01-29 15:30:12 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1949 ms
+2025-01-29 15:30:13 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-01-29 15:30:13 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.1.Final
+2025-01-29 15:30:13 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-01-29 15:30:13 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-01-29 15:30:13 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-01-29 15:30:16 [main] INFO  u.p.p.ProjectModul10Application - Starting ProjectModul10Application using Java 17.0.14 with PID 284107 (/home/lantanium/Documents/G45-Project/target/classes started by lantanium in /home/lantanium/Documents/G45-Project)
+2025-01-29 15:30:16 [main] DEBUG u.p.p.ProjectModul10Application - Running with Spring Boot v3.2.1, Spring v6.1.2
+2025-01-29 15:30:16 [main] INFO  u.p.p.ProjectModul10Application - No active profile set, falling back to 1 default profile: "default"
+2025-01-29 15:30:16 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-01-29 15:30:16 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-01-29 15:30:16 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 82 ms. Found 13 JPA repository interfaces.
+2025-01-29 15:30:17 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-01-29 15:30:17 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-01-29 15:30:17 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 6 ms. Found 0 Redis repository interfaces.
+2025-01-29 15:30:17 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'webMvcConfig' of type [uz.pdp.config.WebMvcConfig$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). The currently created BeanPostProcessor [methodValidationPostProcessor] is declared through a non-static factory method on that class; consider declaring it as static instead.
+2025-01-29 15:30:17 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-01-29 15:30:17 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-01-29 15:30:17 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.17]
+2025-01-29 15:30:17 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-01-29 15:30:17 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1706 ms
+2025-01-29 15:30:18 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-01-29 15:30:18 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.1.Final
+2025-01-29 15:30:18 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-01-29 15:30:18 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-01-29 15:30:18 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-01-29 15:30:21 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@1d82d35c
+2025-01-29 15:30:21 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-01-29 15:30:21 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-01-29 15:30:23 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-01-29 15:30:23 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists address_social_links 
+       drop constraint if exists FKf8co3916tiiox4iohci7ybiyg
+2025-01-29 15:30:24 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists addresses 
+       drop constraint if exists FK7wf86ejdl44syummkme09y06f
+2025-01-29 15:30:24 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists addresses 
+       drop constraint if exists FK1fa36y2oqhao3wgg2rw1pi459
+2025-01-29 15:30:24 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists basket 
+       drop constraint if exists FK810a8gq30miyp6j1eub97qm6k
+2025-01-29 15:30:25 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists basket_item 
+       drop constraint if exists FKara19f2xv7ml3a24f50v6bsk2
+2025-01-29 15:30:25 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists company 
+       drop constraint if exists FKlgeojgfhu94pbgyev43gtwdyq
+2025-01-29 15:30:25 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists company_socials_list 
+       drop constraint if exists FKt90ivcl5f3phabfuqw6k3t9ow
+2025-01-29 15:30:26 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists custom_enum_values 
+       drop constraint if exists FKbmmwc1jeq02ocr0c6mgv45yiy
+2025-01-29 15:30:26 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists door_available_colors 
+       drop constraint if exists FKd2g3blkiuq2wj2trx3wnjk5me
+2025-01-29 15:30:26 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists door_history 
+       drop constraint if exists FKlskx5ehjqd7u0dmumo4bhuliu
+2025-01-29 15:30:27 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists door_history 
+       drop constraint if exists FKajibco0vlgy0ngsyg33k0wb0u
+2025-01-29 15:30:27 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists door_images 
+       drop constraint if exists FK33nbb6c7curx5h7rp8479q7ea
+2025-01-29 15:30:27 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists doors 
+       drop constraint if exists FKkw5etuyedlsnyrr9wcbjeuyp4
+2025-01-29 15:30:27 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists doors 
+       drop constraint if exists FKgbgrx2rwc3wskrr30uptj4tmy
+2025-01-29 15:30:28 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists email_verifications 
+       drop constraint if exists FKou1xuy3rdeao75p2x1v4v3xs
+2025-01-29 15:30:28 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists furniture_door_images 
+       drop constraint if exists FKtncfqos5bn3jhhxs9m55tsgjk
+2025-01-29 15:30:28 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists moulding 
+       drop constraint if exists FKkieeklwkgvfbf39kekutcssax
+2025-01-29 15:30:28 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists moulding_images 
+       drop constraint if exists FKgtkn0xv5nd1nfc0qd8vjfxxlx
+2025-01-29 15:30:29 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists orders 
+       drop constraint if exists FKf50k9uqc2hstd0yl9uujhoq74
+2025-01-29 15:30:29 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists orders 
+       drop constraint if exists FK32ql8ubntj5uh44ph9659tiih
+2025-01-29 15:30:29 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists address_social_links cascade
+2025-01-29 15:30:29 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists addresses cascade
+2025-01-29 15:30:30 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists basket cascade
+2025-01-29 15:30:30 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists basket_item cascade
+2025-01-29 15:30:30 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists categories cascade
+2025-01-29 15:30:30 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists company cascade
+2025-01-29 15:30:31 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists company_socials_list cascade
+2025-01-29 15:30:31 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists custom_enum_values cascade
+2025-01-29 15:30:31 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists door_available_colors cascade
+2025-01-29 15:30:32 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists door_history cascade
+2025-01-29 15:30:32 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists door_images cascade
+2025-01-29 15:30:32 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists doors cascade
+2025-01-29 15:30:33 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists email_verifications cascade
+2025-01-29 15:30:33 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists furniture_door_images cascade
+2025-01-29 15:30:33 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists furniture_doors cascade
+2025-01-29 15:30:33 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists locations cascade
+2025-01-29 15:30:34 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists moulding cascade
+2025-01-29 15:30:34 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists moulding_images cascade
+2025-01-29 15:30:34 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists orders cascade
+2025-01-29 15:30:34 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists ticket cascade
+2025-01-29 15:30:35 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists users cascade
+2025-01-29 15:30:35 [main] DEBUG org.hibernate.SQL - 
+    create table address_social_links (
+        address_id bigint not null,
+        link varchar(255),
+        social_type varchar(255) not null check (social_type in ('FACEBOOK','TWITTER','INSTAGRAM','LINKEDIN','TELEGRAM')),
+        primary key (address_id, social_type)
+    )
+2025-01-29 15:30:35 [main] DEBUG org.hibernate.SQL - 
+    create table addresses (
+        is_default boolean not null,
+        id bigserial not null,
+        location_id bigint unique,
+        user_id bigint,
+        city varchar(255),
+        email varchar(255),
+        name varchar(255),
+        phone_number varchar(255),
+        street varchar(255),
+        working_hours varchar(255),
+        primary key (id)
+    )
+2025-01-29 15:30:36 [main] DEBUG org.hibernate.SQL - 
+    create table basket (
+        id bigserial not null,
+        user_id bigint unique,
+        primary key (id)
+    )
+2025-01-29 15:30:36 [main] DEBUG org.hibernate.SQL - 
+    create table basket_item (
+        price float(53) not null,
+        quantity integer not null,
+        basket_id bigint,
+        id bigserial not null,
+        item_id bigint,
+        version bigint not null,
+        image varchar(255),
+        name varchar(255),
+        type varchar(255) check (type in ('DOOR','ACCESSORY','MOULDING')),
+        primary key (id)
+    )
+2025-01-29 15:30:36 [main] DEBUG org.hibernate.SQL - 
+    create table categories (
+        active boolean not null,
+        id bigserial not null,
+        name varchar(255) not null unique,
+        primary key (id)
+    )
+2025-01-29 15:30:37 [main] DEBUG org.hibernate.SQL - 
+    create table company (
+        work_time date,
+        address_id bigint unique,
+        id bigserial not null,
+        email varchar(255),
+        name varchar(255),
+        phone varchar(255),
+        primary key (id)
+    )
+2025-01-29 15:30:37 [main] DEBUG org.hibernate.SQL - 
+    create table company_socials_list (
+        company_id bigint not null,
+        socials_list varchar(255) check (socials_list in ('FACEBOOK','TWITTER','INSTAGRAM','LINKEDIN','TELEGRAM'))
+    )
+2025-01-29 15:30:37 [main] DEBUG org.hibernate.SQL - 
+    create table custom_enum_values (
+        is_active boolean not null,
+        created_at timestamp(6),
+        created_by bigint,
+        id bigserial not null,
+        display_name varchar(255) not null,
+        enum_type varchar(255) not null,
+        name varchar(255) not null unique,
+        primary key (id)
+    )
+2025-01-29 15:30:38 [main] DEBUG org.hibernate.SQL - 
+    create table door_available_colors (
+        door_id bigint not null,
+        available_colors varchar(255) check (available_colors in ('WHITE','OFF_WHITE','CREAM','IVORY','LIGHT_OAK','GOLDEN_OAK','DARK_OAK','WALNUT','MAHOGANY','TEAK','CHERRY','ESPRESSO','LIGHT_GRAY','GRAY','CHARCOAL','BLACK','BEIGE','TAN','BROWN','BRONZE','NAVY','FOREST_GREEN','WINE_RED','BURGUNDY','GUNMETAL','BRUSHED_STEEL','ANTIQUE_BRASS','CUSTOM'))
+    )
+2025-01-29 15:30:38 [main] DEBUG org.hibernate.SQL - 
+    create table door_history (
+        accessed_at timestamp(6),
+        door_id bigint not null,
+        id bigserial not null,
+        user_id bigint not null,
+        primary key (id)
+    )
+2025-01-29 15:30:38 [main] DEBUG org.hibernate.SQL - 
+    create table door_images (
+        door_id bigint not null,
+        images varchar(255)
+    )
+2025-01-29 15:30:39 [main] DEBUG org.hibernate.SQL - 
+    create table doors (
+        active boolean not null,
+        custom_height float(53),
+        custom_width float(53),
+        final_price float(53),
+        is_base_model boolean,
+        is_custom_color boolean,
+        price float(53),
+        warranty_years integer,
+        base_model_id bigint,
+        category_id bigint,
+        id bigserial not null,
+        seller_id bigint,
+        color varchar(255) check (color in ('WHITE','OFF_WHITE','CREAM','IVORY','LIGHT_OAK','GOLDEN_OAK','DARK_OAK','WALNUT','MAHOGANY','TEAK','CHERRY','ESPRESSO','LIGHT_GRAY','GRAY','CHARCOAL','BLACK','BEIGE','TAN','BROWN','BRONZE','NAVY','FOREST_GREEN','WINE_RED','BURGUNDY','GUNMETAL','BRUSHED_STEEL','ANTIQUE_BRASS','CUSTOM')),
+        custom_color_code varchar(255),
+        description varchar(255),
+        door_location varchar(255) check (door_location in ('WINDOW','ROOM','BATHROOM','KITCHEN','ENTRANCE','BEDROOM','LIVING_ROOM','BALCONY','GARAGE')),
+        frame_type varchar(255) check (frame_type in ('STANDARD','TELESCOPIC','HIDDEN','REBATED','NON_REBATED')),
+        hardware varchar(255) check (hardware in ('STANDARD_HINGES','PIVOT','SLIDING','POCKET','BARN_DOOR','BI_FOLD','CONCEALED_HINGES','SPRING_HINGES','DOUBLE_ACTION','AUTOMATIC')),
+        manufacturer varchar(255),
+        material varchar(255),
+        name varchar(255),
+        size varchar(255) check (size in ('SIZE_200x2000','SIZE_300x2000','SIZE_400x2000','SIZE_500x2000','SIZE_600x2000','SIZE_700x2000','SIZE_800x2000','SIZE_900x2000','SIZE_1000x2000','SIZE_1100x2000','SIZE_1200x2000','CUSTOM')),
+        status varchar(255) not null check (status in ('AVAILABLE','PENDING','SOLD','INACTIVE','UNAVAILABLE')),
+        primary key (id)
+    )
+2025-01-29 15:30:39 [main] DEBUG org.hibernate.SQL - 
+    create table email_verifications (
+        verified boolean not null,
+        created_at timestamp(6),
+        expiry_time timestamp(6) not null,
+        id bigserial not null,
+        updated_at timestamp(6),
+        user_id bigint not null,
+        type varchar(255) not null check (type in ('SELLER_REQUEST','PASSWORD_RESET','EMAIL_CONFIRMATION')),
+        verification_code varchar(255) not null,
+        primary key (id)
+    )
+2025-01-29 15:30:39 [main] DEBUG org.hibernate.SQL - 
+    create table furniture_door_images (
+        furniture_door_id bigint not null,
+        image_url varchar(255)
+    )
+2025-01-29 15:30:39 [main] DEBUG org.hibernate.SQL - 
+    create table furniture_doors (
+        price float(53) not null,
+        stock_quantity integer not null,
+        id bigserial not null,
+        description varchar(255),
+        dimensions varchar(255),
+        furniture_type varchar(255) not null check (furniture_type in ('LOCK','HANDLE','HINGES','AUTOMATIC_CLOSER','NO_FURNITURE')),
+        material varchar(255) not null,
+        name varchar(255) not null,
+        primary key (id)
+    )
+2025-01-29 15:30:40 [main] DEBUG org.hibernate.SQL - 
+    create table locations (
+        latitude float(53),
+        longitude float(53),
+        id bigserial not null,
+        marker_title varchar(255),
+        primary key (id)
+    )
+2025-01-29 15:30:40 [main] DEBUG org.hibernate.SQL - 
+    create table moulding (
+        price DECIMAL(10,2) not null,
+        price_overall DECIMAL(10,2),
+        quantity integer not null,
+        id bigserial not null,
+        user_id bigint not null,
+        title varchar(100) not null,
+        description varchar(1000),
+        article varchar(255) not null unique,
+        size varchar(255) not null,
+        primary key (id)
+    )
+2025-01-29 15:30:40 [main] DEBUG org.hibernate.SQL - 
+    create table moulding_images (
+        moulding_id bigint not null,
+        image_url varchar(255)
+    )
+2025-01-29 15:30:40 [main] DEBUG org.hibernate.SQL - 
+    create table orders (
+        door_id bigint not null,
+        id bigserial not null,
+        order_date timestamp(6) with time zone not null,
+        preferred_delivery_time timestamp(6) with time zone,
+        user_id bigint not null,
+        comment varchar(1000),
+        delivery_notes varchar(1000),
+        installation_notes varchar(1000),
+        contact_phone varchar(255) not null,
+        customer_name varchar(255) not null,
+        delivery_address varchar(255) not null,
+        email varchar(255) not null,
+        order_type varchar(255) not null check (order_type in ('FULL_SET','POLOTNO')),
+        status varchar(255) not null check (status in ('PENDING','CONFIRMED','PROCESSING','SHIPPED','DELIVERED','CANCELLED')),
+        primary key (id)
+    )
+2025-01-29 15:30:41 [main] DEBUG org.hibernate.SQL - 
+    create table ticket (
+        id bigserial not null,
+        user_id bigint,
+        primary key (id)
+    )
+2025-01-29 15:30:41 [main] DEBUG org.hibernate.SQL - 
+    create table users (
+        active boolean not null,
+        seller_request_pending boolean not null,
+        id bigserial not null,
+        email varchar(255) unique,
+        lastname varchar(255),
+        name varchar(255),
+        password varchar(255),
+        phone varchar(255) not null,
+        role varchar(255) not null check (role in ('USER','SELLER','ADMIN')),
+        primary key (id)
+    )
+2025-01-29 15:30:41 [main] DEBUG org.hibernate.SQL - 
+    create index idx_door_material 
+       on doors (material)
+2025-01-29 15:30:42 [main] DEBUG org.hibernate.SQL - 
+    create index idx_door_manufacturer 
+       on doors (manufacturer)
+2025-01-29 15:30:42 [main] DEBUG org.hibernate.SQL - 
+    create index idx_door_price 
+       on doors (price)
+2025-01-29 15:30:42 [main] DEBUG org.hibernate.SQL - 
+    create index idx_door_name 
+       on doors (name)
+2025-01-29 15:30:42 [main] DEBUG org.hibernate.SQL - 
+    create index idx_door_active_status 
+       on doors (active, status)
+2025-01-29 15:30:43 [main] DEBUG org.hibernate.SQL - 
+    create index idx_order_user 
+       on orders (user_id)
+2025-01-29 15:30:43 [main] DEBUG org.hibernate.SQL - 
+    create index idx_order_door 
+       on orders (door_id)
+2025-01-29 15:30:43 [main] DEBUG org.hibernate.SQL - 
+    create index idx_order_status_date 
+       on orders (status, order_date)
+2025-01-29 15:30:44 [main] DEBUG org.hibernate.SQL - 
+    create index idx_order_type_date 
+       on orders (order_type, order_date)
+2025-01-29 15:30:44 [main] DEBUG org.hibernate.SQL - 
+    create index idx_user_name 
+       on users (name)
+2025-01-29 15:30:44 [main] DEBUG org.hibernate.SQL - 
+    create index idx_user_phone 
+       on users (phone)
+2025-01-29 15:30:45 [main] DEBUG org.hibernate.SQL - 
+    create index idx_user_role_active 
+       on users (role, active)
+2025-01-29 15:30:45 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists address_social_links 
+       add constraint FKf8co3916tiiox4iohci7ybiyg 
+       foreign key (address_id) 
+       references addresses
+2025-01-29 15:30:45 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists addresses 
+       add constraint FK7wf86ejdl44syummkme09y06f 
+       foreign key (location_id) 
+       references locations
+2025-01-29 15:30:45 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists addresses 
+       add constraint FK1fa36y2oqhao3wgg2rw1pi459 
+       foreign key (user_id) 
+       references users
+2025-01-29 15:30:46 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists basket 
+       add constraint FK810a8gq30miyp6j1eub97qm6k 
+       foreign key (user_id) 
+       references users
+2025-01-29 15:30:46 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists basket_item 
+       add constraint FKara19f2xv7ml3a24f50v6bsk2 
+       foreign key (basket_id) 
+       references basket
+2025-01-29 15:30:46 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists company 
+       add constraint FKlgeojgfhu94pbgyev43gtwdyq 
+       foreign key (address_id) 
+       references addresses
+2025-01-29 15:30:47 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists company_socials_list 
+       add constraint FKt90ivcl5f3phabfuqw6k3t9ow 
+       foreign key (company_id) 
+       references company
+2025-01-29 15:30:47 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists custom_enum_values 
+       add constraint FKbmmwc1jeq02ocr0c6mgv45yiy 
+       foreign key (created_by) 
+       references users
+2025-01-29 15:30:47 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists door_available_colors 
+       add constraint FKd2g3blkiuq2wj2trx3wnjk5me 
+       foreign key (door_id) 
+       references doors
+2025-01-29 15:30:47 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists door_history 
+       add constraint FKlskx5ehjqd7u0dmumo4bhuliu 
+       foreign key (door_id) 
+       references doors
+2025-01-29 15:30:48 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists door_history 
+       add constraint FKajibco0vlgy0ngsyg33k0wb0u 
+       foreign key (user_id) 
+       references users
+2025-01-29 15:30:48 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists door_images 
+       add constraint FK33nbb6c7curx5h7rp8479q7ea 
+       foreign key (door_id) 
+       references doors
+2025-01-29 15:30:48 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists doors 
+       add constraint FKkw5etuyedlsnyrr9wcbjeuyp4 
+       foreign key (category_id) 
+       references categories
+2025-01-29 15:30:49 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists doors 
+       add constraint FKgbgrx2rwc3wskrr30uptj4tmy 
+       foreign key (seller_id) 
+       references users
+2025-01-29 15:30:49 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists email_verifications 
+       add constraint FKou1xuy3rdeao75p2x1v4v3xs 
+       foreign key (user_id) 
+       references users
+2025-01-29 15:30:49 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists furniture_door_images 
+       add constraint FKtncfqos5bn3jhhxs9m55tsgjk 
+       foreign key (furniture_door_id) 
+       references furniture_doors
+2025-01-29 15:30:49 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists moulding 
+       add constraint FKkieeklwkgvfbf39kekutcssax 
+       foreign key (user_id) 
+       references users
+2025-01-29 15:30:50 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists moulding_images 
+       add constraint FKgtkn0xv5nd1nfc0qd8vjfxxlx 
+       foreign key (moulding_id) 
+       references moulding
+2025-01-29 15:30:50 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists orders 
+       add constraint FKf50k9uqc2hstd0yl9uujhoq74 
+       foreign key (door_id) 
+       references doors
+2025-01-29 15:30:50 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists orders 
+       add constraint FK32ql8ubntj5uh44ph9659tiih 
+       foreign key (user_id) 
+       references users
+2025-01-29 15:30:50 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-01-29 15:30:51 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-01-29 15:30:53 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-01-29 15:30:54 [main] INFO  o.s.g.e.DefaultSchemaResourceGraphQlSourceBuilder - Loaded 1 resource(s) in the GraphQL schema.
+2025-01-29 15:30:54 [main] INFO  o.s.b.a.g.GraphQlAutoConfiguration - GraphQL schema inspection:
+	Unmapped fields: {Query=[door, doors, user, address, addresses, searchAddresses, nearestAddress, doorHistory, order, userOrders, userAddresses], Mutation=[configureDoor, updateProfile, approveSeller, deactivateAccount, createOrder, updateOrderStatus, addAddress], Address=[id, street, city, country, zipCode, location], Subscription=[orderStatusChanged, newDoorAdded]}
+	Unmapped registrations: {Query.getDoorById=DoorGraphQLController#getDoorById[1 args], Query.getRecentHistory=DoorHistoryGraphQLController#getRecentHistory[1 args], Query.getAllMapPoints=AddressGraphQLController#getAllMapPoints[0 args], Query.getAddress=AddressGraphQLController#getAddress[1 args], Query.findNearestAddress=AddressGraphQLController#findNearestAddress[2 args], Query.getUserDoorHistory=DoorHistoryGraphQLController#getUserDoorHistory[2 args], Query.getDoorHistory=DoorHistoryGraphQLController#getDoorHistory[1 args], Query.getAllDoors=DoorGraphQLController#getAllDoors[0 args], Query.searchAddressesByCity=AddressGraphQLController#searchAddressesByCity[1 args], Query.getAllAddresses=AddressGraphQLController#getAllAddresses[0 args], Query.getUserHistory=DoorHistoryGraphQLController#getUserHistory[1 args], Mutation.updateDoorStatus=DoorGraphQLController#updateDoorStatus[3 args]}
+	Skipped types: []
+2025-01-29 15:30:54 [main] INFO  o.s.b.a.g.s.GraphQlWebMvcAutoConfiguration - GraphQL endpoint HTTP POST /graphql
+2025-01-29 15:30:54 [main] INFO  o.s.b.a.g.s.GraphQlWebMvcAutoConfiguration - GraphQL endpoint WebSocket /graphql-ws
+2025-01-29 15:30:54 [main] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 26 endpoint(s) beneath base path '/actuator'
+2025-01-29 15:30:54 [main] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@30057fbe, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@439aa007, org.springframework.security.web.context.SecurityContextHolderFilter@4adf6a2, org.springframework.security.web.header.HeaderWriterFilter@57f648a7, org.springframework.web.filter.CorsFilter@296f614c, org.springframework.security.web.authentication.logout.LogoutFilter@4050b1ba, uz.pdp.config.filtr.MyFilter@4c3d72fd, org.springframework.security.web.authentication.www.BasicAuthenticationFilter@2b1e626, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@11c1f62d, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@25d2edc6, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@5c2d5596, org.springframework.security.web.access.ExceptionTranslationFilter@48b5e658, org.springframework.security.web.access.intercept.AuthorizationFilter@8601ff7]
+2025-01-29 15:30:55 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+2025-01-29 15:30:55 [main] INFO  u.p.p.ProjectModul10Application - Started ProjectModul10Application in 40.105 seconds (process running for 40.449)
+2025-01-29 15:30:55 [main] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.email,
+        u1_0.lastname,
+        u1_0.name,
+        u1_0.password,
+        u1_0.phone,
+        u1_0.role,
+        u1_0.seller_request_pending 
+    from
+        users u1_0 
+    where
+        u1_0.name=? 
+        and u1_0.active=true
+2025-01-29 15:30:56 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        users
+        (active, email, lastname, name, password, phone, role, seller_request_pending) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?)
+2025-01-29 15:30:57 [main] DEBUG org.hibernate.SQL - 
+    select
+        count(*) 
+    from
+        categories c1_0
+2025-01-29 15:30:57 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        categories
+        (active, name) 
+    values
+        (?, ?)
+2025-01-29 15:30:58 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        categories
+        (active, name) 
+    values
+        (?, ?)
+2025-01-29 15:30:58 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        categories
+        (active, name) 
+    values
+        (?, ?)
+2025-01-29 15:30:58 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        categories
+        (active, name) 
+    values
+        (?, ?)
+2025-01-29 15:30:58 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        categories
+        (active, name) 
+    values
+        (?, ?)
+2025-01-29 15:30:59 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        categories
+        (active, name) 
+    values
+        (?, ?)
+2025-01-29 15:30:59 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        categories
+        (active, name) 
+    values
+        (?, ?)
+2025-01-29 15:31:00 [main] DEBUG org.hibernate.SQL - 
+    select
+        count(*) 
+    from
+        doors d1_0
+2025-01-29 15:31:00 [main] DEBUG org.hibernate.SQL - 
+    select
+        c1_0.id,
+        c1_0.active,
+        c1_0.name 
+    from
+        categories c1_0 
+    where
+        c1_0.name=?
+2025-01-29 15:31:00 [main] DEBUG org.hibernate.SQL - 
+    select
+        c1_0.id,
+        c1_0.active,
+        c1_0.name 
+    from
+        categories c1_0 
+    where
+        c1_0.name=?
+2025-01-29 15:31:01 [main] DEBUG org.hibernate.SQL - 
+    select
+        c1_0.id,
+        c1_0.active,
+        c1_0.name 
+    from
+        categories c1_0 
+    where
+        c1_0.name=?
+2025-01-29 15:31:01 [main] DEBUG org.hibernate.SQL - 
+    select
+        c1_0.id,
+        c1_0.active,
+        c1_0.name 
+    from
+        categories c1_0 
+    where
+        c1_0.name=?
+2025-01-29 15:31:01 [main] DEBUG org.hibernate.SQL - 
+    select
+        c1_0.id,
+        c1_0.active,
+        c1_0.name 
+    from
+        categories c1_0 
+    where
+        c1_0.name=?
+2025-01-29 15:31:02 [main] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.email,
+        u1_0.lastname,
+        u1_0.name,
+        u1_0.password,
+        u1_0.phone,
+        u1_0.role,
+        u1_0.seller_request_pending 
+    from
+        users u1_0 
+    where
+        u1_0.role=?
+2025-01-29 15:31:02 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        users
+        (active, email, lastname, name, password, phone, role, seller_request_pending) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?)
+2025-01-29 15:31:03 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        doors
+        (active, base_model_id, category_id, color, custom_color_code, custom_height, custom_width, description, door_location, final_price, frame_type, hardware, is_base_model, is_custom_color, manufacturer, material, name, price, seller_id, size, status, warranty_years) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-01-29 15:31:03 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        doors
+        (active, base_model_id, category_id, color, custom_color_code, custom_height, custom_width, description, door_location, final_price, frame_type, hardware, is_base_model, is_custom_color, manufacturer, material, name, price, seller_id, size, status, warranty_years) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-01-29 15:31:03 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        doors
+        (active, base_model_id, category_id, color, custom_color_code, custom_height, custom_width, description, door_location, final_price, frame_type, hardware, is_base_model, is_custom_color, manufacturer, material, name, price, seller_id, size, status, warranty_years) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-01-29 15:31:03 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        doors
+        (active, base_model_id, category_id, color, custom_color_code, custom_height, custom_width, description, door_location, final_price, frame_type, hardware, is_base_model, is_custom_color, manufacturer, material, name, price, seller_id, size, status, warranty_years) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-01-29 15:31:04 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        doors
+        (active, base_model_id, category_id, color, custom_color_code, custom_height, custom_width, description, door_location, final_price, frame_type, hardware, is_base_model, is_custom_color, manufacturer, material, name, price, seller_id, size, status, warranty_years) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-01-29 15:31:04 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        doors
+        (active, base_model_id, category_id, color, custom_color_code, custom_height, custom_width, description, door_location, final_price, frame_type, hardware, is_base_model, is_custom_color, manufacturer, material, name, price, seller_id, size, status, warranty_years) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-01-29 15:31:04 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        doors
+        (active, base_model_id, category_id, color, custom_color_code, custom_height, custom_width, description, door_location, final_price, frame_type, hardware, is_base_model, is_custom_color, manufacturer, material, name, price, seller_id, size, status, warranty_years) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-01-29 15:31:04 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        doors
+        (active, base_model_id, category_id, color, custom_color_code, custom_height, custom_width, description, door_location, final_price, frame_type, hardware, is_base_model, is_custom_color, manufacturer, material, name, price, seller_id, size, status, warranty_years) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-01-29 15:31:05 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        doors
+        (active, base_model_id, category_id, color, custom_color_code, custom_height, custom_width, description, door_location, final_price, frame_type, hardware, is_base_model, is_custom_color, manufacturer, material, name, price, seller_id, size, status, warranty_years) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-01-29 15:31:05 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        doors
+        (active, base_model_id, category_id, color, custom_color_code, custom_height, custom_width, description, door_location, final_price, frame_type, hardware, is_base_model, is_custom_color, manufacturer, material, name, price, seller_id, size, status, warranty_years) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-01-29 15:31:05 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        doors
+        (active, base_model_id, category_id, color, custom_color_code, custom_height, custom_width, description, door_location, final_price, frame_type, hardware, is_base_model, is_custom_color, manufacturer, material, name, price, seller_id, size, status, warranty_years) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-01-29 15:31:06 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        doors
+        (active, base_model_id, category_id, color, custom_color_code, custom_height, custom_width, description, door_location, final_price, frame_type, hardware, is_base_model, is_custom_color, manufacturer, material, name, price, seller_id, size, status, warranty_years) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-01-29 15:31:06 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        doors
+        (active, base_model_id, category_id, color, custom_color_code, custom_height, custom_width, description, door_location, final_price, frame_type, hardware, is_base_model, is_custom_color, manufacturer, material, name, price, seller_id, size, status, warranty_years) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-01-29 15:31:06 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        doors
+        (active, base_model_id, category_id, color, custom_color_code, custom_height, custom_width, description, door_location, final_price, frame_type, hardware, is_base_model, is_custom_color, manufacturer, material, name, price, seller_id, size, status, warranty_years) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-01-29 15:31:07 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        doors
+        (active, base_model_id, category_id, color, custom_color_code, custom_height, custom_width, description, door_location, final_price, frame_type, hardware, is_base_model, is_custom_color, manufacturer, material, name, price, seller_id, size, status, warranty_years) 
+    values
+        (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+2025-01-29 15:31:07 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-29 15:31:07 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-29 15:31:07 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-29 15:31:07 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-29 15:31:07 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-29 15:31:07 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-29 15:31:07 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-29 15:31:07 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-29 15:31:07 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-29 15:31:07 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-29 15:31:07 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-29 15:31:07 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-29 15:31:07 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-29 15:31:07 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-29 15:31:07 [main] DEBUG org.hibernate.SQL - 
+    insert 
+    into
+        door_images
+        (door_id, images) 
+    values
+        (?, ?)
+2025-01-29 15:31:08 [main] DEBUG org.hibernate.SQL - 
+    select
+        count(*) 
+    from
+        doors d1_0
+2025-01-29 15:31:09 [RMI TCP Connection(1)-127.0.0.1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-01-29 15:31:09 [RMI TCP Connection(1)-127.0.0.1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-01-29 15:31:09 [RMI TCP Connection(1)-127.0.0.1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 4 ms
+2025-01-29 15:31:15 [http-nio-8080-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.email,
+        u1_0.lastname,
+        u1_0.name,
+        u1_0.password,
+        u1_0.phone,
+        u1_0.role,
+        u1_0.seller_request_pending 
+    from
+        users u1_0 
+    where
+        u1_0.name=? 
+        and u1_0.active=true
+2025-01-29 15:31:15 [http-nio-8080-exec-1] DEBUG org.hibernate.SQL - 
+    select
+        c1_0.id,
+        c1_0.active,
+        c1_0.name 
+    from
+        categories c1_0 
+    where
+        c1_0.active
+2025-01-29 15:31:24 [http-nio-8080-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.email,
+        u1_0.lastname,
+        u1_0.name,
+        u1_0.password,
+        u1_0.phone,
+        u1_0.role,
+        u1_0.seller_request_pending 
+    from
+        users u1_0 
+    where
+        u1_0.name=? 
+        and u1_0.active=true
+2025-01-29 15:31:25 [http-nio-8080-exec-3] DEBUG org.hibernate.SQL - 
+    select
+        c1_0.id,
+        c1_0.active,
+        c1_0.name 
+    from
+        categories c1_0 
+    where
+        c1_0.id=?
+2025-01-29 15:31:33 [http-nio-8080-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.email,
+        u1_0.lastname,
+        u1_0.name,
+        u1_0.password,
+        u1_0.phone,
+        u1_0.role,
+        u1_0.seller_request_pending 
+    from
+        users u1_0 
+    where
+        u1_0.name=? 
+        and u1_0.active=true
+2025-01-29 15:31:34 [http-nio-8080-exec-6] DEBUG org.hibernate.SQL - 
+    select
+        c1_0.id,
+        c1_0.active,
+        c1_0.name 
+    from
+        categories c1_0 
+    where
+        c1_0.id=?
+2025-01-29 15:31:34 [http-nio-8080-exec-6] DEBUG org.hibernate.SQL - 
+    update
+        categories 
+    set
+        active=?,
+        name=? 
+    where
+        id=?
+2025-01-29 15:31:39 [http-nio-8080-exec-7] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.email,
+        u1_0.lastname,
+        u1_0.name,
+        u1_0.password,
+        u1_0.phone,
+        u1_0.role,
+        u1_0.seller_request_pending 
+    from
+        users u1_0 
+    where
+        u1_0.name=? 
+        and u1_0.active=true
+2025-01-29 15:31:40 [http-nio-8080-exec-7] DEBUG org.hibernate.SQL - 
+    select
+        c1_0.id,
+        c1_0.active,
+        c1_0.name 
+    from
+        categories c1_0 
+    where
+        c1_0.active
+2025-01-29 15:31:54 [http-nio-8080-exec-9] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.email,
+        u1_0.lastname,
+        u1_0.name,
+        u1_0.password,
+        u1_0.phone,
+        u1_0.role,
+        u1_0.seller_request_pending 
+    from
+        users u1_0 
+    where
+        u1_0.name=? 
+        and u1_0.active=true
+2025-01-29 15:31:54 [http-nio-8080-exec-9] ERROR u.p.exception.GlobalExceptionHandler - Validation exception occurred: name: Category name cannot be empty
+2025-01-29 15:32:04 [http-nio-8080-exec-10] DEBUG org.hibernate.SQL - 
+    select
+        u1_0.id,
+        u1_0.active,
+        u1_0.email,
+        u1_0.lastname,
+        u1_0.name,
+        u1_0.password,
+        u1_0.phone,
+        u1_0.role,
+        u1_0.seller_request_pending 
+    from
+        users u1_0 
+    where
+        u1_0.name=? 
+        and u1_0.active=true
+2025-01-29 15:32:05 [http-nio-8080-exec-10] DEBUG org.hibernate.SQL - 
+    select
+        c1_0.id,
+        c1_0.active,
+        c1_0.name 
+    from
+        categories c1_0 
+    where
+        c1_0.id=?
+2025-01-29 15:32:05 [http-nio-8080-exec-10] DEBUG org.hibernate.SQL - 
+    select
+        c1_0.id,
+        c1_0.active,
+        c1_0.name 
+    from
+        categories c1_0 
+    where
+        upper(c1_0.name)=upper(?)
+2025-01-29 15:32:05 [http-nio-8080-exec-10] DEBUG org.hibernate.SQL - 
+    update
+        categories 
+    set
+        active=?,
+        name=? 
+    where
+        id=?
+2025-01-29 15:34:40 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-01-29 15:34:40 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-01-29 15:34:41 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-01-29 15:34:44 [main] INFO  u.p.p.ProjectModul10Application - Starting ProjectModul10Application using Java 17.0.14 with PID 305634 (/home/lantanium/Documents/G45-Project/target/classes started by lantanium in /home/lantanium/Documents/G45-Project)
+2025-01-29 15:34:44 [main] DEBUG u.p.p.ProjectModul10Application - Running with Spring Boot v3.2.1, Spring v6.1.2
+2025-01-29 15:34:44 [main] INFO  u.p.p.ProjectModul10Application - No active profile set, falling back to 1 default profile: "default"
+2025-01-29 15:34:45 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-01-29 15:34:45 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-01-29 15:34:45 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 87 ms. Found 13 JPA repository interfaces.
+2025-01-29 15:34:45 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-01-29 15:34:45 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-01-29 15:34:45 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 5 ms. Found 0 Redis repository interfaces.
+2025-01-29 15:34:45 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'webMvcConfig' of type [uz.pdp.config.WebMvcConfig$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). The currently created BeanPostProcessor [methodValidationPostProcessor] is declared through a non-static factory method on that class; consider declaring it as static instead.
+2025-01-29 15:34:46 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-01-29 15:34:46 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-01-29 15:34:46 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.17]
+2025-01-29 15:34:46 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-01-29 15:34:46 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1905 ms
+2025-01-29 15:34:46 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-01-29 15:34:46 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.1.Final
+2025-01-29 15:34:46 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-01-29 15:34:46 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-01-29 15:34:46 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-01-29 15:34:49 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@1cb7f2fe
+2025-01-29 15:34:49 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-01-29 15:34:50 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-01-29 15:34:51 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-01-29 15:34:52 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists moulding 
+       alter column price set data type DECIMAL(10,2)
+2025-01-29 15:34:53 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists moulding 
+       alter column price_overall set data type DECIMAL(10,2)
+2025-01-29 15:34:54 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists users 
+       drop constraint if exists idx_user_email
+2025-01-29 15:34:54 [main] WARN  o.h.e.jdbc.spi.SqlExceptionHelper - SQL Warning Code: 0, SQLState: 00000
+2025-01-29 15:34:54 [main] WARN  o.h.e.jdbc.spi.SqlExceptionHelper - constraint "idx_user_email" of relation "users" does not exist, skipping
+2025-01-29 15:34:54 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists users 
+       add constraint idx_user_email unique (email)

@@ -6,6 +6,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import uz.pdp.entity.Address;
+import uz.pdp.entity.Category;
 import uz.pdp.entity.Door;
 import uz.pdp.entity.FurnitureDoor;
 import uz.pdp.entity.Location;
@@ -13,6 +14,7 @@ import uz.pdp.entity.Moulding;
 import uz.pdp.entity.User;
 import uz.pdp.enums.*;
 import uz.pdp.repository.AddressRepository;
+import uz.pdp.repository.CategoryRepository;
 import uz.pdp.repository.DoorRepository;
 import uz.pdp.repository.FurnitureDoorRepository;
 import uz.pdp.repository.MouldingRepository;
@@ -43,6 +45,7 @@ public class DataInitializer implements CommandLineRunner {
     private final UserRepository userRepository;
     private final MouldingRepository mouldingRepository;
     private final AddressRepository addressRepository;
+    private final CategoryRepository categoryRepository;
     private final PasswordEncoder passwordEncoder;
     private final Faker faker = new Faker(new Locale("en-US"));
 
@@ -151,6 +154,8 @@ public class DataInitializer implements CommandLineRunner {
     @Override
     public void run(String... args) {
         initializeDefaultAdmin();
+        createDefaultCategories();
+        createDefaultDoors();
         if (doorRepository.count() == 0 && furnitureDoorRepository.count() == 0 && 
             mouldingRepository.count() == 0 && addressRepository.count() == 0) {
             System.out.println("🎭 Welcome to the Door Paradise Initialization!");
@@ -688,5 +693,176 @@ public class DataInitializer implements CommandLineRunner {
         }
         
         System.out.println("🎯 Door destinations are ready for visitors!");
+    }
+
+    /**
+     * Creates default door categories.
+     * 
+     * Every door needs a family! Here's where we sort them into their respective clans. 🏰
+     */
+    private void createDefaultCategories() {
+        if (categoryRepository.count() == 0) {
+            List<Category> categories = Arrays.asList(
+                new Category(null, "Interior Doors", true),
+                new Category(null, "Exterior Doors", true),
+                new Category(null, "Security Doors", true),
+                new Category(null, "Sliding Doors", true),
+                new Category(null, "French Doors", true),
+                new Category(null, "Barn Doors", true),
+                new Category(null, "Smart Doors", true)
+            );
+            categoryRepository.saveAll(categories);
+        }
+    }
+
+    /**
+     * Creates a diverse set of default doors with varying attributes.
+     * These doors are carefully crafted to demonstrate the getSimillarDoors functionality.
+     * 
+     * Warning: Side effects may include an overwhelming desire to renovate your house! 🏗️
+     */
+    private void createDefaultDoors() {
+        if (doorRepository.count() == 0) {
+            // Get categories
+            Category interior = categoryRepository.findByName("Interior Doors").orElseThrow();
+            Category exterior = categoryRepository.findByName("Exterior Doors").orElseThrow();
+            Category security = categoryRepository.findByName("Security Doors").orElseThrow();
+            Category sliding = categoryRepository.findByName("Sliding Doors").orElseThrow();
+            Category french = categoryRepository.findByName("French Doors").orElseThrow();
+            
+            // Create a default seller if none exists
+            User seller = userRepository.findByRole(Role.SELLER)
+                .stream()
+                .findFirst()
+                .orElseGet(() -> {
+                    User newSeller = new User();
+                    newSeller.setName("Door Master");
+                    newSeller.setEmail("seller@doors.com");
+                    newSeller.setPassword(passwordEncoder.encode("password123"));
+                    newSeller.setRole(Role.SELLER);
+                    newSeller.setPhone("+1234567890");  // Adding required phone number
+                    return userRepository.save(newSeller);
+                });
+
+            // Create doors with diverse attributes for similar door matching
+            List<Door> doors = new ArrayList<>();
+
+            // Classic Oak Interior Door Series
+            for (DoorLocation location : Arrays.asList(DoorLocation.BEDROOM, DoorLocation.LIVING_ROOM, DoorLocation.BATHROOM)) {
+                Door door = new Door();
+                door.setName("Classic Oak " + location.name());
+                door.setDescription("Timeless oak door perfect for your " + location.name().toLowerCase());
+                door.setPrice(299.99);
+                door.setFinalPrice(299.99);
+                door.setCategory(interior);
+                door.setImages(Arrays.asList(DOOR_IMAGE_IDS[0]));
+                door.setSize(Size.SIZE_800x2000);  // Standard interior door size
+                door.setColor(Color.GOLDEN_OAK);  // Warm golden oak color for classic doors
+                door.setMaterial("Solid Oak");
+                door.setManufacturer("DoorMaster Pro");
+                door.setWarrantyYears(5);
+                door.setStatus(DoorStatus.AVAILABLE);
+                door.setActive(true);
+                door.setSeller(seller);
+                door.setDoorLocation(location);
+                door.setFrameType(FrameType.STANDARD);  // Standard frame for interior doors
+                door.setHardware(HardwareType.STANDARD_HINGES);  // Basic hinges for interior doors
+                doors.add(door);
+            }
+
+            // Modern Security Series
+            for (Color color : Arrays.asList(Color.BLACK, Color.CHARCOAL, Color.GRAY)) {
+                Door door = new Door();
+                door.setName("Modern Security " + color.name());
+                door.setDescription("High-security door with modern aesthetics");
+                door.setPrice(899.99);
+                door.setFinalPrice(899.99);
+                door.setCategory(security);
+                door.setImages(List.of(DOOR_IMAGE_IDS[1]));
+                door.setSize(Size.SIZE_900x2000);  // Larger security door size
+                door.setColor(color);  // Using the color parameter (BLACK, CHARCOAL, GRAY)
+                door.setMaterial("Reinforced Steel");
+                door.setManufacturer("SecureMax Pro");
+                door.setWarrantyYears(10);
+                door.setStatus(DoorStatus.AVAILABLE);
+                door.setActive(true);
+                door.setSeller(seller);
+                door.setDoorLocation(DoorLocation.ENTRANCE);
+                door.setFrameType(FrameType.REBATED);  // Rebated frame for better security
+                door.setHardware(HardwareType.AUTOMATIC);  // Smart automatic hardware
+                doors.add(door);
+            }
+
+            // Elegant French Doors
+            for (String material : Arrays.asList("Mahogany", "Cherry Wood", "Walnut")) {
+                Door door = new Door();
+                door.setName("Elegant " + material + " French Door");
+                door.setDescription("Sophisticated French door crafted from premium " + material);
+                door.setPrice(1299.99);
+                door.setFinalPrice(1299.99);
+                door.setCategory(french);
+                door.setImages(Arrays.asList(DOOR_IMAGE_IDS[2]));
+                door.setSize(Size.SIZE_1200x2000);  // Double door size for French doors
+                door.setColor(Color.MAHOGANY);  // Rich mahogany color for elegant doors
+                door.setMaterial(material);
+                door.setManufacturer("Portal Paradise");
+                door.setWarrantyYears(7);
+                door.setStatus(DoorStatus.AVAILABLE);
+                door.setActive(true);
+                door.setSeller(seller);
+                door.setDoorLocation(DoorLocation.LIVING_ROOM);
+                door.setFrameType(FrameType.NON_REBATED);  // Non-rebated for elegant look
+                door.setHardware(HardwareType.CONCEALED_HINGES);  // Hidden hinges for elegance
+                doors.add(door);
+            }
+
+            // Modern Sliding Series
+            for (FrameType frameType : Arrays.asList(FrameType.REBATED, FrameType.NON_REBATED, FrameType.TELESCOPIC)) {
+                Door door = new Door();
+                door.setName("Modern " + frameType.name() + " Slider");
+                door.setDescription("Contemporary sliding door with " + frameType.name().toLowerCase() + " frame");
+                door.setPrice(799.99);
+                door.setFinalPrice(799.99);
+                door.setCategory(sliding);
+                door.setImages(Arrays.asList(DOOR_IMAGE_IDS[3]));
+                door.setSize(Size.CUSTOM);  // Custom size for sliding doors
+                door.setColor(Color.GRAY);  // Modern gray for sliding doors
+                door.setMaterial("Tempered Glass");
+                door.setManufacturer("Swing Kings");
+                door.setWarrantyYears(5);
+                door.setStatus(DoorStatus.AVAILABLE);
+                door.setActive(true);
+                door.setSeller(seller);
+                door.setDoorLocation(DoorLocation.BALCONY);
+                door.setFrameType(frameType);  // Using the frameType parameter from the loop
+                door.setHardware(HardwareType.SLIDING);  // Sliding hardware for sliding doors
+                doors.add(door);
+            }
+
+            // Premium Exterior Series
+            for (HardwareType hardware : Arrays.asList(HardwareType.AUTOMATIC, HardwareType.SPRING_HINGES, HardwareType.DOUBLE_ACTION)) {
+                Door door = new Door();
+                door.setName("Premium Exterior with " + hardware.getDisplayName());
+                door.setDescription("High-end exterior door with " + hardware.getDisplayName().toLowerCase() + " hardware");
+                door.setPrice(1499.99);
+                door.setFinalPrice(1499.99);
+                door.setCategory(exterior);
+                door.setImages(Arrays.asList(DOOR_IMAGE_IDS[4]));
+                door.setSize(Size.SIZE_1000x2000);  // Large exterior door size
+                door.setColor(Color.WHITE);  // Classic white for exterior doors
+                door.setMaterial("Fiberglass");
+                door.setManufacturer("Gateway Giants");
+                door.setWarrantyYears(15);
+                door.setStatus(DoorStatus.AVAILABLE);
+                door.setActive(true);
+                door.setSeller(seller);
+                door.setDoorLocation(DoorLocation.ENTRANCE);
+                door.setFrameType(FrameType.TELESCOPIC);  // Telescopic frame for exterior doors
+                door.setHardware(hardware);
+                doors.add(door);
+            }
+
+            doorRepository.saveAll(doors);
+        }
     }
 }

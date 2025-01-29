@@ -6,6 +6,7 @@ import org.springframework.data.repository.query.Param;
 import uz.pdp.entity.User;
 import uz.pdp.enums.Role;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -52,4 +53,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
      */
     @Query("SELECT u FROM User u WHERE u.name = :name AND u.active = true")
     Optional<User> findByUsername(@Param("name") String name);
+
+    Collection<User> findByRole(Role role);
 }
