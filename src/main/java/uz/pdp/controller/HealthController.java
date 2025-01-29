@@ -25,6 +25,7 @@ public class HealthController {
     public ResponseEntity<EntityResponse<String>> checkRedisHealth() {
         try {
             redisConnectionFactory.getConnection().ping();
+
             logger.info("Redis health check passed");
             return ResponseEntity.ok(EntityResponse.success("Redis is healthy"));
         } catch (Exception e) {

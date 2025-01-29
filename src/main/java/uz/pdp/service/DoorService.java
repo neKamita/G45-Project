@@ -26,13 +26,16 @@ import org.springframework.web.multipart.MultipartFile;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.SneakyThrows;
 import uz.pdp.dto.DoorDto;
+import uz.pdp.entity.Category;
 import uz.pdp.entity.Door;
 import uz.pdp.entity.User;
 import uz.pdp.enums.*;
 import uz.pdp.exception.*;
 import uz.pdp.payload.EntityResponse;
+import uz.pdp.repository.CategoryRepository;
 import uz.pdp.repository.DoorHistoryRepository;
 import uz.pdp.repository.DoorRepository;
+import uz.pdp.repository.UserRepository;
 
 /**
  * Service class for managing door operations.
@@ -51,14 +54,18 @@ public class DoorService {
     private static final String DOOR_VARIANTS_CACHE = "door-variants";
 
     private final DoorRepository doorRepository;
+    private final CategoryRepository categoryRepository;
+    private final UserRepository userRepository;
     private final UserService userService;
     private final ImageStorageService imageStorageService;
     private final DoorHistoryRepository doorHistoryRepository;
 
     @Autowired
-    public DoorService(DoorRepository doorRepository, UserService userService, ImageStorageService imageStorageService,
+    public DoorService(DoorRepository doorRepository, CategoryRepository categoryRepository, UserRepository userRepository, UserService userService, ImageStorageService imageStorageService,
                        DoorHistoryRepository doorHistoryRepository) {
         this.doorRepository = doorRepository;
+        this.categoryRepository = categoryRepository;
+        this.userRepository = userRepository;
         this.userService = userService;
         this.imageStorageService = imageStorageService;
         this.doorHistoryRepository = doorHistoryRepository;
@@ -157,6 +164,12 @@ public class DoorService {
         door.setCustomWidth(dto.getCustomWidth());
         door.setCustomHeight(dto.getCustomHeight());
         door.setIsCustomColor(dto.getIsCustomColor());
+        
+        if (dto.getCategoryId() != null) {
+            Category category = categoryRepository.findById(dto.getCategoryId())
+                .orElseThrow(() -> new ResourceNotFoundException("Category not found with id: " + dto.getCategoryId()));
+            door.setCategory(category);
+        }
     }
 
     /**
@@ -433,7 +446,7 @@ public class DoorService {
      */
     @Transactional
     @PreAuthorize("hasRole('ADMIN') or (hasRole('SELLER') and @doorSecurityService.isSeller(#id))")
-    @CachePut(value = DOOR_CACHE, key = "#id")
+    //@CachePut(value = DOOR_CACHE, key = "#id")
     public Door uploadImages(Long id, List<MultipartFile> images) {
         Door door = getDoor(id);
         List<String> imageUrls = new ArrayList<>();
@@ -463,11 +476,7 @@ public class DoorService {
      */
     @Transactional
     @PreAuthorize("hasRole('ADMIN') or (hasRole('SELLER') and @doorSecurityService.isSeller(#id))")
-    @Caching(put = {
-        @CachePut(value = DOOR_CACHE, key = "#id")
-    }, evict = {
-        @CacheEvict(value = DOORS_CACHE, allEntries = true)
-    })
+
     public Door updateStatus(Long id, DoorStatus status) {
         try {
             Door door = getDoor(id);
@@ -520,7 +529,7 @@ public class DoorService {
      * @return Door if found
      * @throws ResourceNotFoundException if door not found
      */
-    @Cacheable(value = DOOR_CACHE, key = "#id")
+    //@Cacheable(value = DOOR_CACHE, key = "#id")
     public Door getDoorById(Long id) {
         try {
             logger.info("Retrieving door with ID: {}", id);
@@ -565,7 +574,7 @@ public class DoorService {
      */
     @PreAuthorize("hasAnyRole('SELLER', 'ADMIN')")
     @Transactional
-    @CacheEvict(value = DOORS_CACHE, allEntries = true)
+    //@CacheEvict(value = DOORS_CACHE, allEntries = true)
     public EntityResponse<Door> createDoor(Door door) {
         try {
             logger.info("Creating new door");
@@ -595,13 +604,7 @@ public class DoorService {
      */
     @PreAuthorize("hasAnyRole('SELLER', 'ADMIN')")
     @Transactional
-    @Caching(put = {
-        @CachePut(value = DOOR_CACHE, key = "#id")
-    }, evict = {
-        @CacheEvict(value = DOORS_CACHE, allEntries = true),
-        @CacheEvict(value = DOOR_COLORS_CACHE, key = "#id"),
-        @CacheEvict(value = DOOR_VARIANTS_CACHE, key = "#id")
-    })
+
     public EntityResponse<Door> updateDoor(Long id, Door updatedDoor) {
         try {
             logger.info("Updating door with ID: {}", id);
@@ -642,11 +645,7 @@ public class DoorService {
      */
     @PreAuthorize("hasAnyRole('SELLER', 'ADMIN')")
     @Transactional
-    @Caching(put = {
-        @CachePut(value = DOOR_CACHE, key = "#doorId")
-    }, evict = {
-        @CacheEvict(value = DOORS_CACHE, allEntries = true)
-    })
+
     public Door updateDoorStatus(Long doorId, Boolean isAvailable, Boolean isActive) {
         try {
             logger.info("Updating status for door ID: {}", doorId);
@@ -683,7 +682,7 @@ public class DoorService {
      * @return List of doors in that color, or an empty list if no doors are feeling that color today
      */
     @Transactional(readOnly = true)
-    @Cacheable(value = DOOR_COLORS_CACHE, key = "#color")
+   // @Cacheable(value = DOOR_COLORS_CACHE, key = "#color")
     public List<Door> getDoorsByColor(Color color) {
         logger.info("Searching for doors with color: {}", color);
         return doorRepository.findByColorAndActiveTrue(color);
@@ -697,7 +696,7 @@ public class DoorService {
      * @return List of all color variants
      */
     @Transactional(readOnly = true)
-    @Cacheable(value = DOOR_VARIANTS_CACHE, key = "#doorId")
+    //@Cacheable(value = DOOR_VARIANTS_CACHE, key = "#doorId")
     public List<Door> getDoorColorVariants(Long doorId) {
         Door door = getDoor(doorId);
         Long baseModelId = door.getIsBaseModel() ? door.getId() : door.getBaseModelId();
@@ -719,11 +718,7 @@ public class DoorService {
      */
     @Transactional
     @PreAuthorize("hasRole('SELLER')")
-    @Caching(evict = {
-        @CacheEvict(value = DOORS_CACHE, allEntries = true),
-        @CacheEvict(value = DOOR_COLORS_CACHE, key = "#doorId"),
-        @CacheEvict(value = DOOR_VARIANTS_CACHE, key = "#doorId")
-    })
+
     public Door createColorVariant(Long doorId, Color color) {
         Door baseDoor = getDoor(doorId);
         
@@ -760,11 +755,7 @@ public class DoorService {
      */
     @Transactional
     @PreAuthorize("hasRole('SELLER')")
-    @Caching(evict = {
-        @CacheEvict(value = DOORS_CACHE, allEntries = true),
-        @CacheEvict(value = DOOR_COLORS_CACHE, key = "#doorId"),
-        @CacheEvict(value = DOOR_VARIANTS_CACHE, key = "#doorId")
-    })
+
     public Door createCustomColorVariant(Long doorId, String colorCode) {
         Door baseDoor = getDoor(doorId);
         Door baseModel = baseDoor.getIsBaseModel() ? baseDoor : getDoor(baseDoor.getBaseModelId());
@@ -787,7 +778,7 @@ public class DoorService {
      * @return Set of available colors
      */
     @Transactional(readOnly = true)
-    @Cacheable(value = DOOR_COLORS_CACHE, key = "#doorId")
+   // @Cacheable(value = DOOR_COLORS_CACHE, key = "#doorId")
     public Set<Color> getAvailableColors(Long doorId) {
         Door door = getDoor(doorId);
         Long baseModelId = door.getIsBaseModel() ? door.getId() : door.getBaseModelId();
@@ -810,7 +801,7 @@ public class DoorService {
      * @throws ResourceNotFoundException if door not found
      */
     @Transactional(readOnly = true)
-    @Cacheable(value = DOOR_COLORS_CACHE, key = "#id")
+    //@Cacheable(value = DOOR_COLORS_CACHE, key = "#id")
     public Set<Color> getDoorColors(Long id) {
         Door door = getDoor(id);
         
@@ -828,5 +819,28 @@ public class DoorService {
         logger.info("Found {} fabulous colors for door {}! ", 
             door.getAvailableColors().size(), door.getName());
         return door.getAvailableColors();
+    }
+    
+    private DoorDto mapToDto(Door door) {
+        DoorDto doorDto = new DoorDto();
+        doorDto.setId(door.getId());
+        
+        if (door.getCategory() != null) {
+            doorDto.setCategoryId(door.getCategory().getId());
+            doorDto.setCategoryName(door.getCategory().getName());
+        }
+        
+        doorDto.setName(door.getName());
+        doorDto.setDescription(door.getDescription());
+        doorDto.setPrice(door.getPrice());
+        doorDto.setSize(door.getSize());
+        doorDto.setColor(door.getColor());
+        doorDto.setMaterial(door.getMaterial());
+        doorDto.setManufacturer(door.getManufacturer());
+        doorDto.setWarrantyYears(door.getWarrantyYears());
+        doorDto.setCustomWidth(door.getCustomWidth());
+        doorDto.setCustomHeight(door.getCustomHeight());
+        doorDto.setIsCustomColor(door.getIsCustomColor());
+        return doorDto;
     }
 }

@@ -40,9 +40,11 @@ spring:
 
   # Consolidated cache and Redis configuration
   cache:
-    type: none
+    type: redis
   redis:
-    enabled: false
+    host: ${SPRING_REDIS_HOST:localhost}
+    port: ${SPRING_REDIS_PORT:6379}
+    enabled: true
   jpa:
     hibernate:
       ddl-auto: update

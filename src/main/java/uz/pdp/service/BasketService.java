@@ -64,7 +64,7 @@ public class BasketService {
      * Creates a new basket if one doesn't exist.
      * Cached per user - because your cart is your castle! 🏰
      */
-    @Cacheable(value = USER_BASKET_CACHE, key = "#root.target.getCurrentUser().id")
+    //@Cacheable(value = USER_BASKET_CACHE, key = "#root.target.getCurrentUser().id")
     public Basket getBasket() {
         User user = getCurrentUser();
         return basketRepository.findByUserId(user.getId())
@@ -79,7 +79,7 @@ public class BasketService {
      * Get a basket by ID.
      * Cached individually - every basket deserves VIP treatment! 🌟
      */
-    @Cacheable(value = BASKET_CACHE, key = "#id")
+    //@Cacheable(value = BASKET_CACHE, key = "#id")
     public Basket getBasketById(Long id) {
         return basketRepository.findById(id)
             .orElseThrow(() -> new RuntimeException("Basket not found with id: " + id));
@@ -89,7 +89,7 @@ public class BasketService {
      * Get basket items.
      * Cached per basket - because nobody likes a slow cart! 🏃‍♂️
      */
-    @Cacheable(value = BASKET_ITEMS_CACHE, key = "#basketId")
+    //@Cacheable(value = BASKET_ITEMS_CACHE, key = "#basketId")
     public List<BasketItem> getBasketItems(Long basketId) {
         Basket basket = getBasketById(basketId);
         return basket.getItems();
@@ -99,12 +99,7 @@ public class BasketService {
      * Add an item to the basket using DTO.
      * Updates caches because shopping waits for no one! 🛍️
      */
-    @Caching(put = {
-        @CachePut(value = BASKET_CACHE, key = "#root.target.getBasket().id"),
-        @CachePut(value = USER_BASKET_CACHE, key = "#root.target.getCurrentUser().id")
-    }, evict = {
-        @CacheEvict(value = BASKET_ITEMS_CACHE, key = "#root.target.getBasket().id")
-    })
+
     public Basket addItem(BasketItemDTO itemDTO) {
         return addItem(itemDTO.getItemId(), itemDTO.getType(), itemDTO.getQuantity());
     }
@@ -113,12 +108,7 @@ public class BasketService {
      * Add an item to the basket.
      * Updates caches because shopping waits for no one! 🛍️
      */
-    @Caching(put = {
-        @CachePut(value = BASKET_CACHE, key = "#root.target.getBasket().id"),
-        @CachePut(value = USER_BASKET_CACHE, key = "#root.target.getCurrentUser().id")
-    }, evict = {
-        @CacheEvict(value = BASKET_ITEMS_CACHE, key = "#root.target.getBasket().id")
-    })
+
     public Basket addItem(Long itemId, ItemType type, int quantity) {
         Basket basket = getBasket();
         
@@ -178,12 +168,7 @@ public class BasketService {
      * Remove an item from the basket.
      * Cleans up caches like a neat freak! 🧹
      */
-    @Caching(put = {
-        @CachePut(value = BASKET_CACHE, key = "#root.target.getBasket().id"),
-        @CachePut(value = USER_BASKET_CACHE, key = "#root.target.getCurrentUser().id")
-    }, evict = {
-        @CacheEvict(value = BASKET_ITEMS_CACHE, key = "#root.target.getBasket().id")
-    })
+
     public void removeBasketItem(Long basketItemId) {
         BasketItem basketItem = basketItemRepository.findById(basketItemId)
                 .orElseThrow(() -> new IllegalArgumentException("Basket item not found: " + basketItemId));
@@ -200,12 +185,7 @@ public class BasketService {
      * Update the quantity of an item in the basket.
      * Updates caches faster than you can say "checkout"! 💨
      */
-    @Caching(put = {
-        @CachePut(value = BASKET_CACHE, key = "#root.target.getBasket().id"),
-        @CachePut(value = USER_BASKET_CACHE, key = "#root.target.getCurrentUser().id")
-    }, evict = {
-        @CacheEvict(value = BASKET_ITEMS_CACHE, key = "#root.target.getBasket().id")
-    })
+
     public Basket updateItemQuantity(Long itemId, int quantity) {
         if (quantity < 0) {
             throw new IllegalArgumentException("Quantity cannot be negative");
@@ -228,11 +208,7 @@ public class BasketService {
      * Clear all items from the basket.
      * Evicts all caches because sometimes you need a fresh start! 🌅
      */
-    @Caching(evict = {
-        @CacheEvict(value = BASKET_CACHE, key = "#root.target.getBasket().id"),
-        @CacheEvict(value = USER_BASKET_CACHE, key = "#root.target.getCurrentUser().id"),
-        @CacheEvict(value = BASKET_ITEMS_CACHE, key = "#root.target.getBasket().id")
-    })
+
     public void clearBasket() {
         Basket basket = getBasket();
         log.info("Clearing basket with ID: {} containing {} items", basket.getId(), basket.getItems().size());
@@ -257,5 +233,48 @@ public class BasketService {
         User user = getCurrentUser();
         return basketRepository.findByUserId(user.getId())
                 .orElseThrow(() -> new RuntimeException("User's basket not found"));
+    }
+
+    /**
+     * Checkout specific items from the basket.
+     * Like a VIP door service - only the items you want! 🎯
+     *
+     * @param basketItemIds List of basket item IDs to checkout
+     * @return List of checked out items
+     * @throws IllegalArgumentException if any item is not found or doesn't belong to user's basket
+     */
+    @Transactional
+    public List<BasketItem> checkoutItems(List<Long> basketItemIds) {
+        Basket userBasket = getCurrentUserBasket();
+        List<BasketItem> itemsToCheckout = basketItemRepository.findAllById(basketItemIds);
+
+        // Verify all items exist and belong to user's basket
+        if (itemsToCheckout.size() != basketItemIds.size()) {
+            throw new IllegalArgumentException("Some items were not found in the basket");
+        }
+
+        for (BasketItem item : itemsToCheckout) {
+            if (!Objects.equals(item.getBasket().getId(), userBasket.getId())) {
+                throw new IllegalArgumentException(
+                    "Item " + item.getId() + " does not belong to the current user's basket"
+                );
+            }
+        }
+
+        // Process the checkout (you can add payment processing here)
+        double totalAmount = itemsToCheckout.stream()
+            .mapToDouble(item -> item.getPrice() * item.getQuantity())
+            .sum();
+
+        log.info("Processing checkout for {} items, total amount: ${}", 
+            itemsToCheckout.size(), String.format("%.2f", totalAmount));
+
+        // Remove checked out items from basket
+        basketItemRepository.deleteAllById(basketItemIds);
+
+        log.info("Successfully checked out {} items from basket {}", 
+            itemsToCheckout.size(), userBasket.getId());
+
+        return itemsToCheckout;
     }
 }   

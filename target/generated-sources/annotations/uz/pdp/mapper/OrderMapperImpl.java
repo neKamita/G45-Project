@@ -8,7 +8,7 @@ import uz.pdp.entity.Order;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-01-28T16:18:55+0500",
+    date = "2025-01-29T13:12:39+0500",
     comments = "version: 1.5.5.Final, compiler: Eclipse JDT (IDE) 3.41.0.z20250115-2156, environment: Java 21.0.5 (Eclipse Adoptium)"
 )
 @Component

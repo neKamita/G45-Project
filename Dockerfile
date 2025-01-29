@@ -10,18 +10,8 @@ FROM openjdk:17-slim
 WORKDIR /app
 COPY --from=build /app/target/*.jar app.jar
 
-# Install Redis
-RUN apt-get update && \
-    apt-get install -y redis-server && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+# Expose port for Spring Boot
+EXPOSE 8080
 
-# Copy Redis configuration
-COPY redis.conf /etc/redis/redis.conf
-
-# Expose ports for both Spring Boot and Redis
-EXPOSE 8080 6379
-
-# Start both Redis and Spring Boot application
-CMD redis-server /etc/redis/redis.conf --daemonize yes && \
-    java -jar app.jar
+# Start Spring Boot application
+CMD ["java", "-jar", "app.jar"]

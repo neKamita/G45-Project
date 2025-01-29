@@ -63,6 +63,8 @@ public class DoorDto {
     private Boolean isCustomColor;
 
     private Double finalPrice; // Final price after calculations
+    private Long categoryId;
+    private String categoryName;
     private List<String> images; // Door images
     private String status; // Door status (AVAILABLE, etc)
 

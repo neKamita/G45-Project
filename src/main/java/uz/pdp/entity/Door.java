@@ -43,6 +43,10 @@ public class Door {
     @Column(name = "final_price")
     private Double finalPrice;
     
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id")
+    private Category category;
+    
     @ElementCollection
     @CollectionTable(
         name = "door_images",

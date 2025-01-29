@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.*;
 
 import uz.pdp.dto.BasketCheckoutDto;
 import uz.pdp.dto.BasketResponseDTO;
+import uz.pdp.dto.CheckoutItemsDTO;
+import uz.pdp.dto.CheckoutResponseDTO;
 import uz.pdp.dto.OrderDto;
 import uz.pdp.entity.Basket;
 import uz.pdp.entity.BasketItem;
@@ -130,16 +132,16 @@ public class BasketController {
      *         Poof! All gone! 
      *         Your basket is now as empty as a doorway without a door...
      */
-    @DeleteMapping
-    @Operation(summary = "Clear basket", description = "Removes all items from the user's basket")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Basket cleared successfully"),
-            @ApiResponse(responseCode = "404", description = "Basket not found"),
-            @ApiResponse(responseCode = "403", description = "Access denied - User not authenticated")
-        })
-    public ResponseEntity<BasketResponseDTO> clearBasket() {
-        basketService.clearBasket();
-        return ResponseEntity.ok(BasketResponseDTO.fromBasket(basketService.getBasket()));
+    @DeleteMapping("/clear")
+    @Operation(summary = "Clear basket", description = "Remove all items from the current user's basket")
+    public EntityResponse<Void> clearBasket() {
+        try {
+            basketService.clearBasket();
+            return new EntityResponse<>("Your basket has been cleared faster than a door slamming shut! 💨", true, null);
+        } catch (Exception e) {
+            log.error("Error clearing basket", e);
+            return new EntityResponse<>("Oops! We couldn't clear your basket. Our cleanup crew is on strike! 🧹", false, null);
+        }
     }
 
     /**
@@ -274,6 +276,49 @@ public class BasketController {
                 "Please try again or contact support if the problem persists. 🛠️",
                 Collections.emptyList()
             ));
+        }
+    }
+
+    /**
+     * Checkout specific items from the basket.
+     * For when you want to be picky about your doors! 🚪✨
+     */
+    @PostMapping("/checkout-items")
+    @Operation(summary = "Checkout specific items", 
+              description = "Checkout and remove specific items from the basket")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Items checked out successfully"),
+        @ApiResponse(responseCode = "400", description = "Invalid request or items not found"),
+        @ApiResponse(responseCode = "403", description = "Not authorized to checkout these items")
+    })
+    public EntityResponse<CheckoutResponseDTO> checkoutItems(
+            @Parameter(description = "List of basket item IDs to checkout", required = true)
+            @Valid @RequestBody CheckoutItemsDTO checkoutItemsDTO) {
+        try {
+            List<BasketItem> checkedOutItems = basketService.checkoutItems(checkoutItemsDTO.getBasketItemIds());
+            CheckoutResponseDTO response = CheckoutResponseDTO.from(checkedOutItems);
+            
+            return new EntityResponse<>(
+                String.format("Successfully checked out %d items! Total: $%.2f 🎉", 
+                    response.getItemCount(), 
+                    response.getTotalAmount()),
+                true,
+                response
+            );
+        } catch (IllegalArgumentException e) {
+            log.warn("Invalid checkout request", e);
+            return new EntityResponse<>(
+                "Oops! " + e.getMessage() + " Did someone try to checkout through the wrong door? 🚪",
+                false,
+                null
+            );
+        } catch (Exception e) {
+            log.error("Error during checkout", e);
+            return new EntityResponse<>(
+                "Our checkout system is temporarily stuck in a revolving door! Please try again later. 🔄",
+                false,
+                null
+            );
         }
     }
 }
