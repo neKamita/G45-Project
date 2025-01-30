@@ -10,7 +10,7 @@ import uz.pdp.entity.FurnitureDoor;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-01-29T17:21:06+0500",
+    date = "2025-01-30T13:47:58+0500",
     comments = "version: 1.5.5.Final, compiler: Eclipse JDT (IDE) 3.41.0.z20250115-2156, environment: Java 21.0.5 (Eclipse Adoptium)"
 )
 @Component

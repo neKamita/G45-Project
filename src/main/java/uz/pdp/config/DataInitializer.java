@@ -347,10 +347,14 @@ public class DataInitializer implements CommandLineRunner {
         // Set random size (75% standard, 25% custom)
         if (faker.number().numberBetween(1, 100) <= 75) {
             door.setSize(Size.values()[faker.number().numberBetween(0, Size.values().length - 1)]);
+            // Set custom dimensions to null for standard sizes
+            door.setCustomWidth(null);
+            door.setCustomHeight(null);
         } else {
             door.setSize(Size.CUSTOM);
-            door.setCustomWidth(faker.number().numberBetween(60, 120) * 1.0);
-            door.setCustomHeight(faker.number().numberBetween(180, 240) * 1.0);
+            // Set realistic custom dimensions
+            door.setCustomWidth(faker.number().numberBetween(600, 1500) * 1.0);  // 600mm to 1500mm width
+            door.setCustomHeight(faker.number().numberBetween(1800, 2400) * 1.0); // 1800mm to 2400mm height
         }
         
         door.setColor(Color.values()[faker.number().numberBetween(0, Color.values().length)]);
@@ -927,6 +931,9 @@ public class DataInitializer implements CommandLineRunner {
                 door.setCategory(sliding);
                 door.setImages(Arrays.asList(DOOR_IMAGE_IDS[3]));
                 door.setSize(Size.CUSTOM);  // Custom size for sliding doors
+                // Set custom dimensions for sliding doors
+                door.setCustomWidth(1200.0);  // 1200mm width for sliding doors
+                door.setCustomHeight(2400.0); // 2400mm height for sliding doors
                 door.setColor(Color.GRAY);  // Modern gray for sliding doors
                 door.setMaterial("Tempered Glass");
                 door.setManufacturer("Swing Kings");

@@ -172,20 +172,30 @@ public class Door {
     /**
      * Gets the width of the door.
      * If size is CUSTOM, returns customWidth, otherwise returns standard width from Size enum.
-     *
-     * @return Door width in millimeters
+     * 
+     * @return Door width in millimeters, or null if neither custom width nor standard size is set
+     * 
+     * 🚪 Because even doors need to watch their figure! 📏
      */
     public Double getWidth() {
+        if (size == null) {
+            return null;
+        }
         return size == Size.CUSTOM ? customWidth : (double) size.getWidth();
     }
 
     /**
      * Gets the height of the door.
      * If size is CUSTOM, returns customHeight, otherwise returns standard height from Size enum.
-     *
-     * @return Door height in millimeters
+     * 
+     * @return Door height in millimeters, or null if neither custom height nor standard size is set
+     * 
+     * 🚪 Standing tall and proud! (Unless it's a hobbit door) 📏
      */
     public Double getHeight() {
+        if (size == null) {
+            return null;
+        }
         return size == Size.CUSTOM ? customHeight : (double) size.getHeight();
     }
 }

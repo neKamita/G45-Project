@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.http.converter.HttpMessageNotWritableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -21,6 +22,8 @@ import uz.pdp.enums.Color;
 import uz.pdp.enums.Size;
 
 import java.io.IOException;
+import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.Arrays;
 import java.util.stream.Collectors;
@@ -153,6 +156,26 @@ public class GlobalExceptionHandler {
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
                 .body(EntityResponse.error(message));
+    }
+
+    /**
+     * Handles JSON serialization errors with grace and humor.
+     * Because even doors have their moments of confusion! 🚪
+     *
+     * @param ex The exception that occurred
+     * @return A user-friendly error response
+     */
+    @ExceptionHandler(HttpMessageNotWritableException.class)
+    public ResponseEntity<EntityResponse<?>> handleHttpMessageNotWritableException(HttpMessageNotWritableException ex) {
+        logger.error("Failed to serialize response: ", ex);
+        
+        EntityResponse<?> response = EntityResponse.builder()
+                .success(false)
+                .message("Oops! Our doors are having an identity crisis! Don't worry, our door whisperers are on it! 🚪✨")
+                .timestamp(Instant.from(LocalDateTime.now()))
+                .build();
+
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
     }
 
     /**
