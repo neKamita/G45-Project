@@ -20,7 +20,13 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "furniture_doors")
+@Table(name = "furniture_doors", indexes = {
+    @Index(name = "idx_furniture_type", columnList = "furnitureType"),
+    @Index(name = "idx_furniture_material", columnList = "material"),
+    @Index(name = "idx_furniture_price", columnList = "price"),
+    @Index(name = "idx_furniture_stock", columnList = "stockQuantity"),
+    @Index(name = "idx_furniture_name", columnList = "name")
+})
 public class FurnitureDoor {
     
     @Id

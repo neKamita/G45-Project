@@ -20,6 +20,11 @@ import uz.pdp.enums.ItemType;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "basket_items", indexes = {
+    @Index(name = "idx_basketitem_basket", columnList = "basket_id"),
+    @Index(name = "idx_basketitem_item", columnList = "itemId,type"),
+    @Index(name = "idx_basketitem_name", columnList = "name")
+})
 public class BasketItem {
 
     @Id

@@ -29,7 +29,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
     @Index(name = "idx_door_manufacturer", columnList = "manufacturer"),
     @Index(name = "idx_door_price", columnList = "price"),
     @Index(name = "idx_door_name", columnList = "name"),
-    @Index(name = "idx_door_active_status", columnList = "active,status")
+    @Index(name = "idx_door_active_status", columnList = "active,status"),
+    @Index(name = "idx_door_color", columnList = "color"),
+    @Index(name = "idx_door_size", columnList = "size"),
+    @Index(name = "idx_door_seller", columnList = "seller_id"),
+    @Index(name = "idx_door_category", columnList = "category_id"),
+    @Index(name = "idx_door_location", columnList = "door_location"),
+    @Index(name = "idx_door_frame_type", columnList = "frameType")
 })
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Door {

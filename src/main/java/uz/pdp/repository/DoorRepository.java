@@ -41,6 +41,7 @@ public interface DoorRepository extends JpaRepository<Door, Long> {
      */
     @Query(value = """
             SELECT DISTINCT d FROM Door d
+            LEFT JOIN FETCH d.category
             WHERE d.active = true
             AND (:material IS NULL OR d.material = :material)
             AND (:minPrice IS NULL OR d.price >= :minPrice)
@@ -54,15 +55,33 @@ public interface DoorRepository extends JpaRepository<Door, Long> {
             AND (:customHeight IS NULL OR 
                 (d.size = uz.pdp.enums.Size.CUSTOM AND d.customHeight = :customHeight))
             AND (:searchTerm IS NULL OR 
-                (LOWER(d.name) LIKE LOWER(CONCAT('%', :searchTerm, '%')) OR 
+                (LOWER(d.name) LIKE LOWER(CONCAT(:searchTerm, '%')) OR 
                  LOWER(d.description) LIKE LOWER(CONCAT('%', :searchTerm, '%'))))
             ORDER BY 
                 CASE 
-                    WHEN :searchTerm IS NOT NULL AND LOWER(d.name) LIKE LOWER(CONCAT('%', :searchTerm, '%')) THEN 0
+                    WHEN :searchTerm IS NOT NULL AND LOWER(d.name) LIKE LOWER(CONCAT(:searchTerm, '%')) THEN 0
                     WHEN :searchTerm IS NOT NULL AND LOWER(d.description) LIKE LOWER(CONCAT('%', :searchTerm, '%')) THEN 1
                     ELSE 2 
                 END,
                 d.price ASC
+            """,
+            countQuery = """
+            SELECT COUNT(DISTINCT d) FROM Door d
+            WHERE d.active = true
+            AND (:material IS NULL OR d.material = :material)
+            AND (:minPrice IS NULL OR d.price >= :minPrice)
+            AND (:maxPrice IS NULL OR d.price <= :maxPrice)
+            AND (:color IS NULL OR d.color = :color)
+            AND (:size IS NULL OR d.size = :size)
+            AND (:manufacturer IS NULL OR d.manufacturer = :manufacturer)
+            AND (:minWarranty IS NULL OR d.warrantyYears >= :minWarranty)
+            AND (:customWidth IS NULL OR 
+                (d.size = uz.pdp.enums.Size.CUSTOM AND d.customWidth = :customWidth))
+            AND (:customHeight IS NULL OR 
+                (d.size = uz.pdp.enums.Size.CUSTOM AND d.customHeight = :customHeight))
+            AND (:searchTerm IS NULL OR 
+                (LOWER(d.name) LIKE LOWER(CONCAT(:searchTerm, '%')) OR 
+                 LOWER(d.description) LIKE LOWER(CONCAT('%', :searchTerm, '%'))))
             """)
     Page<Door> searchDoors(
             @Param("material") String material,

@@ -15,6 +15,14 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "mouldings", indexes = {
+    @Index(name = "idx_moulding_article", columnList = "article", unique = true),
+    @Index(name = "idx_moulding_title", columnList = "title"),
+    @Index(name = "idx_moulding_price", columnList = "price"),
+    @Index(name = "idx_moulding_size", columnList = "size"),
+    @Index(name = "idx_moulding_user", columnList = "user_id"),
+    @Index(name = "idx_moulding_quantity", columnList = "quantity")
+})
 public class Moulding {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

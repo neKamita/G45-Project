@@ -1,0 +1,1713 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="uz.pdp.projectmodul10.ProjectModul10ApplicationTests" time="40.073" tests="1" errors="1" skipped="0" failures="0">
+  <properties>
+    <property name="java.specification.version" value="17"/>
+    <property name="sun.jnu.encoding" value="UTF-8"/>
+    <property name="java.class.path" value="/home/lantanium/Documents/G45-Project/target/test-classes:/home/lantanium/Documents/G45-Project/target/classes:/home/lantanium/.m2/repository/org/springframework/boot/spring-boot-starter-actuator/3.2.2/spring-boot-starter-actuator-3.2.2.jar:/home/lantanium/.m2/repository/org/springframework/boot/spring-boot-starter/3.2.2/spring-boot-starter-3.2.2.jar:/home/lantanium/.m2/repository/org/springframework/boot/spring-boot/3.2.2/spring-boot-3.2.2.jar:/home/lantanium/.m2/repository/org/springframework/boot/spring-boot-autoconfigure/3.2.2/spring-boot-autoconfigure-3.2.2.jar:/home/lantanium/.m2/repository/org/springframework/boot/spring-boot-starter-logging/3.2.2/spring-boot-starter-logging-3.2.2.jar:/home/lantanium/.m2/repository/ch/qos/logback/logback-classic/1.4.14/logback-classic-1.4.14.jar:/home/lantanium/.m2/repository/ch/qos/logback/logback-core/1.4.14/logback-core-1.4.14.jar:/home/lantanium/.m2/repository/org/apache/logging/log4j/log4j-to-slf4j/2.21.1/log4j-to-slf4j-2.21.1.jar:/home/lantanium/.m2/repository/org/apache/logging/log4j/log4j-api/2.21.1/log4j-api-2.21.1.jar:/home/lantanium/.m2/repository/org/slf4j/jul-to-slf4j/2.0.11/jul-to-slf4j-2.0.11.jar:/home/lantanium/.m2/repository/jakarta/annotation/jakarta.annotation-api/2.1.1/jakarta.annotation-api-2.1.1.jar:/home/lantanium/.m2/repository/org/yaml/snakeyaml/2.2/snakeyaml-2.2.jar:/home/lantanium/.m2/repository/org/springframework/boot/spring-boot-actuator-autoconfigure/3.2.2/spring-boot-actuator-autoconfigure-3.2.2.jar:/home/lantanium/.m2/repository/org/springframework/boot/spring-boot-actuator/3.2.2/spring-boot-actuator-3.2.2.jar:/home/lantanium/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jsr310/2.15.3/jackson-datatype-jsr310-2.15.3.jar:/home/lantanium/.m2/repository/io/micrometer/micrometer-observation/1.12.2/micrometer-observation-1.12.2.jar:/home/lantanium/.m2/repository/io/micrometer/micrometer-commons/1.12.2/micrometer-commons-1.12.2.jar:/home/lantanium/.m2/repository/io/micrometer/micrometer-jakarta9/1.12.2/micrometer-jakarta9-1.12.2.jar:/home/lantanium/.m2/repository/io/micrometer/micrometer-core/1.12.2/micrometer-core-1.12.2.jar:/home/lantanium/.m2/repository/org/hdrhistogram/HdrHistogram/2.1.12/HdrHistogram-2.1.12.jar:/home/lantanium/.m2/repository/org/latencyutils/LatencyUtils/2.0.3/LatencyUtils-2.0.3.jar:/home/lantanium/.m2/repository/org/springframework/boot/spring-boot-starter-data-jpa/3.2.2/spring-boot-starter-data-jpa-3.2.2.jar:/home/lantanium/.m2/repository/org/springframework/boot/spring-boot-starter-aop/3.2.2/spring-boot-starter-aop-3.2.2.jar:/home/lantanium/.m2/repository/org/aspectj/aspectjweaver/1.9.21/aspectjweaver-1.9.21.jar:/home/lantanium/.m2/repository/org/springframework/boot/spring-boot-starter-jdbc/3.2.2/spring-boot-starter-jdbc-3.2.2.jar:/home/lantanium/.m2/repository/com/zaxxer/HikariCP/5.0.1/HikariCP-5.0.1.jar:/home/lantanium/.m2/repository/org/springframework/spring-jdbc/6.1.3/spring-jdbc-6.1.3.jar:/home/lantanium/.m2/repository/org/hibernate/orm/hibernate-core/6.4.1.Final/hibernate-core-6.4.1.Final.jar:/home/lantanium/.m2/repository/jakarta/transaction/jakarta.transaction-api/2.0.1/jakarta.transaction-api-2.0.1.jar:/home/lantanium/.m2/repository/org/hibernate/common/hibernate-commons-annotations/6.0.6.Final/hibernate-commons-annotations-6.0.6.Final.jar:/home/lantanium/.m2/repository/io/smallrye/jandex/3.1.2/jandex-3.1.2.jar:/home/lantanium/.m2/repository/org/glassfish/jaxb/jaxb-runtime/4.0.4/jaxb-runtime-4.0.4.jar:/home/lantanium/.m2/repository/org/glassfish/jaxb/jaxb-core/4.0.4/jaxb-core-4.0.4.jar:/home/lantanium/.m2/repository/org/glassfish/jaxb/txw2/4.0.4/txw2-4.0.4.jar:/home/lantanium/.m2/repository/com/sun/istack/istack-commons-runtime/4.1.2/istack-commons-runtime-4.1.2.jar:/home/lantanium/.m2/repository/jakarta/inject/jakarta.inject-api/2.0.1/jakarta.inject-api-2.0.1.jar:/home/lantanium/.m2/repository/org/antlr/antlr4-runtime/4.13.0/antlr4-runtime-4.13.0.jar:/home/lantanium/.m2/repository/org/springframework/data/spring-data-jpa/3.2.2/spring-data-jpa-3.2.2.jar:/home/lantanium/.m2/repository/org/springframework/data/spring-data-commons/3.2.2/spring-data-commons-3.2.2.jar:/home/lantanium/.m2/repository/org/springframework/spring-orm/6.1.3/spring-orm-6.1.3.jar:/home/lantanium/.m2/repository/org/springframework/spring-tx/6.1.3/spring-tx-6.1.3.jar:/home/lantanium/.m2/repository/org/springframework/spring-aspects/6.1.3/spring-aspects-6.1.3.jar:/home/lantanium/.m2/repository/org/springframework/boot/spring-boot-starter-oauth2-client/3.2.2/spring-boot-starter-oauth2-client-3.2.2.jar:/home/lantanium/.m2/repository/org/springframework/security/spring-security-config/6.2.1/spring-security-config-6.2.1.jar:/home/lantanium/.m2/repository/org/springframework/security/spring-security-core/6.2.1/spring-security-core-6.2.1.jar:/home/lantanium/.m2/repository/org/springframework/security/spring-security-crypto/6.2.1/spring-security-crypto-6.2.1.jar:/home/lantanium/.m2/repository/org/springframework/security/spring-security-oauth2-client/6.2.1/spring-security-oauth2-client-6.2.1.jar:/home/lantanium/.m2/repository/org/springframework/security/spring-security-oauth2-core/6.2.1/spring-security-oauth2-core-6.2.1.jar:/home/lantanium/.m2/repository/com/nimbusds/oauth2-oidc-sdk/9.43.3/oauth2-oidc-sdk-9.43.3.jar:/home/lantanium/.m2/repository/com/github/stephenc/jcip/jcip-annotations/1.0-1/jcip-annotations-1.0-1.jar:/home/lantanium/.m2/repository/com/nimbusds/content-type/2.2/content-type-2.2.jar:/home/lantanium/.m2/repository/com/nimbusds/lang-tag/1.7/lang-tag-1.7.jar:/home/lantanium/.m2/repository/org/springframework/security/spring-security-oauth2-jose/6.2.1/spring-security-oauth2-jose-6.2.1.jar:/home/lantanium/.m2/repository/com/nimbusds/nimbus-jose-jwt/9.24.4/nimbus-jose-jwt-9.24.4.jar:/home/lantanium/.m2/repository/org/springframework/boot/spring-boot-starter-security/3.2.2/spring-boot-starter-security-3.2.2.jar:/home/lantanium/.m2/repository/org/springframework/spring-aop/6.1.3/spring-aop-6.1.3.jar:/home/lantanium/.m2/repository/org/springframework/security/spring-security-web/6.2.1/spring-security-web-6.2.1.jar:/home/lantanium/.m2/repository/org/springframework/boot/spring-boot-starter-thymeleaf/3.2.2/spring-boot-starter-thymeleaf-3.2.2.jar:/home/lantanium/.m2/repository/org/thymeleaf/thymeleaf-spring6/3.1.2.RELEASE/thymeleaf-spring6-3.1.2.RELEASE.jar:/home/lantanium/.m2/repository/org/thymeleaf/thymeleaf/3.1.2.RELEASE/thymeleaf-3.1.2.RELEASE.jar:/home/lantanium/.m2/repository/org/attoparser/attoparser/2.0.7.RELEASE/attoparser-2.0.7.RELEASE.jar:/home/lantanium/.m2/repository/org/unbescape/unbescape/1.1.6.RELEASE/unbescape-1.1.6.RELEASE.jar:/home/lantanium/.m2/repository/org/springframework/boot/spring-boot-starter-web/3.2.2/spring-boot-starter-web-3.2.2.jar:/home/lantanium/.m2/repository/org/springframework/boot/spring-boot-starter-json/3.2.2/spring-boot-starter-json-3.2.2.jar:/home/lantanium/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jdk8/2.15.3/jackson-datatype-jdk8-2.15.3.jar:/home/lantanium/.m2/repository/com/fasterxml/jackson/module/jackson-module-parameter-names/2.15.3/jackson-module-parameter-names-2.15.3.jar:/home/lantanium/.m2/repository/org/springframework/boot/spring-boot-starter-tomcat/3.2.2/spring-boot-starter-tomcat-3.2.2.jar:/home/lantanium/.m2/repository/org/apache/tomcat/embed/tomcat-embed-core/10.1.18/tomcat-embed-core-10.1.18.jar:/home/lantanium/.m2/repository/org/apache/tomcat/embed/tomcat-embed-el/10.1.18/tomcat-embed-el-10.1.18.jar:/home/lantanium/.m2/repository/org/apache/tomcat/embed/tomcat-embed-websocket/10.1.18/tomcat-embed-websocket-10.1.18.jar:/home/lantanium/.m2/repository/org/springframework/spring-web/6.1.3/spring-web-6.1.3.jar:/home/lantanium/.m2/repository/org/thymeleaf/extras/thymeleaf-extras-springsecurity6/3.1.2.RELEASE/thymeleaf-extras-springsecurity6-3.1.2.RELEASE.jar:/home/lantanium/.m2/repository/org/slf4j/slf4j-api/2.0.11/slf4j-api-2.0.11.jar:/home/lantanium/.m2/repository/org/postgresql/postgresql/42.6.0/postgresql-42.6.0.jar:/home/lantanium/.m2/repository/org/checkerframework/checker-qual/3.31.0/checker-qual-3.31.0.jar:/home/lantanium/.m2/repository/io/jsonwebtoken/jjwt-api/0.11.5/jjwt-api-0.11.5.jar:/home/lantanium/.m2/repository/io/jsonwebtoken/jjwt-impl/0.11.5/jjwt-impl-0.11.5.jar:/home/lantanium/.m2/repository/io/jsonwebtoken/jjwt-jackson/0.11.5/jjwt-jackson-0.11.5.jar:/home/lantanium/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.15.3/jackson-databind-2.15.3.jar:/home/lantanium/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.15.3/jackson-annotations-2.15.3.jar:/home/lantanium/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.15.3/jackson-core-2.15.3.jar:/home/lantanium/.m2/repository/jakarta/persistence/jakarta.persistence-api/3.1.0/jakarta.persistence-api-3.1.0.jar:/home/lantanium/.m2/repository/org/hibernate/validator/hibernate-validator/8.0.1.Final/hibernate-validator-8.0.1.Final.jar:/home/lantanium/.m2/repository/org/jboss/logging/jboss-logging/3.5.3.Final/jboss-logging-3.5.3.Final.jar:/home/lantanium/.m2/repository/com/fasterxml/classmate/1.6.0/classmate-1.6.0.jar:/home/lantanium/.m2/repository/jakarta/validation/jakarta.validation-api/3.0.2/jakarta.validation-api-3.0.2.jar:/home/lantanium/.m2/repository/org/springframework/boot/spring-boot-starter-test/3.2.2/spring-boot-starter-test-3.2.2.jar:/home/lantanium/.m2/repository/org/springframework/boot/spring-boot-test/3.2.2/spring-boot-test-3.2.2.jar:/home/lantanium/.m2/repository/org/springframework/boot/spring-boot-test-autoconfigure/3.2.2/spring-boot-test-autoconfigure-3.2.2.jar:/home/lantanium/.m2/repository/com/jayway/jsonpath/json-path/2.8.0/json-path-2.8.0.jar:/home/lantanium/.m2/repository/jakarta/xml/bind/jakarta.xml.bind-api/4.0.1/jakarta.xml.bind-api-4.0.1.jar:/home/lantanium/.m2/repository/jakarta/activation/jakarta.activation-api/2.1.2/jakarta.activation-api-2.1.2.jar:/home/lantanium/.m2/repository/net/minidev/json-smart/2.5.0/json-smart-2.5.0.jar:/home/lantanium/.m2/repository/net/minidev/accessors-smart/2.5.0/accessors-smart-2.5.0.jar:/home/lantanium/.m2/repository/org/ow2/asm/asm/9.3/asm-9.3.jar:/home/lantanium/.m2/repository/org/assertj/assertj-core/3.24.2/assertj-core-3.24.2.jar:/home/lantanium/.m2/repository/org/awaitility/awaitility/4.2.0/awaitility-4.2.0.jar:/home/lantanium/.m2/repository/org/hamcrest/hamcrest/2.2/hamcrest-2.2.jar:/home/lantanium/.m2/repository/org/skyscreamer/jsonassert/1.5.1/jsonassert-1.5.1.jar:/home/lantanium/.m2/repository/com/vaadin/external/google/android-json/0.0.20131108.vaadin1/android-json-0.0.20131108.vaadin1.jar:/home/lantanium/.m2/repository/org/springframework/spring-core/6.1.3/spring-core-6.1.3.jar:/home/lantanium/.m2/repository/org/springframework/spring-jcl/6.1.3/spring-jcl-6.1.3.jar:/home/lantanium/.m2/repository/org/springframework/spring-test/6.1.3/spring-test-6.1.3.jar:/home/lantanium/.m2/repository/org/xmlunit/xmlunit-core/2.9.1/xmlunit-core-2.9.1.jar:/home/lantanium/.m2/repository/org/mapstruct/mapstruct-processor/1.5.5.Final/mapstruct-processor-1.5.5.Final.jar:/home/lantanium/.m2/repository/org/springframework/security/spring-security-test/6.2.1/spring-security-test-6.2.1.jar:/home/lantanium/.m2/repository/org/springframework/spring-webmvc/6.1.3/spring-webmvc-6.1.3.jar:/home/lantanium/.m2/repository/org/springframework/spring-beans/6.1.3/spring-beans-6.1.3.jar:/home/lantanium/.m2/repository/org/springframework/spring-context/6.1.3/spring-context-6.1.3.jar:/home/lantanium/.m2/repository/org/springframework/spring-expression/6.1.3/spring-expression-6.1.3.jar:/home/lantanium/.m2/repository/org/springdoc/springdoc-openapi-starter-webmvc-ui/2.3.0/springdoc-openapi-starter-webmvc-ui-2.3.0.jar:/home/lantanium/.m2/repository/org/springdoc/springdoc-openapi-starter-webmvc-api/2.3.0/springdoc-openapi-starter-webmvc-api-2.3.0.jar:/home/lantanium/.m2/repository/org/springdoc/springdoc-openapi-starter-common/2.3.0/springdoc-openapi-starter-common-2.3.0.jar:/home/lantanium/.m2/repository/io/swagger/core/v3/swagger-core-jakarta/2.2.19/swagger-core-jakarta-2.2.19.jar:/home/lantanium/.m2/repository/io/swagger/core/v3/swagger-annotations-jakarta/2.2.19/swagger-annotations-jakarta-2.2.19.jar:/home/lantanium/.m2/repository/io/swagger/core/v3/swagger-models-jakarta/2.2.19/swagger-models-jakarta-2.2.19.jar:/home/lantanium/.m2/repository/com/fasterxml/jackson/dataformat/jackson-dataformat-yaml/2.15.3/jackson-dataformat-yaml-2.15.3.jar:/home/lantanium/.m2/repository/org/webjars/swagger-ui/5.10.3/swagger-ui-5.10.3.jar:/home/lantanium/.m2/repository/org/springframework/boot/spring-boot-starter-graphql/3.2.2/spring-boot-starter-graphql-3.2.2.jar:/home/lantanium/.m2/repository/org/springframework/graphql/spring-graphql/1.2.4/spring-graphql-1.2.4.jar:/home/lantanium/.m2/repository/io/micrometer/context-propagation/1.0.6/context-propagation-1.0.6.jar:/home/lantanium/.m2/repository/org/projectlombok/lombok/1.18.24/lombok-1.18.24.jar:/home/lantanium/.m2/repository/com/graphql-java/graphql-java-extended-scalars/22.0/graphql-java-extended-scalars-22.0.jar:/home/lantanium/.m2/repository/jakarta/mail/jakarta.mail-api/2.0.1/jakarta.mail-api-2.0.1.jar:/home/lantanium/.m2/repository/com/sun/mail/jakarta.mail/2.0.1/jakarta.mail-2.0.1.jar:/home/lantanium/.m2/repository/com/sun/activation/jakarta.activation/2.0.1/jakarta.activation-2.0.1.jar:/home/lantanium/.m2/repository/org/springframework/boot/spring-boot-starter-data-redis/3.2.2/spring-boot-starter-data-redis-3.2.2.jar:/home/lantanium/.m2/repository/io/lettuce/lettuce-core/6.3.1.RELEASE/lettuce-core-6.3.1.RELEASE.jar:/home/lantanium/.m2/repository/io/netty/netty-common/4.1.105.Final/netty-common-4.1.105.Final.jar:/home/lantanium/.m2/repository/io/netty/netty-handler/4.1.105.Final/netty-handler-4.1.105.Final.jar:/home/lantanium/.m2/repository/io/netty/netty-resolver/4.1.105.Final/netty-resolver-4.1.105.Final.jar:/home/lantanium/.m2/repository/io/netty/netty-buffer/4.1.105.Final/netty-buffer-4.1.105.Final.jar:/home/lantanium/.m2/repository/io/netty/netty-transport-native-unix-common/4.1.105.Final/netty-transport-native-unix-common-4.1.105.Final.jar:/home/lantanium/.m2/repository/io/netty/netty-codec/4.1.105.Final/netty-codec-4.1.105.Final.jar:/home/lantanium/.m2/repository/io/netty/netty-transport/4.1.105.Final/netty-transport-4.1.105.Final.jar:/home/lantanium/.m2/repository/org/springframework/data/spring-data-redis/3.2.2/spring-data-redis-3.2.2.jar:/home/lantanium/.m2/repository/org/springframework/data/spring-data-keyvalue/3.2.2/spring-data-keyvalue-3.2.2.jar:/home/lantanium/.m2/repository/org/springframework/spring-oxm/6.1.3/spring-oxm-6.1.3.jar:/home/lantanium/.m2/repository/org/springframework/boot/spring-boot-starter-cache/3.2.2/spring-boot-starter-cache-3.2.2.jar:/home/lantanium/.m2/repository/org/springframework/spring-context-support/6.1.3/spring-context-support-6.1.3.jar:/home/lantanium/.m2/repository/org/springframework/boot/spring-boot-starter-mail/3.2.2/spring-boot-starter-mail-3.2.2.jar:/home/lantanium/.m2/repository/org/eclipse/angus/jakarta.mail/2.0.2/jakarta.mail-2.0.2.jar:/home/lantanium/.m2/repository/org/eclipse/angus/angus-activation/2.0.1/angus-activation-2.0.1.jar:/home/lantanium/.m2/repository/org/junit/jupiter/junit-jupiter/5.10.1/junit-jupiter-5.10.1.jar:/home/lantanium/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.10.1/junit-jupiter-api-5.10.1.jar:/home/lantanium/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar:/home/lantanium/.m2/repository/org/junit/platform/junit-platform-commons/1.10.1/junit-platform-commons-1.10.1.jar:/home/lantanium/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/home/lantanium/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.10.1/junit-jupiter-params-5.10.1.jar:/home/lantanium/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.10.1/junit-jupiter-engine-5.10.1.jar:/home/lantanium/.m2/repository/org/junit/platform/junit-platform-engine/1.10.1/junit-platform-engine-1.10.1.jar:/home/lantanium/.m2/repository/org/mockito/mockito-core/5.7.0/mockito-core-5.7.0.jar:/home/lantanium/.m2/repository/net/bytebuddy/byte-buddy/1.14.11/byte-buddy-1.14.11.jar:/home/lantanium/.m2/repository/net/bytebuddy/byte-buddy-agent/1.14.11/byte-buddy-agent-1.14.11.jar:/home/lantanium/.m2/repository/org/objenesis/objenesis/3.3/objenesis-3.3.jar:/home/lantanium/.m2/repository/org/mockito/mockito-junit-jupiter/5.7.0/mockito-junit-jupiter-5.7.0.jar:/home/lantanium/.m2/repository/com/h2database/h2/2.2.224/h2-2.2.224.jar:/home/lantanium/.m2/repository/com/amazonaws/aws-java-sdk-s3/1.12.780/aws-java-sdk-s3-1.12.780.jar:/home/lantanium/.m2/repository/com/amazonaws/aws-java-sdk-kms/1.12.780/aws-java-sdk-kms-1.12.780.jar:/home/lantanium/.m2/repository/com/amazonaws/aws-java-sdk-core/1.12.780/aws-java-sdk-core-1.12.780.jar:/home/lantanium/.m2/repository/commons-logging/commons-logging/1.1.3/commons-logging-1.1.3.jar:/home/lantanium/.m2/repository/commons-codec/commons-codec/1.16.0/commons-codec-1.16.0.jar:/home/lantanium/.m2/repository/org/apache/httpcomponents/httpclient/4.5.13/httpclient-4.5.13.jar:/home/lantanium/.m2/repository/org/apache/httpcomponents/httpcore/4.4.16/httpcore-4.4.16.jar:/home/lantanium/.m2/repository/com/fasterxml/jackson/dataformat/jackson-dataformat-cbor/2.15.3/jackson-dataformat-cbor-2.15.3.jar:/home/lantanium/.m2/repository/joda-time/joda-time/2.12.7/joda-time-2.12.7.jar:/home/lantanium/.m2/repository/com/amazonaws/jmespath-java/1.12.780/jmespath-java-1.12.780.jar:/home/lantanium/.m2/repository/io/github/resilience4j/resilience4j-ratelimiter/2.3.0/resilience4j-ratelimiter-2.3.0.jar:/home/lantanium/.m2/repository/io/github/resilience4j/resilience4j-core/2.3.0/resilience4j-core-2.3.0.jar:/home/lantanium/.m2/repository/org/jetbrains/kotlin/kotlin-stdlib-jdk8/1.9.22/kotlin-stdlib-jdk8-1.9.22.jar:/home/lantanium/.m2/repository/org/jetbrains/kotlin/kotlin-stdlib/1.9.22/kotlin-stdlib-1.9.22.jar:/home/lantanium/.m2/repository/org/jetbrains/annotations/13.0/annotations-13.0.jar:/home/lantanium/.m2/repository/org/jetbrains/kotlin/kotlin-stdlib-jdk7/1.9.22/kotlin-stdlib-jdk7-1.9.22.jar:/home/lantanium/.m2/repository/io/github/resilience4j/resilience4j-spring-boot3/2.2.0/resilience4j-spring-boot3-2.2.0.jar:/home/lantanium/.m2/repository/io/github/resilience4j/resilience4j-spring6/2.2.0/resilience4j-spring6-2.2.0.jar:/home/lantanium/.m2/repository/io/github/resilience4j/resilience4j-annotations/2.2.0/resilience4j-annotations-2.2.0.jar:/home/lantanium/.m2/repository/io/github/resilience4j/resilience4j-consumer/2.2.0/resilience4j-consumer-2.2.0.jar:/home/lantanium/.m2/repository/io/github/resilience4j/resilience4j-circularbuffer/2.2.0/resilience4j-circularbuffer-2.2.0.jar:/home/lantanium/.m2/repository/io/github/resilience4j/resilience4j-framework-common/2.2.0/resilience4j-framework-common-2.2.0.jar:/home/lantanium/.m2/repository/io/github/resilience4j/resilience4j-micrometer/2.2.0/resilience4j-micrometer-2.2.0.jar:/home/lantanium/.m2/repository/io/github/resilience4j/resilience4j-bulkhead/2.2.0/resilience4j-bulkhead-2.2.0.jar:/home/lantanium/.m2/repository/io/github/resilience4j/resilience4j-circuitbreaker/2.2.0/resilience4j-circuitbreaker-2.2.0.jar:/home/lantanium/.m2/repository/io/github/resilience4j/resilience4j-retry/2.2.0/resilience4j-retry-2.2.0.jar:/home/lantanium/.m2/repository/io/github/resilience4j/resilience4j-timelimiter/2.2.0/resilience4j-timelimiter-2.2.0.jar:/home/lantanium/.m2/repository/org/springframework/graphql/spring-graphql-test/1.2.4/spring-graphql-test-1.2.4.jar:/home/lantanium/.m2/repository/io/projectreactor/reactor-core/3.6.2/reactor-core-3.6.2.jar:/home/lantanium/.m2/repository/org/springframework/boot/spring-boot-starter-websocket/3.2.2/spring-boot-starter-websocket-3.2.2.jar:/home/lantanium/.m2/repository/org/springframework/spring-messaging/6.1.3/spring-messaging-6.1.3.jar:/home/lantanium/.m2/repository/org/springframework/spring-websocket/6.1.3/spring-websocket-6.1.3.jar:/home/lantanium/.m2/repository/com/graphql-java-kickstart/playground-spring-boot-starter/11.1.0/playground-spring-boot-starter-11.1.0.jar:/home/lantanium/.m2/repository/com/graphql-java-kickstart/playground-spring-boot-autoconfigure/11.1.0/playground-spring-boot-autoconfigure-11.1.0.jar:/home/lantanium/.m2/repository/org/springframework/boot/spring-boot-starter-validation/3.2.2/spring-boot-starter-validation-3.2.2.jar:/home/lantanium/.m2/repository/com/graphql-java/graphql-java/20.0/graphql-java-20.0.jar:/home/lantanium/.m2/repository/com/graphql-java/java-dataloader/3.2.0/java-dataloader-3.2.0.jar:/home/lantanium/.m2/repository/org/reactivestreams/reactive-streams/1.0.4/reactive-streams-1.0.4.jar:/home/lantanium/.m2/repository/com/graphql-java-kickstart/graphql-spring-boot-starter/15.0.0/graphql-spring-boot-starter-15.0.0.jar:/home/lantanium/.m2/repository/com/graphql-java-kickstart/graphql-spring-boot-autoconfigure/15.0.0/graphql-spring-boot-autoconfigure-15.0.0.jar:/home/lantanium/.m2/repository/com/graphql-java-kickstart/graphql-java-tools/13.0.2/graphql-java-tools-13.0.2.jar:/home/lantanium/.m2/repository/org/jetbrains/kotlin/kotlin-reflect/1.9.22/kotlin-reflect-1.9.22.jar:/home/lantanium/.m2/repository/org/jetbrains/kotlinx/kotlinx-coroutines-jdk8/1.7.3/kotlinx-coroutines-jdk8-1.7.3.jar:/home/lantanium/.m2/repository/org/jetbrains/kotlinx/kotlinx-coroutines-core-jvm/1.7.3/kotlinx-coroutines-core-jvm-1.7.3.jar:/home/lantanium/.m2/repository/org/jetbrains/kotlin/kotlin-stdlib-common/1.9.22/kotlin-stdlib-common-1.9.22.jar:/home/lantanium/.m2/repository/org/jetbrains/kotlinx/kotlinx-coroutines-core/1.7.3/kotlinx-coroutines-core-1.7.3.jar:/home/lantanium/.m2/repository/org/jetbrains/kotlinx/kotlinx-coroutines-reactive/1.7.3/kotlinx-coroutines-reactive-1.7.3.jar:/home/lantanium/.m2/repository/com/fasterxml/jackson/module/jackson-module-kotlin/2.15.3/jackson-module-kotlin-2.15.3.jar:/home/lantanium/.m2/repository/com/graphql-java-kickstart/graphql-kickstart-spring-support/15.0.0/graphql-kickstart-spring-support-15.0.0.jar:/home/lantanium/.m2/repository/com/graphql-java-kickstart/graphql-kickstart-spring-webflux/15.0.0/graphql-kickstart-spring-webflux-15.0.0.jar:/home/lantanium/.m2/repository/com/graphql-java-kickstart/graphql-java-kickstart/15.0.0/graphql-java-kickstart-15.0.0.jar:/home/lantanium/.m2/repository/com/graphql-java-kickstart/graphql-java-servlet/15.0.0/graphql-java-servlet-15.0.0.jar:/home/lantanium/.m2/repository/jakarta/servlet/jakarta.servlet-api/6.0.0/jakarta.servlet-api-6.0.0.jar:/home/lantanium/.m2/repository/jakarta/websocket/jakarta.websocket-api/2.1.1/jakarta.websocket-api-2.1.1.jar:/home/lantanium/.m2/repository/jakarta/websocket/jakarta.websocket-client-api/2.1.1/jakarta.websocket-client-api-2.1.1.jar:/home/lantanium/.m2/repository/io/github/graphql-java/graphql-java-annotations/9.1/graphql-java-annotations-9.1.jar:/home/lantanium/.m2/repository/javax/validation/validation-api/1.1.0.Final/validation-api-1.1.0.Final.jar:/home/lantanium/.m2/repository/org/reflections/reflections/0.10.2/reflections-0.10.2.jar:/home/lantanium/.m2/repository/org/javassist/javassist/3.28.0-GA/javassist-3.28.0-GA.jar:/home/lantanium/.m2/repository/com/google/code/findbugs/jsr305/3.0.2/jsr305-3.0.2.jar:/home/lantanium/.m2/repository/org/apache/commons/commons-text/1.10.0/commons-text-1.10.0.jar:/home/lantanium/.m2/repository/org/springframework/spring-webflux/6.1.3/spring-webflux-6.1.3.jar:/home/lantanium/.m2/repository/org/mapstruct/mapstruct/1.5.5.Final/mapstruct-1.5.5.Final.jar:/home/lantanium/.m2/repository/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar:/home/lantanium/.m2/repository/com/github/javafaker/javafaker/1.0.2/javafaker-1.0.2.jar:/home/lantanium/.m2/repository/org/apache/commons/commons-lang3/3.13.0/commons-lang3-3.13.0.jar:/home/lantanium/.m2/repository/org/yaml/snakeyaml/1.23/snakeyaml-1.23-android.jar:/home/lantanium/.m2/repository/com/github/mifmif/generex/1.0.2/generex-1.0.2.jar:/home/lantanium/.m2/repository/dk/brics/automaton/automaton/1.11-8/automaton-1.11-8.jar:"/>
+    <property name="LOGBACK_ROLLINGPOLICY_MAX_FILE_SIZE" value="10485760"/>
+    <property name="java.vm.vendor" value="Amazon.com Inc."/>
+    <property name="sun.arch.data.model" value="64"/>
+    <property name="java.vendor.url" value="https://aws.amazon.com/corretto/"/>
+    <property name="user.timezone" value="Asia/Tashkent"/>
+    <property name="org.jboss.logging.provider" value="slf4j"/>
+    <property name="os.name" value="Linux"/>
+    <property name="java.vm.specification.version" value="17"/>
+    <property name="user.country" value="US"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="sun.boot.library.path" value="/home/lantanium/.jdks/corretto-17.0.14-1/lib"/>
+    <property name="sun.java.command" value="/home/lantanium/Documents/G45-Project/target/surefire/surefirebooter-20250130143740809_3.jar /home/lantanium/Documents/G45-Project/target/surefire 2025-01-30T14-37-40_760-jvmRun1 surefire-20250130143740809_1tmp surefire_0-20250130143740809_2tmp"/>
+    <property name="jdk.debug" value="release"/>
+    <property name="surefire.test.class.path" value="/home/lantanium/Documents/G45-Project/target/test-classes:/home/lantanium/Documents/G45-Project/target/classes:/home/lantanium/.m2/repository/org/springframework/boot/spring-boot-starter-actuator/3.2.2/spring-boot-starter-actuator-3.2.2.jar:/home/lantanium/.m2/repository/org/springframework/boot/spring-boot-starter/3.2.2/spring-boot-starter-3.2.2.jar:/home/lantanium/.m2/repository/org/springframework/boot/spring-boot/3.2.2/spring-boot-3.2.2.jar:/home/lantanium/.m2/repository/org/springframework/boot/spring-boot-autoconfigure/3.2.2/spring-boot-autoconfigure-3.2.2.jar:/home/lantanium/.m2/repository/org/springframework/boot/spring-boot-starter-logging/3.2.2/spring-boot-starter-logging-3.2.2.jar:/home/lantanium/.m2/repository/ch/qos/logback/logback-classic/1.4.14/logback-classic-1.4.14.jar:/home/lantanium/.m2/repository/ch/qos/logback/logback-core/1.4.14/logback-core-1.4.14.jar:/home/lantanium/.m2/repository/org/apache/logging/log4j/log4j-to-slf4j/2.21.1/log4j-to-slf4j-2.21.1.jar:/home/lantanium/.m2/repository/org/apache/logging/log4j/log4j-api/2.21.1/log4j-api-2.21.1.jar:/home/lantanium/.m2/repository/org/slf4j/jul-to-slf4j/2.0.11/jul-to-slf4j-2.0.11.jar:/home/lantanium/.m2/repository/jakarta/annotation/jakarta.annotation-api/2.1.1/jakarta.annotation-api-2.1.1.jar:/home/lantanium/.m2/repository/org/yaml/snakeyaml/2.2/snakeyaml-2.2.jar:/home/lantanium/.m2/repository/org/springframework/boot/spring-boot-actuator-autoconfigure/3.2.2/spring-boot-actuator-autoconfigure-3.2.2.jar:/home/lantanium/.m2/repository/org/springframework/boot/spring-boot-actuator/3.2.2/spring-boot-actuator-3.2.2.jar:/home/lantanium/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jsr310/2.15.3/jackson-datatype-jsr310-2.15.3.jar:/home/lantanium/.m2/repository/io/micrometer/micrometer-observation/1.12.2/micrometer-observation-1.12.2.jar:/home/lantanium/.m2/repository/io/micrometer/micrometer-commons/1.12.2/micrometer-commons-1.12.2.jar:/home/lantanium/.m2/repository/io/micrometer/micrometer-jakarta9/1.12.2/micrometer-jakarta9-1.12.2.jar:/home/lantanium/.m2/repository/io/micrometer/micrometer-core/1.12.2/micrometer-core-1.12.2.jar:/home/lantanium/.m2/repository/org/hdrhistogram/HdrHistogram/2.1.12/HdrHistogram-2.1.12.jar:/home/lantanium/.m2/repository/org/latencyutils/LatencyUtils/2.0.3/LatencyUtils-2.0.3.jar:/home/lantanium/.m2/repository/org/springframework/boot/spring-boot-starter-data-jpa/3.2.2/spring-boot-starter-data-jpa-3.2.2.jar:/home/lantanium/.m2/repository/org/springframework/boot/spring-boot-starter-aop/3.2.2/spring-boot-starter-aop-3.2.2.jar:/home/lantanium/.m2/repository/org/aspectj/aspectjweaver/1.9.21/aspectjweaver-1.9.21.jar:/home/lantanium/.m2/repository/org/springframework/boot/spring-boot-starter-jdbc/3.2.2/spring-boot-starter-jdbc-3.2.2.jar:/home/lantanium/.m2/repository/com/zaxxer/HikariCP/5.0.1/HikariCP-5.0.1.jar:/home/lantanium/.m2/repository/org/springframework/spring-jdbc/6.1.3/spring-jdbc-6.1.3.jar:/home/lantanium/.m2/repository/org/hibernate/orm/hibernate-core/6.4.1.Final/hibernate-core-6.4.1.Final.jar:/home/lantanium/.m2/repository/jakarta/transaction/jakarta.transaction-api/2.0.1/jakarta.transaction-api-2.0.1.jar:/home/lantanium/.m2/repository/org/hibernate/common/hibernate-commons-annotations/6.0.6.Final/hibernate-commons-annotations-6.0.6.Final.jar:/home/lantanium/.m2/repository/io/smallrye/jandex/3.1.2/jandex-3.1.2.jar:/home/lantanium/.m2/repository/org/glassfish/jaxb/jaxb-runtime/4.0.4/jaxb-runtime-4.0.4.jar:/home/lantanium/.m2/repository/org/glassfish/jaxb/jaxb-core/4.0.4/jaxb-core-4.0.4.jar:/home/lantanium/.m2/repository/org/glassfish/jaxb/txw2/4.0.4/txw2-4.0.4.jar:/home/lantanium/.m2/repository/com/sun/istack/istack-commons-runtime/4.1.2/istack-commons-runtime-4.1.2.jar:/home/lantanium/.m2/repository/jakarta/inject/jakarta.inject-api/2.0.1/jakarta.inject-api-2.0.1.jar:/home/lantanium/.m2/repository/org/antlr/antlr4-runtime/4.13.0/antlr4-runtime-4.13.0.jar:/home/lantanium/.m2/repository/org/springframework/data/spring-data-jpa/3.2.2/spring-data-jpa-3.2.2.jar:/home/lantanium/.m2/repository/org/springframework/data/spring-data-commons/3.2.2/spring-data-commons-3.2.2.jar:/home/lantanium/.m2/repository/org/springframework/spring-orm/6.1.3/spring-orm-6.1.3.jar:/home/lantanium/.m2/repository/org/springframework/spring-tx/6.1.3/spring-tx-6.1.3.jar:/home/lantanium/.m2/repository/org/springframework/spring-aspects/6.1.3/spring-aspects-6.1.3.jar:/home/lantanium/.m2/repository/org/springframework/boot/spring-boot-starter-oauth2-client/3.2.2/spring-boot-starter-oauth2-client-3.2.2.jar:/home/lantanium/.m2/repository/org/springframework/security/spring-security-config/6.2.1/spring-security-config-6.2.1.jar:/home/lantanium/.m2/repository/org/springframework/security/spring-security-core/6.2.1/spring-security-core-6.2.1.jar:/home/lantanium/.m2/repository/org/springframework/security/spring-security-crypto/6.2.1/spring-security-crypto-6.2.1.jar:/home/lantanium/.m2/repository/org/springframework/security/spring-security-oauth2-client/6.2.1/spring-security-oauth2-client-6.2.1.jar:/home/lantanium/.m2/repository/org/springframework/security/spring-security-oauth2-core/6.2.1/spring-security-oauth2-core-6.2.1.jar:/home/lantanium/.m2/repository/com/nimbusds/oauth2-oidc-sdk/9.43.3/oauth2-oidc-sdk-9.43.3.jar:/home/lantanium/.m2/repository/com/github/stephenc/jcip/jcip-annotations/1.0-1/jcip-annotations-1.0-1.jar:/home/lantanium/.m2/repository/com/nimbusds/content-type/2.2/content-type-2.2.jar:/home/lantanium/.m2/repository/com/nimbusds/lang-tag/1.7/lang-tag-1.7.jar:/home/lantanium/.m2/repository/org/springframework/security/spring-security-oauth2-jose/6.2.1/spring-security-oauth2-jose-6.2.1.jar:/home/lantanium/.m2/repository/com/nimbusds/nimbus-jose-jwt/9.24.4/nimbus-jose-jwt-9.24.4.jar:/home/lantanium/.m2/repository/org/springframework/boot/spring-boot-starter-security/3.2.2/spring-boot-starter-security-3.2.2.jar:/home/lantanium/.m2/repository/org/springframework/spring-aop/6.1.3/spring-aop-6.1.3.jar:/home/lantanium/.m2/repository/org/springframework/security/spring-security-web/6.2.1/spring-security-web-6.2.1.jar:/home/lantanium/.m2/repository/org/springframework/boot/spring-boot-starter-thymeleaf/3.2.2/spring-boot-starter-thymeleaf-3.2.2.jar:/home/lantanium/.m2/repository/org/thymeleaf/thymeleaf-spring6/3.1.2.RELEASE/thymeleaf-spring6-3.1.2.RELEASE.jar:/home/lantanium/.m2/repository/org/thymeleaf/thymeleaf/3.1.2.RELEASE/thymeleaf-3.1.2.RELEASE.jar:/home/lantanium/.m2/repository/org/attoparser/attoparser/2.0.7.RELEASE/attoparser-2.0.7.RELEASE.jar:/home/lantanium/.m2/repository/org/unbescape/unbescape/1.1.6.RELEASE/unbescape-1.1.6.RELEASE.jar:/home/lantanium/.m2/repository/org/springframework/boot/spring-boot-starter-web/3.2.2/spring-boot-starter-web-3.2.2.jar:/home/lantanium/.m2/repository/org/springframework/boot/spring-boot-starter-json/3.2.2/spring-boot-starter-json-3.2.2.jar:/home/lantanium/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jdk8/2.15.3/jackson-datatype-jdk8-2.15.3.jar:/home/lantanium/.m2/repository/com/fasterxml/jackson/module/jackson-module-parameter-names/2.15.3/jackson-module-parameter-names-2.15.3.jar:/home/lantanium/.m2/repository/org/springframework/boot/spring-boot-starter-tomcat/3.2.2/spring-boot-starter-tomcat-3.2.2.jar:/home/lantanium/.m2/repository/org/apache/tomcat/embed/tomcat-embed-core/10.1.18/tomcat-embed-core-10.1.18.jar:/home/lantanium/.m2/repository/org/apache/tomcat/embed/tomcat-embed-el/10.1.18/tomcat-embed-el-10.1.18.jar:/home/lantanium/.m2/repository/org/apache/tomcat/embed/tomcat-embed-websocket/10.1.18/tomcat-embed-websocket-10.1.18.jar:/home/lantanium/.m2/repository/org/springframework/spring-web/6.1.3/spring-web-6.1.3.jar:/home/lantanium/.m2/repository/org/thymeleaf/extras/thymeleaf-extras-springsecurity6/3.1.2.RELEASE/thymeleaf-extras-springsecurity6-3.1.2.RELEASE.jar:/home/lantanium/.m2/repository/org/slf4j/slf4j-api/2.0.11/slf4j-api-2.0.11.jar:/home/lantanium/.m2/repository/org/postgresql/postgresql/42.6.0/postgresql-42.6.0.jar:/home/lantanium/.m2/repository/org/checkerframework/checker-qual/3.31.0/checker-qual-3.31.0.jar:/home/lantanium/.m2/repository/io/jsonwebtoken/jjwt-api/0.11.5/jjwt-api-0.11.5.jar:/home/lantanium/.m2/repository/io/jsonwebtoken/jjwt-impl/0.11.5/jjwt-impl-0.11.5.jar:/home/lantanium/.m2/repository/io/jsonwebtoken/jjwt-jackson/0.11.5/jjwt-jackson-0.11.5.jar:/home/lantanium/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.15.3/jackson-databind-2.15.3.jar:/home/lantanium/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.15.3/jackson-annotations-2.15.3.jar:/home/lantanium/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.15.3/jackson-core-2.15.3.jar:/home/lantanium/.m2/repository/jakarta/persistence/jakarta.persistence-api/3.1.0/jakarta.persistence-api-3.1.0.jar:/home/lantanium/.m2/repository/org/hibernate/validator/hibernate-validator/8.0.1.Final/hibernate-validator-8.0.1.Final.jar:/home/lantanium/.m2/repository/org/jboss/logging/jboss-logging/3.5.3.Final/jboss-logging-3.5.3.Final.jar:/home/lantanium/.m2/repository/com/fasterxml/classmate/1.6.0/classmate-1.6.0.jar:/home/lantanium/.m2/repository/jakarta/validation/jakarta.validation-api/3.0.2/jakarta.validation-api-3.0.2.jar:/home/lantanium/.m2/repository/org/springframework/boot/spring-boot-starter-test/3.2.2/spring-boot-starter-test-3.2.2.jar:/home/lantanium/.m2/repository/org/springframework/boot/spring-boot-test/3.2.2/spring-boot-test-3.2.2.jar:/home/lantanium/.m2/repository/org/springframework/boot/spring-boot-test-autoconfigure/3.2.2/spring-boot-test-autoconfigure-3.2.2.jar:/home/lantanium/.m2/repository/com/jayway/jsonpath/json-path/2.8.0/json-path-2.8.0.jar:/home/lantanium/.m2/repository/jakarta/xml/bind/jakarta.xml.bind-api/4.0.1/jakarta.xml.bind-api-4.0.1.jar:/home/lantanium/.m2/repository/jakarta/activation/jakarta.activation-api/2.1.2/jakarta.activation-api-2.1.2.jar:/home/lantanium/.m2/repository/net/minidev/json-smart/2.5.0/json-smart-2.5.0.jar:/home/lantanium/.m2/repository/net/minidev/accessors-smart/2.5.0/accessors-smart-2.5.0.jar:/home/lantanium/.m2/repository/org/ow2/asm/asm/9.3/asm-9.3.jar:/home/lantanium/.m2/repository/org/assertj/assertj-core/3.24.2/assertj-core-3.24.2.jar:/home/lantanium/.m2/repository/org/awaitility/awaitility/4.2.0/awaitility-4.2.0.jar:/home/lantanium/.m2/repository/org/hamcrest/hamcrest/2.2/hamcrest-2.2.jar:/home/lantanium/.m2/repository/org/skyscreamer/jsonassert/1.5.1/jsonassert-1.5.1.jar:/home/lantanium/.m2/repository/com/vaadin/external/google/android-json/0.0.20131108.vaadin1/android-json-0.0.20131108.vaadin1.jar:/home/lantanium/.m2/repository/org/springframework/spring-core/6.1.3/spring-core-6.1.3.jar:/home/lantanium/.m2/repository/org/springframework/spring-jcl/6.1.3/spring-jcl-6.1.3.jar:/home/lantanium/.m2/repository/org/springframework/spring-test/6.1.3/spring-test-6.1.3.jar:/home/lantanium/.m2/repository/org/xmlunit/xmlunit-core/2.9.1/xmlunit-core-2.9.1.jar:/home/lantanium/.m2/repository/org/mapstruct/mapstruct-processor/1.5.5.Final/mapstruct-processor-1.5.5.Final.jar:/home/lantanium/.m2/repository/org/springframework/security/spring-security-test/6.2.1/spring-security-test-6.2.1.jar:/home/lantanium/.m2/repository/org/springframework/spring-webmvc/6.1.3/spring-webmvc-6.1.3.jar:/home/lantanium/.m2/repository/org/springframework/spring-beans/6.1.3/spring-beans-6.1.3.jar:/home/lantanium/.m2/repository/org/springframework/spring-context/6.1.3/spring-context-6.1.3.jar:/home/lantanium/.m2/repository/org/springframework/spring-expression/6.1.3/spring-expression-6.1.3.jar:/home/lantanium/.m2/repository/org/springdoc/springdoc-openapi-starter-webmvc-ui/2.3.0/springdoc-openapi-starter-webmvc-ui-2.3.0.jar:/home/lantanium/.m2/repository/org/springdoc/springdoc-openapi-starter-webmvc-api/2.3.0/springdoc-openapi-starter-webmvc-api-2.3.0.jar:/home/lantanium/.m2/repository/org/springdoc/springdoc-openapi-starter-common/2.3.0/springdoc-openapi-starter-common-2.3.0.jar:/home/lantanium/.m2/repository/io/swagger/core/v3/swagger-core-jakarta/2.2.19/swagger-core-jakarta-2.2.19.jar:/home/lantanium/.m2/repository/io/swagger/core/v3/swagger-annotations-jakarta/2.2.19/swagger-annotations-jakarta-2.2.19.jar:/home/lantanium/.m2/repository/io/swagger/core/v3/swagger-models-jakarta/2.2.19/swagger-models-jakarta-2.2.19.jar:/home/lantanium/.m2/repository/com/fasterxml/jackson/dataformat/jackson-dataformat-yaml/2.15.3/jackson-dataformat-yaml-2.15.3.jar:/home/lantanium/.m2/repository/org/webjars/swagger-ui/5.10.3/swagger-ui-5.10.3.jar:/home/lantanium/.m2/repository/org/springframework/boot/spring-boot-starter-graphql/3.2.2/spring-boot-starter-graphql-3.2.2.jar:/home/lantanium/.m2/repository/org/springframework/graphql/spring-graphql/1.2.4/spring-graphql-1.2.4.jar:/home/lantanium/.m2/repository/io/micrometer/context-propagation/1.0.6/context-propagation-1.0.6.jar:/home/lantanium/.m2/repository/org/projectlombok/lombok/1.18.24/lombok-1.18.24.jar:/home/lantanium/.m2/repository/com/graphql-java/graphql-java-extended-scalars/22.0/graphql-java-extended-scalars-22.0.jar:/home/lantanium/.m2/repository/jakarta/mail/jakarta.mail-api/2.0.1/jakarta.mail-api-2.0.1.jar:/home/lantanium/.m2/repository/com/sun/mail/jakarta.mail/2.0.1/jakarta.mail-2.0.1.jar:/home/lantanium/.m2/repository/com/sun/activation/jakarta.activation/2.0.1/jakarta.activation-2.0.1.jar:/home/lantanium/.m2/repository/org/springframework/boot/spring-boot-starter-data-redis/3.2.2/spring-boot-starter-data-redis-3.2.2.jar:/home/lantanium/.m2/repository/io/lettuce/lettuce-core/6.3.1.RELEASE/lettuce-core-6.3.1.RELEASE.jar:/home/lantanium/.m2/repository/io/netty/netty-common/4.1.105.Final/netty-common-4.1.105.Final.jar:/home/lantanium/.m2/repository/io/netty/netty-handler/4.1.105.Final/netty-handler-4.1.105.Final.jar:/home/lantanium/.m2/repository/io/netty/netty-resolver/4.1.105.Final/netty-resolver-4.1.105.Final.jar:/home/lantanium/.m2/repository/io/netty/netty-buffer/4.1.105.Final/netty-buffer-4.1.105.Final.jar:/home/lantanium/.m2/repository/io/netty/netty-transport-native-unix-common/4.1.105.Final/netty-transport-native-unix-common-4.1.105.Final.jar:/home/lantanium/.m2/repository/io/netty/netty-codec/4.1.105.Final/netty-codec-4.1.105.Final.jar:/home/lantanium/.m2/repository/io/netty/netty-transport/4.1.105.Final/netty-transport-4.1.105.Final.jar:/home/lantanium/.m2/repository/org/springframework/data/spring-data-redis/3.2.2/spring-data-redis-3.2.2.jar:/home/lantanium/.m2/repository/org/springframework/data/spring-data-keyvalue/3.2.2/spring-data-keyvalue-3.2.2.jar:/home/lantanium/.m2/repository/org/springframework/spring-oxm/6.1.3/spring-oxm-6.1.3.jar:/home/lantanium/.m2/repository/org/springframework/boot/spring-boot-starter-cache/3.2.2/spring-boot-starter-cache-3.2.2.jar:/home/lantanium/.m2/repository/org/springframework/spring-context-support/6.1.3/spring-context-support-6.1.3.jar:/home/lantanium/.m2/repository/org/springframework/boot/spring-boot-starter-mail/3.2.2/spring-boot-starter-mail-3.2.2.jar:/home/lantanium/.m2/repository/org/eclipse/angus/jakarta.mail/2.0.2/jakarta.mail-2.0.2.jar:/home/lantanium/.m2/repository/org/eclipse/angus/angus-activation/2.0.1/angus-activation-2.0.1.jar:/home/lantanium/.m2/repository/org/junit/jupiter/junit-jupiter/5.10.1/junit-jupiter-5.10.1.jar:/home/lantanium/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.10.1/junit-jupiter-api-5.10.1.jar:/home/lantanium/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar:/home/lantanium/.m2/repository/org/junit/platform/junit-platform-commons/1.10.1/junit-platform-commons-1.10.1.jar:/home/lantanium/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/home/lantanium/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.10.1/junit-jupiter-params-5.10.1.jar:/home/lantanium/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.10.1/junit-jupiter-engine-5.10.1.jar:/home/lantanium/.m2/repository/org/junit/platform/junit-platform-engine/1.10.1/junit-platform-engine-1.10.1.jar:/home/lantanium/.m2/repository/org/mockito/mockito-core/5.7.0/mockito-core-5.7.0.jar:/home/lantanium/.m2/repository/net/bytebuddy/byte-buddy/1.14.11/byte-buddy-1.14.11.jar:/home/lantanium/.m2/repository/net/bytebuddy/byte-buddy-agent/1.14.11/byte-buddy-agent-1.14.11.jar:/home/lantanium/.m2/repository/org/objenesis/objenesis/3.3/objenesis-3.3.jar:/home/lantanium/.m2/repository/org/mockito/mockito-junit-jupiter/5.7.0/mockito-junit-jupiter-5.7.0.jar:/home/lantanium/.m2/repository/com/h2database/h2/2.2.224/h2-2.2.224.jar:/home/lantanium/.m2/repository/com/amazonaws/aws-java-sdk-s3/1.12.780/aws-java-sdk-s3-1.12.780.jar:/home/lantanium/.m2/repository/com/amazonaws/aws-java-sdk-kms/1.12.780/aws-java-sdk-kms-1.12.780.jar:/home/lantanium/.m2/repository/com/amazonaws/aws-java-sdk-core/1.12.780/aws-java-sdk-core-1.12.780.jar:/home/lantanium/.m2/repository/commons-logging/commons-logging/1.1.3/commons-logging-1.1.3.jar:/home/lantanium/.m2/repository/commons-codec/commons-codec/1.16.0/commons-codec-1.16.0.jar:/home/lantanium/.m2/repository/org/apache/httpcomponents/httpclient/4.5.13/httpclient-4.5.13.jar:/home/lantanium/.m2/repository/org/apache/httpcomponents/httpcore/4.4.16/httpcore-4.4.16.jar:/home/lantanium/.m2/repository/com/fasterxml/jackson/dataformat/jackson-dataformat-cbor/2.15.3/jackson-dataformat-cbor-2.15.3.jar:/home/lantanium/.m2/repository/joda-time/joda-time/2.12.7/joda-time-2.12.7.jar:/home/lantanium/.m2/repository/com/amazonaws/jmespath-java/1.12.780/jmespath-java-1.12.780.jar:/home/lantanium/.m2/repository/io/github/resilience4j/resilience4j-ratelimiter/2.3.0/resilience4j-ratelimiter-2.3.0.jar:/home/lantanium/.m2/repository/io/github/resilience4j/resilience4j-core/2.3.0/resilience4j-core-2.3.0.jar:/home/lantanium/.m2/repository/org/jetbrains/kotlin/kotlin-stdlib-jdk8/1.9.22/kotlin-stdlib-jdk8-1.9.22.jar:/home/lantanium/.m2/repository/org/jetbrains/kotlin/kotlin-stdlib/1.9.22/kotlin-stdlib-1.9.22.jar:/home/lantanium/.m2/repository/org/jetbrains/annotations/13.0/annotations-13.0.jar:/home/lantanium/.m2/repository/org/jetbrains/kotlin/kotlin-stdlib-jdk7/1.9.22/kotlin-stdlib-jdk7-1.9.22.jar:/home/lantanium/.m2/repository/io/github/resilience4j/resilience4j-spring-boot3/2.2.0/resilience4j-spring-boot3-2.2.0.jar:/home/lantanium/.m2/repository/io/github/resilience4j/resilience4j-spring6/2.2.0/resilience4j-spring6-2.2.0.jar:/home/lantanium/.m2/repository/io/github/resilience4j/resilience4j-annotations/2.2.0/resilience4j-annotations-2.2.0.jar:/home/lantanium/.m2/repository/io/github/resilience4j/resilience4j-consumer/2.2.0/resilience4j-consumer-2.2.0.jar:/home/lantanium/.m2/repository/io/github/resilience4j/resilience4j-circularbuffer/2.2.0/resilience4j-circularbuffer-2.2.0.jar:/home/lantanium/.m2/repository/io/github/resilience4j/resilience4j-framework-common/2.2.0/resilience4j-framework-common-2.2.0.jar:/home/lantanium/.m2/repository/io/github/resilience4j/resilience4j-micrometer/2.2.0/resilience4j-micrometer-2.2.0.jar:/home/lantanium/.m2/repository/io/github/resilience4j/resilience4j-bulkhead/2.2.0/resilience4j-bulkhead-2.2.0.jar:/home/lantanium/.m2/repository/io/github/resilience4j/resilience4j-circuitbreaker/2.2.0/resilience4j-circuitbreaker-2.2.0.jar:/home/lantanium/.m2/repository/io/github/resilience4j/resilience4j-retry/2.2.0/resilience4j-retry-2.2.0.jar:/home/lantanium/.m2/repository/io/github/resilience4j/resilience4j-timelimiter/2.2.0/resilience4j-timelimiter-2.2.0.jar:/home/lantanium/.m2/repository/org/springframework/graphql/spring-graphql-test/1.2.4/spring-graphql-test-1.2.4.jar:/home/lantanium/.m2/repository/io/projectreactor/reactor-core/3.6.2/reactor-core-3.6.2.jar:/home/lantanium/.m2/repository/org/springframework/boot/spring-boot-starter-websocket/3.2.2/spring-boot-starter-websocket-3.2.2.jar:/home/lantanium/.m2/repository/org/springframework/spring-messaging/6.1.3/spring-messaging-6.1.3.jar:/home/lantanium/.m2/repository/org/springframework/spring-websocket/6.1.3/spring-websocket-6.1.3.jar:/home/lantanium/.m2/repository/com/graphql-java-kickstart/playground-spring-boot-starter/11.1.0/playground-spring-boot-starter-11.1.0.jar:/home/lantanium/.m2/repository/com/graphql-java-kickstart/playground-spring-boot-autoconfigure/11.1.0/playground-spring-boot-autoconfigure-11.1.0.jar:/home/lantanium/.m2/repository/org/springframework/boot/spring-boot-starter-validation/3.2.2/spring-boot-starter-validation-3.2.2.jar:/home/lantanium/.m2/repository/com/graphql-java/graphql-java/20.0/graphql-java-20.0.jar:/home/lantanium/.m2/repository/com/graphql-java/java-dataloader/3.2.0/java-dataloader-3.2.0.jar:/home/lantanium/.m2/repository/org/reactivestreams/reactive-streams/1.0.4/reactive-streams-1.0.4.jar:/home/lantanium/.m2/repository/com/graphql-java-kickstart/graphql-spring-boot-starter/15.0.0/graphql-spring-boot-starter-15.0.0.jar:/home/lantanium/.m2/repository/com/graphql-java-kickstart/graphql-spring-boot-autoconfigure/15.0.0/graphql-spring-boot-autoconfigure-15.0.0.jar:/home/lantanium/.m2/repository/com/graphql-java-kickstart/graphql-java-tools/13.0.2/graphql-java-tools-13.0.2.jar:/home/lantanium/.m2/repository/org/jetbrains/kotlin/kotlin-reflect/1.9.22/kotlin-reflect-1.9.22.jar:/home/lantanium/.m2/repository/org/jetbrains/kotlinx/kotlinx-coroutines-jdk8/1.7.3/kotlinx-coroutines-jdk8-1.7.3.jar:/home/lantanium/.m2/repository/org/jetbrains/kotlinx/kotlinx-coroutines-core-jvm/1.7.3/kotlinx-coroutines-core-jvm-1.7.3.jar:/home/lantanium/.m2/repository/org/jetbrains/kotlin/kotlin-stdlib-common/1.9.22/kotlin-stdlib-common-1.9.22.jar:/home/lantanium/.m2/repository/org/jetbrains/kotlinx/kotlinx-coroutines-core/1.7.3/kotlinx-coroutines-core-1.7.3.jar:/home/lantanium/.m2/repository/org/jetbrains/kotlinx/kotlinx-coroutines-reactive/1.7.3/kotlinx-coroutines-reactive-1.7.3.jar:/home/lantanium/.m2/repository/com/fasterxml/jackson/module/jackson-module-kotlin/2.15.3/jackson-module-kotlin-2.15.3.jar:/home/lantanium/.m2/repository/com/graphql-java-kickstart/graphql-kickstart-spring-support/15.0.0/graphql-kickstart-spring-support-15.0.0.jar:/home/lantanium/.m2/repository/com/graphql-java-kickstart/graphql-kickstart-spring-webflux/15.0.0/graphql-kickstart-spring-webflux-15.0.0.jar:/home/lantanium/.m2/repository/com/graphql-java-kickstart/graphql-java-kickstart/15.0.0/graphql-java-kickstart-15.0.0.jar:/home/lantanium/.m2/repository/com/graphql-java-kickstart/graphql-java-servlet/15.0.0/graphql-java-servlet-15.0.0.jar:/home/lantanium/.m2/repository/jakarta/servlet/jakarta.servlet-api/6.0.0/jakarta.servlet-api-6.0.0.jar:/home/lantanium/.m2/repository/jakarta/websocket/jakarta.websocket-api/2.1.1/jakarta.websocket-api-2.1.1.jar:/home/lantanium/.m2/repository/jakarta/websocket/jakarta.websocket-client-api/2.1.1/jakarta.websocket-client-api-2.1.1.jar:/home/lantanium/.m2/repository/io/github/graphql-java/graphql-java-annotations/9.1/graphql-java-annotations-9.1.jar:/home/lantanium/.m2/repository/javax/validation/validation-api/1.1.0.Final/validation-api-1.1.0.Final.jar:/home/lantanium/.m2/repository/org/reflections/reflections/0.10.2/reflections-0.10.2.jar:/home/lantanium/.m2/repository/org/javassist/javassist/3.28.0-GA/javassist-3.28.0-GA.jar:/home/lantanium/.m2/repository/com/google/code/findbugs/jsr305/3.0.2/jsr305-3.0.2.jar:/home/lantanium/.m2/repository/org/apache/commons/commons-text/1.10.0/commons-text-1.10.0.jar:/home/lantanium/.m2/repository/org/springframework/spring-webflux/6.1.3/spring-webflux-6.1.3.jar:/home/lantanium/.m2/repository/org/mapstruct/mapstruct/1.5.5.Final/mapstruct-1.5.5.Final.jar:/home/lantanium/.m2/repository/org/projectlombok/lombok-mapstruct-binding/0.2.0/lombok-mapstruct-binding-0.2.0.jar:/home/lantanium/.m2/repository/com/github/javafaker/javafaker/1.0.2/javafaker-1.0.2.jar:/home/lantanium/.m2/repository/org/apache/commons/commons-lang3/3.13.0/commons-lang3-3.13.0.jar:/home/lantanium/.m2/repository/org/yaml/snakeyaml/1.23/snakeyaml-1.23-android.jar:/home/lantanium/.m2/repository/com/github/mifmif/generex/1.0.2/generex-1.0.2.jar:/home/lantanium/.m2/repository/dk/brics/automaton/automaton/1.11-8/automaton-1.11-8.jar:"/>
+    <property name="sun.cpu.endian" value="little"/>
+    <property name="user.home" value="/home/lantanium"/>
+    <property name="user.language" value="en"/>
+    <property name="java.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.version.date" value="2025-01-21"/>
+    <property name="java.home" value="/home/lantanium/.jdks/corretto-17.0.14-1"/>
+    <property name="file.separator" value="/"/>
+    <property name="basedir" value="/home/lantanium/Documents/G45-Project"/>
+    <property name="java.vm.compressedOopsMode" value="Zero based"/>
+    <property name="line.separator" value="&#10;"/>
+    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="FILE_LOG_CHARSET" value="UTF-8"/>
+    <property name="java.awt.headless" value="true"/>
+    <property name="surefire.real.class.path" value="/home/lantanium/Documents/G45-Project/target/surefire/surefirebooter-20250130143740809_3.jar"/>
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="java.runtime.version" value="17.0.14+7-LTS"/>
+    <property name="user.name" value="lantanium"/>
+    <property name="path.separator" value=":"/>
+    <property name="os.version" value="6.6.72-1-lts"/>
+    <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
+    <property name="file.encoding" value="UTF-8"/>
+    <property name="FILE_LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"/>
+    <property name="java.vm.name" value="OpenJDK 64-Bit Server VM"/>
+    <property name="java.vendor.version" value="Corretto-17.0.14.7.1"/>
+    <property name="LOG_FILE" value="logs/application.log"/>
+    <property name="localRepository" value="/home/lantanium/.m2/repository"/>
+    <property name="java.vendor.url.bug" value="https://github.com/corretto/corretto-17/issues/"/>
+    <property name="java.io.tmpdir" value="/tmp"/>
+    <property name="idea.version" value="2024.3.2.1"/>
+    <property name="com.zaxxer.hikari.pool_number" value="1"/>
+    <property name="java.version" value="17.0.14"/>
+    <property name="user.dir" value="/home/lantanium/Documents/G45-Project"/>
+    <property name="os.arch" value="amd64"/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="PID" value="1048505"/>
+    <property name="CONSOLE_LOG_CHARSET" value="UTF-8"/>
+    <property name="LOGBACK_ROLLINGPOLICY_MAX_HISTORY" value="30"/>
+    <property name="native.encoding" value="UTF-8"/>
+    <property name="java.library.path" value="/usr/java/packages/lib:/usr/lib64:/lib64:/lib:/usr/lib"/>
+    <property name="java.vm.info" value="mixed mode, sharing"/>
+    <property name="java.vendor" value="Amazon.com Inc."/>
+    <property name="java.vm.version" value="17.0.14+7-LTS"/>
+    <property name="java.specification.maintenance.version" value="1"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
+    <property name="java.class.version" value="61.0"/>
+    <property name="CONSOLE_LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"/>
+  </properties>
+  <testcase name="contextLoads" classname="uz.pdp.projectmodul10.ProjectModul10ApplicationTests" time="0.01">
+    <error message="Failed to load ApplicationContext for [WebMergedContextConfiguration@2ed913f9 testClass = uz.pdp.projectmodul10.ProjectModul10ApplicationTests, locations = [], classes = [uz.pdp.projectmodul10.ProjectModul10Application], contextInitializerClasses = [], activeProfiles = [], propertySourceDescriptors = [], propertySourceProperties = [&quot;org.springframework.boot.test.context.SpringBootTestContextBootstrapper=true&quot;], contextCustomizers = [org.springframework.boot.test.context.filter.ExcludeFilterContextCustomizer@2f4919b0, org.springframework.boot.test.graphql.tester.HttpGraphQlTesterContextCustomizer@4d7e7435, org.springframework.boot.test.json.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer@1f86099a, org.springframework.boot.test.mock.mockito.MockitoContextCustomizer@0, org.springframework.boot.test.web.client.TestRestTemplateContextCustomizer@aa21042, org.springframework.boot.test.web.reactive.server.WebTestClientContextCustomizer@601cbd8c, org.springframework.boot.test.autoconfigure.actuate.observability.ObservabilityContextCustomizerFactory$DisableObservabilityContextCustomizer@1f, org.springframework.boot.test.autoconfigure.properties.PropertyMappingContextCustomizer@0, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverContextCustomizer@5a4c638d, org.springframework.boot.test.context.SpringBootTestAnnotation@d60daacf], resourceBasePath = &quot;src/main/webapp&quot;, contextLoader = org.springframework.boot.test.context.SpringBootContextLoader, parent = null]" type="java.lang.IllegalStateException"><![CDATA[java.lang.IllegalStateException: Failed to load ApplicationContext for [WebMergedContextConfiguration@2ed913f9 testClass = uz.pdp.projectmodul10.ProjectModul10ApplicationTests, locations = [], classes = [uz.pdp.projectmodul10.ProjectModul10Application], contextInitializerClasses = [], activeProfiles = [], propertySourceDescriptors = [], propertySourceProperties = ["org.springframework.boot.test.context.SpringBootTestContextBootstrapper=true"], contextCustomizers = [org.springframework.boot.test.context.filter.ExcludeFilterContextCustomizer@2f4919b0, org.springframework.boot.test.graphql.tester.HttpGraphQlTesterContextCustomizer@4d7e7435, org.springframework.boot.test.json.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer@1f86099a, org.springframework.boot.test.mock.mockito.MockitoContextCustomizer@0, org.springframework.boot.test.web.client.TestRestTemplateContextCustomizer@aa21042, org.springframework.boot.test.web.reactive.server.WebTestClientContextCustomizer@601cbd8c, org.springframework.boot.test.autoconfigure.actuate.observability.ObservabilityContextCustomizerFactory$DisableObservabilityContextCustomizer@1f, org.springframework.boot.test.autoconfigure.properties.PropertyMappingContextCustomizer@0, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverContextCustomizer@5a4c638d, org.springframework.boot.test.context.SpringBootTestAnnotation@d60daacf], resourceBasePath = "src/main/webapp", contextLoader = org.springframework.boot.test.context.SpringBootContextLoader, parent = null]
+	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContext(DefaultCacheAwareContextLoaderDelegate.java:180)
+	at org.springframework.test.context.support.DefaultTestContext.getApplicationContext(DefaultTestContext.java:130)
+	at org.springframework.test.context.web.ServletTestExecutionListener.setUpRequestContextIfNecessary(ServletTestExecutionListener.java:191)
+	at org.springframework.test.context.web.ServletTestExecutionListener.prepareTestInstance(ServletTestExecutionListener.java:130)
+	at org.springframework.test.context.TestContextManager.prepareTestInstance(TestContextManager.java:260)
+	at org.springframework.test.context.junit.jupiter.SpringExtension.postProcessTestInstance(SpringExtension.java:163)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)
+	at java.base/java.util.stream.ReferencePipeline$2$1.accept(ReferencePipeline.java:179)
+	at java.base/java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1625)
+	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:509)
+	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:499)
+	at java.base/java.util.stream.StreamSpliterators$WrappingSpliterator.forEachRemaining(StreamSpliterators.java:310)
+	at java.base/java.util.stream.Streams$ConcatSpliterator.forEachRemaining(Streams.java:735)
+	at java.base/java.util.stream.Streams$ConcatSpliterator.forEachRemaining(Streams.java:734)
+	at java.base/java.util.stream.ReferencePipeline$Head.forEach(ReferencePipeline.java:762)
+	at java.base/java.util.Optional.orElseGet(Optional.java:364)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'accessoryController' defined in file [/home/lantanium/Documents/G45-Project/target/classes/uz/pdp/controller/AccessoryController.class]: Unsatisfied dependency expressed through constructor parameter 3: Error creating bean with name 'basketService' defined in file [/home/lantanium/Documents/G45-Project/target/classes/uz/pdp/service/BasketService.class]: Unsatisfied dependency expressed through constructor parameter 4: Error creating bean with name 'mouldingService' defined in file [/home/lantanium/Documents/G45-Project/target/classes/uz/pdp/service/MouldingService.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'mouldingRepository' defined in uz.pdp.repository.MouldingRepository defined in @EnableJpaRepositories declared on ProjectModul10Application: Not a managed type: class uz.pdp.entity.Moulding
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:798)
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:237)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1354)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1191)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:561)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:521)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:325)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:323)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:975)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:959)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:624)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:754)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:456)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:334)
+	at org.springframework.boot.test.context.SpringBootContextLoader.lambda$loadContext$3(SpringBootContextLoader.java:137)
+	at org.springframework.util.function.ThrowingSupplier.get(ThrowingSupplier.java:58)
+	at org.springframework.util.function.ThrowingSupplier.get(ThrowingSupplier.java:46)
+	at org.springframework.boot.SpringApplication.withHook(SpringApplication.java:1454)
+	at org.springframework.boot.test.context.SpringBootContextLoader$ContextLoaderHook.run(SpringBootContextLoader.java:552)
+	at org.springframework.boot.test.context.SpringBootContextLoader.loadContext(SpringBootContextLoader.java:137)
+	at org.springframework.boot.test.context.SpringBootContextLoader.loadContext(SpringBootContextLoader.java:108)
+	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContextInternal(DefaultCacheAwareContextLoaderDelegate.java:225)
+	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContext(DefaultCacheAwareContextLoaderDelegate.java:152)
+	... 17 more
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'basketService' defined in file [/home/lantanium/Documents/G45-Project/target/classes/uz/pdp/service/BasketService.class]: Unsatisfied dependency expressed through constructor parameter 4: Error creating bean with name 'mouldingService' defined in file [/home/lantanium/Documents/G45-Project/target/classes/uz/pdp/service/MouldingService.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'mouldingRepository' defined in uz.pdp.repository.MouldingRepository defined in @EnableJpaRepositories declared on ProjectModul10Application: Not a managed type: class uz.pdp.entity.Moulding
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:798)
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:237)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1354)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1191)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:561)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:521)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:325)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:323)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1443)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1353)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:907)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:785)
+	... 41 more
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'mouldingService' defined in file [/home/lantanium/Documents/G45-Project/target/classes/uz/pdp/service/MouldingService.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'mouldingRepository' defined in uz.pdp.repository.MouldingRepository defined in @EnableJpaRepositories declared on ProjectModul10Application: Not a managed type: class uz.pdp.entity.Moulding
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:798)
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:237)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1354)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1191)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:561)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:521)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:325)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:323)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1443)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1353)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:907)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:785)
+	... 55 more
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'mouldingRepository' defined in uz.pdp.repository.MouldingRepository defined in @EnableJpaRepositories declared on ProjectModul10Application: Not a managed type: class uz.pdp.entity.Moulding
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1773)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:599)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:521)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:325)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:323)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1443)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1353)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:907)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:785)
+	... 69 more
+Caused by: java.lang.IllegalArgumentException: Not a managed type: class uz.pdp.entity.Moulding
+	at org.hibernate.metamodel.model.domain.internal.JpaMetamodelImpl.managedType(JpaMetamodelImpl.java:193)
+	at org.hibernate.metamodel.model.domain.internal.MappingMetamodelImpl.managedType(MappingMetamodelImpl.java:468)
+	at org.hibernate.metamodel.model.domain.internal.MappingMetamodelImpl.managedType(MappingMetamodelImpl.java:98)
+	at org.springframework.data.jpa.repository.support.JpaMetamodelEntityInformation.<init>(JpaMetamodelEntityInformation.java:82)
+	at org.springframework.data.jpa.repository.support.JpaEntityInformationSupport.getEntityInformation(JpaEntityInformationSupport.java:69)
+	at org.springframework.data.jpa.repository.support.JpaRepositoryFactory.getEntityInformation(JpaRepositoryFactory.java:246)
+	at org.springframework.data.jpa.repository.support.JpaRepositoryFactory.getTargetRepository(JpaRepositoryFactory.java:211)
+	at org.springframework.data.jpa.repository.support.JpaRepositoryFactory.getTargetRepository(JpaRepositoryFactory.java:194)
+	at org.springframework.data.jpa.repository.support.JpaRepositoryFactory.getTargetRepository(JpaRepositoryFactory.java:1)
+	at org.springframework.data.repository.core.support.RepositoryFactorySupport.getRepository(RepositoryFactorySupport.java:317)
+	at org.springframework.data.repository.core.support.RepositoryFactoryBeanSupport.lambda$afterPropertiesSet$5(RepositoryFactoryBeanSupport.java:279)
+	at org.springframework.data.util.Lazy.getNullable(Lazy.java:135)
+	at org.springframework.data.util.Lazy.get(Lazy.java:113)
+	at org.springframework.data.repository.core.support.RepositoryFactoryBeanSupport.afterPropertiesSet(RepositoryFactoryBeanSupport.java:285)
+	at org.springframework.data.jpa.repository.support.JpaRepositoryFactoryBean.afterPropertiesSet(JpaRepositoryFactoryBean.java:132)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1820)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1769)
+	... 80 more
+]]></error>
+    <system-out><![CDATA[14:37:41.780 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [uz.pdp.projectmodul10.ProjectModul10ApplicationTests]: ProjectModul10ApplicationTests does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+14:37:41.905 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration uz.pdp.projectmodul10.ProjectModul10Application for test class uz.pdp.projectmodul10.ProjectModul10ApplicationTests
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::                (v3.2.2)
+
+2025-01-30 14:37:42 [main] INFO  u.p.p.ProjectModul10ApplicationTests - Starting ProjectModul10ApplicationTests using Java 17.0.14 with PID 1048505 (started by lantanium in /home/lantanium/Documents/G45-Project)
+2025-01-30 14:37:42 [main] DEBUG u.p.p.ProjectModul10ApplicationTests - Running with Spring Boot v3.2.2, Spring v6.1.3
+2025-01-30 14:37:42 [main] INFO  u.p.p.ProjectModul10ApplicationTests - No active profile set, falling back to 1 default profile: "default"
+2025-01-30 14:37:43 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-01-30 14:37:43 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-01-30 14:37:43 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 144 ms. Found 13 JPA repository interfaces.
+2025-01-30 14:37:44 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-01-30 14:37:44 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-01-30 14:37:44 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 8 ms. Found 0 Redis repository interfaces.
+2025-01-30 14:37:44 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'webMvcConfig' of type [uz.pdp.config.WebMvcConfig$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). The currently created BeanPostProcessor [methodValidationPostProcessor] is declared through a non-static factory method on that class; consider declaring it as static instead.
+2025-01-30 14:37:44 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-01-30 14:37:44 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.1.Final
+2025-01-30 14:37:45 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-01-30 14:37:45 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-01-30 14:37:45 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-01-30 14:37:48 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@6a0a5b0e
+2025-01-30 14:37:48 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-01-30 14:37:48 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-01-30 14:37:50 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-01-30 14:37:50 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists address_social_links 
+       drop constraint if exists FKf8co3916tiiox4iohci7ybiyg
+Hibernate: 
+    alter table if exists address_social_links 
+       drop constraint if exists FKf8co3916tiiox4iohci7ybiyg
+2025-01-30 14:37:50 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists addresses 
+       drop constraint if exists FK7wf86ejdl44syummkme09y06f
+Hibernate: 
+    alter table if exists addresses 
+       drop constraint if exists FK7wf86ejdl44syummkme09y06f
+2025-01-30 14:37:50 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists addresses 
+       drop constraint if exists FK1fa36y2oqhao3wgg2rw1pi459
+Hibernate: 
+    alter table if exists addresses 
+       drop constraint if exists FK1fa36y2oqhao3wgg2rw1pi459
+2025-01-30 14:37:51 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists basket_items 
+       drop constraint if exists FKnx44qatthch57p2bgo873qfxu
+Hibernate: 
+    alter table if exists basket_items 
+       drop constraint if exists FKnx44qatthch57p2bgo873qfxu
+2025-01-30 14:37:51 [main] WARN  o.h.e.jdbc.spi.SqlExceptionHelper - SQL Warning Code: 0, SQLState: 00000
+2025-01-30 14:37:51 [main] WARN  o.h.e.jdbc.spi.SqlExceptionHelper - relation "basket_items" does not exist, skipping
+2025-01-30 14:37:51 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists baskets 
+       drop constraint if exists FK87s17cinc4wkx0taas5nh0s8h
+Hibernate: 
+    alter table if exists baskets 
+       drop constraint if exists FK87s17cinc4wkx0taas5nh0s8h
+2025-01-30 14:37:51 [main] WARN  o.h.e.jdbc.spi.SqlExceptionHelper - SQL Warning Code: 0, SQLState: 00000
+2025-01-30 14:37:51 [main] WARN  o.h.e.jdbc.spi.SqlExceptionHelper - relation "baskets" does not exist, skipping
+2025-01-30 14:37:51 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists company 
+       drop constraint if exists FKlgeojgfhu94pbgyev43gtwdyq
+Hibernate: 
+    alter table if exists company 
+       drop constraint if exists FKlgeojgfhu94pbgyev43gtwdyq
+2025-01-30 14:37:51 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists company_socials_list 
+       drop constraint if exists FKt90ivcl5f3phabfuqw6k3t9ow
+Hibernate: 
+    alter table if exists company_socials_list 
+       drop constraint if exists FKt90ivcl5f3phabfuqw6k3t9ow
+2025-01-30 14:37:52 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists custom_enum_values 
+       drop constraint if exists FKbmmwc1jeq02ocr0c6mgv45yiy
+Hibernate: 
+    alter table if exists custom_enum_values 
+       drop constraint if exists FKbmmwc1jeq02ocr0c6mgv45yiy
+2025-01-30 14:37:52 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists door_available_colors 
+       drop constraint if exists FKd2g3blkiuq2wj2trx3wnjk5me
+Hibernate: 
+    alter table if exists door_available_colors 
+       drop constraint if exists FKd2g3blkiuq2wj2trx3wnjk5me
+2025-01-30 14:37:52 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists door_history 
+       drop constraint if exists FKlskx5ehjqd7u0dmumo4bhuliu
+Hibernate: 
+    alter table if exists door_history 
+       drop constraint if exists FKlskx5ehjqd7u0dmumo4bhuliu
+2025-01-30 14:37:52 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists door_history 
+       drop constraint if exists FKajibco0vlgy0ngsyg33k0wb0u
+Hibernate: 
+    alter table if exists door_history 
+       drop constraint if exists FKajibco0vlgy0ngsyg33k0wb0u
+2025-01-30 14:37:53 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists door_images 
+       drop constraint if exists FK33nbb6c7curx5h7rp8479q7ea
+Hibernate: 
+    alter table if exists door_images 
+       drop constraint if exists FK33nbb6c7curx5h7rp8479q7ea
+2025-01-30 14:37:53 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists doors 
+       drop constraint if exists FKkw5etuyedlsnyrr9wcbjeuyp4
+Hibernate: 
+    alter table if exists doors 
+       drop constraint if exists FKkw5etuyedlsnyrr9wcbjeuyp4
+2025-01-30 14:37:53 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists doors 
+       drop constraint if exists FKgbgrx2rwc3wskrr30uptj4tmy
+Hibernate: 
+    alter table if exists doors 
+       drop constraint if exists FKgbgrx2rwc3wskrr30uptj4tmy
+2025-01-30 14:37:53 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists email_verifications 
+       drop constraint if exists FKou1xuy3rdeao75p2x1v4v3xs
+Hibernate: 
+    alter table if exists email_verifications 
+       drop constraint if exists FKou1xuy3rdeao75p2x1v4v3xs
+2025-01-30 14:37:54 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists furniture_door_images 
+       drop constraint if exists FKtncfqos5bn3jhhxs9m55tsgjk
+Hibernate: 
+    alter table if exists furniture_door_images 
+       drop constraint if exists FKtncfqos5bn3jhhxs9m55tsgjk
+2025-01-30 14:37:54 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists orders 
+       drop constraint if exists FKf50k9uqc2hstd0yl9uujhoq74
+Hibernate: 
+    alter table if exists orders 
+       drop constraint if exists FKf50k9uqc2hstd0yl9uujhoq74
+2025-01-30 14:37:54 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists orders 
+       drop constraint if exists FK32ql8ubntj5uh44ph9659tiih
+Hibernate: 
+    alter table if exists orders 
+       drop constraint if exists FK32ql8ubntj5uh44ph9659tiih
+2025-01-30 14:37:54 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists address_social_links cascade
+Hibernate: 
+    drop table if exists address_social_links cascade
+2025-01-30 14:37:55 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists addresses cascade
+Hibernate: 
+    drop table if exists addresses cascade
+2025-01-30 14:37:55 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists basket_items cascade
+Hibernate: 
+    drop table if exists basket_items cascade
+2025-01-30 14:37:55 [main] WARN  o.h.e.jdbc.spi.SqlExceptionHelper - SQL Warning Code: 0, SQLState: 00000
+2025-01-30 14:37:55 [main] WARN  o.h.e.jdbc.spi.SqlExceptionHelper - table "basket_items" does not exist, skipping
+2025-01-30 14:37:55 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists baskets cascade
+Hibernate: 
+    drop table if exists baskets cascade
+2025-01-30 14:37:55 [main] WARN  o.h.e.jdbc.spi.SqlExceptionHelper - SQL Warning Code: 0, SQLState: 00000
+2025-01-30 14:37:55 [main] WARN  o.h.e.jdbc.spi.SqlExceptionHelper - table "baskets" does not exist, skipping
+2025-01-30 14:37:55 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists categories cascade
+Hibernate: 
+    drop table if exists categories cascade
+2025-01-30 14:37:56 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists company cascade
+Hibernate: 
+    drop table if exists company cascade
+2025-01-30 14:37:56 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists company_socials_list cascade
+Hibernate: 
+    drop table if exists company_socials_list cascade
+2025-01-30 14:37:56 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists custom_enum_values cascade
+Hibernate: 
+    drop table if exists custom_enum_values cascade
+2025-01-30 14:37:56 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists door_available_colors cascade
+Hibernate: 
+    drop table if exists door_available_colors cascade
+2025-01-30 14:37:56 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists door_history cascade
+Hibernate: 
+    drop table if exists door_history cascade
+2025-01-30 14:37:57 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists door_images cascade
+Hibernate: 
+    drop table if exists door_images cascade
+2025-01-30 14:37:57 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists doors cascade
+Hibernate: 
+    drop table if exists doors cascade
+2025-01-30 14:37:57 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists email_verifications cascade
+Hibernate: 
+    drop table if exists email_verifications cascade
+2025-01-30 14:37:57 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists furniture_door_images cascade
+Hibernate: 
+    drop table if exists furniture_door_images cascade
+2025-01-30 14:37:58 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists furniture_doors cascade
+Hibernate: 
+    drop table if exists furniture_doors cascade
+2025-01-30 14:37:58 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists locations cascade
+Hibernate: 
+    drop table if exists locations cascade
+2025-01-30 14:37:58 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists orders cascade
+Hibernate: 
+    drop table if exists orders cascade
+2025-01-30 14:37:59 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists ticket cascade
+Hibernate: 
+    drop table if exists ticket cascade
+2025-01-30 14:37:59 [main] DEBUG org.hibernate.SQL - 
+    drop table if exists users cascade
+Hibernate: 
+    drop table if exists users cascade
+2025-01-30 14:37:59 [main] WARN  o.h.e.jdbc.spi.SqlExceptionHelper - SQL Warning Code: 0, SQLState: 00000
+2025-01-30 14:37:59 [main] WARN  o.h.e.jdbc.spi.SqlExceptionHelper - drop cascades to 2 other objects
+2025-01-30 14:37:59 [main] DEBUG org.hibernate.SQL - 
+    create table address_social_links (
+        address_id bigint not null,
+        link varchar(255),
+        social_type varchar(255) not null check (social_type in ('FACEBOOK','TWITTER','INSTAGRAM','LINKEDIN','TELEGRAM')),
+        primary key (address_id, social_type)
+    )
+Hibernate: 
+    create table address_social_links (
+        address_id bigint not null,
+        link varchar(255),
+        social_type varchar(255) not null check (social_type in ('FACEBOOK','TWITTER','INSTAGRAM','LINKEDIN','TELEGRAM')),
+        primary key (address_id, social_type)
+    )
+2025-01-30 14:38:00 [main] DEBUG org.hibernate.SQL - 
+    create table addresses (
+        is_default boolean not null,
+        id bigserial not null,
+        location_id bigint unique,
+        user_id bigint,
+        city varchar(255),
+        email varchar(255),
+        name varchar(255),
+        phone_number varchar(255),
+        street varchar(255),
+        working_hours varchar(255),
+        primary key (id)
+    )
+Hibernate: 
+    create table addresses (
+        is_default boolean not null,
+        id bigserial not null,
+        location_id bigint unique,
+        user_id bigint,
+        city varchar(255),
+        email varchar(255),
+        name varchar(255),
+        phone_number varchar(255),
+        street varchar(255),
+        working_hours varchar(255),
+        primary key (id)
+    )
+2025-01-30 14:38:00 [main] DEBUG org.hibernate.SQL - 
+    create table basket_items (
+        price float(53) not null,
+        quantity integer not null,
+        basket_id bigint,
+        id bigserial not null,
+        item_id bigint,
+        version bigint not null,
+        image varchar(255),
+        name varchar(255),
+        type varchar(255) check (type in ('DOOR','ACCESSORY','MOULDING')),
+        primary key (id)
+    )
+Hibernate: 
+    create table basket_items (
+        price float(53) not null,
+        quantity integer not null,
+        basket_id bigint,
+        id bigserial not null,
+        item_id bigint,
+        version bigint not null,
+        image varchar(255),
+        name varchar(255),
+        type varchar(255) check (type in ('DOOR','ACCESSORY','MOULDING')),
+        primary key (id)
+    )
+2025-01-30 14:38:00 [main] DEBUG org.hibernate.SQL - 
+    create table baskets (
+        id bigserial not null,
+        user_id bigint unique,
+        primary key (id)
+    )
+Hibernate: 
+    create table baskets (
+        id bigserial not null,
+        user_id bigint unique,
+        primary key (id)
+    )
+2025-01-30 14:38:00 [main] DEBUG org.hibernate.SQL - 
+    create table categories (
+        active boolean not null,
+        id bigserial not null,
+        name varchar(255) not null unique,
+        primary key (id)
+    )
+Hibernate: 
+    create table categories (
+        active boolean not null,
+        id bigserial not null,
+        name varchar(255) not null unique,
+        primary key (id)
+    )
+2025-01-30 14:38:01 [main] DEBUG org.hibernate.SQL - 
+    create table company (
+        work_time date,
+        address_id bigint unique,
+        id bigserial not null,
+        email varchar(255),
+        name varchar(255),
+        phone varchar(255),
+        primary key (id)
+    )
+Hibernate: 
+    create table company (
+        work_time date,
+        address_id bigint unique,
+        id bigserial not null,
+        email varchar(255),
+        name varchar(255),
+        phone varchar(255),
+        primary key (id)
+    )
+2025-01-30 14:38:01 [main] DEBUG org.hibernate.SQL - 
+    create table company_socials_list (
+        company_id bigint not null,
+        socials_list varchar(255) check (socials_list in ('FACEBOOK','TWITTER','INSTAGRAM','LINKEDIN','TELEGRAM'))
+    )
+Hibernate: 
+    create table company_socials_list (
+        company_id bigint not null,
+        socials_list varchar(255) check (socials_list in ('FACEBOOK','TWITTER','INSTAGRAM','LINKEDIN','TELEGRAM'))
+    )
+2025-01-30 14:38:01 [main] DEBUG org.hibernate.SQL - 
+    create table custom_enum_values (
+        is_active boolean not null,
+        created_at timestamp(6),
+        created_by bigint,
+        id bigserial not null,
+        display_name varchar(255) not null,
+        enum_type varchar(255) not null,
+        name varchar(255) not null unique,
+        primary key (id)
+    )
+Hibernate: 
+    create table custom_enum_values (
+        is_active boolean not null,
+        created_at timestamp(6),
+        created_by bigint,
+        id bigserial not null,
+        display_name varchar(255) not null,
+        enum_type varchar(255) not null,
+        name varchar(255) not null unique,
+        primary key (id)
+    )
+2025-01-30 14:38:01 [main] DEBUG org.hibernate.SQL - 
+    create table door_available_colors (
+        door_id bigint not null,
+        available_colors varchar(255) check (available_colors in ('WHITE','OFF_WHITE','CREAM','IVORY','LIGHT_OAK','GOLDEN_OAK','DARK_OAK','WALNUT','MAHOGANY','TEAK','CHERRY','ESPRESSO','LIGHT_GRAY','GRAY','CHARCOAL','BLACK','BEIGE','TAN','BROWN','BRONZE','NAVY','FOREST_GREEN','WINE_RED','BURGUNDY','GUNMETAL','BRUSHED_STEEL','ANTIQUE_BRASS','CUSTOM'))
+    )
+Hibernate: 
+    create table door_available_colors (
+        door_id bigint not null,
+        available_colors varchar(255) check (available_colors in ('WHITE','OFF_WHITE','CREAM','IVORY','LIGHT_OAK','GOLDEN_OAK','DARK_OAK','WALNUT','MAHOGANY','TEAK','CHERRY','ESPRESSO','LIGHT_GRAY','GRAY','CHARCOAL','BLACK','BEIGE','TAN','BROWN','BRONZE','NAVY','FOREST_GREEN','WINE_RED','BURGUNDY','GUNMETAL','BRUSHED_STEEL','ANTIQUE_BRASS','CUSTOM'))
+    )
+2025-01-30 14:38:02 [main] DEBUG org.hibernate.SQL - 
+    create table door_history (
+        accessed_at timestamp(6),
+        door_id bigint not null,
+        id bigserial not null,
+        user_id bigint not null,
+        primary key (id)
+    )
+Hibernate: 
+    create table door_history (
+        accessed_at timestamp(6),
+        door_id bigint not null,
+        id bigserial not null,
+        user_id bigint not null,
+        primary key (id)
+    )
+2025-01-30 14:38:02 [main] DEBUG org.hibernate.SQL - 
+    create table door_images (
+        door_id bigint not null,
+        images varchar(255)
+    )
+Hibernate: 
+    create table door_images (
+        door_id bigint not null,
+        images varchar(255)
+    )
+2025-01-30 14:38:02 [main] DEBUG org.hibernate.SQL - 
+    create table doors (
+        active boolean not null,
+        custom_height float(53),
+        custom_width float(53),
+        final_price float(53),
+        is_base_model boolean,
+        is_custom_color boolean,
+        price float(53),
+        warranty_years integer,
+        base_model_id bigint,
+        category_id bigint,
+        id bigserial not null,
+        seller_id bigint,
+        color varchar(255) check (color in ('WHITE','OFF_WHITE','CREAM','IVORY','LIGHT_OAK','GOLDEN_OAK','DARK_OAK','WALNUT','MAHOGANY','TEAK','CHERRY','ESPRESSO','LIGHT_GRAY','GRAY','CHARCOAL','BLACK','BEIGE','TAN','BROWN','BRONZE','NAVY','FOREST_GREEN','WINE_RED','BURGUNDY','GUNMETAL','BRUSHED_STEEL','ANTIQUE_BRASS','CUSTOM')),
+        custom_color_code varchar(255),
+        description varchar(255),
+        door_location varchar(255) check (door_location in ('WINDOW','ROOM','BATHROOM','KITCHEN','ENTRANCE','BEDROOM','LIVING_ROOM','BALCONY','GARAGE')),
+        frame_type varchar(255) check (frame_type in ('STANDARD','TELESCOPIC','HIDDEN','REBATED','NON_REBATED')),
+        hardware varchar(255) check (hardware in ('STANDARD_HINGES','PIVOT','SLIDING','POCKET','BARN_DOOR','BI_FOLD','CONCEALED_HINGES','SPRING_HINGES','DOUBLE_ACTION','AUTOMATIC')),
+        manufacturer varchar(255),
+        material varchar(255),
+        name varchar(255),
+        size varchar(255) check (size in ('SIZE_200x2000','SIZE_300x2000','SIZE_400x2000','SIZE_500x2000','SIZE_600x2000','SIZE_700x2000','SIZE_800x2000','SIZE_900x2000','SIZE_1000x2000','SIZE_1100x2000','SIZE_1200x2000','CUSTOM')),
+        status varchar(255) not null check (status in ('AVAILABLE','PENDING','SOLD','INACTIVE','UNAVAILABLE')),
+        primary key (id)
+    )
+Hibernate: 
+    create table doors (
+        active boolean not null,
+        custom_height float(53),
+        custom_width float(53),
+        final_price float(53),
+        is_base_model boolean,
+        is_custom_color boolean,
+        price float(53),
+        warranty_years integer,
+        base_model_id bigint,
+        category_id bigint,
+        id bigserial not null,
+        seller_id bigint,
+        color varchar(255) check (color in ('WHITE','OFF_WHITE','CREAM','IVORY','LIGHT_OAK','GOLDEN_OAK','DARK_OAK','WALNUT','MAHOGANY','TEAK','CHERRY','ESPRESSO','LIGHT_GRAY','GRAY','CHARCOAL','BLACK','BEIGE','TAN','BROWN','BRONZE','NAVY','FOREST_GREEN','WINE_RED','BURGUNDY','GUNMETAL','BRUSHED_STEEL','ANTIQUE_BRASS','CUSTOM')),
+        custom_color_code varchar(255),
+        description varchar(255),
+        door_location varchar(255) check (door_location in ('WINDOW','ROOM','BATHROOM','KITCHEN','ENTRANCE','BEDROOM','LIVING_ROOM','BALCONY','GARAGE')),
+        frame_type varchar(255) check (frame_type in ('STANDARD','TELESCOPIC','HIDDEN','REBATED','NON_REBATED')),
+        hardware varchar(255) check (hardware in ('STANDARD_HINGES','PIVOT','SLIDING','POCKET','BARN_DOOR','BI_FOLD','CONCEALED_HINGES','SPRING_HINGES','DOUBLE_ACTION','AUTOMATIC')),
+        manufacturer varchar(255),
+        material varchar(255),
+        name varchar(255),
+        size varchar(255) check (size in ('SIZE_200x2000','SIZE_300x2000','SIZE_400x2000','SIZE_500x2000','SIZE_600x2000','SIZE_700x2000','SIZE_800x2000','SIZE_900x2000','SIZE_1000x2000','SIZE_1100x2000','SIZE_1200x2000','CUSTOM')),
+        status varchar(255) not null check (status in ('AVAILABLE','PENDING','SOLD','INACTIVE','UNAVAILABLE')),
+        primary key (id)
+    )
+2025-01-30 14:38:03 [main] DEBUG org.hibernate.SQL - 
+    create table email_verifications (
+        verified boolean not null,
+        created_at timestamp(6),
+        expiry_time timestamp(6) not null,
+        id bigserial not null,
+        updated_at timestamp(6),
+        user_id bigint not null,
+        type varchar(255) not null check (type in ('SELLER_REQUEST','PASSWORD_RESET','EMAIL_CONFIRMATION')),
+        verification_code varchar(255) not null,
+        primary key (id)
+    )
+Hibernate: 
+    create table email_verifications (
+        verified boolean not null,
+        created_at timestamp(6),
+        expiry_time timestamp(6) not null,
+        id bigserial not null,
+        updated_at timestamp(6),
+        user_id bigint not null,
+        type varchar(255) not null check (type in ('SELLER_REQUEST','PASSWORD_RESET','EMAIL_CONFIRMATION')),
+        verification_code varchar(255) not null,
+        primary key (id)
+    )
+2025-01-30 14:38:03 [main] DEBUG org.hibernate.SQL - 
+    create table furniture_door_images (
+        furniture_door_id bigint not null,
+        image_url varchar(255)
+    )
+Hibernate: 
+    create table furniture_door_images (
+        furniture_door_id bigint not null,
+        image_url varchar(255)
+    )
+2025-01-30 14:38:03 [main] DEBUG org.hibernate.SQL - 
+    create table furniture_doors (
+        price float(53) not null,
+        stock_quantity integer not null,
+        id bigserial not null,
+        description varchar(255),
+        dimensions varchar(255),
+        furniture_type varchar(255) not null check (furniture_type in ('LOCK','HANDLE','HINGES','AUTOMATIC_CLOSER','NO_FURNITURE')),
+        material varchar(255) not null,
+        name varchar(255) not null,
+        primary key (id)
+    )
+Hibernate: 
+    create table furniture_doors (
+        price float(53) not null,
+        stock_quantity integer not null,
+        id bigserial not null,
+        description varchar(255),
+        dimensions varchar(255),
+        furniture_type varchar(255) not null check (furniture_type in ('LOCK','HANDLE','HINGES','AUTOMATIC_CLOSER','NO_FURNITURE')),
+        material varchar(255) not null,
+        name varchar(255) not null,
+        primary key (id)
+    )
+2025-01-30 14:38:03 [main] DEBUG org.hibernate.SQL - 
+    create table locations (
+        latitude float(53),
+        longitude float(53),
+        id bigserial not null,
+        marker_title varchar(255),
+        primary key (id)
+    )
+Hibernate: 
+    create table locations (
+        latitude float(53),
+        longitude float(53),
+        id bigserial not null,
+        marker_title varchar(255),
+        primary key (id)
+    )
+2025-01-30 14:38:03 [main] DEBUG org.hibernate.SQL - 
+    create table orders (
+        door_id bigint not null,
+        id bigserial not null,
+        order_date timestamp(6) with time zone not null,
+        preferred_delivery_time timestamp(6) with time zone,
+        user_id bigint not null,
+        comment varchar(1000),
+        delivery_notes varchar(1000),
+        installation_notes varchar(1000),
+        contact_phone varchar(255) not null,
+        customer_name varchar(255) not null,
+        delivery_address varchar(255) not null,
+        email varchar(255) not null,
+        order_type varchar(255) not null check (order_type in ('FULL_SET','POLOTNO')),
+        status varchar(255) not null check (status in ('PENDING','CONFIRMED','PROCESSING','SHIPPED','DELIVERED','CANCELLED')),
+        primary key (id)
+    )
+Hibernate: 
+    create table orders (
+        door_id bigint not null,
+        id bigserial not null,
+        order_date timestamp(6) with time zone not null,
+        preferred_delivery_time timestamp(6) with time zone,
+        user_id bigint not null,
+        comment varchar(1000),
+        delivery_notes varchar(1000),
+        installation_notes varchar(1000),
+        contact_phone varchar(255) not null,
+        customer_name varchar(255) not null,
+        delivery_address varchar(255) not null,
+        email varchar(255) not null,
+        order_type varchar(255) not null check (order_type in ('FULL_SET','POLOTNO')),
+        status varchar(255) not null check (status in ('PENDING','CONFIRMED','PROCESSING','SHIPPED','DELIVERED','CANCELLED')),
+        primary key (id)
+    )
+2025-01-30 14:38:04 [main] DEBUG org.hibernate.SQL - 
+    create table ticket (
+        id bigserial not null,
+        user_id bigint,
+        primary key (id)
+    )
+Hibernate: 
+    create table ticket (
+        id bigserial not null,
+        user_id bigint,
+        primary key (id)
+    )
+2025-01-30 14:38:04 [main] DEBUG org.hibernate.SQL - 
+    create table users (
+        active boolean not null,
+        seller_request_pending boolean not null,
+        id bigserial not null,
+        email varchar(255) unique,
+        lastname varchar(255),
+        name varchar(255),
+        password varchar(255),
+        phone varchar(255) not null,
+        role varchar(255) not null check (role in ('USER','SELLER','ADMIN')),
+        primary key (id)
+    )
+Hibernate: 
+    create table users (
+        active boolean not null,
+        seller_request_pending boolean not null,
+        id bigserial not null,
+        email varchar(255) unique,
+        lastname varchar(255),
+        name varchar(255),
+        password varchar(255),
+        phone varchar(255) not null,
+        role varchar(255) not null check (role in ('USER','SELLER','ADMIN')),
+        primary key (id)
+    )
+2025-01-30 14:38:04 [main] DEBUG org.hibernate.SQL - 
+    create index idx_address_user 
+       on addresses (user_id)
+Hibernate: 
+    create index idx_address_user 
+       on addresses (user_id)
+2025-01-30 14:38:05 [main] DEBUG org.hibernate.SQL - 
+    create index idx_address_city 
+       on addresses (city)
+Hibernate: 
+    create index idx_address_city 
+       on addresses (city)
+2025-01-30 14:38:05 [main] DEBUG org.hibernate.SQL - 
+    create index idx_address_default 
+       on addresses (is_default)
+Hibernate: 
+    create index idx_address_default 
+       on addresses (is_default)
+2025-01-30 14:38:05 [main] DEBUG org.hibernate.SQL - 
+    create index idx_address_phone 
+       on addresses (phone_number)
+Hibernate: 
+    create index idx_address_phone 
+       on addresses (phone_number)
+2025-01-30 14:38:05 [main] DEBUG org.hibernate.SQL - 
+    create index idx_basketitem_basket 
+       on basket_items (basket_id)
+Hibernate: 
+    create index idx_basketitem_basket 
+       on basket_items (basket_id)
+2025-01-30 14:38:06 [main] DEBUG org.hibernate.SQL - 
+    create index idx_basketitem_item 
+       on basket_items (item_id, type)
+Hibernate: 
+    create index idx_basketitem_item 
+       on basket_items (item_id, type)
+2025-01-30 14:38:06 [main] DEBUG org.hibernate.SQL - 
+    create index idx_basketitem_name 
+       on basket_items (name)
+Hibernate: 
+    create index idx_basketitem_name 
+       on basket_items (name)
+2025-01-30 14:38:06 [main] DEBUG org.hibernate.SQL - 
+    create index idx_category_name 
+       on categories (name)
+Hibernate: 
+    create index idx_category_name 
+       on categories (name)
+2025-01-30 14:38:06 [main] DEBUG org.hibernate.SQL - 
+    create index idx_category_active 
+       on categories (active)
+Hibernate: 
+    create index idx_category_active 
+       on categories (active)
+2025-01-30 14:38:07 [main] DEBUG org.hibernate.SQL - 
+    create index idx_door_material 
+       on doors (material)
+Hibernate: 
+    create index idx_door_material 
+       on doors (material)
+2025-01-30 14:38:07 [main] DEBUG org.hibernate.SQL - 
+    create index idx_door_manufacturer 
+       on doors (manufacturer)
+Hibernate: 
+    create index idx_door_manufacturer 
+       on doors (manufacturer)
+2025-01-30 14:38:07 [main] DEBUG org.hibernate.SQL - 
+    create index idx_door_price 
+       on doors (price)
+Hibernate: 
+    create index idx_door_price 
+       on doors (price)
+2025-01-30 14:38:08 [main] DEBUG org.hibernate.SQL - 
+    create index idx_door_name 
+       on doors (name)
+Hibernate: 
+    create index idx_door_name 
+       on doors (name)
+2025-01-30 14:38:08 [main] DEBUG org.hibernate.SQL - 
+    create index idx_door_active_status 
+       on doors (active, status)
+Hibernate: 
+    create index idx_door_active_status 
+       on doors (active, status)
+2025-01-30 14:38:08 [main] DEBUG org.hibernate.SQL - 
+    create index idx_door_color 
+       on doors (color)
+Hibernate: 
+    create index idx_door_color 
+       on doors (color)
+2025-01-30 14:38:08 [main] DEBUG org.hibernate.SQL - 
+    create index idx_door_size 
+       on doors (size)
+Hibernate: 
+    create index idx_door_size 
+       on doors (size)
+2025-01-30 14:38:09 [main] DEBUG org.hibernate.SQL - 
+    create index idx_door_seller 
+       on doors (seller_id)
+Hibernate: 
+    create index idx_door_seller 
+       on doors (seller_id)
+2025-01-30 14:38:09 [main] DEBUG org.hibernate.SQL - 
+    create index idx_door_category 
+       on doors (category_id)
+Hibernate: 
+    create index idx_door_category 
+       on doors (category_id)
+2025-01-30 14:38:09 [main] DEBUG org.hibernate.SQL - 
+    create index idx_door_location 
+       on doors (door_location)
+Hibernate: 
+    create index idx_door_location 
+       on doors (door_location)
+2025-01-30 14:38:09 [main] DEBUG org.hibernate.SQL - 
+    create index idx_door_frame_type 
+       on doors (frame_type)
+Hibernate: 
+    create index idx_door_frame_type 
+       on doors (frame_type)
+2025-01-30 14:38:10 [main] DEBUG org.hibernate.SQL - 
+    create index idx_furniture_type 
+       on furniture_doors (furniture_type)
+Hibernate: 
+    create index idx_furniture_type 
+       on furniture_doors (furniture_type)
+2025-01-30 14:38:10 [main] DEBUG org.hibernate.SQL - 
+    create index idx_furniture_material 
+       on furniture_doors (material)
+Hibernate: 
+    create index idx_furniture_material 
+       on furniture_doors (material)
+2025-01-30 14:38:10 [main] DEBUG org.hibernate.SQL - 
+    create index idx_furniture_price 
+       on furniture_doors (price)
+Hibernate: 
+    create index idx_furniture_price 
+       on furniture_doors (price)
+2025-01-30 14:38:10 [main] DEBUG org.hibernate.SQL - 
+    create index idx_furniture_stock 
+       on furniture_doors (stock_quantity)
+Hibernate: 
+    create index idx_furniture_stock 
+       on furniture_doors (stock_quantity)
+2025-01-30 14:38:11 [main] DEBUG org.hibernate.SQL - 
+    create index idx_furniture_name 
+       on furniture_doors (name)
+Hibernate: 
+    create index idx_furniture_name 
+       on furniture_doors (name)
+2025-01-30 14:38:11 [main] DEBUG org.hibernate.SQL - 
+    create index idx_location_coords 
+       on locations (latitude, longitude)
+Hibernate: 
+    create index idx_location_coords 
+       on locations (latitude, longitude)
+2025-01-30 14:38:11 [main] DEBUG org.hibernate.SQL - 
+    create index idx_location_title 
+       on locations (marker_title)
+Hibernate: 
+    create index idx_location_title 
+       on locations (marker_title)
+2025-01-30 14:38:12 [main] DEBUG org.hibernate.SQL - 
+    create index idx_order_user 
+       on orders (user_id)
+Hibernate: 
+    create index idx_order_user 
+       on orders (user_id)
+2025-01-30 14:38:12 [main] DEBUG org.hibernate.SQL - 
+    create index idx_order_door 
+       on orders (door_id)
+Hibernate: 
+    create index idx_order_door 
+       on orders (door_id)
+2025-01-30 14:38:12 [main] DEBUG org.hibernate.SQL - 
+    create index idx_order_status_date 
+       on orders (status, order_date)
+Hibernate: 
+    create index idx_order_status_date 
+       on orders (status, order_date)
+2025-01-30 14:38:12 [main] DEBUG org.hibernate.SQL - 
+    create index idx_order_type_date 
+       on orders (order_type, order_date)
+Hibernate: 
+    create index idx_order_type_date 
+       on orders (order_type, order_date)
+2025-01-30 14:38:13 [main] DEBUG org.hibernate.SQL - 
+    create index idx_user_name 
+       on users (name)
+Hibernate: 
+    create index idx_user_name 
+       on users (name)
+2025-01-30 14:38:13 [main] DEBUG org.hibernate.SQL - 
+    create index idx_user_phone 
+       on users (phone)
+Hibernate: 
+    create index idx_user_phone 
+       on users (phone)
+2025-01-30 14:38:13 [main] DEBUG org.hibernate.SQL - 
+    create index idx_user_role_active 
+       on users (role, active)
+Hibernate: 
+    create index idx_user_role_active 
+       on users (role, active)
+2025-01-30 14:38:13 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists address_social_links 
+       add constraint FKf8co3916tiiox4iohci7ybiyg 
+       foreign key (address_id) 
+       references addresses
+Hibernate: 
+    alter table if exists address_social_links 
+       add constraint FKf8co3916tiiox4iohci7ybiyg 
+       foreign key (address_id) 
+       references addresses
+2025-01-30 14:38:14 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists addresses 
+       add constraint FK7wf86ejdl44syummkme09y06f 
+       foreign key (location_id) 
+       references locations
+Hibernate: 
+    alter table if exists addresses 
+       add constraint FK7wf86ejdl44syummkme09y06f 
+       foreign key (location_id) 
+       references locations
+2025-01-30 14:38:14 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists addresses 
+       add constraint FK1fa36y2oqhao3wgg2rw1pi459 
+       foreign key (user_id) 
+       references users
+Hibernate: 
+    alter table if exists addresses 
+       add constraint FK1fa36y2oqhao3wgg2rw1pi459 
+       foreign key (user_id) 
+       references users
+2025-01-30 14:38:14 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists basket_items 
+       add constraint FKnx44qatthch57p2bgo873qfxu 
+       foreign key (basket_id) 
+       references baskets
+Hibernate: 
+    alter table if exists basket_items 
+       add constraint FKnx44qatthch57p2bgo873qfxu 
+       foreign key (basket_id) 
+       references baskets
+2025-01-30 14:38:14 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists baskets 
+       add constraint FK87s17cinc4wkx0taas5nh0s8h 
+       foreign key (user_id) 
+       references users
+Hibernate: 
+    alter table if exists baskets 
+       add constraint FK87s17cinc4wkx0taas5nh0s8h 
+       foreign key (user_id) 
+       references users
+2025-01-30 14:38:15 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists company 
+       add constraint FKlgeojgfhu94pbgyev43gtwdyq 
+       foreign key (address_id) 
+       references addresses
+Hibernate: 
+    alter table if exists company 
+       add constraint FKlgeojgfhu94pbgyev43gtwdyq 
+       foreign key (address_id) 
+       references addresses
+2025-01-30 14:38:15 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists company_socials_list 
+       add constraint FKt90ivcl5f3phabfuqw6k3t9ow 
+       foreign key (company_id) 
+       references company
+Hibernate: 
+    alter table if exists company_socials_list 
+       add constraint FKt90ivcl5f3phabfuqw6k3t9ow 
+       foreign key (company_id) 
+       references company
+2025-01-30 14:38:15 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists custom_enum_values 
+       add constraint FKbmmwc1jeq02ocr0c6mgv45yiy 
+       foreign key (created_by) 
+       references users
+Hibernate: 
+    alter table if exists custom_enum_values 
+       add constraint FKbmmwc1jeq02ocr0c6mgv45yiy 
+       foreign key (created_by) 
+       references users
+2025-01-30 14:38:15 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists door_available_colors 
+       add constraint FKd2g3blkiuq2wj2trx3wnjk5me 
+       foreign key (door_id) 
+       references doors
+Hibernate: 
+    alter table if exists door_available_colors 
+       add constraint FKd2g3blkiuq2wj2trx3wnjk5me 
+       foreign key (door_id) 
+       references doors
+2025-01-30 14:38:15 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists door_history 
+       add constraint FKlskx5ehjqd7u0dmumo4bhuliu 
+       foreign key (door_id) 
+       references doors
+Hibernate: 
+    alter table if exists door_history 
+       add constraint FKlskx5ehjqd7u0dmumo4bhuliu 
+       foreign key (door_id) 
+       references doors
+2025-01-30 14:38:16 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists door_history 
+       add constraint FKajibco0vlgy0ngsyg33k0wb0u 
+       foreign key (user_id) 
+       references users
+Hibernate: 
+    alter table if exists door_history 
+       add constraint FKajibco0vlgy0ngsyg33k0wb0u 
+       foreign key (user_id) 
+       references users
+2025-01-30 14:38:16 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists door_images 
+       add constraint FK33nbb6c7curx5h7rp8479q7ea 
+       foreign key (door_id) 
+       references doors
+Hibernate: 
+    alter table if exists door_images 
+       add constraint FK33nbb6c7curx5h7rp8479q7ea 
+       foreign key (door_id) 
+       references doors
+2025-01-30 14:38:16 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists doors 
+       add constraint FKkw5etuyedlsnyrr9wcbjeuyp4 
+       foreign key (category_id) 
+       references categories
+Hibernate: 
+    alter table if exists doors 
+       add constraint FKkw5etuyedlsnyrr9wcbjeuyp4 
+       foreign key (category_id) 
+       references categories
+2025-01-30 14:38:16 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists doors 
+       add constraint FKgbgrx2rwc3wskrr30uptj4tmy 
+       foreign key (seller_id) 
+       references users
+Hibernate: 
+    alter table if exists doors 
+       add constraint FKgbgrx2rwc3wskrr30uptj4tmy 
+       foreign key (seller_id) 
+       references users
+2025-01-30 14:38:17 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists email_verifications 
+       add constraint FKou1xuy3rdeao75p2x1v4v3xs 
+       foreign key (user_id) 
+       references users
+Hibernate: 
+    alter table if exists email_verifications 
+       add constraint FKou1xuy3rdeao75p2x1v4v3xs 
+       foreign key (user_id) 
+       references users
+2025-01-30 14:38:17 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists furniture_door_images 
+       add constraint FKtncfqos5bn3jhhxs9m55tsgjk 
+       foreign key (furniture_door_id) 
+       references furniture_doors
+Hibernate: 
+    alter table if exists furniture_door_images 
+       add constraint FKtncfqos5bn3jhhxs9m55tsgjk 
+       foreign key (furniture_door_id) 
+       references furniture_doors
+2025-01-30 14:38:17 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists orders 
+       add constraint FKf50k9uqc2hstd0yl9uujhoq74 
+       foreign key (door_id) 
+       references doors
+Hibernate: 
+    alter table if exists orders 
+       add constraint FKf50k9uqc2hstd0yl9uujhoq74 
+       foreign key (door_id) 
+       references doors
+2025-01-30 14:38:17 [main] DEBUG org.hibernate.SQL - 
+    alter table if exists orders 
+       add constraint FK32ql8ubntj5uh44ph9659tiih 
+       foreign key (user_id) 
+       references users
+Hibernate: 
+    alter table if exists orders 
+       add constraint FK32ql8ubntj5uh44ph9659tiih 
+       foreign key (user_id) 
+       references users
+2025-01-30 14:38:18 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-01-30 14:38:18 [main] WARN  com.amazonaws.util.VersionInfoUtils - The AWS SDK for Java 1.x entered maintenance mode starting July 31, 2024 and will reach end of support on December 31, 2025. For more information, see https://aws.amazon.com/blogs/developer/the-aws-sdk-for-java-1-x-is-in-maintenance-mode-effective-july-31-2024/
+You can print where on the file system the AWS SDK for Java 1.x core runtime is located by setting the AWS_JAVA_V1_PRINT_LOCATION environment variable or aws.java.v1.printLocation system property to 'true'.
+This message can be disabled by setting the AWS_JAVA_V1_DISABLE_DEPRECATION_ANNOUNCEMENT environment variable or aws.java.v1.disableDeprecationAnnouncement system property to 'true'.
+The AWS SDK for Java 1.x is being used here:
+at java.base/java.lang.Thread.getStackTrace(Thread.java:1619)
+at com.amazonaws.util.VersionInfoUtils.printDeprecationAnnouncement(VersionInfoUtils.java:81)
+at com.amazonaws.util.VersionInfoUtils.<clinit>(VersionInfoUtils.java:59)
+at com.amazonaws.internal.EC2ResourceFetcher.<clinit>(EC2ResourceFetcher.java:44)
+at com.amazonaws.auth.InstanceMetadataServiceCredentialsFetcher.<init>(InstanceMetadataServiceCredentialsFetcher.java:38)
+at com.amazonaws.auth.InstanceProfileCredentialsProvider.<init>(InstanceProfileCredentialsProvider.java:111)
+at com.amazonaws.auth.InstanceProfileCredentialsProvider.<init>(InstanceProfileCredentialsProvider.java:91)
+at com.amazonaws.auth.InstanceProfileCredentialsProvider.<init>(InstanceProfileCredentialsProvider.java:75)
+at com.amazonaws.auth.InstanceProfileCredentialsProvider.<clinit>(InstanceProfileCredentialsProvider.java:58)
+at com.amazonaws.auth.EC2ContainerCredentialsProviderWrapper.initializeProvider(EC2ContainerCredentialsProviderWrapper.java:66)
+at com.amazonaws.auth.EC2ContainerCredentialsProviderWrapper.<init>(EC2ContainerCredentialsProviderWrapper.java:55)
+at com.amazonaws.auth.DefaultAWSCredentialsProviderChain.<init>(DefaultAWSCredentialsProviderChain.java:60)
+at com.amazonaws.auth.DefaultAWSCredentialsProviderChain.<clinit>(DefaultAWSCredentialsProviderChain.java:54)
+at com.amazonaws.services.s3.AmazonS3ClientBuilder.standard(AmazonS3ClientBuilder.java:46)
+at uz.pdp.config.S3Config.s3Client(S3Config.java:29)
+at uz.pdp.config.S3Config$$SpringCGLIB$$0.CGLIB$s3Client$0(<generated>)
+at uz.pdp.config.S3Config$$SpringCGLIB$$FastClass$$1.invoke(<generated>)
+at org.springframework.cglib.proxy.MethodProxy.invokeSuper(MethodProxy.java:258)
+at org.springframework.context.annotation.ConfigurationClassEnhancer$BeanMethodInterceptor.intercept(ConfigurationClassEnhancer.java:331)
+at uz.pdp.config.S3Config$$SpringCGLIB$$0.s3Client(<generated>)
+at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+at java.base/java.lang.reflect.Method.invoke(Method.java:569)
+at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:140)
+at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:647)
+at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:485)
+at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1334)
+at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1164)
+at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:561)
+at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:521)
+at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:325)
+at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:323)
+at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1443)
+at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1353)
+at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:907)
+at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:785)
+at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:237)
+at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1354)
+at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1191)
+at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:561)
+at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:521)
+at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:325)
+at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:323)
+at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1443)
+at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1353)
+at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:907)
+at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:785)
+at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:237)
+at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1354)
+at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1191)
+at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:561)
+at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:521)
+at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:325)
+at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:323)
+at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:975)
+at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:959)
+at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:624)
+at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:754)
+at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:456)
+at org.springframework.boot.SpringApplication.run(SpringApplication.java:334)
+at org.springframework.boot.test.context.SpringBootContextLoader.lambda$loadContext$3(SpringBootContextLoader.java:137)
+at org.springframework.util.function.ThrowingSupplier.get(ThrowingSupplier.java:58)
+at org.springframework.util.function.ThrowingSupplier.get(ThrowingSupplier.java:46)
+at org.springframework.boot.SpringApplication.withHook(SpringApplication.java:1454)
+at org.springframework.boot.test.context.SpringBootContextLoader$ContextLoaderHook.run(SpringBootContextLoader.java:552)
+at org.springframework.boot.test.context.SpringBootContextLoader.loadContext(SpringBootContextLoader.java:137)
+at org.springframework.boot.test.context.SpringBootContextLoader.loadContext(SpringBootContextLoader.java:108)
+at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContextInternal(DefaultCacheAwareContextLoaderDelegate.java:225)
+at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContext(DefaultCacheAwareContextLoaderDelegate.java:152)
+at org.springframework.test.context.support.DefaultTestContext.getApplicationContext(DefaultTestContext.java:130)
+at org.springframework.test.context.web.ServletTestExecutionListener.setUpRequestContextIfNecessary(ServletTestExecutionListener.java:191)
+at org.springframework.test.context.web.ServletTestExecutionListener.prepareTestInstance(ServletTestExecutionListener.java:130)
+at org.springframework.test.context.TestContextManager.prepareTestInstance(TestContextManager.java:260)
+at org.springframework.test.context.junit.jupiter.SpringExtension.postProcessTestInstance(SpringExtension.java:163)
+at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.lambda$invokeTestInstancePostProcessors$10(ClassBasedTestDescriptor.java:378)
+at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.executeAndMaskThrowable(ClassBasedTestDescriptor.java:383)
+at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.lambda$invokeTestInstancePostProcessors$11(ClassBasedTestDescriptor.java:378)
+at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)
+at java.base/java.util.stream.ReferencePipeline$2$1.accept(ReferencePipeline.java:179)
+at java.base/java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1625)
+at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:509)
+at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:499)
+at java.base/java.util.stream.StreamSpliterators$WrappingSpliterator.forEachRemaining(StreamSpliterators.java:310)
+at java.base/java.util.stream.Streams$ConcatSpliterator.forEachRemaining(Streams.java:735)
+at java.base/java.util.stream.Streams$ConcatSpliterator.forEachRemaining(Streams.java:734)
+at java.base/java.util.stream.ReferencePipeline$Head.forEach(ReferencePipeline.java:762)
+at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.invokeTestInstancePostProcessors(ClassBasedTestDescriptor.java:377)
+at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.lambda$instantiateAndPostProcessTestInstance$6(ClassBasedTestDescriptor.java:290)
+at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.instantiateAndPostProcessTestInstance(ClassBasedTestDescriptor.java:289)
+at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.lambda$testInstancesProvider$4(ClassBasedTestDescriptor.java:279)
+at java.base/java.util.Optional.orElseGet(Optional.java:364)
+at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.lambda$testInstancesProvider$5(ClassBasedTestDescriptor.java:278)
+at org.junit.jupiter.engine.execution.TestInstancesProvider.getTestInstances(TestInstancesProvider.java:31)
+at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$prepare$0(TestMethodTestDescriptor.java:106)
+at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.prepare(TestMethodTestDescriptor.java:105)
+at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.prepare(TestMethodTestDescriptor.java:69)
+at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$prepare$2(NodeTestTask.java:123)
+at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+at org.junit.platform.engine.support.hierarchical.NodeTestTask.prepare(NodeTestTask.java:123)
+at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:90)
+at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41)
+at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:155)
+at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
+at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
+at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
+at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
+at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41)
+at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:155)
+at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
+at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
+at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
+at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
+at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.submit(SameThreadHierarchicalTestExecutorService.java:35)
+at org.junit.platform.engine.support.hierarchical.HierarchicalTestExecutor.execute(HierarchicalTestExecutor.java:57)
+at org.junit.platform.engine.support.hierarchical.HierarchicalTestEngine.execute(HierarchicalTestEngine.java:54)
+at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:198)
+at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:169)
+at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:93)
+at org.junit.platform.launcher.core.EngineExecutionOrchestrator.lambda$execute$0(EngineExecutionOrchestrator.java:58)
+at org.junit.platform.launcher.core.EngineExecutionOrchestrator.withInterceptedStreams(EngineExecutionOrchestrator.java:141)
+at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:57)
+at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:103)
+at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:85)
+at org.junit.platform.launcher.core.DelegatingLauncher.execute(DelegatingLauncher.java:47)
+at org.apache.maven.surefire.junitplatform.LazyLauncher.execute(LazyLauncher.java:56)
+at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.execute(JUnitPlatformProvider.java:184)
+at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.invokeAllTests(JUnitPlatformProvider.java:148)
+at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.invoke(JUnitPlatformProvider.java:122)
+at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:385)
+at org.apache.maven.surefire.booter.ForkedBooter.execute(ForkedBooter.java:162)
+at org.apache.maven.surefire.booter.ForkedBooter.run(ForkedBooter.java:507)
+at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495)
+2025-01-30 14:38:19 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-01-30 14:38:20 [main] WARN  o.s.w.c.s.GenericWebApplicationContext - Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'accessoryController' defined in file [/home/lantanium/Documents/G45-Project/target/classes/uz/pdp/controller/AccessoryController.class]: Unsatisfied dependency expressed through constructor parameter 3: Error creating bean with name 'basketService' defined in file [/home/lantanium/Documents/G45-Project/target/classes/uz/pdp/service/BasketService.class]: Unsatisfied dependency expressed through constructor parameter 4: Error creating bean with name 'mouldingService' defined in file [/home/lantanium/Documents/G45-Project/target/classes/uz/pdp/service/MouldingService.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'mouldingRepository' defined in uz.pdp.repository.MouldingRepository defined in @EnableJpaRepositories declared on ProjectModul10Application: Not a managed type: class uz.pdp.entity.Moulding
+2025-01-30 14:38:20 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-01-30 14:38:20 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-01-30 14:38:21 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-01-30 14:38:21 [main] INFO  o.s.b.a.l.ConditionEvaluationReportLogger - 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2025-01-30 14:38:21 [main] ERROR o.s.boot.SpringApplication - Application run failed
+org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'accessoryController' defined in file [/home/lantanium/Documents/G45-Project/target/classes/uz/pdp/controller/AccessoryController.class]: Unsatisfied dependency expressed through constructor parameter 3: Error creating bean with name 'basketService' defined in file [/home/lantanium/Documents/G45-Project/target/classes/uz/pdp/service/BasketService.class]: Unsatisfied dependency expressed through constructor parameter 4: Error creating bean with name 'mouldingService' defined in file [/home/lantanium/Documents/G45-Project/target/classes/uz/pdp/service/MouldingService.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'mouldingRepository' defined in uz.pdp.repository.MouldingRepository defined in @EnableJpaRepositories declared on ProjectModul10Application: Not a managed type: class uz.pdp.entity.Moulding
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:798)
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:237)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1354)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1191)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:561)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:521)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:325)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:323)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:975)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:959)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:624)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:754)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:456)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:334)
+	at org.springframework.boot.test.context.SpringBootContextLoader.lambda$loadContext$3(SpringBootContextLoader.java:137)
+	at org.springframework.util.function.ThrowingSupplier.get(ThrowingSupplier.java:58)
+	at org.springframework.util.function.ThrowingSupplier.get(ThrowingSupplier.java:46)
+	at org.springframework.boot.SpringApplication.withHook(SpringApplication.java:1454)
+	at org.springframework.boot.test.context.SpringBootContextLoader$ContextLoaderHook.run(SpringBootContextLoader.java:552)
+	at org.springframework.boot.test.context.SpringBootContextLoader.loadContext(SpringBootContextLoader.java:137)
+	at org.springframework.boot.test.context.SpringBootContextLoader.loadContext(SpringBootContextLoader.java:108)
+	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContextInternal(DefaultCacheAwareContextLoaderDelegate.java:225)
+	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContext(DefaultCacheAwareContextLoaderDelegate.java:152)
+	at org.springframework.test.context.support.DefaultTestContext.getApplicationContext(DefaultTestContext.java:130)
+	at org.springframework.test.context.web.ServletTestExecutionListener.setUpRequestContextIfNecessary(ServletTestExecutionListener.java:191)
+	at org.springframework.test.context.web.ServletTestExecutionListener.prepareTestInstance(ServletTestExecutionListener.java:130)
+	at org.springframework.test.context.TestContextManager.prepareTestInstance(TestContextManager.java:260)
+	at org.springframework.test.context.junit.jupiter.SpringExtension.postProcessTestInstance(SpringExtension.java:163)
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.lambda$invokeTestInstancePostProcessors$10(ClassBasedTestDescriptor.java:378)
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.executeAndMaskThrowable(ClassBasedTestDescriptor.java:383)
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.lambda$invokeTestInstancePostProcessors$11(ClassBasedTestDescriptor.java:378)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)
+	at java.base/java.util.stream.ReferencePipeline$2$1.accept(ReferencePipeline.java:179)
+	at java.base/java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1625)
+	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:509)
+	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:499)
+	at java.base/java.util.stream.StreamSpliterators$WrappingSpliterator.forEachRemaining(StreamSpliterators.java:310)
+	at java.base/java.util.stream.Streams$ConcatSpliterator.forEachRemaining(Streams.java:735)
+	at java.base/java.util.stream.Streams$ConcatSpliterator.forEachRemaining(Streams.java:734)
+	at java.base/java.util.stream.ReferencePipeline$Head.forEach(ReferencePipeline.java:762)
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.invokeTestInstancePostProcessors(ClassBasedTestDescriptor.java:377)
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.lambda$instantiateAndPostProcessTestInstance$6(ClassBasedTestDescriptor.java:290)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.instantiateAndPostProcessTestInstance(ClassBasedTestDescriptor.java:289)
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.lambda$testInstancesProvider$4(ClassBasedTestDescriptor.java:279)
+	at java.base/java.util.Optional.orElseGet(Optional.java:364)
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.lambda$testInstancesProvider$5(ClassBasedTestDescriptor.java:278)
+	at org.junit.jupiter.engine.execution.TestInstancesProvider.getTestInstances(TestInstancesProvider.java:31)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$prepare$0(TestMethodTestDescriptor.java:106)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.prepare(TestMethodTestDescriptor.java:105)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.prepare(TestMethodTestDescriptor.java:69)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$prepare$2(NodeTestTask.java:123)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.prepare(NodeTestTask.java:123)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:90)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:155)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:155)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.submit(SameThreadHierarchicalTestExecutorService.java:35)
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestExecutor.execute(HierarchicalTestExecutor.java:57)
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestEngine.execute(HierarchicalTestEngine.java:54)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:198)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:169)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:93)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.lambda$execute$0(EngineExecutionOrchestrator.java:58)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.withInterceptedStreams(EngineExecutionOrchestrator.java:141)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:57)
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:103)
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:85)
+	at org.junit.platform.launcher.core.DelegatingLauncher.execute(DelegatingLauncher.java:47)
+	at org.apache.maven.surefire.junitplatform.LazyLauncher.execute(LazyLauncher.java:56)
+	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.execute(JUnitPlatformProvider.java:184)
+	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.invokeAllTests(JUnitPlatformProvider.java:148)
+	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.invoke(JUnitPlatformProvider.java:122)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:385)
+	at org.apache.maven.surefire.booter.ForkedBooter.execute(ForkedBooter.java:162)
+	at org.apache.maven.surefire.booter.ForkedBooter.run(ForkedBooter.java:507)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495)
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'basketService' defined in file [/home/lantanium/Documents/G45-Project/target/classes/uz/pdp/service/BasketService.class]: Unsatisfied dependency expressed through constructor parameter 4: Error creating bean with name 'mouldingService' defined in file [/home/lantanium/Documents/G45-Project/target/classes/uz/pdp/service/MouldingService.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'mouldingRepository' defined in uz.pdp.repository.MouldingRepository defined in @EnableJpaRepositories declared on ProjectModul10Application: Not a managed type: class uz.pdp.entity.Moulding
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:798)
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:237)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1354)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1191)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:561)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:521)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:325)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:323)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1443)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1353)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:907)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:785)
+	... 97 common frames omitted
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'mouldingService' defined in file [/home/lantanium/Documents/G45-Project/target/classes/uz/pdp/service/MouldingService.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'mouldingRepository' defined in uz.pdp.repository.MouldingRepository defined in @EnableJpaRepositories declared on ProjectModul10Application: Not a managed type: class uz.pdp.entity.Moulding
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:798)
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:237)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1354)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1191)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:561)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:521)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:325)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:323)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1443)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1353)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:907)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:785)
+	... 111 common frames omitted
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'mouldingRepository' defined in uz.pdp.repository.MouldingRepository defined in @EnableJpaRepositories declared on ProjectModul10Application: Not a managed type: class uz.pdp.entity.Moulding
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1773)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:599)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:521)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:325)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:323)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1443)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1353)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:907)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:785)
+	... 125 common frames omitted
+Caused by: java.lang.IllegalArgumentException: Not a managed type: class uz.pdp.entity.Moulding
+	at org.hibernate.metamodel.model.domain.internal.JpaMetamodelImpl.managedType(JpaMetamodelImpl.java:193)
+	at org.hibernate.metamodel.model.domain.internal.MappingMetamodelImpl.managedType(MappingMetamodelImpl.java:468)
+	at org.hibernate.metamodel.model.domain.internal.MappingMetamodelImpl.managedType(MappingMetamodelImpl.java:98)
+	at org.springframework.data.jpa.repository.support.JpaMetamodelEntityInformation.<init>(JpaMetamodelEntityInformation.java:82)
+	at org.springframework.data.jpa.repository.support.JpaEntityInformationSupport.getEntityInformation(JpaEntityInformationSupport.java:69)
+	at org.springframework.data.jpa.repository.support.JpaRepositoryFactory.getEntityInformation(JpaRepositoryFactory.java:246)
+	at org.springframework.data.jpa.repository.support.JpaRepositoryFactory.getTargetRepository(JpaRepositoryFactory.java:211)
+	at org.springframework.data.jpa.repository.support.JpaRepositoryFactory.getTargetRepository(JpaRepositoryFactory.java:194)
+	at org.springframework.data.jpa.repository.support.JpaRepositoryFactory.getTargetRepository(JpaRepositoryFactory.java:1)
+	at org.springframework.data.repository.core.support.RepositoryFactorySupport.getRepository(RepositoryFactorySupport.java:317)
+	at org.springframework.data.repository.core.support.RepositoryFactoryBeanSupport.lambda$afterPropertiesSet$5(RepositoryFactoryBeanSupport.java:279)
+	at org.springframework.data.util.Lazy.getNullable(Lazy.java:135)
+	at org.springframework.data.util.Lazy.get(Lazy.java:113)
+	at org.springframework.data.repository.core.support.RepositoryFactoryBeanSupport.afterPropertiesSet(RepositoryFactoryBeanSupport.java:285)
+	at org.springframework.data.jpa.repository.support.JpaRepositoryFactoryBean.afterPropertiesSet(JpaRepositoryFactoryBean.java:132)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1820)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1769)
+	... 136 common frames omitted
+2025-01-30 14:38:21 [main] WARN  o.s.test.context.TestContextManager - Caught exception while allowing TestExecutionListener [org.springframework.test.context.web.ServletTestExecutionListener] to prepare test instance [uz.pdp.projectmodul10.ProjectModul10ApplicationTests@4f566f39]
+java.lang.IllegalStateException: Failed to load ApplicationContext for [WebMergedContextConfiguration@2ed913f9 testClass = uz.pdp.projectmodul10.ProjectModul10ApplicationTests, locations = [], classes = [uz.pdp.projectmodul10.ProjectModul10Application], contextInitializerClasses = [], activeProfiles = [], propertySourceDescriptors = [], propertySourceProperties = ["org.springframework.boot.test.context.SpringBootTestContextBootstrapper=true"], contextCustomizers = [org.springframework.boot.test.context.filter.ExcludeFilterContextCustomizer@2f4919b0, org.springframework.boot.test.graphql.tester.HttpGraphQlTesterContextCustomizer@4d7e7435, org.springframework.boot.test.json.DuplicateJsonObjectContextCustomizerFactory$DuplicateJsonObjectContextCustomizer@1f86099a, org.springframework.boot.test.mock.mockito.MockitoContextCustomizer@0, org.springframework.boot.test.web.client.TestRestTemplateContextCustomizer@aa21042, org.springframework.boot.test.web.reactive.server.WebTestClientContextCustomizer@601cbd8c, org.springframework.boot.test.autoconfigure.actuate.observability.ObservabilityContextCustomizerFactory$DisableObservabilityContextCustomizer@1f, org.springframework.boot.test.autoconfigure.properties.PropertyMappingContextCustomizer@0, org.springframework.boot.test.autoconfigure.web.servlet.WebDriverContextCustomizer@5a4c638d, org.springframework.boot.test.context.SpringBootTestAnnotation@d60daacf], resourceBasePath = "src/main/webapp", contextLoader = org.springframework.boot.test.context.SpringBootContextLoader, parent = null]
+	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContext(DefaultCacheAwareContextLoaderDelegate.java:180)
+	at org.springframework.test.context.support.DefaultTestContext.getApplicationContext(DefaultTestContext.java:130)
+	at org.springframework.test.context.web.ServletTestExecutionListener.setUpRequestContextIfNecessary(ServletTestExecutionListener.java:191)
+	at org.springframework.test.context.web.ServletTestExecutionListener.prepareTestInstance(ServletTestExecutionListener.java:130)
+	at org.springframework.test.context.TestContextManager.prepareTestInstance(TestContextManager.java:260)
+	at org.springframework.test.context.junit.jupiter.SpringExtension.postProcessTestInstance(SpringExtension.java:163)
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.lambda$invokeTestInstancePostProcessors$10(ClassBasedTestDescriptor.java:378)
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.executeAndMaskThrowable(ClassBasedTestDescriptor.java:383)
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.lambda$invokeTestInstancePostProcessors$11(ClassBasedTestDescriptor.java:378)
+	at java.base/java.util.stream.ReferencePipeline$3$1.accept(ReferencePipeline.java:197)
+	at java.base/java.util.stream.ReferencePipeline$2$1.accept(ReferencePipeline.java:179)
+	at java.base/java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1625)
+	at java.base/java.util.stream.AbstractPipeline.copyInto(AbstractPipeline.java:509)
+	at java.base/java.util.stream.AbstractPipeline.wrapAndCopyInto(AbstractPipeline.java:499)
+	at java.base/java.util.stream.StreamSpliterators$WrappingSpliterator.forEachRemaining(StreamSpliterators.java:310)
+	at java.base/java.util.stream.Streams$ConcatSpliterator.forEachRemaining(Streams.java:735)
+	at java.base/java.util.stream.Streams$ConcatSpliterator.forEachRemaining(Streams.java:734)
+	at java.base/java.util.stream.ReferencePipeline$Head.forEach(ReferencePipeline.java:762)
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.invokeTestInstancePostProcessors(ClassBasedTestDescriptor.java:377)
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.lambda$instantiateAndPostProcessTestInstance$6(ClassBasedTestDescriptor.java:290)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.instantiateAndPostProcessTestInstance(ClassBasedTestDescriptor.java:289)
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.lambda$testInstancesProvider$4(ClassBasedTestDescriptor.java:279)
+	at java.base/java.util.Optional.orElseGet(Optional.java:364)
+	at org.junit.jupiter.engine.descriptor.ClassBasedTestDescriptor.lambda$testInstancesProvider$5(ClassBasedTestDescriptor.java:278)
+	at org.junit.jupiter.engine.execution.TestInstancesProvider.getTestInstances(TestInstancesProvider.java:31)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.lambda$prepare$0(TestMethodTestDescriptor.java:106)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.prepare(TestMethodTestDescriptor.java:105)
+	at org.junit.jupiter.engine.descriptor.TestMethodTestDescriptor.prepare(TestMethodTestDescriptor.java:69)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$prepare$2(NodeTestTask.java:123)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.prepare(NodeTestTask.java:123)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:90)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:155)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1511)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.invokeAll(SameThreadHierarchicalTestExecutorService.java:41)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$6(NodeTestTask.java:155)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$8(NodeTestTask.java:141)
+	at org.junit.platform.engine.support.hierarchical.Node.around(Node.java:137)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.lambda$executeRecursively$9(NodeTestTask.java:139)
+	at org.junit.platform.engine.support.hierarchical.ThrowableCollector.execute(ThrowableCollector.java:73)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.executeRecursively(NodeTestTask.java:138)
+	at org.junit.platform.engine.support.hierarchical.NodeTestTask.execute(NodeTestTask.java:95)
+	at org.junit.platform.engine.support.hierarchical.SameThreadHierarchicalTestExecutorService.submit(SameThreadHierarchicalTestExecutorService.java:35)
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestExecutor.execute(HierarchicalTestExecutor.java:57)
+	at org.junit.platform.engine.support.hierarchical.HierarchicalTestEngine.execute(HierarchicalTestEngine.java:54)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:198)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:169)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:93)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.lambda$execute$0(EngineExecutionOrchestrator.java:58)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.withInterceptedStreams(EngineExecutionOrchestrator.java:141)
+	at org.junit.platform.launcher.core.EngineExecutionOrchestrator.execute(EngineExecutionOrchestrator.java:57)
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:103)
+	at org.junit.platform.launcher.core.DefaultLauncher.execute(DefaultLauncher.java:85)
+	at org.junit.platform.launcher.core.DelegatingLauncher.execute(DelegatingLauncher.java:47)
+	at org.apache.maven.surefire.junitplatform.LazyLauncher.execute(LazyLauncher.java:56)
+	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.execute(JUnitPlatformProvider.java:184)
+	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.invokeAllTests(JUnitPlatformProvider.java:148)
+	at org.apache.maven.surefire.junitplatform.JUnitPlatformProvider.invoke(JUnitPlatformProvider.java:122)
+	at org.apache.maven.surefire.booter.ForkedBooter.runSuitesInProcess(ForkedBooter.java:385)
+	at org.apache.maven.surefire.booter.ForkedBooter.execute(ForkedBooter.java:162)
+	at org.apache.maven.surefire.booter.ForkedBooter.run(ForkedBooter.java:507)
+	at org.apache.maven.surefire.booter.ForkedBooter.main(ForkedBooter.java:495)
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'accessoryController' defined in file [/home/lantanium/Documents/G45-Project/target/classes/uz/pdp/controller/AccessoryController.class]: Unsatisfied dependency expressed through constructor parameter 3: Error creating bean with name 'basketService' defined in file [/home/lantanium/Documents/G45-Project/target/classes/uz/pdp/service/BasketService.class]: Unsatisfied dependency expressed through constructor parameter 4: Error creating bean with name 'mouldingService' defined in file [/home/lantanium/Documents/G45-Project/target/classes/uz/pdp/service/MouldingService.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'mouldingRepository' defined in uz.pdp.repository.MouldingRepository defined in @EnableJpaRepositories declared on ProjectModul10Application: Not a managed type: class uz.pdp.entity.Moulding
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:798)
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:237)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1354)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1191)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:561)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:521)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:325)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:323)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:975)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:959)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:624)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:754)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:456)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:334)
+	at org.springframework.boot.test.context.SpringBootContextLoader.lambda$loadContext$3(SpringBootContextLoader.java:137)
+	at org.springframework.util.function.ThrowingSupplier.get(ThrowingSupplier.java:58)
+	at org.springframework.util.function.ThrowingSupplier.get(ThrowingSupplier.java:46)
+	at org.springframework.boot.SpringApplication.withHook(SpringApplication.java:1454)
+	at org.springframework.boot.test.context.SpringBootContextLoader$ContextLoaderHook.run(SpringBootContextLoader.java:552)
+	at org.springframework.boot.test.context.SpringBootContextLoader.loadContext(SpringBootContextLoader.java:137)
+	at org.springframework.boot.test.context.SpringBootContextLoader.loadContext(SpringBootContextLoader.java:108)
+	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContextInternal(DefaultCacheAwareContextLoaderDelegate.java:225)
+	at org.springframework.test.context.cache.DefaultCacheAwareContextLoaderDelegate.loadContext(DefaultCacheAwareContextLoaderDelegate.java:152)
+	... 73 common frames omitted
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'basketService' defined in file [/home/lantanium/Documents/G45-Project/target/classes/uz/pdp/service/BasketService.class]: Unsatisfied dependency expressed through constructor parameter 4: Error creating bean with name 'mouldingService' defined in file [/home/lantanium/Documents/G45-Project/target/classes/uz/pdp/service/MouldingService.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'mouldingRepository' defined in uz.pdp.repository.MouldingRepository defined in @EnableJpaRepositories declared on ProjectModul10Application: Not a managed type: class uz.pdp.entity.Moulding
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:798)
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:237)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1354)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1191)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:561)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:521)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:325)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:323)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1443)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1353)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:907)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:785)
+	... 97 common frames omitted
+Caused by: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'mouldingService' defined in file [/home/lantanium/Documents/G45-Project/target/classes/uz/pdp/service/MouldingService.class]: Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'mouldingRepository' defined in uz.pdp.repository.MouldingRepository defined in @EnableJpaRepositories declared on ProjectModul10Application: Not a managed type: class uz.pdp.entity.Moulding
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:798)
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:237)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1354)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1191)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:561)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:521)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:325)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:323)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1443)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1353)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:907)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:785)
+	... 111 common frames omitted
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'mouldingRepository' defined in uz.pdp.repository.MouldingRepository defined in @EnableJpaRepositories declared on ProjectModul10Application: Not a managed type: class uz.pdp.entity.Moulding
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1773)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:599)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:521)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:325)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:323)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:199)
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1443)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1353)
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:907)
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:785)
+	... 125 common frames omitted
+Caused by: java.lang.IllegalArgumentException: Not a managed type: class uz.pdp.entity.Moulding
+	at org.hibernate.metamodel.model.domain.internal.JpaMetamodelImpl.managedType(JpaMetamodelImpl.java:193)
+	at org.hibernate.metamodel.model.domain.internal.MappingMetamodelImpl.managedType(MappingMetamodelImpl.java:468)
+	at org.hibernate.metamodel.model.domain.internal.MappingMetamodelImpl.managedType(MappingMetamodelImpl.java:98)
+	at org.springframework.data.jpa.repository.support.JpaMetamodelEntityInformation.<init>(JpaMetamodelEntityInformation.java:82)
+	at org.springframework.data.jpa.repository.support.JpaEntityInformationSupport.getEntityInformation(JpaEntityInformationSupport.java:69)
+	at org.springframework.data.jpa.repository.support.JpaRepositoryFactory.getEntityInformation(JpaRepositoryFactory.java:246)
+	at org.springframework.data.jpa.repository.support.JpaRepositoryFactory.getTargetRepository(JpaRepositoryFactory.java:211)
+	at org.springframework.data.jpa.repository.support.JpaRepositoryFactory.getTargetRepository(JpaRepositoryFactory.java:194)
+	at org.springframework.data.jpa.repository.support.JpaRepositoryFactory.getTargetRepository(JpaRepositoryFactory.java:1)
+	at org.springframework.data.repository.core.support.RepositoryFactorySupport.getRepository(RepositoryFactorySupport.java:317)
+	at org.springframework.data.repository.core.support.RepositoryFactoryBeanSupport.lambda$afterPropertiesSet$5(RepositoryFactoryBeanSupport.java:279)
+	at org.springframework.data.util.Lazy.getNullable(Lazy.java:135)
+	at org.springframework.data.util.Lazy.get(Lazy.java:113)
+	at org.springframework.data.repository.core.support.RepositoryFactoryBeanSupport.afterPropertiesSet(RepositoryFactoryBeanSupport.java:285)
+	at org.springframework.data.jpa.repository.support.JpaRepositoryFactoryBean.afterPropertiesSet(JpaRepositoryFactoryBean.java:132)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.invokeInitMethods(AbstractAutowireCapableBeanFactory.java:1820)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1769)
+	... 136 common frames omitted
+]]></system-out>
+    <system-err><![CDATA[
+
+
+============================
+CONDITIONS EVALUATION REPORT
+============================
+
+
+Positive matches:
+-----------------
+
+    None
+
+
+Negative matches:
+-----------------
+
+    None
+
+
+Exclusions:
+-----------
+
+    None
+
+
+Unconditional classes:
+----------------------
+
+    None
+
+
+
+]]></system-err>
+  </testcase>
+</testsuite>

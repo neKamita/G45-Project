@@ -18,6 +18,9 @@ import java.util.List;
  * This is just a virtual shopping cart 🚪💻
  */
 @Entity
+@Table(name = "baskets", indexes = {
+    @Index(name = "idx_basket_user", columnList = "user_id", unique = true)
+})
 @Getter
 @Setter
 @NoArgsConstructor

@@ -14,7 +14,12 @@ import java.util.HashMap;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "addresses")
+@Table(name = "addresses", indexes = {
+    @Index(name = "idx_address_user", columnList = "user_id"),
+    @Index(name = "idx_address_city", columnList = "city"),
+    @Index(name = "idx_address_default", columnList = "is_default"),
+    @Index(name = "idx_address_phone", columnList = "phoneNumber")
+})
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Address {
     @Id

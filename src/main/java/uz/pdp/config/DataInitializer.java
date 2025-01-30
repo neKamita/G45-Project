@@ -90,22 +90,67 @@ public class DataInitializer implements CommandLineRunner {
         FurnitureType.NO_FURNITURE, new String[]{"Basic"}
     );
 
-    // Real Unsplash photo IDs for doors
-    private static final String[] DOOR_IMAGE_IDS = {
-        "1417325384643-aac51acc9e5d",  // Elegant wooden door
-        "1519167367953-5875af0f6d7b",  // Modern glass door
-        "1530268729831-4b0b9e170218",  // Classic white door
-        "1534609146522-2b8a3cb8e8f3",  // Rustic door
-        "1541450805268-4822a3a774ca"   // Industrial metal door
+    // Real Unsplash photo URLs for doors - now with more variety! 🚪✨
+    private static final String[] DOOR_IMAGE_URLS = {
+        // Classic Wooden Doors
+        "https://images.unsplash.com/photo-1449158743715-0a90ebb6d2d8",  // Elegant wooden entrance
+        "https://images.unsplash.com/photo-1517142089942-ba376ce32a2e",  // Classic brown door
+        "https://images.unsplash.com/photo-1506377295352-e3154d43ea9e",  // Modern wooden door
+        
+        // Modern & Contemporary
+        "https://images.unsplash.com/photo-1600566752355-35792bedcfea",  // Sleek black door
+        "https://images.unsplash.com/photo-1622372738946-62e02505feb3",  // Modern white door
+        "https://images.unsplash.com/photo-1600585152220-90363fe7e115",  // Contemporary design
+        
+        // Rustic & Traditional
+        "https://images.unsplash.com/photo-1509644851169-2acc08aa25b5",  // Rustic wooden door
+        "https://images.unsplash.com/photo-1580164631075-b3f1304f4051",  // Vintage style
+        "https://images.unsplash.com/photo-1572883454114-1cf0031ede2a",  // Traditional design
+        
+        // Security & Metal Doors
+        "https://images.unsplash.com/photo-1581622558663-b2e33377dfb2",  // Security door
+        "https://images.unsplash.com/photo-1553627220-92f0446b6a5f",  // Metal entrance
+        "https://images.unsplash.com/photo-1518792528501-352f829886dc",  // Industrial style
+        
+        // Glass & Modern
+        "https://images.unsplash.com/photo-1600585154526-990dced4db0d",  // Glass panel door
+        "https://images.unsplash.com/photo-1461695008884-244cb4543d74",  // Modern glass
+        "https://images.unsplash.com/photo-1600585154340-be6161a56a0c"   // Contemporary glass
     };
 
-    // Real Unsplash photo IDs for door hardware
-    private static final String[] HARDWARE_IMAGE_IDS = {
-        "1503787091259-324336010fc4",  // Bronze handle
-        "1516455590571-18256e5bb9ff",  // Modern knob
-        "1526887520775-4b14b8aed897",  // Vintage lock
-        "1533740566848-5f7fe9c21dd4",  // Steel hinges
-        "1541450805268-4822a3a774ca"   // Door accessories
+    // Hardware images - expanded collection! 🔧
+    private static final String[] HARDWARE_IMAGE_URLS = {
+        // Door Handles
+        "https://images.unsplash.com/photo-1516455590571-18256e5bb9ff",  // Modern handle
+        "https://images.unsplash.com/photo-1526887520775-4b14b8aed897",  // Vintage handle
+        
+        // Locks & Security
+        "https://images.unsplash.com/photo-1558002038-1055907df827",  // Modern lock
+        "https://images.unsplash.com/photo-1541450805268-4822a3a774ca",  // Security lock
+        "https://images.unsplash.com/photo-1507721999472-8ed4421c4af2",  // Smart lock
+        
+        // Hinges & Hardware
+        "https://images.unsplash.com/photo-1582131503261-fca1d1c0589f",  // Classic hinge
+        "https://images.unsplash.com/photo-1581622558663-b2e33377dfb2",  // Modern hardware
+        "https://images.unsplash.com/photo-1516455590571-18256e5bb9ff"    // Decorative hardware
+    };
+
+    // Moulding images - fresh collection! 🎨
+    private static final String[] MOULDING_IMAGE_URLS = {
+        // Crown Moulding
+        "https://images.unsplash.com/photo-1600585152220-90363fe7e115",  // Classic crown
+        "https://images.unsplash.com/photo-1513694203232-719a280e022f",  // Modern crown
+        "https://images.unsplash.com/photo-1484154218962-a197022b5858",  // Decorative crown
+        
+        // Baseboards & Trim
+        "https://images.unsplash.com/photo-1513694203232-719a280e022f",  // Classic baseboard    
+        "https://images.unsplash.com/photo-1600585153490-76fb20a32601",  // Modern trim 
+        "https://images.unsplash.com/photo-1600585154526-990dced4db0d",  // Contemporary trim 
+        
+        // Decorative Elements
+        "https://images.unsplash.com/photo-1484154218962-a197022b5858",  // Ornate detail
+        "https://images.unsplash.com/photo-1600585154340-be6161a56a0c",  // Modern detail
+        "https://images.unsplash.com/photo-1600585154526-990dced4db0d"   // Minimalist detail
     };
 
     // Moulding-specific constants
@@ -125,15 +170,6 @@ public class DataInitializer implements CommandLineRunner {
         "75x38", "100x25", "150x18",
         "120x40", "90x30", "60x20",
         "80x35", "110x45"
-    };
-
-    // Moulding image IDs from Unsplash
-    private static final String[] MOULDING_IMAGE_IDS = {
-        "1600585152220-90363fe7e115",  // Classic crown moulding
-        "1600573472550-8d929c783b6d",  // Modern baseboard
-        "1600571124505-01193eeb16cd",  // Decorative panel moulding
-        "1600585152915-d9d4b702c6bd",  // Elegant chair rail
-        "1600585153490-76fb20a32601"   // Contemporary casing
     };
 
     // Store locations with a door theme!
@@ -440,8 +476,8 @@ public class DataInitializer implements CommandLineRunner {
     private void generateDoorImages(Door door) {
         List<String> images = new ArrayList<>();
         // Main large image - always a door image
-        String mainImageId = DOOR_IMAGE_IDS[faker.number().numberBetween(0, DOOR_IMAGE_IDS.length)];
-        images.add(String.format("https://images.unsplash.com/photo-%s?q=80&fm=jpg&w=800&h=1200&fit=crop", mainImageId));
+        String mainImageId = DOOR_IMAGE_URLS[faker.number().numberBetween(0, DOOR_IMAGE_URLS.length)];
+        images.add(mainImageId);
         
         // Add 2-3 additional images
         int additionalImages = faker.number().numberBetween(2, 4);
@@ -449,11 +485,11 @@ public class DataInitializer implements CommandLineRunner {
             String imageId;
             // Mix of door and hardware images for additional shots
             if (faker.number().numberBetween(0, 2) == 0) {
-                imageId = DOOR_IMAGE_IDS[faker.number().numberBetween(0, DOOR_IMAGE_IDS.length)];
+                imageId = DOOR_IMAGE_URLS[faker.number().numberBetween(0, DOOR_IMAGE_URLS.length)];
             } else {
-                imageId = HARDWARE_IMAGE_IDS[faker.number().numberBetween(0, HARDWARE_IMAGE_IDS.length)];
+                imageId = HARDWARE_IMAGE_URLS[faker.number().numberBetween(0, HARDWARE_IMAGE_URLS.length)];
             }
-            images.add(String.format("https://images.unsplash.com/photo-%s?q=80&fm=jpg&w=400&h=600&fit=crop", imageId));
+            images.add(imageId);
         }
         door.setImages(images);
     }
@@ -627,14 +663,14 @@ public class DataInitializer implements CommandLineRunner {
     private void generateHardwareImages(FurnitureDoor door) {
         List<String> images = new ArrayList<>();
         // Main product image - use hardware specific images
-        String mainImageId = HARDWARE_IMAGE_IDS[faker.number().numberBetween(0, HARDWARE_IMAGE_IDS.length)];
-        images.add(String.format("https://images.unsplash.com/photo-%s?q=80&fm=jpg&w=800&h=600&fit=crop", mainImageId));
+        String mainImageId = HARDWARE_IMAGE_URLS[faker.number().numberBetween(0, HARDWARE_IMAGE_URLS.length)];
+        images.add(mainImageId);
         
         // Add 1-2 additional detail images
         int additionalImages = faker.number().numberBetween(1, 3);
         for (int i = 0; i < additionalImages; i++) {
-            String imageId = HARDWARE_IMAGE_IDS[faker.number().numberBetween(0, HARDWARE_IMAGE_IDS.length)];
-            images.add(String.format("https://images.unsplash.com/photo-%s?q=80&fm=jpg&w=400&h=300&fit=crop", imageId));
+            String imageId = HARDWARE_IMAGE_URLS[faker.number().numberBetween(0, HARDWARE_IMAGE_URLS.length)];
+            images.add(imageId);
         }
         door.setImages(images);
     }
@@ -756,8 +792,8 @@ public class DataInitializer implements CommandLineRunner {
         int imageCount = faker.number().numberBetween(1, 4);
         
         for (int i = 0; i < imageCount; i++) {
-            String imageId = MOULDING_IMAGE_IDS[faker.number().numberBetween(0, MOULDING_IMAGE_IDS.length)];
-            imageUrls.add("https://images.unsplash.com/photo-" + imageId);
+            String imageId = MOULDING_IMAGE_URLS[faker.number().numberBetween(0, MOULDING_IMAGE_URLS.length)];
+            imageUrls.add(imageId);
         }
         
         return imageUrls;
@@ -860,7 +896,7 @@ public class DataInitializer implements CommandLineRunner {
                 door.setPrice(299.99);
                 door.setFinalPrice(299.99);
                 door.setCategory(interior);
-                door.setImages(Arrays.asList(DOOR_IMAGE_IDS[0]));
+                door.setImages(Arrays.asList(DOOR_IMAGE_URLS[0]));
                 door.setSize(Size.SIZE_800x2000);  // Standard interior door size
                 door.setColor(Color.GOLDEN_OAK);  // Warm golden oak color for classic doors
                 door.setMaterial("Solid Oak");
@@ -883,7 +919,7 @@ public class DataInitializer implements CommandLineRunner {
                 door.setPrice(899.99);
                 door.setFinalPrice(899.99);
                 door.setCategory(security);
-                door.setImages(List.of(DOOR_IMAGE_IDS[1]));
+                door.setImages(List.of(DOOR_IMAGE_URLS[1]));
                 door.setSize(Size.SIZE_900x2000);  // Larger security door size
                 door.setColor(color);  // Using the color parameter (BLACK, CHARCOAL, GRAY)
                 door.setMaterial("Reinforced Steel");
@@ -906,7 +942,7 @@ public class DataInitializer implements CommandLineRunner {
                 door.setPrice(1299.99);
                 door.setFinalPrice(1299.99);
                 door.setCategory(french);
-                door.setImages(Arrays.asList(DOOR_IMAGE_IDS[2]));
+                door.setImages(Arrays.asList(DOOR_IMAGE_URLS[2]));
                 door.setSize(Size.SIZE_1200x2000);  // Double door size for French doors
                 door.setColor(Color.MAHOGANY);  // Rich mahogany color for elegant doors
                 door.setMaterial(material);
@@ -929,7 +965,7 @@ public class DataInitializer implements CommandLineRunner {
                 door.setPrice(799.99);
                 door.setFinalPrice(799.99);
                 door.setCategory(sliding);
-                door.setImages(Arrays.asList(DOOR_IMAGE_IDS[3]));
+                door.setImages(Arrays.asList(DOOR_IMAGE_URLS[3]));
                 door.setSize(Size.CUSTOM);  // Custom size for sliding doors
                 // Set custom dimensions for sliding doors
                 door.setCustomWidth(1200.0);  // 1200mm width for sliding doors
@@ -955,7 +991,7 @@ public class DataInitializer implements CommandLineRunner {
                 door.setPrice(1499.99);
                 door.setFinalPrice(1499.99);
                 door.setCategory(exterior);
-                door.setImages(Arrays.asList(DOOR_IMAGE_IDS[4]));
+                door.setImages(Arrays.asList(DOOR_IMAGE_URLS[4]));
                 door.setSize(Size.SIZE_1000x2000);  // Large exterior door size
                 door.setColor(Color.WHITE);  // Classic white for exterior doors
                 door.setMaterial("Fiberglass");
