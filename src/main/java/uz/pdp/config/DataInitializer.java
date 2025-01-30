@@ -507,68 +507,40 @@ public class DataInitializer implements CommandLineRunner {
         StringBuilder description = new StringBuilder();
         
         // Base description with material and style
-        description.append(String.format("Exquisite %s door crafted in the %s style. ", material, style));
+        description.append(String.format("%s door in %s style. ", material, style));
         
-        // Material-specific features
+        // Material-specific features (brief)
         if (material.contains("Steel") || material.equals("Metal-Wood Hybrid")) {
-            description.append("Built like a tank, but looks like a masterpiece! 💪 ");
+            description.append("Durable yet elegant. ");
         } else if (Arrays.asList("Mahogany", "Teak", "Oak", "Walnut").contains(material)) {
-            description.append("Mother Nature's finest, hand-picked for your home! 🌳 ");
+            description.append("Premium wood finish. ");
         } else if (material.equals("Tempered Glass")) {
-            description.append("See-through strength that's anything but fragile! ✨ ");
+            description.append("Modern glass design. ");
         }
         
-        // Style-specific charm
+        // Style-specific charm (brief)
         switch (style) {
             case "Modern":
-                description.append("Clean lines and contemporary charm that'll make minimalists weak in the knees!");
+                description.append("Contemporary minimalist appeal.");
                 break;
             case "Classic":
-                description.append("Timeless elegance that never goes out of style - like a little black dress, but for your home!");
+                description.append("Timeless elegance.");
                 break;
             case "Rustic":
-                description.append("Bringing that cozy cabin feel, minus the bears! 🌲");
+                description.append("Cozy farmhouse charm.");
                 break;
             case "Art Deco":
-                description.append("Gatsby would be jealous of this beauty! ✨");
+                description.append("Vintage luxury design.");
                 break;
             case "Gothic":
-                description.append("Perfect for dramatic entrances - cape not included! 🦇");
+                description.append("Bold dramatic style.");
                 break;
             default:
-                description.append("A perfect blend of form and function!");
+                description.append("Perfect blend of style and function.");
         }
         
-        // Category-specific features (if category is set)
-        if (door.getCategory() != null) {
-            description.append("\n\n");
-            switch (door.getCategory().getName()) {
-                case "Interior Doors":
-                    description.append("🏠 Perfect for creating cozy spaces inside your home! Comes with our patented Whisper-Close™ technology - because nobody likes a door that talks back!");
-                    break;
-                case "Exterior Doors":
-                    description.append("🏰 Your home's first line of defense against the elements (and those pesky door-to-door salespeople)! Weather-resistant and neighbor-impressing.");
-                    break;
-                case "Security Doors":
-                    description.append("🔒 Fort Knox called - they want their door back! Features state-of-the-art security that would make a superhero proud.");
-                    break;
-                case "Sliding Doors":
-                    description.append("🌊 Smooth like butter, quiet like a ninja! Perfect for those who want to make an entrance without actually opening a door.");
-                    break;
-                case "French Doors":
-                    description.append("🥖 Ooh la la! Bring a touch of Parisian elegance to your home. Warning: May cause sudden urges to eat croissants.");
-                    break;
-                case "Barn Doors":
-                    description.append("🚜 All the charm of country living, none of the hay! Perfect for adding rustic character without the actual barn.");
-                    break;
-                case "Smart Doors":
-                    description.append("🤖 So smart it might finish your sentences! Packed with tech that makes sci-fi movies look outdated.");
-                    break;
-            }
-        }
-        
-        // Add warranty info with a touch of humor
-        description.append(String.format("\n\nComes with a %d-year warranty - because we stand behind our doors, literally! 🛡️", door.getWarrantyYears()));
+        // Add warranty
+        description.append(String.format(" %dyr warranty.", door.getWarrantyYears()));
         
         return description.toString();
     }
