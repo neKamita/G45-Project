@@ -28,9 +28,10 @@ spring:
 
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: ${DATABASE_URL:jdbc:postgresql://dpg-ctrrlibqf0us73djv36g-a.oregon-postgres.render.com:5432/g45_project}
-    username: ${DATABASE_USERNAME:g45_project_user}
-    password: ${DATABASE_PASSWORD:XkeRzoJ9JDKblFXb2tV8vFZG4WYyoLUV}
+    # 🚂 All aboard the Railway Express! Next stop: Database Station! 🛤️
+    url: ${DATABASE_URL:jdbc:postgresql://junction.proxy.rlwy.net:48700/railway}
+    username: ${POSTGRES_USER:postgres}
+    password: ${POSTGRES_PASSWORD:hGevfNzGMrEOCjYMbmRMhljNpbhmgVzg}
     hikari:
       maximum-pool-size: 10
       minimum-idle: 5
