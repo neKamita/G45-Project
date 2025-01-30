@@ -23011,3 +23011,6 @@ Caused by: org.postgresql.util.PSQLException: ERROR: value too long for type cha
 2025-01-30 15:00:00 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - select count(d1_0.id) from doors d1_0
 2025-01-30 15:00:00 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - select i1_0.door_id,i1_0.images from door_images i1_0 where i1_0.door_id = any (?)
 2025-01-30 15:00:01 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - select ac1_0.door_id,ac1_0.available_colors from door_available_colors ac1_0 where ac1_0.door_id = any (?)
+2025-01-30 15:00:28 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-01-30 15:00:28 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-01-30 15:00:29 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
