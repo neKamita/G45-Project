@@ -44,18 +44,18 @@ import java.util.stream.Collectors;
  * REST Controller for managing door accessories.
  * 
  * Fun fact: These accessories make your doors feel special! 
- * Like jewelry, but for doors! 💎🚪
+ * Like jewelry, but for doors! 
  * 
  * Warning: May cause your doors to become fashion-conscious.
  * Side effects include: increased door confidence and neighbor envy.
  */
 @RestController
-@RequestMapping("/api/accessories")
+@RequestMapping("/api/door-accessories")
 @RequiredArgsConstructor
-@Tag(name = "Accessory Controller", description = "API endpoints for managing door accessories")
+@Tag(name = "Door Accessory Controller", description = "API endpoints for managing door accessories (handles, hinges, locks, etc.)")
 @Validated
 @Slf4j
-public class AccessoryController {
+public class DoorAccessoryController {
 
     private final FurnitureDoorService furnitureDoorService;
     private final FurnitureDoorMapper furnitureDoorMapper;
@@ -63,7 +63,7 @@ public class AccessoryController {
     private final BasketService basketService;
 
 
-    Logger logger = LoggerFactory.getLogger(AccessoryController.class);
+    Logger logger = LoggerFactory.getLogger(DoorAccessoryController.class);
 
     /**
      * Creates a new furniture door entry.
@@ -147,13 +147,13 @@ public class AccessoryController {
 
         FurnitureDoor updated = furnitureDoorService.update(id, updatedDoor);
         return ResponseEntity.ok(EntityResponse.success(
-                "Image added successfully! Your door's photo album is growing! 🚪📸✨",
+                "Image added successfully! Your door's photo album is growing! ",
                 furnitureDoorMapper.toDto(updated)));
     }
 
     /**
      * Validates and determines the content type of an uploaded image.
-     * Because every image deserves a proper ID check! 🎫
+     * Because every image deserves a proper ID check! 
      *
      * @param image The image file to validate
      * @return The determined content type
@@ -179,7 +179,7 @@ public class AccessoryController {
                     default:
                         logger.error("Invalid file extension: {}", extension);
                         throw new IllegalArgumentException(
-                                "Sorry, this file type isn't invited to the door party! Only JPG, PNG, and GIF get VIP access! 🎭");
+                                "Sorry, this file type isn't invited to the door party! Only JPG, PNG, and GIF get VIP access! ");
                 }
             }
         }
@@ -187,7 +187,7 @@ public class AccessoryController {
         if (!contentType.startsWith("image/")) {
             logger.error("Invalid content type: {}", contentType);
             throw new IllegalArgumentException(
-                    "Hey, that's not an image! Our doors only wear proper image accessories! 🖼️");
+                    "Hey, that's not an image! Our doors only wear proper image accessories! ");
         }
 
         return contentType;
@@ -320,7 +320,7 @@ public class AccessoryController {
             @Parameter(description = "ID of the accessory to add to basket") @PathVariable Long id,
             @Parameter(description = "Quantity to add") @RequestParam(defaultValue = "1") int quantity) {
         
-        BasketItemDTO itemDTO = new BasketItemDTO(id, ItemType.ACCESSORY, quantity);
+        BasketItemDTO itemDTO = new BasketItemDTO(id, ItemType.DOOR_ACCESSORY, quantity);
         return ResponseEntity.ok(BasketResponseDTO.fromBasket(basketService.addItem(itemDTO)));
     }
 }

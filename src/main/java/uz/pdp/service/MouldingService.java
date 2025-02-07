@@ -1,5 +1,11 @@
 package uz.pdp.service;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
@@ -7,25 +13,18 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-
 import uz.pdp.dto.MouldingCreateDTO;
 import uz.pdp.dto.MouldingDTO;
 import uz.pdp.entity.Moulding;
 import uz.pdp.entity.User;
+import uz.pdp.enums.Role;
 import uz.pdp.repository.MouldingRepository;
 import uz.pdp.repository.UserRepository;
-
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import uz.pdp.payload.*;
 
 /**
  * Service for managing moulding operations.
@@ -70,6 +69,26 @@ public class MouldingService {
     }
 
     /**
+     * Finds all mouldings by a specific user.
+     * Let's see what masterpieces this craftsperson has created! 
+     * 
+     * @param user The user to find mouldings for
+     * @return A list of mouldings for the user in a custom EntityResponse payload
+     * @throws IllegalArgumentException if the user is null or does not exist. Doors need a home! 
+     */
+    public EntityResponse<List<Moulding>> findByUser(User user) {
+        if (user == null) {
+            throw new IllegalArgumentException("User cannot be null. Your basket is as empty as a doorway without a door!");
+        }
+        List<Moulding> mouldings = mouldingRepository.findAllByUser(user);
+
+        if (mouldings.isEmpty()) {
+            return new EntityResponse<>("No mouldings found for user", true, mouldings);
+        }
+        return new EntityResponse<>("Mouldings found for user", true, mouldings);
+    }
+
+    /**
      * Creates a new moulding from CreateDTO.
      * Time to bring a new moulding into the world! 
      */
@@ -89,8 +108,8 @@ public class MouldingService {
         }
 
         Moulding moulding = new Moulding();
-        updateMouldingFromCreateDTO(moulding, dto);
         moulding.setUser(seller);
+        updateMouldingFromCreateDTO(moulding, dto);
         return mouldingRepository.save(moulding);
     }
 
@@ -103,13 +122,22 @@ public class MouldingService {
         Moulding moulding = mouldingRepository.findById(id)
             .orElseThrow(() -> new IllegalArgumentException("Moulding not found"));
 
-        // Check if user is authorized to update
-        if (!isSeller(moulding, currentUser)) {
-            throw new IllegalStateException("Not authorized to update this moulding");
+        // Verify ownership
+        if (!currentUser.getRole().equals(Role.ADMIN) &&
+            !currentUser.getId().equals(moulding.getUser().getId())) {
+            throw new AccessDeniedException("You don't have permission to update this moulding");
         }
 
-        updateMouldingFromDTO(moulding, dto);
-        return mouldingRepository.save(moulding);
+        // Update moulding details
+        moulding.setTitle(dto.getTitle());
+        moulding.setDescription(dto.getDescription());
+        moulding.setPrice(dto.getPrice());
+        moulding.setQuantity(dto.getQuantity());
+        moulding.setSize(dto.getSize());
+
+        // Save and return updated moulding
+        moulding = mouldingRepository.save(moulding);
+        return moulding;
     }
 
     /**
@@ -146,28 +174,23 @@ public class MouldingService {
     public MouldingDTO updateMouldingImages(Long id, List<String> deleteUrls, 
             MultipartFile[] newImages, User currentUser) {
         log.info("Starting image update for moulding id={}", id);
-        
+                
         // Get current moulding
         Moulding moulding = getMouldingById(id)
             .orElseThrow(() -> new IllegalArgumentException("Moulding not found"));
 
         log.info("Found moulding with current images: {}", moulding.getImagesUrl());
 
-        // Check authorization
-        if (!isSeller(moulding, currentUser)) {
-            throw new IllegalStateException("Not authorized to update this moulding's images");
+        // Verify ownership
+        if (!currentUser.getRole().equals(Role.ADMIN) && 
+            !currentUser.getId().equals(moulding.getUser().getId())) {
+            throw new AccessDeniedException("You don't have permission to update this moulding's images");
         }
 
         // Initialize current images list safely with validation
-        List<String> currentImages = new ArrayList<>();
-        if (moulding.getImagesUrl() != null) {
-            for (String url : moulding.getImagesUrl()) {
-                if (isValidS3Url(url)) {
-                    currentImages.add(url);
-                } else {
-                    log.warn("Skipping invalid image URL in current list: {}", url);
-                }
-            }
+        List<String> currentImages = moulding.getImagesUrl();
+        if (currentImages == null) {
+            currentImages = new ArrayList<>();
         }
         log.info("Validated current images list: {}", currentImages);
 
@@ -276,11 +299,19 @@ public class MouldingService {
     }
 
     /**
-     * Delete a moulding by ID.
+     * Deletes a moulding by ID.
      * Goodbye, old friend! 
      */
-    public void deleteMoulding(Long id) {
-        mouldingRepository.deleteById(id);
+    public void deleteMoulding(Long id, User currentUser) {
+        Moulding moulding = mouldingRepository.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("Moulding not found"));
+
+        if (!currentUser.getRole().equals(Role.ADMIN) && 
+            !currentUser.getId().equals(moulding.getUser().getId())) {
+            throw new AccessDeniedException("You don't have permission to delete this moulding");
+        }
+
+        mouldingRepository.delete(moulding);
     }
 
     /**
@@ -399,10 +430,17 @@ public class MouldingService {
         moulding.setPriceOverall(dto.getPrice() * dto.getQuantity());
     }
 
+    /**
+     * Validates if a user has permission to modify a moulding.
+     * Because even doors need their bouncers! 
+     *
+     * @param moulding The moulding to check
+     * @param user The user to validate
+     * @return true if user is authorized
+     */
     private boolean isSeller(Moulding moulding, User user) {
-        return user != null && moulding.getUser() != null && 
-               (user.getId().equals(moulding.getUser().getId()) || 
-                user.getRole().name().equals("ADMIN"));
+        return user.getRole().equals(Role.ADMIN) || 
+               user.getId().equals(moulding.getUser().getId());
     }
 
     /**

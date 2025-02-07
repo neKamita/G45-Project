@@ -53,6 +53,9 @@ public class FurnitureDoor {
     @Column(nullable = false)
     private FurnitureType furnitureType;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
     /**
      * List of image URLs for the door accessory.
      * Because even doorknobs deserve a good photo shoot! 

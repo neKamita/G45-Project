@@ -1,6 +1,7 @@
 package uz.pdp.mapper;
 
 import org.mapstruct.*;
+import org.springframework.stereotype.Component;
 import uz.pdp.dto.FurnitureDoorCreateDTO;
 import uz.pdp.dto.FurnitureDoorResponseDTO;
 import uz.pdp.entity.FurnitureDoor;
@@ -13,6 +14,7 @@ import uz.pdp.entity.FurnitureDoor;
  * Warning: May cause occasional door-to-DTO transformation dizziness! 🌀
  */
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
+@Component
 public interface FurnitureDoorMapper {
 
     /**

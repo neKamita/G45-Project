@@ -18,6 +18,7 @@
 /home/lantanium/Documents/G45-Project/src/main/java/uz/pdp/repository/UserRepository.java
 /home/lantanium/Documents/G45-Project/src/main/java/uz/pdp/dto/DoorFilterDto.java
 /home/lantanium/Documents/G45-Project/src/main/java/uz/pdp/controller/AdminController.java
+/home/lantanium/Documents/G45-Project/src/main/java/uz/pdp/payload/AddressDTO.java
 /home/lantanium/Documents/G45-Project/src/main/java/uz/pdp/enums/Color.java
 /home/lantanium/Documents/G45-Project/src/main/java/uz/pdp/entity/Door.java
 /home/lantanium/Documents/G45-Project/src/main/java/uz/pdp/entity/FurnitureDoor.java

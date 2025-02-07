@@ -11,7 +11,7 @@ import uz.pdp.entity.Door;
 import uz.pdp.entity.FurnitureDoor;
 import uz.pdp.entity.Location;
 import uz.pdp.entity.Moulding;
-import uz.pdp.entity.User;
+import uz.pdp.entity.User; // The VIP guest in our project mansion! 🚪✨
 import uz.pdp.enums.*;
 import uz.pdp.repository.AddressRepository;
 import uz.pdp.repository.CategoryRepository;
@@ -547,14 +547,18 @@ public class DataInitializer implements CommandLineRunner {
 
     private void initializeSampleFurnitureDoors() {
         List<FurnitureDoor> sampleDoors = new ArrayList<>();
-        
+
+        // Get or create a seller for our accessories
+        User seller = userRepository.findByEmail("seller@doorparadise.com")
+            .orElseGet(this::createSampleSeller);
+
         // Generate sample data for each furniture type
         for (FurnitureType type : FurnitureType.values()) {
             if (type != FurnitureType.NO_FURNITURE) {
                 // Generate 3-5 items for each type
                 int itemCount = faker.number().numberBetween(3, 6);
                 for (int i = 0; i < itemCount; i++) {
-                    sampleDoors.add(createRandomDoor(type));
+                    sampleDoors.add(createRandomDoor(type, seller));
                 }
             }
         }
@@ -576,7 +580,7 @@ public class DataInitializer implements CommandLineRunner {
         );
     }
 
-    private FurnitureDoor createRandomDoor(FurnitureType type) {
+    private FurnitureDoor createRandomDoor(FurnitureType type, User seller) {
         String[] materials = MATERIALS.get(type);
         String[] prefixes = PREFIXES.get(type);
         
@@ -600,33 +604,17 @@ public class DataInitializer implements CommandLineRunner {
             default -> "0x0x0";
         };
 
-        // Generate price based on material and type
-        BigDecimal basePrice = switch (type) {
-            case HANDLE -> BigDecimal.valueOf(faker.number().numberBetween(2999, 19999))
-                    .divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP);
-            case LOCK -> BigDecimal.valueOf(faker.number().numberBetween(7999, 39999))
-                    .divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP);
-            case HINGES -> BigDecimal.valueOf(faker.number().numberBetween(1999, 5999))
-                    .divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP);
-            case AUTOMATIC_CLOSER -> BigDecimal.valueOf(faker.number().numberBetween(9999, 29999))
-                    .divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP);
-            default -> BigDecimal.ZERO;
-        };
-        
-        // Add premium for special materials
-        if (material.contains("Gold") || material.contains("Titanium")) {
-            basePrice = basePrice.multiply(BigDecimal.valueOf(1.5));
-        }
-
         FurnitureDoor door = new FurnitureDoor();
-        door.setName(prefix + " " + faker.commerce().productName());
+        door.setName(prefix + " " + material + " " + type.toString().toLowerCase());
         door.setMaterial(material);
-        door.setDescription(generateDescription(type, material));
-        door.setPrice(basePrice.doubleValue());
         door.setDimensions(dimensions);
-        door.setStockQuantity(faker.number().numberBetween(10, 100));
         door.setFurnitureType(type);
+        door.setDescription(generateDescription(type, material));
+        door.setPrice(faker.number().randomDouble(2, 20, 400));
+        door.setStockQuantity(faker.number().numberBetween(1, 50));
+        door.setUser(seller);  // Set the seller
         
+        // Add some random images
         generateHardwareImages(door);
         
         return door;
@@ -937,7 +925,7 @@ public class DataInitializer implements CommandLineRunner {
                 door.setPrice(799.99);
                 door.setFinalPrice(799.99);
                 door.setCategory(sliding);
-                door.setImages(Arrays.asList(DOOR_IMAGE_URLS[3]));
+                door.setImages(List.of(DOOR_IMAGE_URLS[3]));
                 door.setSize(Size.CUSTOM);  // Custom size for sliding doors
                 // Set custom dimensions for sliding doors
                 door.setCustomWidth(1200.0);  // 1200mm width for sliding doors
@@ -963,7 +951,7 @@ public class DataInitializer implements CommandLineRunner {
                 door.setPrice(1499.99);
                 door.setFinalPrice(1499.99);
                 door.setCategory(exterior);
-                door.setImages(Arrays.asList(DOOR_IMAGE_URLS[4]));
+                door.setImages(List.of(DOOR_IMAGE_URLS[4]));
                 door.setSize(Size.SIZE_1000x2000);  // Large exterior door size
                 door.setColor(Color.WHITE);  // Classic white for exterior doors
                 door.setMaterial("Fiberglass");

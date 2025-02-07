@@ -10,8 +10,8 @@ import uz.pdp.entity.FurnitureDoor;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-01-30T14:37:39+0500",
-    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.14 (Amazon.com Inc.)"
+    date = "2025-02-07T22:21:56+0500",
+    comments = "version: 1.5.5.Final, compiler: Eclipse JDT (IDE) 3.41.0.z20250115-2156, environment: Java 21.0.5 (Eclipse Adoptium)"
 )
 @Component
 public class FurnitureDoorMapperImpl implements FurnitureDoorMapper {
@@ -24,13 +24,13 @@ public class FurnitureDoorMapperImpl implements FurnitureDoorMapper {
 
         FurnitureDoor furnitureDoor = new FurnitureDoor();
 
-        furnitureDoor.setName( dto.getName() );
-        furnitureDoor.setMaterial( dto.getMaterial() );
         furnitureDoor.setDescription( dto.getDescription() );
-        furnitureDoor.setPrice( dto.getPrice() );
         furnitureDoor.setDimensions( dto.getDimensions() );
-        furnitureDoor.setStockQuantity( dto.getStockQuantity() );
         furnitureDoor.setFurnitureType( dto.getFurnitureType() );
+        furnitureDoor.setMaterial( dto.getMaterial() );
+        furnitureDoor.setName( dto.getName() );
+        furnitureDoor.setPrice( dto.getPrice() );
+        furnitureDoor.setStockQuantity( dto.getStockQuantity() );
 
         initializeCollections( furnitureDoor );
 
@@ -49,14 +49,14 @@ public class FurnitureDoorMapperImpl implements FurnitureDoorMapper {
         if ( list != null ) {
             furnitureDoorResponseDTO.setImageUrls( new ArrayList<String>( list ) );
         }
-        furnitureDoorResponseDTO.setId( entity.getId() );
-        furnitureDoorResponseDTO.setName( entity.getName() );
-        furnitureDoorResponseDTO.setMaterial( entity.getMaterial() );
         furnitureDoorResponseDTO.setDescription( entity.getDescription() );
-        furnitureDoorResponseDTO.setPrice( entity.getPrice() );
         furnitureDoorResponseDTO.setDimensions( entity.getDimensions() );
-        furnitureDoorResponseDTO.setStockQuantity( entity.getStockQuantity() );
         furnitureDoorResponseDTO.setFurnitureType( entity.getFurnitureType() );
+        furnitureDoorResponseDTO.setId( entity.getId() );
+        furnitureDoorResponseDTO.setMaterial( entity.getMaterial() );
+        furnitureDoorResponseDTO.setName( entity.getName() );
+        furnitureDoorResponseDTO.setPrice( entity.getPrice() );
+        furnitureDoorResponseDTO.setStockQuantity( entity.getStockQuantity() );
 
         return furnitureDoorResponseDTO;
     }
@@ -67,13 +67,13 @@ public class FurnitureDoorMapperImpl implements FurnitureDoorMapper {
             return;
         }
 
-        entity.setName( dto.getName() );
-        entity.setMaterial( dto.getMaterial() );
         entity.setDescription( dto.getDescription() );
-        entity.setPrice( dto.getPrice() );
         entity.setDimensions( dto.getDimensions() );
-        entity.setStockQuantity( dto.getStockQuantity() );
         entity.setFurnitureType( dto.getFurnitureType() );
+        entity.setMaterial( dto.getMaterial() );
+        entity.setName( dto.getName() );
+        entity.setPrice( dto.getPrice() );
+        entity.setStockQuantity( dto.getStockQuantity() );
 
         initializeCollections( entity );
     }

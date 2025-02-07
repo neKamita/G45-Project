@@ -22,6 +22,7 @@ uz/pdp/payload/EntityResponse$EntityResponseBuilder.class
 uz/pdp/enums/DoorLocation.class
 uz/pdp/mapper/DoorMapper.class
 uz/pdp/entity/Category$CategoryBuilder.class
+uz/pdp/payload/AddressDTO.class
 uz/pdp/service/ImageStorageService.class
 uz/pdp/config/S3Config.class
 uz/pdp/exception/ForbiddenException.class

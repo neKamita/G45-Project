@@ -2,7 +2,6 @@ package uz.pdp.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -14,9 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -37,7 +34,6 @@ import uz.pdp.service.MouldingService;
 import uz.pdp.service.ImageStorageService;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -203,7 +199,9 @@ public class MouldingController {
     @Operation(summary = "Delete a moulding", description = "Deletes a moulding by its ID")
     @ApiResponse(responseCode = "200", description = "Moulding deleted successfully")
     public EntityResponse<?> deleteMoulding(@Parameter(description = "ID of the moulding to delete") @PathVariable Long id) {
-        mouldingService.deleteMoulding(id);
+        Optional<User> currentUser = userRepository.findByUsername(SecurityContextHolder.getContext().getAuthentication().getName());
+        assert currentUser.orElse(null) != null;
+        mouldingService.deleteMoulding(id, currentUser.orElse(null));
         return EntityResponse.success("Moulding deleted successfully");
     }
 

@@ -131,12 +131,14 @@ public class BasketService {
             name = moulding1.getTitle();
             image = moulding1.getImagesUrl().isEmpty() ? null : moulding1.getImagesUrl().get(0);
             price = moulding1.getPrice();
-        } else {
+        } else if (type == ItemType.DOOR_ACCESSORY) {
             FurnitureDoor accessory = furnitureDoorService.getById(itemId)
-                .orElseThrow(() -> new FurnitureDoorNotFoundException(itemId));
+                .orElseThrow(() -> new IllegalArgumentException("Door accessory not found: " + itemId));
             name = accessory.getName();
             image = accessory.getImages().isEmpty() ? null : accessory.getImages().get(0);
             price = accessory.getPrice();
+        } else {
+            throw new IllegalArgumentException("Invalid item type: " + type);
         }
         
         // Check if item already exists in basket
@@ -223,9 +225,10 @@ public class BasketService {
         return switch (type) {
             case DOOR -> doorService.getDoorById(itemId).getPrice();
             case MOULDING -> mouldingService.getMouldingById(itemId).get().getPrice();
-            case ACCESSORY -> furnitureDoorService.getById(itemId)
-                .orElseThrow(() -> new FurnitureDoorNotFoundException(itemId))
+            case DOOR_ACCESSORY -> furnitureDoorService.getById(itemId)
+                .orElseThrow(() -> new IllegalArgumentException("Door accessory not found: " + itemId))
                 .getPrice();
+            default -> throw new IllegalArgumentException("Invalid item type: " + type);
         };
     }
 

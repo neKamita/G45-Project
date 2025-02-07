@@ -1,6 +1,7 @@
 package uz.pdp.mapper;
 
 import org.mapstruct.*;
+import org.springframework.stereotype.Component;
 import uz.pdp.dto.DoorDto;
 import uz.pdp.dto.DoorResponseDTO;
 import uz.pdp.entity.Door;
@@ -21,6 +22,11 @@ import uz.pdp.dto.CategoryDTO;
  * @version 1.0
  * @since 2025-01-24
  */
+
+/**
+ * Mapper for Door entities. For when doors need mapping services and a good laugh! 
+ */
+@Component
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface DoorMapper {
 
