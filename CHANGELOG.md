@@ -645,3 +645,29 @@ mutation ConfigureDoor {
 - Secured endpoints with proper authentication
 - Added CORS configuration
 </details>
+
+## [Unreleased]
+
+### Changed
+- Enhanced email template system for better maintainability
+  - Moved HTML email template to EmailService for centralized management
+  - Updated EmailService to use a consistent, modern design across all emails
+  - Improved separation of concerns between email formatting and content generation
+
+### Added
+- Modern, responsive email template with:
+  - Gradient headers and clean typography
+  - Card-based layout with subtle shadows
+  - Color-coded pricing information
+  - Interactive hover effects
+  - Emoji icons for better visual hierarchy
+  - Mobile-friendly design
+
+### Fixed
+- Standardized EntityResponse usage in EmailService
+- Corrected ItemType enum usage (DOOR_ACCESSORY instead of FURNITURE_ACCESSORY)
+- Improved error messages with more context
+
+### Technical Debt
+- Consolidated duplicate email styling code
+- Enhanced code organization in email-related services

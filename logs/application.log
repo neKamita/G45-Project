@@ -7168,3 +7168,541 @@ org.springframework.beans.factory.BeanCreationNotAllowedException: Error creatin
 2025-02-08 11:12:41 [http-nio-8080-exec-5] DEBUG uz.pdp.service.DoorFilterService - Found 3 doors after filtering
 2025-02-08 11:12:41 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL - select i1_0.door_id,i1_0.images from door_images i1_0 where i1_0.door_id = any (?)
 2025-02-08 11:12:42 [http-nio-8080-exec-5] DEBUG org.hibernate.SQL - select ac1_0.door_id,ac1_0.available_colors from door_available_colors ac1_0 where ac1_0.door_id = any (?)
+2025-02-08 11:13:10 [http-nio-8080-exec-8] DEBUG org.hibernate.SQL - select u1_0.id,u1_0.active,u1_0.email,u1_0.lastname,u1_0.name,u1_0.password,u1_0.phone,u1_0.role,u1_0.seller_request_pending from users u1_0 where u1_0.name=? and u1_0.active=true
+2025-02-08 11:13:11 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Filtering doors with params - locations: Widnow, frameTypes: null, hardware: null, color: null, size: 800x2000
+2025-02-08 11:13:11 [http-nio-8080-exec-8] DEBUG org.hibernate.SQL - select d1_0.id,d1_0.active,d1_0.base_model_id,d1_0.category_id,d1_0.color,d1_0.custom_color_code,d1_0.custom_height,d1_0.custom_width,d1_0.description,d1_0.door_location,d1_0.final_price,d1_0.frame_type,d1_0.hardware,d1_0.is_base_model,d1_0.is_custom_color,d1_0.manufacturer,d1_0.material,d1_0.name,d1_0.price,d1_0.seller_id,d1_0.size,d1_0.status,d1_0.warranty_years from doors d1_0
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Found 66 doors before filtering
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 1 location Bedroom matches Widnow: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 1 location match: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 2 location Living Room matches Widnow: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 2 location match: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 3 location Bathroom matches Widnow: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 3 location match: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 4 location Entrance matches Widnow: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 4 location match: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 5 location Entrance matches Widnow: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 5 location match: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 6 location Entrance matches Widnow: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 6 location match: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 7 location Living Room matches Widnow: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 7 location match: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 8 location Living Room matches Widnow: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 8 location match: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 9 location Living Room matches Widnow: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 9 location match: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 10 location Balcony matches Widnow: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 10 location match: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 11 location Balcony matches Widnow: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 11 location match: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 12 location Balcony matches Widnow: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 12 location match: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 13 location Entrance matches Widnow: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 13 location match: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 14 location Entrance matches Widnow: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 14 location match: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 15 location Entrance matches Widnow: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 15 location match: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 16 location Garage matches Widnow: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 16 location match: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 17 location Garage matches Widnow: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 17 location match: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 18 location Garage matches Widnow: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 18 location match: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 19 location Garage matches Widnow: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 19 location match: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 20 location Kitchen matches Widnow: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 20 location match: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 21 location Kitchen matches Widnow: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 21 location match: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 22 location Kitchen matches Widnow: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 22 location match: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 23 location Kitchen matches Widnow: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 23 location match: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 24 location Kitchen matches Widnow: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 24 location match: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 25 location Kitchen matches Widnow: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 25 location match: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 26 location Kitchen matches Widnow: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 26 location match: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 27 location Kitchen matches Widnow: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 27 location match: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 28 location Kitchen matches Widnow: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 28 location match: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 29 location Balcony matches Widnow: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 29 location match: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 30 location Balcony matches Widnow: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 30 location match: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 31 location Balcony matches Widnow: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 31 location match: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 32 location Balcony matches Widnow: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 32 location match: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 33 location Balcony matches Widnow: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 33 location match: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 34 location Balcony matches Widnow: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 34 location match: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 35 location Balcony matches Widnow: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 35 location match: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 36 location Balcony matches Widnow: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 36 location match: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 37 location Balcony matches Widnow: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 37 location match: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 38 location Entrance matches Widnow: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 38 location match: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 39 location Entrance matches Widnow: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 39 location match: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 40 location Entrance matches Widnow: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 40 location match: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 41 location Entrance matches Widnow: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 41 location match: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 42 location Balcony matches Widnow: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 42 location match: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 43 location Balcony matches Widnow: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 43 location match: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 44 location Balcony matches Widnow: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 44 location match: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 45 location Balcony matches Widnow: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 45 location match: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 46 location Balcony matches Widnow: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 46 location match: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 47 location Kitchen matches Widnow: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 47 location match: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 48 location Kitchen matches Widnow: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 48 location match: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 49 location Kitchen matches Widnow: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 49 location match: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 50 location Kitchen matches Widnow: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 50 location match: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 51 location Kitchen matches Widnow: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 51 location match: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 52 location Room matches Widnow: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 52 location match: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 53 location Room matches Widnow: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 53 location match: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 54 location Room matches Widnow: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 54 location match: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 55 location Room matches Widnow: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 55 location match: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 56 location Room matches Widnow: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 56 location match: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 57 location Room matches Widnow: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 57 location match: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 58 location Room matches Widnow: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 58 location match: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 59 location Living Room matches Widnow: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 59 location match: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 60 location Living Room matches Widnow: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 60 location match: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 61 location Living Room matches Widnow: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 61 location match: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 62 location Living Room matches Widnow: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 62 location match: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 63 location Living Room matches Widnow: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 63 location match: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 64 location Garage matches Widnow: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 64 location match: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 65 location Garage matches Widnow: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 65 location match: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 66 location Garage matches Widnow: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Door 66 location match: false
+2025-02-08 11:13:12 [http-nio-8080-exec-8] DEBUG uz.pdp.service.DoorFilterService - Found 0 doors after filtering
+2025-02-08 11:13:15 [http-nio-8080-exec-9] DEBUG org.hibernate.SQL - select u1_0.id,u1_0.active,u1_0.email,u1_0.lastname,u1_0.name,u1_0.password,u1_0.phone,u1_0.role,u1_0.seller_request_pending from users u1_0 where u1_0.name=? and u1_0.active=true
+2025-02-08 11:13:16 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Filtering doors with params - locations: Widnow, frameTypes: null, hardware: null, color: null, size: null
+2025-02-08 11:13:16 [http-nio-8080-exec-9] DEBUG org.hibernate.SQL - select d1_0.id,d1_0.active,d1_0.base_model_id,d1_0.category_id,d1_0.color,d1_0.custom_color_code,d1_0.custom_height,d1_0.custom_width,d1_0.description,d1_0.door_location,d1_0.final_price,d1_0.frame_type,d1_0.hardware,d1_0.is_base_model,d1_0.is_custom_color,d1_0.manufacturer,d1_0.material,d1_0.name,d1_0.price,d1_0.seller_id,d1_0.size,d1_0.status,d1_0.warranty_years from doors d1_0
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Found 66 doors before filtering
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 1 location Bedroom matches Widnow: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 1 location match: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 2 location Living Room matches Widnow: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 2 location match: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 3 location Bathroom matches Widnow: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 3 location match: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 4 location Entrance matches Widnow: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 4 location match: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 5 location Entrance matches Widnow: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 5 location match: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 6 location Entrance matches Widnow: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 6 location match: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 7 location Living Room matches Widnow: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 7 location match: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 8 location Living Room matches Widnow: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 8 location match: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 9 location Living Room matches Widnow: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 9 location match: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 10 location Balcony matches Widnow: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 10 location match: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 11 location Balcony matches Widnow: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 11 location match: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 12 location Balcony matches Widnow: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 12 location match: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 13 location Entrance matches Widnow: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 13 location match: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 14 location Entrance matches Widnow: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 14 location match: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 15 location Entrance matches Widnow: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 15 location match: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 16 location Garage matches Widnow: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 16 location match: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 17 location Garage matches Widnow: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 17 location match: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 18 location Garage matches Widnow: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 18 location match: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 19 location Garage matches Widnow: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 19 location match: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 20 location Kitchen matches Widnow: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 20 location match: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 21 location Kitchen matches Widnow: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 21 location match: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 22 location Kitchen matches Widnow: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 22 location match: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 23 location Kitchen matches Widnow: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 23 location match: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 24 location Kitchen matches Widnow: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 24 location match: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 25 location Kitchen matches Widnow: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 25 location match: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 26 location Kitchen matches Widnow: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 26 location match: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 27 location Kitchen matches Widnow: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 27 location match: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 28 location Kitchen matches Widnow: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 28 location match: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 29 location Balcony matches Widnow: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 29 location match: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 30 location Balcony matches Widnow: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 30 location match: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 31 location Balcony matches Widnow: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 31 location match: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 32 location Balcony matches Widnow: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 32 location match: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 33 location Balcony matches Widnow: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 33 location match: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 34 location Balcony matches Widnow: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 34 location match: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 35 location Balcony matches Widnow: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 35 location match: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 36 location Balcony matches Widnow: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 36 location match: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 37 location Balcony matches Widnow: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 37 location match: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 38 location Entrance matches Widnow: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 38 location match: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 39 location Entrance matches Widnow: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 39 location match: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 40 location Entrance matches Widnow: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 40 location match: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 41 location Entrance matches Widnow: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 41 location match: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 42 location Balcony matches Widnow: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 42 location match: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 43 location Balcony matches Widnow: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 43 location match: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 44 location Balcony matches Widnow: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 44 location match: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 45 location Balcony matches Widnow: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 45 location match: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 46 location Balcony matches Widnow: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 46 location match: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 47 location Kitchen matches Widnow: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 47 location match: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 48 location Kitchen matches Widnow: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 48 location match: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 49 location Kitchen matches Widnow: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 49 location match: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 50 location Kitchen matches Widnow: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 50 location match: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 51 location Kitchen matches Widnow: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 51 location match: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 52 location Room matches Widnow: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 52 location match: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 53 location Room matches Widnow: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 53 location match: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 54 location Room matches Widnow: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 54 location match: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 55 location Room matches Widnow: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 55 location match: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 56 location Room matches Widnow: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 56 location match: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 57 location Room matches Widnow: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 57 location match: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 58 location Room matches Widnow: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 58 location match: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 59 location Living Room matches Widnow: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 59 location match: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 60 location Living Room matches Widnow: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 60 location match: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 61 location Living Room matches Widnow: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 61 location match: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 62 location Living Room matches Widnow: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 62 location match: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 63 location Living Room matches Widnow: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 63 location match: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 64 location Garage matches Widnow: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 64 location match: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 65 location Garage matches Widnow: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 65 location match: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 66 location Garage matches Widnow: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Door 66 location match: false
+2025-02-08 11:13:17 [http-nio-8080-exec-9] DEBUG uz.pdp.service.DoorFilterService - Found 0 doors after filtering
+2025-02-08 11:13:21 [http-nio-8080-exec-10] DEBUG org.hibernate.SQL - select u1_0.id,u1_0.active,u1_0.email,u1_0.lastname,u1_0.name,u1_0.password,u1_0.phone,u1_0.role,u1_0.seller_request_pending from users u1_0 where u1_0.name=? and u1_0.active=true
+2025-02-08 11:13:27 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - select u1_0.id,u1_0.active,u1_0.email,u1_0.lastname,u1_0.name,u1_0.password,u1_0.phone,u1_0.role,u1_0.seller_request_pending from users u1_0 where u1_0.name=? and u1_0.active=true
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Filtering doors with params - locations: Bedroom, frameTypes: null, hardware: null, color: null, size: null
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - select d1_0.id,d1_0.active,d1_0.base_model_id,d1_0.category_id,d1_0.color,d1_0.custom_color_code,d1_0.custom_height,d1_0.custom_width,d1_0.description,d1_0.door_location,d1_0.final_price,d1_0.frame_type,d1_0.hardware,d1_0.is_base_model,d1_0.is_custom_color,d1_0.manufacturer,d1_0.material,d1_0.name,d1_0.price,d1_0.seller_id,d1_0.size,d1_0.status,d1_0.warranty_years from doors d1_0
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Found 66 doors before filtering
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 1 location Bedroom matches Bedroom: true
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 1 location match: true
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 1 hardware match: true
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 1 color match: true
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 1 size match: true
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 2 location Living Room matches Bedroom: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 2 location match: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 3 location Bathroom matches Bedroom: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 3 location match: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 4 location Entrance matches Bedroom: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 4 location match: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 5 location Entrance matches Bedroom: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 5 location match: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 6 location Entrance matches Bedroom: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 6 location match: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 7 location Living Room matches Bedroom: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 7 location match: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 8 location Living Room matches Bedroom: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 8 location match: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 9 location Living Room matches Bedroom: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 9 location match: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 10 location Balcony matches Bedroom: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 10 location match: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 11 location Balcony matches Bedroom: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 11 location match: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 12 location Balcony matches Bedroom: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 12 location match: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 13 location Entrance matches Bedroom: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 13 location match: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 14 location Entrance matches Bedroom: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 14 location match: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 15 location Entrance matches Bedroom: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 15 location match: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 16 location Garage matches Bedroom: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 16 location match: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 17 location Garage matches Bedroom: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 17 location match: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 18 location Garage matches Bedroom: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 18 location match: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 19 location Garage matches Bedroom: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 19 location match: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 20 location Kitchen matches Bedroom: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 20 location match: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 21 location Kitchen matches Bedroom: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 21 location match: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 22 location Kitchen matches Bedroom: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 22 location match: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 23 location Kitchen matches Bedroom: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 23 location match: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 24 location Kitchen matches Bedroom: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 24 location match: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 25 location Kitchen matches Bedroom: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 25 location match: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 26 location Kitchen matches Bedroom: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 26 location match: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 27 location Kitchen matches Bedroom: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 27 location match: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 28 location Kitchen matches Bedroom: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 28 location match: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 29 location Balcony matches Bedroom: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 29 location match: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 30 location Balcony matches Bedroom: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 30 location match: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 31 location Balcony matches Bedroom: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 31 location match: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 32 location Balcony matches Bedroom: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 32 location match: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 33 location Balcony matches Bedroom: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 33 location match: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 34 location Balcony matches Bedroom: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 34 location match: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 35 location Balcony matches Bedroom: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 35 location match: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 36 location Balcony matches Bedroom: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 36 location match: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 37 location Balcony matches Bedroom: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 37 location match: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 38 location Entrance matches Bedroom: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 38 location match: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 39 location Entrance matches Bedroom: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 39 location match: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 40 location Entrance matches Bedroom: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 40 location match: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 41 location Entrance matches Bedroom: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 41 location match: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 42 location Balcony matches Bedroom: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 42 location match: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 43 location Balcony matches Bedroom: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 43 location match: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 44 location Balcony matches Bedroom: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 44 location match: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 45 location Balcony matches Bedroom: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 45 location match: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 46 location Balcony matches Bedroom: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 46 location match: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 47 location Kitchen matches Bedroom: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 47 location match: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 48 location Kitchen matches Bedroom: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 48 location match: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 49 location Kitchen matches Bedroom: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 49 location match: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 50 location Kitchen matches Bedroom: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 50 location match: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 51 location Kitchen matches Bedroom: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 51 location match: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 52 location Room matches Bedroom: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 52 location match: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 53 location Room matches Bedroom: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 53 location match: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 54 location Room matches Bedroom: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 54 location match: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 55 location Room matches Bedroom: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 55 location match: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 56 location Room matches Bedroom: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 56 location match: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 57 location Room matches Bedroom: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 57 location match: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 58 location Room matches Bedroom: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 58 location match: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 59 location Living Room matches Bedroom: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 59 location match: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 60 location Living Room matches Bedroom: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 60 location match: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 61 location Living Room matches Bedroom: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 61 location match: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 62 location Living Room matches Bedroom: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 62 location match: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 63 location Living Room matches Bedroom: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 63 location match: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 64 location Garage matches Bedroom: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 64 location match: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 65 location Garage matches Bedroom: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 65 location match: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 66 location Garage matches Bedroom: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Door 66 location match: false
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG uz.pdp.service.DoorFilterService - Found 1 doors after filtering
+2025-02-08 11:13:28 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - select i1_0.door_id,i1_0.images from door_images i1_0 where i1_0.door_id = any (?)
+2025-02-08 11:13:29 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - select ac1_0.door_id,ac1_0.available_colors from door_available_colors ac1_0 where ac1_0.door_id = any (?)
+2025-02-08 11:22:23 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-02-08 11:22:23 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-02-08 11:22:24 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-02-08 11:29:20 [main] INFO  u.p.p.ProjectModul10Application - Starting ProjectModul10Application using Java 17.0.14 with PID 386298 (/home/lantanium/Documents/G45-Project/target/classes started by lantanium in /home/lantanium/Documents/G45-Project)
+2025-02-08 11:29:20 [main] DEBUG u.p.p.ProjectModul10Application - Running with Spring Boot v3.2.2, Spring v6.1.3
+2025-02-08 11:29:20 [main] INFO  u.p.p.ProjectModul10Application - No active profile set, falling back to 1 default profile: "default"
+2025-02-08 11:29:21 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-02-08 11:29:21 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-02-08 11:29:21 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 115 ms. Found 13 JPA repository interfaces.
+2025-02-08 11:29:22 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-02-08 11:29:22 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-02-08 11:29:22 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 6 ms. Found 0 Redis repository interfaces.
+2025-02-08 11:29:22 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'webMvcConfig' of type [uz.pdp.config.WebMvcConfig$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). The currently created BeanPostProcessor [methodValidationPostProcessor] is declared through a non-static factory method on that class; consider declaring it as static instead.
+2025-02-08 11:29:23 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-02-08 11:29:23 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-02-08 11:29:23 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.18]
+2025-02-08 11:29:23 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-02-08 11:29:23 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2057 ms
+2025-02-08 11:29:23 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-02-08 11:29:23 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.1.Final
+2025-02-08 11:29:23 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-02-08 11:29:23 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-02-08 11:29:23 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-02-08 11:29:26 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@6f627a1a
+2025-02-08 11:29:26 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-02-08 11:29:26 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-02-08 11:29:28 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-02-08 11:29:28 [main] INFO  o.hibernate.orm.connections.access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@6c8a806c] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+2025-02-08 11:29:29 [main] DEBUG org.hibernate.SQL - alter table if exists mouldings alter column price set data type DECIMAL(10,2)
+2025-02-08 11:29:29 [main] DEBUG org.hibernate.SQL - alter table if exists mouldings alter column price_overall set data type DECIMAL(10,2)
+2025-02-08 11:29:48 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-02-08 11:29:49 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-02-08 11:29:51 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-02-08 11:29:52 [main] INFO  o.s.g.e.DefaultSchemaResourceGraphQlSourceBuilder - Loaded 1 resource(s) in the GraphQL schema.
+2025-02-08 11:29:52 [main] INFO  o.s.b.a.g.GraphQlAutoConfiguration - GraphQL schema inspection:
+	Unmapped fields: {Query=[door, doors, user, address, addresses, searchAddresses, nearestAddress, doorHistory, order, userOrders, userAddresses], Mutation=[configureDoor, updateProfile, approveSeller, deactivateAccount, createOrder, updateOrderStatus, addAddress], Address=[id, street, city, country, zipCode, location], Subscription=[orderStatusChanged, newDoorAdded]}
+	Unmapped registrations: {Query.getDoorById=DoorGraphQLController#getDoorById[1 args], Query.getRecentHistory=DoorHistoryGraphQLController#getRecentHistory[1 args], Query.getAllMapPoints=AddressGraphQLController#getAllMapPoints[0 args], Query.getAddress=AddressGraphQLController#getAddress[1 args], Query.findNearestAddress=AddressGraphQLController#findNearestAddress[2 args], Query.getUserDoorHistory=DoorHistoryGraphQLController#getUserDoorHistory[2 args], Query.getDoorHistory=DoorHistoryGraphQLController#getDoorHistory[1 args], Query.getAllDoors=DoorGraphQLController#getAllDoors[0 args], Query.searchAddressesByCity=AddressGraphQLController#searchAddressesByCity[1 args], Query.getAllAddresses=AddressGraphQLController#getAllAddresses[0 args], Query.getUserHistory=DoorHistoryGraphQLController#getUserHistory[1 args], Mutation.updateDoorStatus=DoorGraphQLController#updateDoorStatus[3 args]}
+	Skipped types: []
+2025-02-08 11:29:52 [main] INFO  o.s.b.a.g.s.GraphQlWebMvcAutoConfiguration - GraphQL endpoint HTTP POST /graphql
+2025-02-08 11:29:52 [main] INFO  o.s.b.a.g.s.GraphQlWebMvcAutoConfiguration - GraphQL endpoint WebSocket /graphql-ws
+2025-02-08 11:29:53 [main] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 26 endpoint(s) beneath base path '/actuator'
+2025-02-08 11:29:53 [main] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@40d9f000, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@4912f75c, org.springframework.security.web.context.SecurityContextHolderFilter@ed2afe7, org.springframework.security.web.header.HeaderWriterFilter@2e98271a, org.springframework.web.filter.CorsFilter@4180dad5, org.springframework.security.web.authentication.logout.LogoutFilter@404f05ec, uz.pdp.config.filtr.MyFilter@4b762988, org.springframework.security.web.authentication.www.BasicAuthenticationFilter@42ebd72b, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@7c2600bb, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@7e24fc5b, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@71367037, org.springframework.security.web.access.ExceptionTranslationFilter@77a8ec44, org.springframework.security.web.access.intercept.AuthorizationFilter@550fc7f5]
+2025-02-08 11:29:54 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+2025-02-08 11:29:54 [main] INFO  u.p.p.ProjectModul10Application - Started ProjectModul10Application in 33.665 seconds (process running for 34.119)
+2025-02-08 11:29:54 [main] DEBUG org.hibernate.SQL - select u1_0.id,u1_0.active,u1_0.email,u1_0.lastname,u1_0.name,u1_0.password,u1_0.phone,u1_0.role,u1_0.seller_request_pending from users u1_0 where u1_0.name=? and u1_0.active=true
+2025-02-08 11:29:55 [main] DEBUG org.hibernate.SQL - select count(*) from categories c1_0
+2025-02-08 11:29:55 [main] DEBUG org.hibernate.SQL - select count(*) from doors d1_0
+2025-02-08 11:29:56 [main] DEBUG org.hibernate.SQL - select u1_0.id,u1_0.active,u1_0.email,u1_0.lastname,u1_0.name,u1_0.password,u1_0.phone,u1_0.role,u1_0.seller_request_pending from users u1_0 where u1_0.email=? and u1_0.active=true
+2025-02-08 11:29:56 [main] DEBUG org.hibernate.SQL - select u1_0.id,u1_0.active,u1_0.email,u1_0.lastname,u1_0.name,u1_0.password,u1_0.phone,u1_0.role,u1_0.seller_request_pending from users u1_0 where u1_0.email=? and u1_0.active=true
+2025-02-08 11:29:57 [main] DEBUG org.hibernate.SQL - select count(*) from doors d1_0
+2025-02-08 11:29:57 [main] DEBUG org.hibernate.SQL - select count(*) from furniture_doors fd1_0
+2025-02-08 11:29:58 [main] DEBUG org.hibernate.SQL - select count(*) from mouldings m1_0
+2025-02-08 11:29:58 [main] DEBUG org.hibernate.SQL - select count(*) from addresses a1_0
+2025-02-08 11:29:59 [RMI TCP Connection(4)-127.0.0.1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-02-08 11:29:59 [RMI TCP Connection(4)-127.0.0.1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-02-08 11:29:59 [RMI TCP Connection(4)-127.0.0.1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 2 ms
+2025-02-08 11:30:05 [http-nio-8080-exec-9] INFO  o.s.api.AbstractOpenApiResource - Init duration for springdoc-openapi is: 1245 ms
+2025-02-08 11:30:25 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - select u1_0.id,u1_0.active,u1_0.email,u1_0.lastname,u1_0.name,u1_0.password,u1_0.phone,u1_0.role,u1_0.seller_request_pending from users u1_0 where u1_0.name=? and u1_0.active=true
+2025-02-08 11:30:26 [http-nio-8080-exec-2] DEBUG org.hibernate.SQL - select d1_0.id,d1_0.active,d1_0.base_model_id,d1_0.category_id,d1_0.color,d1_0.custom_color_code,d1_0.custom_height,d1_0.custom_width,d1_0.description,d1_0.door_location,d1_0.final_price,d1_0.frame_type,d1_0.hardware,d1_0.is_base_model,d1_0.is_custom_color,d1_0.manufacturer,d1_0.material,d1_0.name,d1_0.price,d1_0.seller_id,d1_0.size,d1_0.status,d1_0.warranty_years from doors d1_0 where d1_0.id=?
+2025-02-08 11:30:26 [http-nio-8080-exec-2] INFO  uz.pdp.service.EmailService - Sending HTML email to: fixlage2007@gmail.com
+2025-02-08 11:30:28 [http-nio-8080-exec-2] INFO  uz.pdp.service.EmailService - HTML email sent successfully to: fixlage2007@gmail.com
+2025-02-08 11:33:15 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-02-08 11:33:15 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-02-08 11:33:16 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-02-08 11:34:40 [main] INFO  u.p.p.ProjectModul10Application - Starting ProjectModul10Application using Java 17.0.14 with PID 412195 (/home/lantanium/Documents/G45-Project/target/classes started by lantanium in /home/lantanium/Documents/G45-Project)
+2025-02-08 11:34:40 [main] DEBUG u.p.p.ProjectModul10Application - Running with Spring Boot v3.2.2, Spring v6.1.3
+2025-02-08 11:34:40 [main] INFO  u.p.p.ProjectModul10Application - No active profile set, falling back to 1 default profile: "default"
+2025-02-08 11:34:43 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-02-08 11:34:43 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-02-08 11:34:43 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 348 ms. Found 13 JPA repository interfaces.
+2025-02-08 11:34:44 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-02-08 11:34:44 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-02-08 11:34:44 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 12 ms. Found 0 Redis repository interfaces.
+2025-02-08 11:34:45 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'webMvcConfig' of type [uz.pdp.config.WebMvcConfig$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). The currently created BeanPostProcessor [methodValidationPostProcessor] is declared through a non-static factory method on that class; consider declaring it as static instead.
+2025-02-08 11:34:46 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-02-08 11:34:46 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-02-08 11:34:46 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.18]
+2025-02-08 11:34:46 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-02-08 11:34:46 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 6201 ms
+2025-02-08 11:34:47 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-02-08 11:34:47 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.1.Final
+2025-02-08 11:34:47 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-02-08 11:34:47 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-02-08 11:34:47 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-02-08 11:34:50 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@3453f79c
+2025-02-08 11:34:50 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-02-08 11:34:50 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-02-08 11:34:53 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-02-08 11:34:53 [main] INFO  o.hibernate.orm.connections.access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@2adb532c] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+2025-02-08 11:34:54 [main] DEBUG org.hibernate.SQL - alter table if exists mouldings alter column price set data type DECIMAL(10,2)
+2025-02-08 11:34:55 [main] DEBUG org.hibernate.SQL - alter table if exists mouldings alter column price_overall set data type DECIMAL(10,2)
+2025-02-08 11:35:14 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-02-08 11:35:14 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2025-02-08 11:35:17 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-02-08 11:35:17 [main] INFO  o.s.g.e.DefaultSchemaResourceGraphQlSourceBuilder - Loaded 1 resource(s) in the GraphQL schema.
+2025-02-08 11:35:17 [main] INFO  o.s.b.a.g.GraphQlAutoConfiguration - GraphQL schema inspection:
+	Unmapped fields: {Query=[door, doors, user, address, addresses, searchAddresses, nearestAddress, doorHistory, order, userOrders, userAddresses], Mutation=[configureDoor, updateProfile, approveSeller, deactivateAccount, createOrder, updateOrderStatus, addAddress], Address=[id, street, city, country, zipCode, location], Subscription=[orderStatusChanged, newDoorAdded]}
+	Unmapped registrations: {Query.getDoorById=DoorGraphQLController#getDoorById[1 args], Query.getRecentHistory=DoorHistoryGraphQLController#getRecentHistory[1 args], Query.getAllMapPoints=AddressGraphQLController#getAllMapPoints[0 args], Query.getAddress=AddressGraphQLController#getAddress[1 args], Query.findNearestAddress=AddressGraphQLController#findNearestAddress[2 args], Query.getUserDoorHistory=DoorHistoryGraphQLController#getUserDoorHistory[2 args], Query.getDoorHistory=DoorHistoryGraphQLController#getDoorHistory[1 args], Query.getAllDoors=DoorGraphQLController#getAllDoors[0 args], Query.searchAddressesByCity=AddressGraphQLController#searchAddressesByCity[1 args], Query.getAllAddresses=AddressGraphQLController#getAllAddresses[0 args], Query.getUserHistory=DoorHistoryGraphQLController#getUserHistory[1 args], Mutation.updateDoorStatus=DoorGraphQLController#updateDoorStatus[3 args]}
+	Skipped types: []
+2025-02-08 11:35:17 [main] INFO  o.s.b.a.g.s.GraphQlWebMvcAutoConfiguration - GraphQL endpoint HTTP POST /graphql
+2025-02-08 11:35:18 [main] INFO  o.s.b.a.g.s.GraphQlWebMvcAutoConfiguration - GraphQL endpoint WebSocket /graphql-ws
+2025-02-08 11:35:18 [main] INFO  o.s.b.a.e.web.EndpointLinksResolver - Exposing 26 endpoint(s) beneath base path '/actuator'
+2025-02-08 11:35:18 [main] INFO  o.s.s.web.DefaultSecurityFilterChain - Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@21c92c7e, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@419cc39c, org.springframework.security.web.context.SecurityContextHolderFilter@2a6d0b1e, org.springframework.security.web.header.HeaderWriterFilter@13c9372a, org.springframework.web.filter.CorsFilter@5d729736, org.springframework.security.web.authentication.logout.LogoutFilter@2a691c92, uz.pdp.config.filtr.MyFilter@713497cd, org.springframework.security.web.authentication.www.BasicAuthenticationFilter@7e60c7e1, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@50d866c6, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@16d9a719, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@415ba14e, org.springframework.security.web.access.ExceptionTranslationFilter@d9deef9, org.springframework.security.web.access.intercept.AuthorizationFilter@4d3229bf]
+2025-02-08 11:35:20 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+2025-02-08 11:35:20 [main] INFO  u.p.p.ProjectModul10Application - Started ProjectModul10Application in 41.6 seconds (process running for 43.415)
+2025-02-08 11:35:20 [main] DEBUG org.hibernate.SQL - select u1_0.id,u1_0.active,u1_0.email,u1_0.lastname,u1_0.name,u1_0.password,u1_0.phone,u1_0.role,u1_0.seller_request_pending from users u1_0 where u1_0.name=? and u1_0.active=true
+2025-02-08 11:35:21 [main] DEBUG org.hibernate.SQL - select count(*) from categories c1_0
+2025-02-08 11:35:21 [main] DEBUG org.hibernate.SQL - select count(*) from doors d1_0
+2025-02-08 11:35:21 [main] DEBUG org.hibernate.SQL - select u1_0.id,u1_0.active,u1_0.email,u1_0.lastname,u1_0.name,u1_0.password,u1_0.phone,u1_0.role,u1_0.seller_request_pending from users u1_0 where u1_0.email=? and u1_0.active=true
+2025-02-08 11:35:22 [main] DEBUG org.hibernate.SQL - select u1_0.id,u1_0.active,u1_0.email,u1_0.lastname,u1_0.name,u1_0.password,u1_0.phone,u1_0.role,u1_0.seller_request_pending from users u1_0 where u1_0.email=? and u1_0.active=true
+2025-02-08 11:35:22 [main] DEBUG org.hibernate.SQL - select count(*) from doors d1_0
+2025-02-08 11:35:23 [main] DEBUG org.hibernate.SQL - select count(*) from furniture_doors fd1_0
+2025-02-08 11:35:23 [main] DEBUG org.hibernate.SQL - select count(*) from mouldings m1_0
+2025-02-08 11:35:24 [main] DEBUG org.hibernate.SQL - select count(*) from addresses a1_0
+2025-02-08 11:35:25 [RMI TCP Connection(1)-127.0.0.1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-02-08 11:35:25 [RMI TCP Connection(1)-127.0.0.1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2025-02-08 11:35:25 [RMI TCP Connection(1)-127.0.0.1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 2 ms
+2025-02-08 11:35:28 [http-nio-8080-exec-1] DEBUG org.hibernate.SQL - select u1_0.id,u1_0.active,u1_0.email,u1_0.lastname,u1_0.name,u1_0.password,u1_0.phone,u1_0.role,u1_0.seller_request_pending from users u1_0 where u1_0.name=? and u1_0.active=true
+2025-02-08 11:35:29 [http-nio-8080-exec-1] DEBUG org.hibernate.SQL - select d1_0.id,d1_0.active,d1_0.base_model_id,d1_0.category_id,d1_0.color,d1_0.custom_color_code,d1_0.custom_height,d1_0.custom_width,d1_0.description,d1_0.door_location,d1_0.final_price,d1_0.frame_type,d1_0.hardware,d1_0.is_base_model,d1_0.is_custom_color,d1_0.manufacturer,d1_0.material,d1_0.name,d1_0.price,d1_0.seller_id,d1_0.size,d1_0.status,d1_0.warranty_years from doors d1_0 where d1_0.id=?
+2025-02-08 11:35:29 [http-nio-8080-exec-1] INFO  uz.pdp.service.EmailService - Sending HTML email to: fixlage2007@gmail.com
+2025-02-08 11:35:31 [http-nio-8080-exec-1] INFO  uz.pdp.service.EmailService - HTML email sent successfully to: fixlage2007@gmail.com

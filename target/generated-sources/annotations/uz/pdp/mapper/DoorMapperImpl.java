@@ -12,8 +12,8 @@ import uz.pdp.enums.DoorStatus;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-02-08T10:26:53+0500",
-    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 23.0.2 (Arch Linux)"
+    date = "2025-02-08T11:34:23+0500",
+    comments = "version: 1.5.5.Final, compiler: Eclipse JDT (IDE) 3.41.0.z20250115-2156, environment: Java 21.0.5 (Eclipse Adoptium)"
 )
 @Component
 public class DoorMapperImpl implements DoorMapper {
@@ -26,26 +26,26 @@ public class DoorMapperImpl implements DoorMapper {
 
         DoorDto doorDto = new DoorDto();
 
-        doorDto.setId( door.getId() );
-        doorDto.setName( door.getName() );
-        doorDto.setDescription( door.getDescription() );
-        doorDto.setPrice( door.getPrice() );
-        doorDto.setSize( door.getSize() );
         doorDto.setColor( door.getColor() );
-        doorDto.setMaterial( door.getMaterial() );
-        doorDto.setManufacturer( door.getManufacturer() );
+        doorDto.setCustomHeight( door.getCustomHeight() );
+        doorDto.setCustomWidth( door.getCustomWidth() );
+        doorDto.setDescription( door.getDescription() );
+        doorDto.setDoorLocation( door.getDoorLocation() );
+        doorDto.setFinalPrice( door.getFinalPrice() );
         doorDto.setFrameType( door.getFrameType() );
         doorDto.setHardware( door.getHardware() );
-        doorDto.setDoorLocation( door.getDoorLocation() );
-        doorDto.setWarrantyYears( door.getWarrantyYears() );
-        doorDto.setCustomWidth( door.getCustomWidth() );
-        doorDto.setCustomHeight( door.getCustomHeight() );
-        doorDto.setIsCustomColor( door.getIsCustomColor() );
-        doorDto.setFinalPrice( door.getFinalPrice() );
+        doorDto.setId( door.getId() );
         List<String> list = door.getImages();
         if ( list != null ) {
             doorDto.setImages( new ArrayList<String>( list ) );
         }
+        doorDto.setIsCustomColor( door.getIsCustomColor() );
+        doorDto.setManufacturer( door.getManufacturer() );
+        doorDto.setMaterial( door.getMaterial() );
+        doorDto.setName( door.getName() );
+        doorDto.setPrice( door.getPrice() );
+        doorDto.setSize( door.getSize() );
+        doorDto.setWarrantyYears( door.getWarrantyYears() );
 
         doorDto.setStatus( door.getStatus().toString() );
         doorDto.setCategoryName( door.getCategory() != null ? door.getCategory().getName() : null );
@@ -61,25 +61,25 @@ public class DoorMapperImpl implements DoorMapper {
 
         Door door = new Door();
 
-        door.setName( dto.getName() );
+        door.setColor( dto.getColor() );
+        door.setCustomHeight( dto.getCustomHeight() );
+        door.setCustomWidth( dto.getCustomWidth() );
         door.setDescription( dto.getDescription() );
-        door.setPrice( dto.getPrice() );
+        door.setDoorLocation( dto.getDoorLocation() );
         door.setFinalPrice( dto.getFinalPrice() );
+        door.setFrameType( dto.getFrameType() );
+        door.setHardware( dto.getHardware() );
         List<String> list = dto.getImages();
         if ( list != null ) {
             door.setImages( new ArrayList<String>( list ) );
         }
-        door.setSize( dto.getSize() );
-        door.setColor( dto.getColor() );
-        door.setMaterial( dto.getMaterial() );
-        door.setManufacturer( dto.getManufacturer() );
-        door.setWarrantyYears( dto.getWarrantyYears() );
-        door.setCustomWidth( dto.getCustomWidth() );
-        door.setCustomHeight( dto.getCustomHeight() );
         door.setIsCustomColor( dto.getIsCustomColor() );
-        door.setDoorLocation( dto.getDoorLocation() );
-        door.setFrameType( dto.getFrameType() );
-        door.setHardware( dto.getHardware() );
+        door.setManufacturer( dto.getManufacturer() );
+        door.setMaterial( dto.getMaterial() );
+        door.setName( dto.getName() );
+        door.setPrice( dto.getPrice() );
+        door.setSize( dto.getSize() );
+        door.setWarrantyYears( dto.getWarrantyYears() );
 
         door.setActive( true );
         door.setStatus( DoorStatus.AVAILABLE );
@@ -96,10 +96,14 @@ public class DoorMapperImpl implements DoorMapper {
             return;
         }
 
-        door.setName( dto.getName() );
+        door.setColor( dto.getColor() );
+        door.setCustomHeight( dto.getCustomHeight() );
+        door.setCustomWidth( dto.getCustomWidth() );
         door.setDescription( dto.getDescription() );
-        door.setPrice( dto.getPrice() );
+        door.setDoorLocation( dto.getDoorLocation() );
         door.setFinalPrice( dto.getFinalPrice() );
+        door.setFrameType( dto.getFrameType() );
+        door.setHardware( dto.getHardware() );
         if ( door.getImages() != null ) {
             List<String> list = dto.getImages();
             if ( list != null ) {
@@ -116,17 +120,13 @@ public class DoorMapperImpl implements DoorMapper {
                 door.setImages( new ArrayList<String>( list ) );
             }
         }
-        door.setSize( dto.getSize() );
-        door.setColor( dto.getColor() );
-        door.setMaterial( dto.getMaterial() );
-        door.setManufacturer( dto.getManufacturer() );
-        door.setWarrantyYears( dto.getWarrantyYears() );
-        door.setCustomWidth( dto.getCustomWidth() );
-        door.setCustomHeight( dto.getCustomHeight() );
         door.setIsCustomColor( dto.getIsCustomColor() );
-        door.setDoorLocation( dto.getDoorLocation() );
-        door.setFrameType( dto.getFrameType() );
-        door.setHardware( dto.getHardware() );
+        door.setManufacturer( dto.getManufacturer() );
+        door.setMaterial( dto.getMaterial() );
+        door.setName( dto.getName() );
+        door.setPrice( dto.getPrice() );
+        door.setSize( dto.getSize() );
+        door.setWarrantyYears( dto.getWarrantyYears() );
 
         afterMapping( door );
     }
@@ -139,18 +139,18 @@ public class DoorMapperImpl implements DoorMapper {
 
         DoorResponseDTO.DoorResponseDTOBuilder doorResponseDTO = DoorResponseDTO.builder();
 
-        doorResponseDTO.id( door.getId() );
-        doorResponseDTO.name( door.getName() );
-        doorResponseDTO.description( door.getDescription() );
-        if ( door.getPrice() != null ) {
-            doorResponseDTO.price( BigDecimal.valueOf( door.getPrice() ) );
-        }
-        doorResponseDTO.status( door.getStatus() );
         doorResponseDTO.color( door.getColor() );
+        doorResponseDTO.description( door.getDescription() );
+        doorResponseDTO.id( door.getId() );
         List<String> list = door.getImages();
         if ( list != null ) {
             doorResponseDTO.images( new ArrayList<String>( list ) );
         }
+        doorResponseDTO.name( door.getName() );
+        if ( door.getPrice() != null ) {
+            doorResponseDTO.price( BigDecimal.valueOf( door.getPrice() ) );
+        }
+        doorResponseDTO.status( door.getStatus() );
 
         doorResponseDTO.category( mapCategory(door.getCategory()) );
 

@@ -10,8 +10,8 @@ import uz.pdp.enums.Socials;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-02-08T10:26:53+0500",
-    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 23.0.2 (Arch Linux)"
+    date = "2025-02-08T11:34:23+0500",
+    comments = "version: 1.5.5.Final, compiler: Eclipse JDT (IDE) 3.41.0.z20250115-2156, environment: Java 21.0.5 (Eclipse Adoptium)"
 )
 @Component
 public class AddressMapperImpl implements AddressMapper {
@@ -25,17 +25,17 @@ public class AddressMapperImpl implements AddressMapper {
         AddressDTO addressDTO = new AddressDTO();
 
         addressDTO.setLocation( locationToDto( address.getLocation() ) );
-        addressDTO.setName( address.getName() );
-        addressDTO.setStreet( address.getStreet() );
         addressDTO.setCity( address.getCity() );
-        addressDTO.setPhoneNumber( address.getPhoneNumber() );
-        addressDTO.setWorkingHours( address.getWorkingHours() );
-        addressDTO.setEmail( address.getEmail() );
         addressDTO.setDefault( address.isDefault() );
+        addressDTO.setEmail( address.getEmail() );
+        addressDTO.setName( address.getName() );
+        addressDTO.setPhoneNumber( address.getPhoneNumber() );
         Map<Socials, String> map = address.getSocialLinks();
         if ( map != null ) {
             addressDTO.setSocialLinks( new LinkedHashMap<Socials, String>( map ) );
         }
+        addressDTO.setStreet( address.getStreet() );
+        addressDTO.setWorkingHours( address.getWorkingHours() );
 
         return addressDTO;
     }
@@ -49,17 +49,17 @@ public class AddressMapperImpl implements AddressMapper {
         Address address = new Address();
 
         address.setLocation( dtoToLocation( dto.getLocation() ) );
-        address.setDefault( dto.isDefault() );
-        address.setName( dto.getName() );
-        address.setStreet( dto.getStreet() );
         address.setCity( dto.getCity() );
-        address.setPhoneNumber( dto.getPhoneNumber() );
-        address.setWorkingHours( dto.getWorkingHours() );
         address.setEmail( dto.getEmail() );
+        address.setName( dto.getName() );
+        address.setPhoneNumber( dto.getPhoneNumber() );
         Map<Socials, String> map = dto.getSocialLinks();
         if ( map != null ) {
             address.setSocialLinks( new LinkedHashMap<Socials, String>( map ) );
         }
+        address.setStreet( dto.getStreet() );
+        address.setWorkingHours( dto.getWorkingHours() );
+        address.setDefault( dto.isDefault() );
 
         return address;
     }
@@ -71,13 +71,10 @@ public class AddressMapperImpl implements AddressMapper {
         }
 
         address.setLocation( dtoToLocation( dto.getLocation() ) );
-        address.setDefault( dto.isDefault() );
-        address.setName( dto.getName() );
-        address.setStreet( dto.getStreet() );
         address.setCity( dto.getCity() );
-        address.setPhoneNumber( dto.getPhoneNumber() );
-        address.setWorkingHours( dto.getWorkingHours() );
         address.setEmail( dto.getEmail() );
+        address.setName( dto.getName() );
+        address.setPhoneNumber( dto.getPhoneNumber() );
         if ( address.getSocialLinks() != null ) {
             Map<Socials, String> map = dto.getSocialLinks();
             if ( map != null ) {
@@ -94,5 +91,8 @@ public class AddressMapperImpl implements AddressMapper {
                 address.setSocialLinks( new LinkedHashMap<Socials, String>( map ) );
             }
         }
+        address.setStreet( dto.getStreet() );
+        address.setWorkingHours( dto.getWorkingHours() );
+        address.setDefault( dto.isDefault() );
     }
 }

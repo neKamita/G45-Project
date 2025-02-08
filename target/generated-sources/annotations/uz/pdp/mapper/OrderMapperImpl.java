@@ -7,8 +7,8 @@ import uz.pdp.entity.Order;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-02-08T10:26:53+0500",
-    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 23.0.2 (Arch Linux)"
+    date = "2025-02-08T11:34:23+0500",
+    comments = "version: 1.5.5.Final, compiler: Eclipse JDT (IDE) 3.41.0.z20250115-2156, environment: Java 21.0.5 (Eclipse Adoptium)"
 )
 @Component
 public class OrderMapperImpl implements OrderMapper {
@@ -21,15 +21,15 @@ public class OrderMapperImpl implements OrderMapper {
 
         OrderDto orderDto = new OrderDto();
 
-        orderDto.setOrderType( order.getOrderType() );
+        orderDto.setComment( order.getComment() );
+        orderDto.setContactPhone( order.getContactPhone() );
         orderDto.setCustomerName( order.getCustomerName() );
         orderDto.setDeliveryAddress( order.getDeliveryAddress() );
-        orderDto.setContactPhone( order.getContactPhone() );
-        orderDto.setEmail( order.getEmail() );
-        orderDto.setPreferredDeliveryTime( order.getPreferredDeliveryTime() );
-        orderDto.setComment( order.getComment() );
-        orderDto.setInstallationNotes( order.getInstallationNotes() );
         orderDto.setDeliveryNotes( order.getDeliveryNotes() );
+        orderDto.setEmail( order.getEmail() );
+        orderDto.setInstallationNotes( order.getInstallationNotes() );
+        orderDto.setOrderType( order.getOrderType() );
+        orderDto.setPreferredDeliveryTime( order.getPreferredDeliveryTime() );
 
         return orderDto;
     }
@@ -42,15 +42,15 @@ public class OrderMapperImpl implements OrderMapper {
 
         Order order = new Order();
 
-        order.setOrderType( dto.getOrderType() );
-        order.setCustomerName( dto.getCustomerName() );
-        order.setEmail( dto.getEmail() );
-        order.setDeliveryAddress( dto.getDeliveryAddress() );
-        order.setContactPhone( dto.getContactPhone() );
-        order.setPreferredDeliveryTime( dto.getPreferredDeliveryTime() );
         order.setComment( dto.getComment() );
-        order.setInstallationNotes( dto.getInstallationNotes() );
+        order.setContactPhone( dto.getContactPhone() );
+        order.setCustomerName( dto.getCustomerName() );
+        order.setDeliveryAddress( dto.getDeliveryAddress() );
         order.setDeliveryNotes( dto.getDeliveryNotes() );
+        order.setEmail( dto.getEmail() );
+        order.setInstallationNotes( dto.getInstallationNotes() );
+        order.setOrderType( dto.getOrderType() );
+        order.setPreferredDeliveryTime( dto.getPreferredDeliveryTime() );
 
         order.setOrderDate( java.time.ZonedDateTime.now() );
         order.setStatus( Order.OrderStatus.PENDING );
@@ -64,14 +64,14 @@ public class OrderMapperImpl implements OrderMapper {
             return;
         }
 
-        order.setOrderType( dto.getOrderType() );
-        order.setCustomerName( dto.getCustomerName() );
-        order.setEmail( dto.getEmail() );
-        order.setDeliveryAddress( dto.getDeliveryAddress() );
-        order.setContactPhone( dto.getContactPhone() );
-        order.setPreferredDeliveryTime( dto.getPreferredDeliveryTime() );
         order.setComment( dto.getComment() );
-        order.setInstallationNotes( dto.getInstallationNotes() );
+        order.setContactPhone( dto.getContactPhone() );
+        order.setCustomerName( dto.getCustomerName() );
+        order.setDeliveryAddress( dto.getDeliveryAddress() );
         order.setDeliveryNotes( dto.getDeliveryNotes() );
+        order.setEmail( dto.getEmail() );
+        order.setInstallationNotes( dto.getInstallationNotes() );
+        order.setOrderType( dto.getOrderType() );
+        order.setPreferredDeliveryTime( dto.getPreferredDeliveryTime() );
     }
 }
