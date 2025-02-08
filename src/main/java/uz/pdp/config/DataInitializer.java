@@ -914,7 +914,7 @@ public class DataInitializer implements CommandLineRunner {
             // Create doors with diverse attributes for similar door matching
             List<Door> doors = new ArrayList<>();
 
-            // Classic Oak Interior Door Series
+            // C\lassic Oak Interior Door Series
             for (DoorLocation location : Arrays.asList(DoorLocation.BEDROOM, DoorLocation.LIVING_ROOM, DoorLocation.BATHROOM)) {
                 Door door = new Door();
                 door.setName("Classic Oak " + location.toString().toLowerCase());

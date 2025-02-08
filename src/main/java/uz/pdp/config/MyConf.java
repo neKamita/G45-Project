@@ -64,6 +64,8 @@ public class MyConf {
                         .requestMatchers("/graphql/**", "/graphiql/**").permitAll()
                         .requestMatchers("/subscriptions/**").permitAll()
 
+                        .requestMatchers("/api/v1/additional/**").permitAll()
+
                         // Swagger/OpenAPI endpoints
                         .requestMatchers(HttpMethod.GET,
                                 "/swagger-ui/**",

@@ -32,7 +32,7 @@ public class PriceListService {
      * 
      * Knock knock! Who's there? Your personalized price list! 📊
      */
-    public EntityResponse<String> generateAndSendPriceList(PriceListRequestDto request) {
+    public EntityResponse<String>generateAndSendPriceList(PriceListRequestDto request) {
         StringBuilder content = new StringBuilder();
 
         try {

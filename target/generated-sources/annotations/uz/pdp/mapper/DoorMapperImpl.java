@@ -16,7 +16,7 @@ import uz.pdp.enums.Size;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-02-08T14:42:37+0500",
+    date = "2025-02-08T15:16:56+0500",
     comments = "version: 1.5.5.Final, compiler: Eclipse JDT (IDE) 3.41.0.z20250115-2156, environment: Java 21.0.5 (Eclipse Adoptium)"
 )
 @Component
@@ -94,8 +94,8 @@ public class DoorMapperImpl implements DoorMapper {
         door.setMaterial( dto.getMaterial() );
         door.setName( dto.getName() );
         door.setPrice( dto.getPrice() );
-        door.setSize( dto.getSize() );
         door.setWarrantyYears( dto.getWarrantyYears() );
+        door.setSize( dto.getSize() );
 
         door.setActive( true );
         door.setStatus( DoorStatus.AVAILABLE );
@@ -157,8 +157,8 @@ public class DoorMapperImpl implements DoorMapper {
         door.setMaterial( dto.getMaterial() );
         door.setName( dto.getName() );
         door.setPrice( dto.getPrice() );
-        door.setSize( dto.getSize() );
         door.setWarrantyYears( dto.getWarrantyYears() );
+        door.setSize( dto.getSize() );
 
         afterMapping( door );
     }
