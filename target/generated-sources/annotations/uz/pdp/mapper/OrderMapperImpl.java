@@ -7,7 +7,7 @@ import uz.pdp.entity.Order;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-02-08T11:34:23+0500",
+    date = "2025-02-08T14:39:52+0500",
     comments = "version: 1.5.5.Final, compiler: Eclipse JDT (IDE) 3.41.0.z20250115-2156, environment: Java 21.0.5 (Eclipse Adoptium)"
 )
 @Component
@@ -28,8 +28,13 @@ public class OrderMapperImpl implements OrderMapper {
         orderDto.setDeliveryNotes( order.getDeliveryNotes() );
         orderDto.setEmail( order.getEmail() );
         orderDto.setInstallationNotes( order.getInstallationNotes() );
+        orderDto.setItemId( order.getItemId() );
+        orderDto.setItemName( order.getItemName() );
+        orderDto.setItemType( order.getItemType() );
         orderDto.setOrderType( order.getOrderType() );
         orderDto.setPreferredDeliveryTime( order.getPreferredDeliveryTime() );
+        orderDto.setPrice( order.getPrice() );
+        orderDto.setQuantity( order.getQuantity() );
 
         return orderDto;
     }
@@ -49,8 +54,13 @@ public class OrderMapperImpl implements OrderMapper {
         order.setDeliveryNotes( dto.getDeliveryNotes() );
         order.setEmail( dto.getEmail() );
         order.setInstallationNotes( dto.getInstallationNotes() );
+        order.setItemId( dto.getItemId() );
+        order.setItemName( dto.getItemName() );
+        order.setItemType( dto.getItemType() );
         order.setOrderType( dto.getOrderType() );
         order.setPreferredDeliveryTime( dto.getPreferredDeliveryTime() );
+        order.setPrice( dto.getPrice() );
+        order.setQuantity( dto.getQuantity() );
 
         order.setOrderDate( java.time.ZonedDateTime.now() );
         order.setStatus( Order.OrderStatus.PENDING );
@@ -71,7 +81,12 @@ public class OrderMapperImpl implements OrderMapper {
         order.setDeliveryNotes( dto.getDeliveryNotes() );
         order.setEmail( dto.getEmail() );
         order.setInstallationNotes( dto.getInstallationNotes() );
+        order.setItemId( dto.getItemId() );
+        order.setItemName( dto.getItemName() );
+        order.setItemType( dto.getItemType() );
         order.setOrderType( dto.getOrderType() );
         order.setPreferredDeliveryTime( dto.getPreferredDeliveryTime() );
+        order.setPrice( dto.getPrice() );
+        order.setQuantity( dto.getQuantity() );
     }
 }

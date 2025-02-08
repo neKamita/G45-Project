@@ -130,51 +130,68 @@ public class AdminService {
                 emailService.sendHtmlEmail(
                     user.getEmail(),
                     "🎉 Welcome to the Door Sellers Club!",
-                    String.format(
-                        "<div style='font-family: Arial, sans-serif;'>" +
-                        "<h1>🚪 Welcome to the Club!</h1>" +
-                        "<p>Dear %s,</p>" +
-                        "<p>Great news! Your seller account has been approved. You can now start listing your amazing doors!</p>" +
-                        "<p>Remember:</p>" +
-                        "<ul>" +
-                        "<li>Quality photos make doors look their best</li>" +
-                        "<li>Accurate descriptions help buyers find their perfect match</li>" +
-                        "<li>Prompt responses lead to happy customers</li>" +
-                        "</ul>" +
-                        "<p>Now go forth and let your door business flourish! 🌟</p>" +
-                        "<p>Best regards,<br>The Door Paradise Team</p>" +
-                        "</div>",
-                        user.getName()
-                    )
+                    String.format("""
+                        <!DOCTYPE html>
+                        <html>
+                        <body style=\"font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;\">
+                            <div style=\"background-color: #f8f9fa; border-radius: 10px; padding: 20px; margin-bottom: 20px;\">
+                                <h1 style=\"color: #2c3e50; margin-bottom: 20px;\">🎉 Welcome to the Door Sellers Club! 🚪</h1>
+                                <div style=\"background-color: #fff; border-radius: 8px; padding: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);\">
+                                    <p style=\"color: #34495e; font-size: 16px; margin-bottom: 20px;\">
+                                        Dear %s,
+                                    </p>
+                                    <p style=\"color: #34495e; font-size: 16px; margin-bottom: 20px;\">
+                                        Great news! Your seller account has been approved. You can now start listing your amazing doors!
+                                    </p>
+                                    <h2 style=\"color: #3498db; margin-bottom: 15px;\">Tips for Success</h2>
+                                    <ul style=\"list-style-type: none; padding: 0;\">
+                                        <li style=\"margin-bottom: 8px;\">✅ Quality photos make doors look their best.</li>
+                                        <li style=\"margin-bottom: 8px;\">✅ Accurate descriptions help buyers find their perfect match.</li>
+                                        <li style=\"margin-bottom: 8px;\">✅ Respond promptly to inquiries to build trust.</li>
+                                    </ul>
+                                    <p style=\"color: #34495e; font-size: 16px; margin-bottom: 20px;\">
+                                        We're excited to have you on board! If you have any questions, feel free to reach out to our support team.
+                                    </p>
+                                </div>
+                                <div style=\"margin-top: 20px; text-align: center; color: #7f8c8d;\">
+                                    <p style=\"margin: 5px 0;\"> 2025 DoorShop. All rights reserved.</p>
+                                </div>
+                            </div>
+                        </body>
+                        </html>
+                        """, user.getName())
                 );
                 logger.info("User approved as seller: {}", user.getUsername());
                 return EntityResponse.success("User approved as seller successfully");
             } else {
-                // If rejected, reset the pending status
-                user.setSellerRequestPending(false);
-                userRepository.save(user);
-
                 // Send rejection email
                 emailService.sendHtmlEmail(
                     user.getEmail(),
-                    "Update on Your Seller Application",
-                    String.format(
-                        "<div style='font-family: Arial, sans-serif;'>" +
-                        "<h1>Your Seller Application Update</h1>" +
-                        "<p>Dear %s,</p>" +
-                        "<p>We have reviewed your application to become a seller on Door Paradise. " +
-                        "Unfortunately, we cannot approve your request at this time.</p>" +
-                        "<p>You are welcome to apply again after 30 days with:</p>" +
-                        "<ul>" +
-                        "<li>Updated business information</li>" +
-                        "<li>More detailed seller profile</li>" +
-                        "<li>Additional documentation if required</li>" +
-                        "</ul>" +
-                        "<p>If you have any questions, please contact our support team.</p>" +
-                        "<p>Best regards,<br>The Door Paradise Team</p>" +
-                        "</div>",
-                        user.getName()
-                    )
+                    "🚪 Seller Request Denied",
+                    String.format("""
+                        <!DOCTYPE html>
+                        <html>
+                        <body style=\"font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;\">
+                            <div style=\"background-color: #f8f9fa; border-radius: 10px; padding: 20px; margin-bottom: 20px;\">
+                                <h1 style=\"color: #2c3e50; margin-bottom: 20px;\">🚪 Seller Request Denied</h1>
+                                <div style=\"background-color: #fff; border-radius: 8px; padding: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);\">
+                                    <p style=\"color: #34495e; font-size: 16px; margin-bottom: 20px;\">
+                                        Dear %s,
+                                    </p>
+                                    <p style=\"color: #34495e; font-size: 16px; margin-bottom: 20px;\">
+                                        We regret to inform you that your request to become a seller has been denied.
+                                    </p>
+                                    <p style=\"color: #34495e; font-size: 16px; margin-bottom: 20px;\">
+                                        If you have any questions or would like to appeal this decision, please contact our support team.
+                                    </p>
+                                </div>
+                                <div style=\"margin-top: 20px; text-align: center; color: #7f8c8d;\">
+                                    <p style=\"margin: 5px 0;\"> 2025 DoorShop. All rights reserved.</p>
+                                </div>
+                            </div>
+                        </body>
+                        </html>
+                        """, user.getName())
                 );
                 logger.info("Seller request rejected for user: {}", user.getUsername());
                 return EntityResponse.success("Seller request rejected successfully");
@@ -248,7 +265,7 @@ public class AdminService {
      * 4. Update audit logs
      * 
      * Pro tip: With great power comes great responsibility...
-     * and a lot of "I forgot my password" tickets. 🔑
+     * and a lot of "I forgot my password" tickets. 
      *
      * @param userId The chosen one's ID
      * @param updateUserDTO The new user specs
@@ -286,18 +303,18 @@ public class AdminService {
     }
 
     /**
-     * 👑 The Royal Role Reassignment Ceremony 👑
+     * The Royal Role Reassignment Ceremony 
      * 
      * Changes a user's role with proper validation and notification.
      * It's like musical chairs, but with user roles and more paperwork!
      * 
      * Technical Process:
-     * 1. 🔍 Validate user existence
-     * 2. 🎭 Check role compatibility
-     * 3. 👔 Update role
-     * 4. 📨 Send notification
+     * 1. Validate user existence
+     * 2. Check role compatibility
+     * 3. Update role
+     * 4. Send notification
      * 
-     * Note: Changing roles is like changing doors - make sure you have the right key! 🔑
+     * Note: Changing roles is like changing doors - make sure you have the right key! 
      *
      * @param userId ID of the user getting a role makeover
      * @param newRole The shiny new role they'll be wearing
@@ -346,19 +363,25 @@ public class AdminService {
             // Send notification email
             String emailSubject = "Your Role Has Been Updated";
             String emailContent = String.format(
-                "<div style='font-family: Arial, sans-serif;'>" +
-                "<h1>🔄 Role Update Notification</h1>" +
-                "<p>Dear %s,</p>" +
-                "<p>Your account role has been changed from <strong>%s</strong> to <strong>%s</strong>.</p>" +
-                "<p>This change is effective immediately.</p>" +
-                "%s" + // Additional info based on role change
-                "<p>If you have any questions, please contact our support team.</p>" +
-                "<p>Best regards,<br>The Door Paradise Team</p>" +
-                "</div>",
-                user.getName(),
-                oldRole,
-                newRole,
-                getRoleChangeMessage(oldRole, newRole)
+                "<!DOCTYPE html>"+
+                "<html>"+
+                "<head>"+
+                "<title>Role Update Notification</title>"+
+                "<style>"+
+                "body {font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;}"+
+                "</style>"+
+                "</head>"+
+                "<body>"+
+                "<h1>Role Update Notification</h1>"+
+                "<p>Dear %s,</p>"+
+                "<p>Your account role has been changed from <strong>%s</strong> to <strong>%s</strong>.</p>"+
+                "<p>This change is effective immediately.</p>"+
+                "%s"+
+                "<p>If you have any questions, please contact our support team.</p>"+
+                "<p>Best regards,<br>The Door Paradise Team</p>"+
+                "</body>"+
+                "</html>",
+                user.getName(), oldRole, newRole, getRoleChangeMessage(oldRole, newRole)
             );
             emailService.sendHtmlEmail(user.getEmail(), emailSubject, emailContent);
 
@@ -373,7 +396,7 @@ public class AdminService {
 
     /**
      * Gets a friendly message explaining the implications of a role change.
-     * Because sometimes users need a little extra explanation! 📝
+     * Because sometimes users need a little extra explanation! 
      */
     private String getRoleChangeMessage(Role oldRole, Role newRole) {
         if (oldRole == Role.SELLER && newRole == Role.USER) {
@@ -384,14 +407,14 @@ public class AdminService {
                    "Check out our seller guidelines to get started!</p>";
         } else if (newRole == Role.ADMIN) {
             return "<p><strong>Welcome to the admin team!</strong> " +
-                   "With great power comes great responsibility... and access to all the door puns! 🚪</p>";
+                   "With great power comes great responsibility... and access to all the door puns! </p>";
         }
         return "";
     }
 
     /**
      * Gets the currently authenticated admin user.
-     * Because even admins need to prove who they are! 🎭
+     * Because even admins need to prove who they are! 
      *
      * @return The authenticated admin user
      * @throws UnauthorizedException if no admin is logged in

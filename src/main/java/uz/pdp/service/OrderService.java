@@ -53,12 +53,12 @@ public class OrderService {
     @Transactional
     public EntityResponse<Order> createOrder(String email, OrderDto orderDto) {
         try {
-            logger.info("Creating order for user with email: {} and door ID: {}", email, orderDto.getDoorId());
+            logger.info("Creating order for user with email: {} and door ID: {}", email, orderDto.getItemId());
             
             User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
             
-            Door door = doorRepository.findById(orderDto.getDoorId())
+            Door door = doorRepository.findById(orderDto.getItemId())
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Door not found"));
 
             if (orderDto.getDeliveryAddress() == null || orderDto.getDeliveryAddress().trim().isEmpty()) {
@@ -71,7 +71,7 @@ public class OrderService {
 
             Order order = new Order();
             order.setUser(user);
-            order.setDoor(door);
+            order.setItemType(orderDto.getItemType());
             order.setOrderType(orderDto.getOrderType());
             order.setDeliveryAddress(orderDto.getDeliveryAddress());
             order.setContactPhone(orderDto.getContactPhone());
@@ -253,9 +253,9 @@ public class OrderService {
             
             for (OrderDto orderDto : orderDtos) {
                 // Validate door existence and availability
-                Door door = doorRepository.findById(orderDto.getDoorId())
+                Door door = doorRepository.findById(orderDto.getItemId())
                     .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, 
-                        "Door not found: " + orderDto.getDoorId()));
+                        "Door not found: " + orderDto.getItemId()));
                 
                 if (!door.isActive()) {
                     throw new ResponseStatusException(HttpStatus.BAD_REQUEST, 
@@ -265,7 +265,7 @@ public class OrderService {
                 // Create and save the order
                 Order order = new Order();
                 order.setUser(user);
-                order.setDoor(door);
+                order.setItemType(orderDto.getItemType());
                 order.setOrderType(orderDto.getOrderType());
                 order.setStatus(Order.OrderStatus.PENDING);
                 order.setCustomerName(orderDto.getCustomerName());

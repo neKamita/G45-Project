@@ -9,6 +9,7 @@ import uz.pdp.entity.Door;
 import uz.pdp.enums.*;
 
 import java.util.List;
+import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -43,6 +44,12 @@ public class DoorDto {
 
     @NotNull(message = "Color is required")
     private Color color;
+
+    // Available colors for this door model
+    private Set<Color> availableColors;
+
+    // Available sizes for this door model
+    private Set<Size> availableSizes;
 
     @NotNull(message = "Material is required")
     private String material;

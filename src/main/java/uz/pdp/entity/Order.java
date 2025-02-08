@@ -5,14 +5,28 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import uz.pdp.dto.OrderDto.OrderType;
+import uz.pdp.enums.ItemType;
+import uz.pdp.enums.OrderType;
 
 import java.time.ZonedDateTime;
 
+/**
+ * Entity representing an order in the system.
+ * 
+ * Every order is like a new adventure - from cart to doorstep! 🛍️✨
+ * 
+ * Key Features:
+ * - Tracks item details (type, price, quantity)
+ * - Manages customer information
+ * - Handles delivery preferences
+ * - Monitors order status
+ * 
+ * @version 1.0
+ * @since 2025-02-08
+ */
 @Entity
 @Table(name = "orders", indexes = {
     @Index(name = "idx_order_user", columnList = "user_id"),
-    @Index(name = "idx_order_door", columnList = "door_id"),
     @Index(name = "idx_order_status_date", columnList = "status,order_date"),
     @Index(name = "idx_order_type_date", columnList = "order_type,order_date")
 })
@@ -29,9 +43,21 @@ public class Order {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "door_id", nullable = false)
-    private Door door;
+    @Column(name = "item_id", nullable = false)
+    private Long itemId;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "item_type", nullable = false)
+    private ItemType itemType;
+
+    @Column(nullable = false)
+    private Double price;
+
+    @Column(nullable = false)
+    private Integer quantity;
+
+    @Column(nullable = false)
+    private String itemName;
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)

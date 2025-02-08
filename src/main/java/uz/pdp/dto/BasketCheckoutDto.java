@@ -4,7 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import uz.pdp.dto.OrderDto.OrderType;
+import uz.pdp.enums.OrderType;
 
 import java.time.ZonedDateTime;
 

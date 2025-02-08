@@ -2,17 +2,21 @@ package uz.pdp.mapper;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 import javax.annotation.processing.Generated;
 import org.springframework.stereotype.Component;
 import uz.pdp.dto.DoorDto;
 import uz.pdp.dto.DoorResponseDTO;
 import uz.pdp.entity.Door;
+import uz.pdp.enums.Color;
 import uz.pdp.enums.DoorStatus;
+import uz.pdp.enums.Size;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-02-08T11:34:23+0500",
+    date = "2025-02-08T14:42:37+0500",
     comments = "version: 1.5.5.Final, compiler: Eclipse JDT (IDE) 3.41.0.z20250115-2156, environment: Java 21.0.5 (Eclipse Adoptium)"
 )
 @Component
@@ -26,6 +30,14 @@ public class DoorMapperImpl implements DoorMapper {
 
         DoorDto doorDto = new DoorDto();
 
+        Set<Color> set = door.getAvailableColors();
+        if ( set != null ) {
+            doorDto.setAvailableColors( new LinkedHashSet<Color>( set ) );
+        }
+        Set<Size> set1 = door.getAvailableSizes();
+        if ( set1 != null ) {
+            doorDto.setAvailableSizes( new LinkedHashSet<Size>( set1 ) );
+        }
         doorDto.setColor( door.getColor() );
         doorDto.setCustomHeight( door.getCustomHeight() );
         doorDto.setCustomWidth( door.getCustomWidth() );
@@ -61,6 +73,10 @@ public class DoorMapperImpl implements DoorMapper {
 
         Door door = new Door();
 
+        Set<Size> set = dto.getAvailableSizes();
+        if ( set != null ) {
+            door.setAvailableSizes( new LinkedHashSet<Size>( set ) );
+        }
         door.setColor( dto.getColor() );
         door.setCustomHeight( dto.getCustomHeight() );
         door.setCustomWidth( dto.getCustomWidth() );
@@ -96,6 +112,22 @@ public class DoorMapperImpl implements DoorMapper {
             return;
         }
 
+        if ( door.getAvailableSizes() != null ) {
+            Set<Size> set = dto.getAvailableSizes();
+            if ( set != null ) {
+                door.getAvailableSizes().clear();
+                door.getAvailableSizes().addAll( set );
+            }
+            else {
+                door.setAvailableSizes( null );
+            }
+        }
+        else {
+            Set<Size> set = dto.getAvailableSizes();
+            if ( set != null ) {
+                door.setAvailableSizes( new LinkedHashSet<Size>( set ) );
+            }
+        }
         door.setColor( dto.getColor() );
         door.setCustomHeight( dto.getCustomHeight() );
         door.setCustomWidth( dto.getCustomWidth() );

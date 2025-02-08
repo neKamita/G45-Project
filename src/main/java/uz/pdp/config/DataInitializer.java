@@ -187,6 +187,71 @@ public class DataInitializer implements CommandLineRunner {
         {"San Jose", "Gateway Grove 741", "Door Paradise SJ", "8:00 AM - 5:00 PM", "+1-408-555-0132", "sj@doorparadise.com", "37.3382", "-121.8863"}
     };
 
+    // Color families for creating harmonious color variants
+    private static final Map<Color, Set<Color>> COLOR_FAMILIES = new HashMap<>();
+    private static final Map<Size, Set<Size>> SIZE_FAMILIES = new HashMap<>();
+
+    // Initialize color and size families - Where doors find their perfect match! 🎨
+    static {
+        // Light Family - For doors that brighten up any room! ☀️
+        Set<Color> lightFamily = Set.of(Color.WHITE, Color.IVORY, Color.CREAM);
+        COLOR_FAMILIES.put(Color.WHITE, lightFamily);
+        COLOR_FAMILIES.put(Color.IVORY, lightFamily);
+        COLOR_FAMILIES.put(Color.CREAM, lightFamily);
+        
+        // Brown Family - Because wood you believe how many shades we have? 🌳
+        Set<Color> darkBrownFamily = Set.of(Color.BROWN, Color.DARK_BROWN, Color.MAHOGANY);
+        Set<Color> lightBrownFamily = Set.of(Color.LIGHT_BROWN, Color.OAK, Color.NATURAL);
+        Set<Color> cherryFamily = Set.of(Color.MAHOGANY, Color.CHERRY, Color.DARK_BROWN);
+        
+        COLOR_FAMILIES.put(Color.BROWN, darkBrownFamily);
+        COLOR_FAMILIES.put(Color.DARK_BROWN, darkBrownFamily);
+        COLOR_FAMILIES.put(Color.MAHOGANY, cherryFamily);
+        COLOR_FAMILIES.put(Color.LIGHT_BROWN, lightBrownFamily);
+        COLOR_FAMILIES.put(Color.OAK, lightBrownFamily);
+        COLOR_FAMILIES.put(Color.CHERRY, cherryFamily);
+        COLOR_FAMILIES.put(Color.NATURAL, lightBrownFamily);
+        
+        // Grey Family - For those who like it sophisticated! 🎩
+        Set<Color> darkGreyFamily = Set.of(Color.BLACK, Color.CHARCOAL, Color.DARK_GREY);
+        Set<Color> lightGreyFamily = Set.of(Color.GREY, Color.LIGHT_GREY, Color.WHITE);
+        
+        COLOR_FAMILIES.put(Color.BLACK, darkGreyFamily);
+        COLOR_FAMILIES.put(Color.CHARCOAL, darkGreyFamily);
+        COLOR_FAMILIES.put(Color.DARK_GREY, darkGreyFamily);
+        COLOR_FAMILIES.put(Color.GREY, lightGreyFamily);
+        COLOR_FAMILIES.put(Color.LIGHT_GREY, lightGreyFamily);
+        
+        // Custom colors can be paired with any color - Because sometimes you need to think outside the door frame! 🎨
+        Set<Color> customColors = new HashSet<>(Arrays.asList(Color.values()));
+        COLOR_FAMILIES.put(Color.CUSTOM, customColors);
+
+        // Initialize size families
+        SIZE_FAMILIES.put(Size.SIZE_800x2000, Set.of(Size.SIZE_700x2000, Size.SIZE_800x2000, Size.SIZE_900x2000));
+        SIZE_FAMILIES.put(Size.SIZE_900x2000, Set.of(Size.SIZE_800x2000, Size.SIZE_900x2000, Size.SIZE_1000x2000));
+        SIZE_FAMILIES.put(Size.SIZE_1000x2000, Set.of(Size.SIZE_900x2000, Size.SIZE_1000x2000, Size.SIZE_1100x2000));
+        
+        // Group similar widths together
+        SIZE_FAMILIES.put(Size.SIZE_200x2000, Set.of(Size.SIZE_200x2000, Size.SIZE_300x2000));
+        SIZE_FAMILIES.put(Size.SIZE_300x2000, Set.of(Size.SIZE_200x2000, Size.SIZE_300x2000, Size.SIZE_400x2000));
+        SIZE_FAMILIES.put(Size.SIZE_400x2000, Set.of(Size.SIZE_300x2000, Size.SIZE_400x2000, Size.SIZE_500x2000));
+        SIZE_FAMILIES.put(Size.SIZE_500x2000, Set.of(Size.SIZE_400x2000, Size.SIZE_500x2000, Size.SIZE_600x2000));
+        SIZE_FAMILIES.put(Size.SIZE_600x2000, Set.of(Size.SIZE_500x2000, Size.SIZE_600x2000, Size.SIZE_700x2000));
+        SIZE_FAMILIES.put(Size.SIZE_700x2000, Set.of(Size.SIZE_600x2000, Size.SIZE_700x2000, Size.SIZE_800x2000));
+        SIZE_FAMILIES.put(Size.SIZE_1100x2000, Set.of(Size.SIZE_1000x2000, Size.SIZE_1100x2000, Size.SIZE_1200x2000));
+        SIZE_FAMILIES.put(Size.SIZE_1200x2000, Set.of(Size.SIZE_1100x2000, Size.SIZE_1200x2000));
+        
+        // Custom size can be paired with any standard size
+        Set<Size> customSizes = new HashSet<>();
+        customSizes.add(Size.CUSTOM);
+        for (Size size : Size.values()) {
+            if (size != Size.CUSTOM) {
+                customSizes.add(size);
+            }
+        }
+        SIZE_FAMILIES.put(Size.CUSTOM, customSizes);
+    }
+
     @Override
     public void run(String... args) {
         System.out.println("🎭 Welcome to the Door Paradise Initialization!");
@@ -296,54 +361,83 @@ public class DataInitializer implements CommandLineRunner {
         List<Door> sampleDoors = new ArrayList<>();
         
         // Generate base door models
-        int doorCount = faker.number().numberBetween(10, 16); // Reduced count since we'll add variants
+        int doorCount = faker.number().numberBetween(10, 16);
         
         for (int i = 0; i < doorCount; i++) {
             Door door = createBaseDoor(seller);
-            door.setIsBaseModel(true); // Mark as base model
-            generateDoorImages(door); // Use our image generator
+            door.setIsBaseModel(true);
+            generateDoorImages(door);
             door = doorRepository.save(door);
             
-            // Create 2-4 color variants for each base door
-            int variantCount = faker.number().numberBetween(2, 5);
+            // Get similar colors based on the base door's color
+            Set<Color> similarColors = COLOR_FAMILIES.getOrDefault(door.getColor(), 
+                Set.of(door.getColor())); // Fallback to just the door's color if no family defined
+            
+            // Get compatible sizes based on the base door's size
+            Set<Size> compatibleSizes = SIZE_FAMILIES.getOrDefault(door.getSize(),
+                Set.of(door.getSize())); // Fallback to just the door's size if no family defined
+            
+            // Create 2-3 variants with different colors and sizes
+            List<Color> availableColors = new ArrayList<>(similarColors);
+            List<Size> availableSizes = new ArrayList<>(compatibleSizes);
+            
+            availableColors.remove(door.getColor()); // Remove base color as it's already used
+            availableSizes.remove(door.getSize()); // Remove base size as it's already used
+            
+            Collections.shuffle(availableColors); // Randomize remaining colors
+            Collections.shuffle(availableSizes); // Randomize remaining sizes
+            
+            int variantCount = Math.min(faker.number().numberBetween(2, 4), 
+                Math.min(availableColors.size(), availableSizes.size()));
+            
             Set<Color> usedColors = new HashSet<>();
-            usedColors.add(door.getColor()); // Add base door color
+            Set<Size> usedSizes = new HashSet<>();
+            
+            usedColors.add(door.getColor());
+            usedSizes.add(door.getSize());
+            
             door.getAvailableColors().add(door.getColor());
+            door.getAvailableSizes().add(door.getSize());
             
             for (int j = 0; j < variantCount; j++) {
-                // Pick a random color that hasn't been used for this door
-                Color variantColor;
-                do {
-                    variantColor = Color.values()[faker.number().numberBetween(0, Color.values().length)];
-                } while (usedColors.contains(variantColor));
+                Color variantColor = availableColors.get(j);
+                Size variantSize = availableSizes.get(j);
                 
                 usedColors.add(variantColor);
+                usedSizes.add(variantSize);
                 
                 Door variant = new Door();
                 copyDoorProperties(door, variant);
                 variant.setColor(variantColor);
+                variant.setSize(variantSize);
                 variant.setBaseModelId(door.getId());
                 variant.setIsBaseModel(false);
-                generateDoorImages(variant); // Generate new images for variant
+                generateDoorImages(variant);
                 variant = doorRepository.save(variant);
                 
-                // Update available colors on base model
+                // Update available options on base model
                 door.getAvailableColors().add(variantColor);
+                door.getAvailableSizes().add(variantSize);
             }
             
-            // Save base door with updated available colors
+            // Save base door with updated available options
             doorRepository.save(door);
             
-            // Add custom color variant for 30% of doors
+            // Add custom variant for 30% of doors
             if (faker.number().numberBetween(1, 100) <= 30) {
                 Door customVariant = new Door();
                 copyDoorProperties(door, customVariant);
                 customVariant.setCustomColorCode(generateRandomHexColor());
                 customVariant.setIsCustomColor(true);
+                customVariant.setSize(Size.CUSTOM); // Custom color doors often have custom sizes
                 customVariant.setBaseModelId(door.getId());
                 customVariant.setIsBaseModel(false);
-                generateDoorImages(customVariant); // Generate new images for custom variant
+                generateDoorImages(customVariant);
                 doorRepository.save(customVariant);
+                
+                // Add CUSTOM size to available sizes for the base model
+                door.getAvailableSizes().add(Size.CUSTOM);
+                doorRepository.save(door);
             }
             
             sampleDoors.add(door);
@@ -351,14 +445,16 @@ public class DataInitializer implements CommandLineRunner {
         
         // Celebrate the door creation!
         System.out.println("🚪 Welcome to the Door Paradise!");
-        System.out.println("✨ Created " + sampleDoors.size() + " base door models with their color variants!");
+        System.out.println("✨ Created " + sampleDoors.size() + " base door models with their variants!");
         System.out.println("\n🎨 Door Showcase:");
         sampleDoors.forEach(door -> {
-            int variantCount = door.getAvailableColors().size();
-            System.out.printf("   • %s - $%.2f (%d color variants)%n", 
+            int colorCount = door.getAvailableColors().size();
+            int sizeCount = door.getAvailableSizes().size();
+            System.out.printf("   • %s - $%.2f (%d colors, %d sizes)%n", 
                 door.getName(), 
                 door.getFinalPrice(),
-                variantCount);
+                colorCount,
+                sizeCount);
         });
     }
     
@@ -369,71 +465,43 @@ public class DataInitializer implements CommandLineRunner {
     private Door createBaseDoor(User seller) {
         Door door = new Door();
         
-        // Generate a fancy door name with style and material
-        String style = DOOR_STYLES[faker.number().numberBetween(0, DOOR_STYLES.length)];
+        // Set basic properties
         String material = DOOR_MATERIALS[faker.number().numberBetween(0, DOOR_MATERIALS.length)];
-        String adjective = faker.commerce().productName().split(" ")[0];
+        String style = DOOR_STYLES[faker.number().numberBetween(0, DOOR_STYLES.length)];
+        String manufacturer = MANUFACTURERS[faker.number().numberBetween(0, MANUFACTURERS.length)];
         
-        String prefix = faker.number().numberBetween(0, 3) == 0 ? 
-                      faker.commerce().material() + "-Infused " : "";
-        
-        door.setName(prefix + style + " " + adjective + " " + material + " Door");
+        door.setName(style + " " + material + " Door");
         door.setDescription(generateDoorDescription(door, material, style));
-        
-        // Set random size (75% standard, 25% custom)
-        if (faker.number().numberBetween(1, 100) <= 75) {
-            door.setSize(Size.values()[faker.number().numberBetween(0, Size.values().length - 1)]);
-            // Set custom dimensions to null for standard sizes
-            door.setCustomWidth(null);
-            door.setCustomHeight(null);
-        } else {
-            door.setSize(Size.CUSTOM);
-            // Set realistic custom dimensions
-            door.setCustomWidth(faker.number().numberBetween(600, 1500) * 1.0);  // 600mm to 1500mm width
-            door.setCustomHeight(faker.number().numberBetween(1800, 2400) * 1.0); // 1800mm to 2400mm height
-        }
-        
+        door.setPrice(faker.number().randomDouble(2, 200, 2000));
+        door.setFinalPrice(door.getPrice());  // Initial final price same as base price
         door.setColor(Color.values()[faker.number().numberBetween(0, Color.values().length)]);
+        door.setSize(Size.values()[faker.number().numberBetween(0, Size.values().length)]);
+        door.setMaterial(material);
+        door.setManufacturer(manufacturer);
+        door.setWarrantyYears(faker.number().numberBetween(1, 10));
         door.setDoorLocation(DoorLocation.values()[faker.number().numberBetween(0, DoorLocation.values().length)]);
         door.setFrameType(FrameType.values()[faker.number().numberBetween(0, FrameType.values().length)]);
         door.setHardware(HardwareType.values()[faker.number().numberBetween(0, HardwareType.values().length)]);
-        
-        door.setMaterial(material);
-        door.setManufacturer(MANUFACTURERS[faker.number().numberBetween(0, MANUFACTURERS.length)]);
-        
-        int baseWarranty = material.contains("Steel") || 
-                         Arrays.asList("Mahogany", "Teak", "Metal-Wood Hybrid")
-                               .contains(material) ? 5 : 2;
-        door.setWarrantyYears(baseWarranty + faker.number().numberBetween(0, 6));
-        
-        // Price calculation with BigDecimal for precision
-        BigDecimal basePrice = BigDecimal.valueOf(faker.number().numberBetween(20000, 100000))
-                .divide(BigDecimal.valueOf(100), 2, RoundingMode.HALF_UP);
-                
-        if (material.contains("Steel") || 
-            Arrays.asList("Mahogany", "Teak", "Metal-Wood Hybrid", "Tempered Glass")
-                  .contains(material)) {
-            basePrice = basePrice.multiply(BigDecimal.valueOf(1.5));
-        }
-        if (style.equals("Vintage") || style.equals("Art Deco")) {
-            basePrice = basePrice.multiply(BigDecimal.valueOf(1.3));
-        }
-        
-        // Round to 2 decimal places
-        basePrice = basePrice.setScale(2, RoundingMode.HALF_UP);
-        
-        door.setPrice(basePrice.doubleValue());
-        door.setFinalPrice(basePrice.doubleValue()); // Will be calculated by entity
-        door.setSeller(seller);
         door.setStatus(DoorStatus.AVAILABLE);
         door.setActive(true);
+        door.setIsBaseModel(true);
+        door.setSeller(seller);
 
-        // Assign a random category
-        List<Category> categories = categoryRepository.findAll();
-        if (!categories.isEmpty()) {
-            int randomIndex = faker.number().numberBetween(0, categories.size());
-            door.setCategory(categories.get(randomIndex));
-        }
+        // Give this door a random selection of colors (at least 3) 🎨
+        List<Color> allColors = new ArrayList<>(Arrays.asList(Color.values()));
+        Collections.shuffle(allColors);
+        int colorCount = faker.number().numberBetween(3, allColors.size());
+        Set<Color> doorColors = new HashSet<>(allColors.subList(0, colorCount));
+        doorColors.add(door.getColor());  // Make sure door's own color is included
+        door.setAvailableColors(doorColors);
+        
+        // Give this door a random selection of sizes (at least 3) 📏
+        List<Size> allSizes = new ArrayList<>(Arrays.asList(Size.values()));
+        Collections.shuffle(allSizes);
+        int sizeCount = faker.number().numberBetween(3, allSizes.size());
+        Set<Size> doorSizes = new HashSet<>(allSizes.subList(0, sizeCount));
+        doorSizes.add(door.getSize());  // Make sure door's own size is included
+        door.setAvailableSizes(doorSizes);
         
         return door;
     }
@@ -446,8 +514,6 @@ public class DataInitializer implements CommandLineRunner {
         target.setName(source.getName());
         target.setDescription(source.getDescription());
         target.setSize(source.getSize());
-        target.setCustomWidth(source.getCustomWidth());
-        target.setCustomHeight(source.getCustomHeight());
         target.setDoorLocation(source.getDoorLocation());
         target.setFrameType(source.getFrameType());
         target.setHardware(source.getHardware());
@@ -858,111 +924,75 @@ public class DataInitializer implements CommandLineRunner {
                 door.setCategory(interior);
                 door.setImages(Arrays.asList(DOOR_IMAGE_URLS[0]));
                 door.setSize(Size.SIZE_800x2000);  // Standard interior door size
-                door.setColor(Color.GOLDEN_OAK);  // Warm golden oak color for classic doors
+                door.setColor(Color.OAK);  // Natural oak color for classic doors
                 door.setMaterial("Solid Oak");
                 door.setManufacturer("DoorMaster Pro");
                 door.setWarrantyYears(5);
-                door.setStatus(DoorStatus.AVAILABLE);
-                door.setActive(true);
-                door.setSeller(seller);
                 door.setDoorLocation(location);
                 door.setFrameType(FrameType.STANDARD);  // Standard frame for interior doors
                 door.setHardware(HardwareType.STANDARD_HINGES);  // Basic hinges for interior doors
+                door.setStatus(DoorStatus.AVAILABLE);
+                door.setActive(true);
+                door.setIsBaseModel(true);
+                door.setSeller(seller);
+                
+                // Set random available colors (at least 3) 🎨
+                List<Color> allColors = new ArrayList<>(Arrays.asList(Color.values()));
+                Collections.shuffle(allColors);
+                int colorCount = faker.number().numberBetween(3, allColors.size());
+                Set<Color> doorColors = new HashSet<>(allColors.subList(0, colorCount));
+                doorColors.add(door.getColor());  // Make sure door's own color is included
+                door.setAvailableColors(doorColors);
+                
+                // Set random available sizes (at least 3) 📏
+                List<Size> allSizes = new ArrayList<>(Arrays.asList(Size.values()));
+                Collections.shuffle(allSizes);
+                int sizeCount = faker.number().numberBetween(3, allSizes.size());
+                Set<Size> doorSizes = new HashSet<>(allSizes.subList(0, sizeCount));
+                doorSizes.add(door.getSize());  // Make sure door's own size is included
+                door.setAvailableSizes(doorSizes);
+                
                 doors.add(door);
             }
 
             // Modern Security Series
-            for (Color color : Arrays.asList(Color.BLACK, Color.CHARCOAL, Color.GRAY)) {
+            for (Color color : Arrays.asList(Color.BLACK, Color.CHARCOAL, Color.DARK_GREY)) {
                 Door door = new Door();
-                door.setName("Modern Security " + color.toString());
+                door.setName("Modern Security " + color.toString().toLowerCase());
                 door.setDescription("High-security door with modern aesthetics");
                 door.setPrice(899.99);
                 door.setFinalPrice(899.99);
                 door.setCategory(security);
                 door.setImages(List.of(DOOR_IMAGE_URLS[1]));
                 door.setSize(Size.SIZE_900x2000);  // Larger security door size
-                door.setColor(color);  // Using the color parameter (BLACK, CHARCOAL, GRAY)
+                door.setColor(color);  // Using the color parameter
                 door.setMaterial("Reinforced Steel");
                 door.setManufacturer("SecureMax Pro");
                 door.setWarrantyYears(10);
-                door.setStatus(DoorStatus.AVAILABLE);
-                door.setActive(true);
-                door.setSeller(seller);
                 door.setDoorLocation(DoorLocation.ENTRANCE);
                 door.setFrameType(FrameType.REBATED);  // Rebated frame for better security
                 door.setHardware(HardwareType.AUTOMATIC);  // Smart automatic hardware
-                doors.add(door);
-            }
-
-            // Elegant French Doors
-            for (String material : Arrays.asList("Mahogany", "Cherry Wood", "Walnut")) {
-                Door door = new Door();
-                door.setName("Elegant " + material + " French Door");
-                door.setDescription("Sophisticated French door crafted from premium " + material);
-                door.setPrice(1299.99);
-                door.setFinalPrice(1299.99);
-                door.setCategory(french);
-                door.setImages(Arrays.asList(DOOR_IMAGE_URLS[2]));
-                door.setSize(Size.SIZE_1200x2000);  // Double door size for French doors
-                door.setColor(Color.MAHOGANY);  // Rich mahogany color for elegant doors
-                door.setMaterial(material);
-                door.setManufacturer("Portal Paradise");
-                door.setWarrantyYears(7);
                 door.setStatus(DoorStatus.AVAILABLE);
                 door.setActive(true);
+                door.setIsBaseModel(true);
                 door.setSeller(seller);
-                door.setDoorLocation(DoorLocation.LIVING_ROOM);
-                door.setFrameType(FrameType.NON_REBATED);  // Non-rebated for elegant look
-                door.setHardware(HardwareType.CONCEALED_HINGES);  // Hidden hinges for elegance
-                doors.add(door);
-            }
-
-            // Modern Sliding Series
-            for (FrameType frameType : Arrays.asList(FrameType.REBATED, FrameType.NON_REBATED, FrameType.TELESCOPIC)) {
-                Door door = new Door();
-                door.setName("Modern " + frameType.toString() + " Slider");
-                door.setDescription("Contemporary sliding door with " + frameType.toString().toLowerCase() + " frame");
-                door.setPrice(799.99);
-                door.setFinalPrice(799.99);
-                door.setCategory(sliding);
-                door.setImages(List.of(DOOR_IMAGE_URLS[3]));
-                door.setSize(Size.CUSTOM);  // Custom size for sliding doors
-                // Set custom dimensions for sliding doors
-                door.setCustomWidth(1200.0);  // 1200mm width for sliding doors
-                door.setCustomHeight(2400.0); // 2400mm height for sliding doors
-                door.setColor(Color.GRAY);  // Modern gray for sliding doors
-                door.setMaterial("Tempered Glass");
-                door.setManufacturer("Swing Kings");
-                door.setWarrantyYears(5);
-                door.setStatus(DoorStatus.AVAILABLE);
-                door.setActive(true);
-                door.setSeller(seller);
-                door.setDoorLocation(DoorLocation.BALCONY);
-                door.setFrameType(frameType);  // Using the frameType parameter from the loop
-                door.setHardware(HardwareType.SLIDING);  // Sliding hardware for sliding doors
-                doors.add(door);
-            }
-
-            // Premium Exterior Series
-            for (HardwareType hardware : Arrays.asList(HardwareType.AUTOMATIC, HardwareType.SPRING_HINGES, HardwareType.DOUBLE_ACTION)) {
-                Door door = new Door();
-                door.setName("Premium Exterior with " + hardware.getDisplayName());
-                door.setDescription("High-end exterior door with " + hardware.getDisplayName().toLowerCase() + " hardware");
-                door.setPrice(1499.99);
-                door.setFinalPrice(1499.99);
-                door.setCategory(exterior);
-                door.setImages(List.of(DOOR_IMAGE_URLS[4]));
-                door.setSize(Size.SIZE_1000x2000);  // Large exterior door size
-                door.setColor(Color.WHITE);  // Classic white for exterior doors
-                door.setMaterial("Fiberglass");
-                door.setManufacturer("Gateway Giants");
-                door.setWarrantyYears(15);
-                door.setStatus(DoorStatus.AVAILABLE);
-                door.setActive(true);
-                door.setSeller(seller);
-                door.setDoorLocation(DoorLocation.ENTRANCE);
-                door.setFrameType(FrameType.TELESCOPIC);  // Telescopic frame for exterior doors
-                door.setHardware(hardware);
+                
+                // Set random available colors (at least 3) 🎨
+                List<Color> allColors = new ArrayList<>(Arrays.asList(Color.values()));
+                Collections.shuffle(allColors);
+                int colorCount = faker.number().numberBetween(3, allColors.size());
+                Set<Color> doorColors = new HashSet<>(allColors.subList(0, colorCount));
+                doorColors.add(door.getColor());  // Make sure door's own color is included
+                door.setAvailableColors(doorColors);
+                
+                // Set random available sizes (at least 3) 📏
+                List<Size> allSizes = new ArrayList<>(Arrays.asList(Size.values()));
+                Collections.shuffle(allSizes);
+                int sizeCount = faker.number().numberBetween(3, allSizes.size());
+                Set<Size> doorSizes = new HashSet<>(allSizes.subList(0, sizeCount));
+                doorSizes.add(door.getSize());  // Make sure door's own size is included
+                door.setAvailableSizes(doorSizes);
+                
                 doors.add(door);
             }
 

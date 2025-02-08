@@ -12,11 +12,10 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
-import uz.pdp.entity.Door;
 import uz.pdp.entity.Order;
 import uz.pdp.entity.User;
-import uz.pdp.payload.EntityResponse;
 import uz.pdp.enums.VerificationType;
+import uz.pdp.payload.EntityResponse;
 
 import java.time.format.DateTimeFormatter;
 import java.util.Random;
@@ -95,23 +94,24 @@ public class EmailService {
 
     /**
      * Sends a verification code faster than you can say "spam folder".
-     * 
+     * <p>
      * Technical Process:
      * 1. Generate a random code (because security!)
      * 2. Create a fancy HTML template
      * 3. Cross fingers and hit send
      * 4. Hope it doesn't end up in spam
-     * 
+     * <p>
      * Pro tip: Tell users to check their spam folder first.
      * It saves everyone's time, trust me! 📨
      *
      * @param to   The hopeful recipient's email
+     * @param code Verification code
      * @param type What we're verifying (their existence, mostly)
-     * @return Success message or a creative excuse for failure
      */
-    public EntityResponse<Void> sendVerificationEmail(String email, String code, VerificationType type) {
+    public void sendVerificationEmail(String email, String code, VerificationType type) {
         if (!isValidEmail(email)) {
-            return EntityResponse.error("Invalid email format");
+            EntityResponse.error("Invalid email format");
+            return;
         }
 
         try {
@@ -130,11 +130,11 @@ public class EmailService {
             mailSender.send(message);
             logger.info("Verification email sent successfully to: {}", email);
 
-            return EntityResponse.success("Verification email sent successfully");
+            EntityResponse.success("Verification email sent successfully");
 
         } catch (MessagingException | MailSendException e) {
             logger.error("Failed to send verification email to {}: {}", email, e.getMessage());
-            return EntityResponse.error("Failed to send verification email: " + e.getMessage());
+            EntityResponse.error("Failed to send verification email: " + e.getMessage());
         }
     }
 
@@ -155,50 +155,47 @@ public class EmailService {
     }
 
     private String getSellerRequestEmailContent(String code) {
-        return String.format(
-                """
-                        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-                            <h2>Seller Account Verification</h2>
-                            <p>Thank you for requesting to become a seller. Please use the following code to verify your request:</p>
-                            <div style="background-color: #f5f5f5; padding: 15px; text-align: center; font-size: 24px; letter-spacing: 5px;">
-                                <strong>%s</strong>
-                            </div>
-                            <p>This code will expire in 15 minutes.</p>
-                            <p>If you didn't request this, please ignore this email.</p>
-                        </div>
-                        """,
+        return String.format("""
+                <div style='text-align: center;'>
+                    <h1>Welcome Future Seller! 🌟</h1>
+                    <p>We're excited to have you join our marketplace! Please use this code to verify your seller account:</p>
+                    <div style='margin: 20px; padding: 10px; background-color: #f8f9fa; border-radius: 5px;'>
+                        <h2 style='color: #2193b0; letter-spacing: 5px;'>%s</h2>
+                    </div>
+                    <p>This code will expire in 30 minutes.</p>
+                    <p>Get ready to showcase your amazing products!</p>
+                </div>
+                """,
                 code);
     }
 
     private String getPasswordResetEmailContent(String code) {
-        return String.format(
-                """
-                        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-                            <h2>Password Reset Request</h2>
-                            <p>You have requested to reset your password. Use this verification code:</p>
-                            <div style="background-color: #f5f5f5; padding: 15px; text-align: center; font-size: 24px; letter-spacing: 5px;">
-                                <strong>%s</strong>
-                            </div>
-                            <p>This code will expire in 15 minutes.</p>
-                            <p>If you didn't request this, please secure your account immediately.</p>
-                        </div>
-                        """,
+        return String.format("""
+                <div style='text-align: center;'>
+                    <h1>Password Reset Request 🔐</h1>
+                    <p>You've requested to reset your password. Here's your verification code:</p>
+                    <div style='margin: 20px; padding: 10px; background-color: #f8f9fa; border-radius: 5px;'>
+                        <h2 style='color: #2193b0; letter-spacing: 5px;'>%s</h2>
+                    </div>
+                    <p>This code will expire in 30 minutes.</p>
+                    <p>If you didn't request this reset, please ignore this email.</p>
+                </div>
+                """,
                 code);
     }
 
     private String getEmailConfirmationContent(String code) {
-        return String.format(
-                """
-                        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-                            <h2>Email Confirmation</h2>
-                            <p>Please verify your email address using this code:</p>
-                            <div style="background-color: #f5f5f5; padding: 15px; text-align: center; font-size: 24px; letter-spacing: 5px;">
-                                <strong>%s</strong>
-                            </div>
-                            <p>This code will expire in 15 minutes.</p>
-                            <p>If you didn't create an account, please ignore this email.</p>
-                        </div>
-                        """,
+        return String.format("""
+                <div style='text-align: center;'>
+                    <h1>Welcome to Our Community! 🎉</h1>
+                    <p>Please use this verification code to confirm your email address:</p>
+                    <div style='margin: 20px; padding: 10px; background-color: #f8f9fa; border-radius: 5px;'>
+                        <h2 style='color: #2193b0; letter-spacing: 5px;'>%s</h2>
+                    </div>
+                    <p>This code will expire in 30 minutes.</p>
+                    <p>If you didn't request this code, please ignore this email.</p>
+                </div>
+                """,
                 code);
     }
 
@@ -314,30 +311,55 @@ public class EmailService {
 
     /**
      * Sends a verification code email for seller registration.
+     * Because every seller deserves a grand entrance! 🎭
      *
-     * @param to               Recipient email address
-     * @param verificationCode Verification code
+     * @param to Recipient email address
      * @return EntityResponse indicating success/failure
      */
-    public EntityResponse<Void> sendSellerVerificationEmail(String to, String verificationCode) {
+    public EntityResponse<String> sendSellerVerificationEmail(String to) {
         try {
-            logger.info("Sending seller verification email to: {}", to);
-            String subject = "Seller Account Verification";
-            String htmlContent = String.format("""
-                    <html>
-                    <body>
-                        <h2>Seller Account Verification</h2>
-                        <p>Your verification code is: <strong>%s</strong></p>
-                        <p>This code will expire in 15 minutes.</p>
-                        <p>If you did not request this verification, please ignore this email.</p>
-                    </body>
-                    </html>
-                    """, verificationCode);
-
-            return sendHtmlEmail(to, subject, htmlContent);
+            String code = generateVerificationCode();
+            sendVerificationEmail(to, code, VerificationType.SELLER_REQUEST);
+            return new EntityResponse<>("Verification email sent successfully", true, code);
         } catch (Exception e) {
             logger.error("Failed to send seller verification email to {}: {}", to, e.getMessage());
             return new EntityResponse<>("Failed to send verification email: " + e.getMessage(), false, null);
+        }
+    }
+
+    /**
+     * Sends a password reset email with a verification code.
+     * Because everyone forgets their password sometimes! 🔑
+     *
+     * @param to Recipient email address
+     * @return EntityResponse indicating success/failure with the generated code
+     */
+    public EntityResponse<String> sendPasswordResetEmail(String to) {
+        try {
+            String code = generateVerificationCode();
+            sendVerificationEmail(to, code, VerificationType.PASSWORD_RESET);
+            return new EntityResponse<>("Password reset email sent successfully", true, code);
+        } catch (Exception e) {
+            logger.error("Failed to send password reset email to {}: {}", to, e.getMessage());
+            return new EntityResponse<>("Failed to send password reset email: " + e.getMessage(), false, null);
+        }
+    }
+
+    /**
+     * Sends an email confirmation code.
+     * Welcome to the family! 🎉
+     *
+     * @param to Recipient email address
+     * @return EntityResponse indicating success/failure with the generated code
+     */
+    public EntityResponse<String> sendEmailConfirmation(String to) {
+        try {
+            String code = generateVerificationCode();
+            sendVerificationEmail(to, code, VerificationType.EMAIL_CONFIRMATION);
+            return new EntityResponse<>("Email confirmation sent successfully", true, code);
+        } catch (Exception e) {
+            logger.error("Failed to send email confirmation to {}: {}", to, e.getMessage());
+            return new EntityResponse<>("Failed to send email confirmation: " + e.getMessage(), false, null);
         }
     }
 
@@ -405,7 +427,7 @@ public class EmailService {
 
     /**
      * Sends an order notification email to the seller.
-     * Because sellers need to know when their doors are going to new homes! 🏠
+     * Because every order deserves a grand announcement! 🛍️
      * 
      * @param sellerEmail Seller's email address
      * @param order       Order details
@@ -418,98 +440,81 @@ public class EmailService {
             MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
 
             helper.setTo(sellerEmail);
-            helper.setSubject("🚪 New Door Order #" + order.getId());
-
-            StringBuilder itemsHtml = new StringBuilder();
-            double totalAmount = order.getDoor().getFinalPrice();
-
-            Door door = order.getDoor();
-            itemsHtml.append(String.format(
-                    "<tr>" +
-                            "<td>%s</td>" +
-                            "<td>%s</td>" +
-                            "<td>%d</td>" +
-                            "<td>$%.2f</td>" +
-                            "<td>$%.2f</td>" +
-                            "</tr>",
-                    door.getName(),
-                    door.getColor().getDisplayName(),
-                    1,
-                    door.getFinalPrice(),
-                    door.getFinalPrice()));
+            helper.setSubject("🛍️ New Order #" + order.getId());
 
             String emailContent = String.format(
                     "<div style='font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;'>" +
-                            "<div style='background-color: #4a90e2; color: white; padding: 20px; text-align: center; border-radius: 5px 5px 0 0;'>"
-                            +
-                            "<h1>🚪 New Door Order!</h1>" +
+                            "<div style='background-color: #4a90e2; color: white; padding: 20px; text-align: center; border-radius: 5px 5px 0 0;'>" +
+                            "<h1>🛍️ New Order!</h1>" +
                             "</div>" +
                             "<div style='padding: 20px; border: 1px solid #ddd;'>" +
-                            "<p>Hello %s,</p>" +
-                            "<p>Great news! You've received a new order for your amazing door(s). Here are the details:</p>"
-                            +
-                            "<div style='background-color: #f9f9f9; padding: 15px; border-radius: 5px; margin: 15px 0;'>"
-                            +
-                            "<h3>📦 Order Information</h3>" +
+                            "<p>Hello,</p>" +
+                            "<p>Great news! You've received a new order. Here are the details:</p>" +
+                            "<div style='background-color: #f9f9f9; padding: 15px; border-radius: 5px; margin: 15px 0;'>" +
+                            "<h3>📦 Order Details</h3>" +
                             "<p><strong>Order ID:</strong> %d</p>" +
                             "<p><strong>Order Date:</strong> %s</p>" +
                             "<p><strong>Total Amount:</strong> $%.2f</p>" +
-                            "<h3>👤 Customer Details</h3>" +
+                            "<h3>👤 Customer Information</h3>" +
                             "<p><strong>Name:</strong> %s %s</p>" +
                             "<p><strong>Phone:</strong> %s</p>" +
                             "<p><strong>Email:</strong> %s</p>" +
                             "<h3>📍 Delivery Information</h3>" +
                             "<p><strong>Address:</strong> %s</p>" +
-                            "<h3>🚪 Ordered Items</h3>" +
+                            "<h3>🛍️ Ordered Items</h3>" +
                             "<table style='width: 100%%; border-collapse: collapse; margin-top: 10px;'>" +
                             "<tr style='background-color: #f2f2f2;'>" +
-                            "<th style='padding: 8px; text-align: left;'>Door</th>" +
-                            "<th style='padding: 8px; text-align: left;'>Color</th>" +
+                            "<th style='padding: 8px; text-align: left;'>Item</th>" +
+                            "<th style='padding: 8px; text-align: left;'>Type</th>" +
                             "<th style='padding: 8px; text-align: left;'>Quantity</th>" +
                             "<th style='padding: 8px; text-align: left;'>Price</th>" +
                             "<th style='padding: 8px; text-align: left;'>Total</th>" +
                             "</tr>" +
-                            "%s" +
+                            "<tr>" +
+                            "<td style='padding: 8px; border-top: 1px solid #ddd;'>%s</td>" +
+                            "<td style='padding: 8px; border-top: 1px solid #ddd;'>%s</td>" +
+                            "<td style='padding: 8px; border-top: 1px solid #ddd;'>%d</td>" +
+                            "<td style='padding: 8px; border-top: 1px solid #ddd;'>$%.2f</td>" +
+                            "<td style='padding: 8px; border-top: 1px solid #ddd;'>$%.2f</td>" +
+                            "</tr>" +
                             "</table>" +
+                            "<div style='margin-top: 20px; padding-top: 20px; border-top: 1px solid #ddd;'>" +
+                            "<p><strong>Order Notes:</strong> %s</p>" +
+                            "<p><strong>Installation Notes:</strong> %s</p>" +
+                            "<p><strong>Delivery Notes:</strong> %s</p>" +
                             "</div>" +
-                            "<div style='background-color: #fff3cd; border: 1px solid #ffeeba; padding: 10px; margin: 10px 0; border-radius: 5px;'>"
-                            +
-                            "<p>⏰ <strong>Expected Delivery:</strong> %s</p>" +
-                            "<p>Please ensure the order is prepared and ready for delivery by this date.</p>" +
                             "</div>" +
-                            "<p>You can view the complete order details and manage this order in your seller dashboard.</p>"
-                            +
                             "</div>" +
                             "<div style='text-align: center; margin-top: 20px; color: #666;'>" +
-                            "<p>This is an automated message from your friends at Door Paradise 🏠</p>" +
-                            "<p>Please do not reply directly to this email. Use your seller dashboard for all order-related communication.</p>"
-                            +
+                            "<p>Thank you for being an awesome seller! 🌟</p>" +
                             "</div>" +
                             "</div>",
-                    door.getSeller().getName(),
                     order.getId(),
                     order.getOrderDate().format(DateTimeFormatter.ofPattern("MMMM dd, yyyy HH:mm:ss")),
-                    totalAmount,
+                    order.getPrice() * order.getQuantity(), // Calculate total amount
                     buyer.getName(),
                     buyer.getLastname(),
                     buyer.getPhone(),
                     buyer.getEmail(),
                     order.getDeliveryAddress(),
-                    itemsHtml.toString(),
-                    order.getPreferredDeliveryTime() != null
-                            ? order.getPreferredDeliveryTime().format(DateTimeFormatter.ofPattern("MMMM dd, yyyy"))
-                            : "To be confirmed");
+                    order.getItemName(),
+                    order.getItemType().toString(),
+                    order.getQuantity(),
+                    order.getPrice(),
+                    order.getPrice() * order.getQuantity(), // Calculate total for this item
+                    order.getComment() != null ? order.getComment() : "No comments provided",
+                    order.getInstallationNotes() != null ? order.getInstallationNotes() : "No installation notes provided",
+                    order.getDeliveryNotes() != null ? order.getDeliveryNotes() : "No delivery notes provided"
+            );
 
-            helper.setText(BASE_TEMPLATE.formatted(emailContent), true);
+            helper.setText(emailContent, true);
+            helper.setFrom(fromEmail);
+
             mailSender.send(message);
-
-            log.info("🎉 Order notification email sent to seller {} for order #{}",
-                    sellerEmail, order.getId());
-
+            logger.info("Order notification email sent successfully to seller: {}", sellerEmail);
         } catch (Exception e) {
-            log.error("📫 Failed to send order notification email to {}: {}",
-                    sellerEmail, e.getMessage());
-            throw new MessagingException("Failed to send order notification email", e);
+            logger.error("Failed to send order notification email to seller {}: {}", sellerEmail, e.getMessage());
+            throw new MessagingException("Failed to send order notification email: " + e.getMessage());
         }
     }
 }

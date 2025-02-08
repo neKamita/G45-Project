@@ -6,16 +6,18 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+
 import uz.pdp.entity.Order;
 import uz.pdp.entity.Order.OrderStatus;
 import uz.pdp.entity.User;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 /**
- * Repository for managing orders - where dreams of new doors come true! 
- * Warning: Handle with care, or you might end up in a parallel universe where all doors are windows!
+ * Repository for managing orders.
+ * Every order has its own story, and we're here to tell it! 
  */
 @Repository
 public interface OrderRepository extends JpaRepository<Order, Long> {
@@ -32,9 +34,8 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
         @Param("endDate") LocalDateTime endDate
     );
     
-    @Query("SELECT o FROM Order o WHERE o.door.seller.id = :sellerId ORDER BY o.orderDate DESC")
-    Page<Order> findBySellerId(@Param("sellerId") Long sellerId, Pageable pageable);
-    
-    @Query("SELECT COUNT(o) FROM Order o WHERE o.status = :status AND o.door.seller.id = :sellerId")
-    long countByStatusAndSellerId(@Param("status") OrderStatus status, @Param("sellerId") Long sellerId);
+    @Query("SELECT o FROM Order o WHERE o.user.id = :userId ORDER BY o.orderDate DESC")
+    List<Order> findAllByUserIdOrderByOrderDateDesc(@Param("userId") Long userId);
+
+    Optional<Order> findFirstByUserOrderByOrderDateDesc(User user);
 }

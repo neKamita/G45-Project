@@ -26,6 +26,7 @@ import uz.pdp.entity.Door;
 import uz.pdp.entity.User;
 import uz.pdp.enums.Color;
 import uz.pdp.enums.ItemType;
+import uz.pdp.enums.Size;
 import uz.pdp.mutations.DoorConfigInput;
 import uz.pdp.payload.EntityResponse;
 import uz.pdp.service.*;
@@ -645,5 +646,23 @@ public class DoorController {
             logger.error("Error retrieving doors by color {}: {}", colorName, e.getMessage());
             return EntityResponse.error("Error retrieving doors by color: " + e.getMessage());
         }
+    }
+
+    /**
+     * Get available sizes for a specific door model.
+     * 
+     * @param id Door ID to get sizes for
+     * @return ResponseEntity with available sizes
+     * 
+     * 🚪 Because doors come in all shapes and sizes! 
+     */
+    @GetMapping("/{id}/sizes")
+    @Operation(summary = "Get available sizes for a door",
+            description = "Returns a set of available sizes for the specified door model")
+    @ApiResponse(responseCode = "200", description = "Successfully retrieved door sizes")
+    @ApiResponse(responseCode = "404", description = "Door not found")
+    public EntityResponse<?> getDoorSizes(@PathVariable Long id) {
+        Set<Size> sizes = doorService.getDoorSizes(id);
+        return EntityResponse.success("Available sizes retrieved successfully", sizes);
     }
 }

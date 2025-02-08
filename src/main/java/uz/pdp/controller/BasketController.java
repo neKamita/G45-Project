@@ -34,7 +34,7 @@ import java.util.stream.Collectors;
 
 /**
  * Controller for managing shopping basket operations.
- * Where doors go to hang out before finding their forever homes! 
+ * Your one-stop shop for all your shopping needs! 🛍️
  */
 @Slf4j
 @RestController
@@ -45,7 +45,7 @@ import java.util.stream.Collectors;
 public class BasketController {
     private final BasketService basketService;
     private final OrderService orderService;
-    private final UserService UserService;
+    private final UserService userService;
     private final DoorService doorService;
     private final FurnitureDoorService furnitureDoorService;
 
@@ -186,7 +186,7 @@ public class BasketController {
     ) {
         try {
             Basket basket = basketService.getBasket();
-            User currentUser = UserService.getCurrentUser();
+            User currentUser = userService.getCurrentUser();
             
             if (basket.getItems() == null || basket.getItems().isEmpty()) {
                 return ResponseEntity.ok(EntityResponse.error(
@@ -218,7 +218,7 @@ public class BasketController {
             List<OrderDto> orderDtos = basket.getItems().stream()
                 .map(item -> {
                     OrderDto orderDto = new OrderDto();
-                    orderDto.setDoorId(item.getItemId());
+                    orderDto.setItemId(item.getItemId());
                     orderDto.setOrderType(checkoutDto.getOrderType());
                     
                     // Use authenticated user's information
@@ -297,7 +297,7 @@ public class BasketController {
             @Valid @RequestBody CheckoutItemsDTO checkoutItemsDTO) {
         try {
             Basket basket = basketService.getBasket();
-            User currentUser = UserService.getCurrentUser();
+            User currentUser = userService.getCurrentUser();
             
             // Filter basket items by the requested IDs
             List<BasketItem> itemsToCheckout = basket.getItems().stream()
@@ -316,7 +316,7 @@ public class BasketController {
                 .filter(item -> item.getType() == ItemType.DOOR)
                 .map(item -> {
                     OrderDto orderDto = new OrderDto();
-                    orderDto.setDoorId(item.getItemId());
+                    orderDto.setItemId(item.getItemId());
                     orderDto.setOrderType(checkoutItemsDTO.getOrderType());
                     
                     // Use authenticated user's information
@@ -359,13 +359,12 @@ public class BasketController {
                     dto.setQuantity(item.getQuantity());
                     dto.setImage(item.getImage());
                     
-                    // Add order ID if this item was a door and got an order created
-                    if (item.getType() == ItemType.DOOR) {
-                        createdOrders.stream()
-                            .filter(order -> order.getDoor().getId().equals(item.getItemId()))
-                            .findFirst()
-                            .ifPresent(order -> dto.setOrderId(order.getId()));
-                    }
+                    // Add order ID if an order was created for this item
+                    createdOrders.stream()
+                        .filter(order -> order.getItemId().equals(item.getItemId()) && 
+                                       order.getItemType() == item.getType())
+                        .findFirst()
+                        .ifPresent(order -> dto.setOrderId(order.getId()));
                     
                     return dto;
                 })
@@ -378,11 +377,9 @@ public class BasketController {
             
             String successMessage = String.format(
                 "✅ Success! Your %d selected item(s) have been checked out. " +
-                "We'll contact you at %s when they're ready for delivery. " +
-                "Get those doorframes ready! 🚪✨",
-                itemsToCheckout.size(),
-                currentUser.getEmail()
-            );
+                "We'll contact you at %s with updates!", 
+                itemsToCheckout.size(), 
+                checkoutItemsDTO.getEmail());
             
             return ResponseEntity.ok(EntityResponse.success(successMessage, checkedOutItems));
             

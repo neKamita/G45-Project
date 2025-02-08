@@ -3,6 +3,7 @@ package uz.pdp.service;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -164,6 +165,21 @@ public class DoorService {
         door.setCustomWidth(dto.getCustomWidth());
         door.setCustomHeight(dto.getCustomHeight());
         door.setIsCustomColor(dto.getIsCustomColor());
+        
+        // Set available colors - if not provided, include at least the door's own color
+        if (dto.getAvailableColors() != null && !dto.getAvailableColors().isEmpty()) {
+            door.setAvailableColors(dto.getAvailableColors());
+        } else {
+            door.setAvailableColors(new HashSet<>(Collections.singleton(dto.getColor())));
+        }
+        
+        // Handle available sizes
+        if (dto.getAvailableSizes() != null && !dto.getAvailableSizes().isEmpty()) {
+            door.setAvailableSizes(dto.getAvailableSizes());
+        } else if (dto.getSize() != null) {
+            // If no available sizes specified, use the door's size
+            door.setAvailableSizes(new HashSet<>(Collections.singleton(dto.getSize())));
+        }
         
         if (dto.getCategoryId() != null) {
             Category category = categoryRepository.findById(dto.getCategoryId())
@@ -820,33 +836,62 @@ public class DoorService {
         return door.getAvailableColors();
     }
     
+    /**
+     * Get available sizes for a specific door model.
+     * If it's a variant, returns sizes from the base model.
+     * 
+     * @param id Door ID to get sizes for
+     * @return Set of available sizes for the door
+     * @throws ResourceNotFoundException if door not found
+     * 
+     * 🚪 Because one size doesn't fit all doorways! 
+     */
+    @Transactional(readOnly = true)
+    public Set<Size> getDoorSizes(Long id) {
+        Door door = getDoor(id);
+        // If this is a variant, get sizes from base model
+        if (!door.getIsBaseModel() && door.getBaseModelId() != null) {
+            door = getDoor(door.getBaseModelId());
+        }
+        // If no sizes are set, return an empty set
+        if (door.getAvailableSizes() == null) {
+            logger.warn("Door {} has no available sizes set!", id);
+            return Collections.emptySet();
+        }
+        return door.getAvailableSizes();
+    }
+
     private DoorDto mapToDto(Door door) {
-        DoorDto doorDto = new DoorDto();
-        doorDto.setId(door.getId());
-        
+        DoorDto dto = new DoorDto();
+        dto.setId(door.getId    ());
+        dto.setName(door.getName());
+        dto.setDescription(door.getDescription());
+        dto.setPrice(door.getPrice());
+        dto.setFinalPrice(door.getFinalPrice());
+        dto.setSize(door.getSize());
+        dto.setColor(door.getColor());
+        dto.setMaterial(door.getMaterial());
+        dto.setManufacturer(door.getManufacturer());
+        dto.setFrameType(door.getFrameType());
+        dto.setHardware(door.getHardware());
+        dto.setDoorLocation(door.getDoorLocation());
+        dto.setWarrantyYears(door.getWarrantyYears());
+        dto.setCustomWidth(door.getCustomWidth());
+        dto.setCustomHeight(door.getCustomHeight());
+        dto.setIsCustomColor(door.getIsCustomColor());
+        dto.setAvailableColors(door.getAvailableColors());
+        dto.setAvailableSizes(door.getAvailableSizes());
+        dto.setImages(door.getImages());
+        dto.setStatus(door.getStatus().toString());
+
         if (door.getCategory() != null) {
-            doorDto.setCategoryName(door.getCategory().getName());  // Only set categoryName for responses
+            dto.setCategoryId(door.getCategory().getId());
+            dto.setCategoryName(door.getCategory().getName());
         }
         
-        doorDto.setName(door.getName());
-        doorDto.setDescription(door.getDescription());
-        doorDto.setPrice(door.getPrice());
-        doorDto.setFinalPrice(door.getFinalPrice());
-        doorDto.setSize(door.getSize());
-        doorDto.setColor(door.getColor());
-        doorDto.setMaterial(door.getMaterial());
-        doorDto.setManufacturer(door.getManufacturer());
-        doorDto.setFrameType(door.getFrameType());
-        doorDto.setHardware(door.getHardware());
-        doorDto.setDoorLocation(door.getDoorLocation());
-        doorDto.setWarrantyYears(door.getWarrantyYears());
-        doorDto.setCustomWidth(door.getCustomWidth());
-        doorDto.setCustomHeight(door.getCustomHeight());
-        doorDto.setIsCustomColor(door.getIsCustomColor());
-        doorDto.setImages(door.getImages());
-        doorDto.setStatus(door.getStatus().toString());
-        return doorDto;
+        return dto;
     }
+
 
     /**
      * Get all doors in a specific category.

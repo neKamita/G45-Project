@@ -281,9 +281,10 @@ public class UserService {
                     "<p>Dear %s,</p>" +
                     "<p>Great news! Your email has been successfully verified.</p>" +
                     "<p><strong>What's Next?</strong></p>" +
-                    "<p>Your seller request is now awaiting admin approval. This usually takes 1-2 business days.</p>" +
-                    "<p>We'll notify you as soon as an admin reviews your request.</p>" +
-                    "<p>Best regards,<br>The Door Paradise Team</p>" +
+                    "<p>Your seller request is now awaiting admin approval. This usually takes up to 24 hours.</p>" +
+                    "<p>We'll notify you as soon as your request has been reviewed.</p>" +
+                    "<p>Thanks for your patience!</p>" +
+                    "<p>Best regards,<br/>The DoorShop Team</p>" +
                     "</div>",
                     user.getName()
                 )

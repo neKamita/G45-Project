@@ -3,16 +3,23 @@ package uz.pdp.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import uz.pdp.dto.OrderDto.OrderType;
-import uz.pdp.entity.Door;
 import uz.pdp.entity.Order;
 import uz.pdp.entity.Order.OrderStatus;
+import uz.pdp.enums.ItemType;
+import uz.pdp.enums.OrderType;
 
 import java.time.ZonedDateTime;
 
 /**
  * DTO for returning order information without sensitive user data.
- * Just the essential details about your door's journey to its new home! 🚪✨
+ * Every order has a story to tell! 🛍️✨
+ * 
+ * Key Features:
+ * - Basic order details (ID, type, status)
+ * - Item information (name, type, price)
+ * - Customer contact info
+ * - Delivery preferences
+ * - Special instructions
  */
 @Data
 @NoArgsConstructor
@@ -20,9 +27,17 @@ import java.time.ZonedDateTime;
 public class OrderResponseDTO {
     private Long id;
     private Long userId;  // Only return the user ID, not full details
-    private Door door;
+    
+    // Item details
+    private Long itemId;
+    private ItemType itemType;
+    private String itemName;
+    private Double price;
+    private Integer quantity;
+    
     private OrderType orderType;
     private String customerName;
+    private String email;
     private String deliveryAddress;
     private String contactPhone;
     private ZonedDateTime orderDate;
@@ -36,9 +51,17 @@ public class OrderResponseDTO {
         OrderResponseDTO dto = new OrderResponseDTO();
         dto.setId(order.getId());
         dto.setUserId(order.getUser().getId());
-        dto.setDoor(order.getDoor());
+        
+        // Set item details
+        dto.setItemId(order.getItemId());
+        dto.setItemType(order.getItemType());
+        dto.setItemName(order.getItemName());
+        dto.setPrice(order.getPrice());
+        dto.setQuantity(order.getQuantity());
+        
         dto.setOrderType(order.getOrderType());
         dto.setCustomerName(order.getCustomerName());
+        dto.setEmail(order.getEmail());
         dto.setDeliveryAddress(order.getDeliveryAddress());
         dto.setContactPhone(order.getContactPhone());
         dto.setOrderDate(order.getOrderDate());

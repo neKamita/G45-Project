@@ -117,12 +117,21 @@ public class Door {
     @Column(name = "is_base_model")
     private Boolean isBaseModel = false;  // True if this is the original model
     
-    @Column(name = "available_colors")
+    @ElementCollection
+    @CollectionTable(
+        name = "door_available_sizes",
+        joinColumns = @JoinColumn(name = "door_id")
+    )
+    @Column(name = "size")
+    @Enumerated(EnumType.STRING)
+    private Set<Size> availableSizes = new HashSet<>();
+
     @ElementCollection
     @CollectionTable(
         name = "door_available_colors",
         joinColumns = @JoinColumn(name = "door_id")
     )
+    @Column(name = "color")
     @Enumerated(EnumType.STRING)
     private Set<Color> availableColors = new HashSet<>();
 
@@ -172,6 +181,19 @@ public class Door {
             this.finalPrice = Math.round(finalPrice * 100.0) / 100.0; // Round to 2 decimal places
         } else {
             this.finalPrice = 0.0;
+        }
+    }
+
+    /**
+     * Updates the width based on the door's size.
+     * 
+     * @param size The new size to set
+     */
+    public void setSize(Size size) {
+        this.size = size;
+        if (size != Size.CUSTOM) {
+            this.customWidth = (double) size.getWidth();
+            this.customHeight = (double) size.getHeight();
         }
     }
 
