@@ -8,7 +8,7 @@ import uz.pdp.entity.User;
 
 /**
  * Mapper for converting between Order entities and DTOs.
- * 
+ *      
  * Fun fact: This mapper is like a door's personal assistant - 
  * taking care of all the delivery details! 📦✨
  */
@@ -23,8 +23,21 @@ public interface OrderMapper {
      * 
      * Like creating a door's shipping manifest! 📝
      */
-    @Mapping(target = "doorId", source = "door.id")
     OrderDto toDto(Order order);
+
+    /**
+     * Gets the appropriate item ID based on the order's item type.
+     * 
+     * @param order The order to get the item ID from
+     * @return The ID of the item (door, moulding, or furniture)
+     */
+    default Long getItemId(Order order) {
+        if (order.getDoor() != null) {
+            return order.getDoor().getId();
+        } else {
+            return null;
+        }
+    }
 
     /**
      * Converts an OrderDTO to an Order entity.
@@ -63,7 +76,7 @@ public interface OrderMapper {
      * @param door The door to set
      */
     @AfterMapping
-    default void setDoor(@MappingTarget Order order, Door door) {
+    default void setDoor(@MappingTarget Order order, @Context Door door) {
         if (door != null) {
             order.setDoor(door);
         }
@@ -76,7 +89,7 @@ public interface OrderMapper {
      * @param user The user to set
      */
     @AfterMapping
-    default void setUser(@MappingTarget Order order, User user) {
+    default void setUser(@MappingTarget Order order, @Context User user) {
         if (user != null) {
             order.setUser(user);
         }
