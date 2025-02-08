@@ -468,7 +468,7 @@ public class DoorService {
      * Updates door status.
      * Validates status transition and updates door entity.
      *
-     * @param id Door ID to update
+     * @param id The ID of the door we're sending to the shadow realm
      * @param status New door status
      * @return Door entity
      * @throws BadRequestException if status transition is invalid

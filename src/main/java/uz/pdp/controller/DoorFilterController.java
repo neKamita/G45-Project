@@ -1,8 +1,10 @@
 package uz.pdp.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import uz.pdp.dto.DoorFilterDto;
@@ -18,6 +20,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * REST controller for door filtering operations.
  * 
@@ -30,102 +35,39 @@ import java.util.stream.Collectors;
 @Tag(name = "Door Filter", description = "API endpoints for filtering doors based on user preferences")
 public class DoorFilterController {
     private final DoorFilterService doorFilterService;
+    private static final Logger log = LoggerFactory.getLogger(DoorFilterController.class);
 
     /**
-     * Filters doors based on multiple criteria with smart fallback to partial matches.
-     * 
-     * @param locations Comma-separated list of door locations
-     * @param frameTypes Comma-separated list of frame types
-     * @param hardware Comma-separated list of hardware types
-     * @param color Desired door color
-     * @param size Door size in format: widthxheight (e.g., 200x2000)
-     * @return EntityResponse containing matching doors or appropriate message
-     * 
      * 🚪 Where doors meet their perfect match! Or at least their close friends! ✨
+     *
+     * @param locations Locations to filter by (comma-separated)
+     * @param frameTypes Frame types to filter by (comma-separated)
+     * @param hardware Hardware types to filter by (comma-separated)
+     * @param color Color to filter by
+     * @param size Size to filter by (format: widthxheight)
+     * @return Filtered list of doors with a fun message
      */
     @Operation(summary = "Filter doors based on multiple criteria. Use comma-separated values for multiple options.")
-    @GetMapping("/filter/{locations}/{frameTypes}/{hardware}/{color}/{size}")
+    @GetMapping("/filter")
     public ResponseEntity<EntityResponse<List<Door>>> filterDoors(
-            @PathVariable String locations,
-            @PathVariable String frameTypes,
-            @PathVariable String hardware,
-            @PathVariable String color,
-            @PathVariable String size) {
+            @Parameter(description = "Locations (comma-separated)", required = false) @RequestParam(required = false) String locations,
+            @Parameter(description = "Frame Types (comma-separated)", required = false) @RequestParam(required = false) String frameTypes,
+            @Parameter(description = "Hardware (comma-separated)", required = false) @RequestParam(required = false) String hardware,
+            @Parameter(description = "Color", required = false) @RequestParam(required = false) String color,
+            @Parameter(description = "Size (widthxheight, e.g., 200x2000)", required = false) @RequestParam(required = false) String size) {
         
-        Set<DoorLocation> locationSet = new HashSet<>();
-        Set<FrameType> frameTypeSet = new HashSet<>();
-        Set<HardwareType> hardwareSet = new HashSet<>();
-
-        // Parse locations
-        for (String location : locations.split(",")) {
-            try {
-                locationSet.add(DoorLocation.valueOf(location.toUpperCase()));
-            } catch (IllegalArgumentException ignored) {
-            }
+        try {
+            List<Door> filteredDoors = doorFilterService.filterDoors(locations, frameTypes, hardware, color, size);
+            String message = filteredDoors.isEmpty() 
+                ? "No doors matched your criteria. Don't worry, we'll keep knocking on opportunities! 🚪" 
+                : String.format("Found %d doors that match your style! Ready to make an entrance? 🎉", filteredDoors.size());
+            
+            return ResponseEntity.ok(EntityResponse.success(message, filteredDoors));
+        } catch (Exception e) {
+            log.error("Error filtering doors: ", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(EntityResponse.error("Oops! Our door matcher is having a moment. We're working on it! 🔧"));
         }
-
-        // Parse frame types
-        for (String frameType : frameTypes.split(",")) {
-            try {
-                frameTypeSet.add(FrameType.valueOf(frameType.toUpperCase()));
-            } catch (IllegalArgumentException ignored) {
-            }
-        }
-
-        // Parse hardware types
-        for (String h : hardware.split(",")) {
-            try {
-                hardwareSet.add(HardwareType.valueOf(h.toUpperCase()));
-            } catch (IllegalArgumentException ignored) {
-            }
-        }
-
-        // Convert size format from "200x2000" to "SIZE_200x2000"
-        Size sizeEnum = null;
-        if (size != null && !size.equalsIgnoreCase("none")) {
-            try {
-                sizeEnum = Size.valueOf("SIZE_" + size.toUpperCase());
-            } catch (IllegalArgumentException e) {
-                // If not a standard size, check if it's a custom size
-                if (size.equalsIgnoreCase("custom")) {
-                    sizeEnum = Size.CUSTOM;
-                }
-            }
-        }
-
-        // Try exact matches first
-        List<Door> exactMatches = doorFilterService.filterDoors(DoorFilterDto.builder()
-                .locations(locationSet)
-                .frameTypes(frameTypeSet)
-                .hardware(hardwareSet)
-                .color(color != null && !color.equalsIgnoreCase("none") ? Color.valueOf(color.toUpperCase()) : null)
-                .size(sizeEnum)
-                .build());
-
-        if (!exactMatches.isEmpty()) {
-            return ResponseEntity.ok(EntityResponse.success(
-                "Found your perfect doors! All criteria matched! 🎯✨",
-                exactMatches
-            ));
-        }
-
-        // If no exact matches, try partial matches (at least 2 criteria)
-        List<Door> partialMatches = doorFilterService.findPartialMatches(
-                locationSet, frameTypeSet, hardwareSet, color, size, 2);
-
-        if (!partialMatches.isEmpty()) {
-            return ResponseEntity.ok(EntityResponse.success(
-                "🚪 We found some doors that partially match your criteria! " +
-                "They might not be exactly what you're looking for, but they're close! ✨",
-                partialMatches
-            ));
-        }
-
-        // If still no matches, return the "no results" message
-        return ResponseEntity.ok(EntityResponse.success(
-            "🚪 Oops! We couldn't find any doors matching even 2 of your criteria. " +
-            "Try adjusting your filters for more options - we've got lots of amazing doors to show you! ✨"
-        ));
     }
 
     @Operation(summary = "Get all available filter options")
