@@ -179,7 +179,10 @@ public class BasketService {
             throw new IllegalStateException("Cannot remove item from another user's basket");
         }
 
+        Basket basket = basketItem.getBasket();
         basketItemRepository.deleteBasketItemById(basketItemId);
+        basket.getItems().remove(basketItem);
+        basketRepository.save(basket);
         log.info("Successfully removed basket item {} from basket {}", basketItemId, basketItem.getBasket().getId());
     }
 
@@ -252,8 +255,10 @@ public class BasketService {
         List<BasketItem> itemsToCheckout = basketItemRepository.findAllById(basketItemIds);
 
         // Verify all items exist and belong to user's basket
+        log.info("Basket items before checkout: {}", userBasket.getItems());
+
         if (itemsToCheckout.size() != basketItemIds.size()) {
-            throw new IllegalArgumentException("Some items were not found in the basket");
+            throw new IllegalArgumentException("Some basket items not found");
         }
 
         for (BasketItem item : itemsToCheckout) {
@@ -274,10 +279,16 @@ public class BasketService {
 
         // Remove checked out items from basket
         for (BasketItem item : itemsToCheckout) {
-            basketItemRepository.delete(item); // Use delete instead of deleteById for better transactional behavior
-            userBasket.getItems().remove(item); // Also remove from the basket's items collection
+            basketItemRepository.delete(item);
+        }
+
+        // Refresh the basket items after checkout
+        for (BasketItem item : itemsToCheckout) {
+            userBasket.getItems().remove(item);
         }
         basketRepository.save(userBasket); // Save the updated basket
+
+        log.info("Basket items after checkout: {}", userBasket.getItems());
 
         log.info("Successfully checked out {} items from basket {}", 
             itemsToCheckout.size(), userBasket.getId());

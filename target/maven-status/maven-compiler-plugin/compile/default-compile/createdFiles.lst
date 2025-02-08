@@ -1,6 +1,7 @@
 uz/pdp/enums/DoorStatus.class
 uz/pdp/exception/ConflictException.class
 uz/pdp/config/MyConf.class
+uz/pdp/controller/CheckoutController.class
 uz/pdp/dto/AddressDTO.class
 uz/pdp/security/SecurityService.class
 uz/pdp/enums/DoorManufacturer.class
@@ -14,6 +15,7 @@ uz/pdp/repository/UserRepository.class
 uz/pdp/projectmodul10/ProjectModul10Application$1.class
 uz/pdp/service/DoorService.class
 uz/pdp/service/UserService.class
+uz/pdp/service/CheckoutService$1.class
 uz/pdp/controller/DoorController.class
 uz/pdp/exception/GlobalExceptionHandler$BadRequestException.class
 uz/pdp/entity/DoorHistory.class
@@ -49,6 +51,7 @@ uz/pdp/entity/User.class
 uz/pdp/entity/CustomEnumValue.class
 uz/pdp/config/filtr/MyFilter.class
 uz/pdp/mapper/FurnitureDoorMapper.class
+uz/pdp/dto/CheckoutDTO.class
 uz/pdp/controller/graphql/DoorGraphQLController.class
 uz/pdp/entity/FurnitureDoor.class
 uz/pdp/mapper/AddressMapperImpl.class
@@ -59,7 +62,6 @@ uz/pdp/controller/HealthController.class
 uz/pdp/dto/DoorResponseDTO.class
 uz/pdp/config/RedisConfig$CollectionSerializer.class
 uz/pdp/mapper/BasketItemMapper.class
-uz/pdp/controller/AccessoryController.class
 uz/pdp/enums/FurnitureType.class
 uz/pdp/repository/CategoryRepository.class
 uz/pdp/exception/SellerAlreadyApprovedException.class
@@ -71,7 +73,9 @@ uz/pdp/service/DoorFilterService.class
 uz/pdp/service/BasketService$1.class
 uz/pdp/dto/SignUpRequest.class
 uz/pdp/controller/BasketController.class
+uz/pdp/service/CheckoutService.class
 uz/pdp/controller/MouldingController.class
+uz/pdp/controller/DoorAccessoryController.class
 uz/pdp/dto/AddressDTO$LocationDTO.class
 uz/pdp/controller/graphql/UserGraphQLController.class
 uz/pdp/repository/AddressRepository.class

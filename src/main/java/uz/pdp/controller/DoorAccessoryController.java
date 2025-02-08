@@ -316,11 +316,13 @@ public class DoorAccessoryController {
             @ApiResponse(responseCode = "404", description = "Accessory not found"),
             @ApiResponse(responseCode = "400", description = "Invalid quantity")
     })
-    public ResponseEntity<BasketResponseDTO> addToBasket(
+    public ResponseEntity<EntityResponse<BasketResponseDTO>> addToBasket(
             @Parameter(description = "ID of the accessory to add to basket") @PathVariable Long id,
             @Parameter(description = "Quantity to add") @RequestParam(defaultValue = "1") int quantity) {
         
         BasketItemDTO itemDTO = new BasketItemDTO(id, ItemType.DOOR_ACCESSORY, quantity);
-        return ResponseEntity.ok(BasketResponseDTO.fromBasket(basketService.addItem(itemDTO)));
+        return ResponseEntity.ok(EntityResponse.success(
+                "Accessory added to basket successfully! Your door is going to look fabulous!", 
+                BasketResponseDTO.fromBasket(basketService.addItem(itemDTO))));
     }
 }

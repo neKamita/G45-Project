@@ -26,6 +26,7 @@
 /home/lantanium/Documents/G45-Project/src/main/java/uz/pdp/dto/DoorFilterOptionsDto.java
 /home/lantanium/Documents/G45-Project/src/main/java/uz/pdp/controller/BasketController.java
 /home/lantanium/Documents/G45-Project/src/main/java/uz/pdp/entity/DoorHistory.java
+/home/lantanium/Documents/G45-Project/src/main/java/uz/pdp/controller/DoorAccessoryController.java
 /home/lantanium/Documents/G45-Project/src/main/java/uz/pdp/exception/FurnitureDoorNotFoundException.java
 /home/lantanium/Documents/G45-Project/src/main/java/uz/pdp/payload/ErrorResponse.java
 /home/lantanium/Documents/G45-Project/src/main/java/uz/pdp/exception/SellerAlreadyApprovedException.java
@@ -45,7 +46,6 @@
 /home/lantanium/Documents/G45-Project/src/main/java/uz/pdp/enums/Size.java
 /home/lantanium/Documents/G45-Project/src/main/java/uz/pdp/service/BasketService.java
 /home/lantanium/Documents/G45-Project/src/main/java/uz/pdp/repository/DoorRepository.java
-/home/lantanium/Documents/G45-Project/src/main/java/uz/pdp/controller/AccessoryController.java
 /home/lantanium/Documents/G45-Project/src/main/java/uz/pdp/exception/ResourceNotFoundException.java
 /home/lantanium/Documents/G45-Project/src/main/java/uz/pdp/dto/MouldingDTO.java
 /home/lantanium/Documents/G45-Project/src/main/java/uz/pdp/entity/BasketItem.java
@@ -79,6 +79,7 @@
 /home/lantanium/Documents/G45-Project/src/main/java/uz/pdp/dto/CustomEnumValueDto.java
 /home/lantanium/Documents/G45-Project/src/main/java/uz/pdp/dto/FurnitureDoorResponseDTO.java
 /home/lantanium/Documents/G45-Project/src/main/java/uz/pdp/dto/BasketCheckoutDto.java
+/home/lantanium/Documents/G45-Project/src/main/java/uz/pdp/service/CheckoutService.java
 /home/lantanium/Documents/G45-Project/src/main/java/uz/pdp/config/DataInitializer.java
 /home/lantanium/Documents/G45-Project/src/main/java/uz/pdp/exception/AccountAlreadyDeactivatedException.java
 /home/lantanium/Documents/G45-Project/src/main/java/uz/pdp/enums/DoorLocation.java
@@ -101,6 +102,7 @@
 /home/lantanium/Documents/G45-Project/src/main/java/uz/pdp/service/UserService.java
 /home/lantanium/Documents/G45-Project/src/main/java/uz/pdp/dto/FurnitureDoorCreateDTO.java
 /home/lantanium/Documents/G45-Project/src/main/java/uz/pdp/config/filtr/MyFilter.java
+/home/lantanium/Documents/G45-Project/src/main/java/uz/pdp/dto/CheckoutDTO.java
 /home/lantanium/Documents/G45-Project/src/main/java/uz/pdp/entity/Moulding.java
 /home/lantanium/Documents/G45-Project/src/main/java/uz/pdp/mutations/AddressConfigInput.java
 /home/lantanium/Documents/G45-Project/src/main/java/uz/pdp/repository/OrderRepository.java
@@ -111,6 +113,7 @@
 /home/lantanium/Documents/G45-Project/src/main/java/uz/pdp/entity/Location.java
 /home/lantanium/Documents/G45-Project/src/main/java/uz/pdp/repository/CustomBasketItemRepository.java
 /home/lantanium/Documents/G45-Project/src/main/java/uz/pdp/exception/BadRequestException.java
+/home/lantanium/Documents/G45-Project/src/main/java/uz/pdp/controller/CheckoutController.java
 /home/lantanium/Documents/G45-Project/src/main/java/uz/pdp/service/ImageStorageService.java
 /home/lantanium/Documents/G45-Project/src/main/java/uz/pdp/controller/EnumManagementController.java
 /home/lantanium/Documents/G45-Project/src/main/java/uz/pdp/enums/DoorManufacturer.java

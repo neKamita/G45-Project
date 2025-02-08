@@ -7,8 +7,8 @@ import uz.pdp.entity.Order;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-02-08T08:33:02+0500",
-    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 17.0.14 (Amazon.com Inc.)"
+    date = "2025-02-08T10:26:53+0500",
+    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 23.0.2 (Arch Linux)"
 )
 @Component
 public class OrderMapperImpl implements OrderMapper {
