@@ -112,19 +112,27 @@ public class CheckoutService {
 
             // Send email to seller
             String sellerMessage = String.format("""
-                New order received!
-                Order ID: %d
-                Item Type: %s
-                Item ID: %d
-                Customer Name: %s
-                Customer Email: %s
-                Phone: %s
-                Delivery Address: %s
-                Comment: %s
+                <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;padding:20px">
+                    <div style="background:linear-gradient(135deg,#4a90e2 0%%,#357abd 100%%);color:white;padding:20px;border-radius:10px 10px 0 0;text-align:center">
+                        <h1 style="margin:0">🚪 New Door Order!</h1>
+                    </div>
+                    <div style="background:#fff;padding:20px;border-radius:0 0 10px 10px;box-shadow:0 2px 5px rgba(0,0,0,0.1)">
+                        <div style="background:#f8f9fa;padding:15px;border-radius:5px;margin:15px 0">
+                            <p><strong style="color:#4a90e2">Order ID:</strong> %d</p>
+                            <p><strong style="color:#4a90e2">Item:</strong> %s #%d</p>
+                            <p><strong style="color:#4a90e2">Customer:</strong> %s</p>
+                            <p><strong style="color:#4a90e2">Email:</strong> %s</p>
+                            <p><strong style="color:#4a90e2">Phone:</strong> %s</p>
+                            <p><strong style="color:#4a90e2">Delivery To:</strong> %s</p>
+                            <p><strong style="color:#4a90e2">Notes:</strong> %s</p>
+                        </div>
+                        <p style="text-align:center;color:#666">Please process this order as soon as possible. The customer is waiting! 🏃‍♂️</p>
+                    </div>
+                </div>
                 """, 
                 savedOrder.getId(), dto.getItemType(), dto.getItemId(), dto.getCustomerName(),
                 dto.getEmail(), dto.getPhoneNumber(), dto.getDeliveryAddress(),
-                dto.getComment() != null ? dto.getComment() : "No comment"
+                dto.getComment() != null ? dto.getComment() : "No special instructions"
             );
             
             try {
@@ -136,12 +144,62 @@ public class CheckoutService {
             }
 
             // Send confirmation to customer
-            String customerMessage = """
-                Thank you for your order! 
-                We've notified the seller and they will contact you soon.
-                
-                Order Details:
-                """.concat(sellerMessage);
+            String customerMessage = String.format("""
+                <div style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;padding:20px">
+                    <div style="background:linear-gradient(135deg,#4a90e2 0%%,#357abd 100%%);color:white;padding:30px;border-radius:10px 10px 0 0;text-align:center">
+                        <h1 style="margin:0">🎉 Your Door is on its Way!</h1>
+                        <p style="margin:10px 0 0">Order #%d</p>
+                    </div>
+                    <div style="background:#fff;padding:30px;border-radius:0 0 10px 10px;box-shadow:0 2px 5px rgba(0,0,0,0.1)">
+                        <div style="font-size:24px;color:#4a90e2;text-align:center;margin:20px 0">
+                            Thank you for your order, %s!
+                        </div>
+                        
+                        <p style="text-align:center">Your door journey has begun! Here's what happens next:</p>
+                        
+                        <div style="background:#e8f4ff;padding:20px;border-radius:8px;margin:20px 0">
+                            <div style="display:flex;align-items:center;margin:10px 0">
+                                <span style="font-size:24px;margin-right:15px">✅</span>
+                                <span>Order confirmed and processing</span>
+                            </div>
+                            <div style="display:flex;align-items:center;margin:10px 0">
+                                <span style="font-size:24px;margin-right:15px">📞</span>
+                                <span>Seller will contact you soon</span>
+                            </div>
+                            <div style="display:flex;align-items:center;margin:10px 0">
+                                <span style="font-size:24px;margin-right:15px">🚚</span>
+                                <span>Delivery scheduling</span>
+                            </div>
+                            <div style="display:flex;align-items:center;margin:10px 0">
+                                <span style="font-size:24px;margin-right:15px">🏠</span>
+                                <span>Installation and setup</span>
+                            </div>
+                        </div>
+
+                        <div style="background:#f8f9fa;padding:20px;border-radius:8px;margin:20px 0">
+                            <h3 style="margin-top:0">Order Summary</h3>
+                            <p><strong style="color:#4a90e2">Item:</strong> %s</p>
+                            <p><strong style="color:#4a90e2">Delivery To:</strong> %s</p>
+                            <p><strong style="color:#4a90e2">Contact:</strong> %s</p>
+                            <p><strong style="color:#4a90e2">Preferred Time:</strong> %s</p>
+                            <p><strong style="color:#4a90e2">Notes:</strong> %s</p>
+                        </div>
+
+                        <div style="text-align:center;margin-top:30px;color:#666">
+                            <p>Need help? Have questions? We're here for you!</p>
+                            <p>🚪 Thank you for choosing us for your door needs! ✨</p>
+                        </div>
+                    </div>
+                </div>
+                """,
+                savedOrder.getId(),
+                dto.getCustomerName(),
+                dto.getItemType(),
+                dto.getDeliveryAddress(),
+                dto.getPhoneNumber(),
+                dto.getPreferredDeliveryTime() != null ? dto.getPreferredDeliveryTime().toString() : "To be scheduled",
+                dto.getComment() != null ? dto.getComment() : "No special instructions"
+            );
             
             try {
                 emailService.sendHtmlEmail(dto.getEmail(), "Order Confirmation", customerMessage);

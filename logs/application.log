@@ -334,3 +334,33 @@ java.lang.IllegalArgumentException: User not found
 2025-02-09 16:12:16 [http-nio-8080-exec-1] INFO  uz.pdp.service.EmailService - Sending HTML email to: fixlage2007@gmail.com
 2025-02-09 16:12:19 [http-nio-8080-exec-1] INFO  uz.pdp.service.EmailService - HTML email sent successfully to: fixlage2007@gmail.com
 2025-02-09 16:12:19 [http-nio-8080-exec-1] INFO  uz.pdp.service.CheckoutService - Sent order confirmation email to customer: fixlage2007@gmail.com
+2025-02-09 16:13:38 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-02-09 16:13:38 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2025-02-09 16:13:39 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2025-02-09 16:18:45 [main] INFO  u.p.p.ProjectModul10Application - Starting ProjectModul10Application using Java 17.0.14 with PID 131689 (/home/lantanium/Documents/G45-Project/target/classes started by lantanium in /home/lantanium/Documents/G45-Project)
+2025-02-09 16:18:45 [main] DEBUG u.p.p.ProjectModul10Application - Running with Spring Boot v3.2.2, Spring v6.1.3
+2025-02-09 16:18:45 [main] INFO  u.p.p.ProjectModul10Application - No active profile set, falling back to 1 default profile: "default"
+2025-02-09 16:18:45 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-02-09 16:18:45 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-02-09 16:18:45 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 98 ms. Found 13 JPA repository interfaces.
+2025-02-09 16:18:45 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Multiple Spring Data modules found, entering strict repository configuration mode
+2025-02-09 16:18:45 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2025-02-09 16:18:45 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 5 ms. Found 0 Redis repository interfaces.
+2025-02-09 16:18:46 [main] WARN  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker - Bean 'webMvcConfig' of type [uz.pdp.config.WebMvcConfig$$SpringCGLIB$$0] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying). The currently created BeanPostProcessor [methodValidationPostProcessor] is declared through a non-static factory method on that class; consider declaring it as static instead.
+2025-02-09 16:18:46 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2025-02-09 16:18:46 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2025-02-09 16:18:46 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.18]
+2025-02-09 16:18:46 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2025-02-09 16:18:46 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1712 ms
+2025-02-09 16:18:47 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-02-09 16:18:47 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.1.Final
+2025-02-09 16:18:47 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2025-02-09 16:18:47 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-02-09 16:18:47 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2025-02-09 16:18:50 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@4193da4d
+2025-02-09 16:18:50 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2025-02-09 16:18:50 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2025-02-09 16:18:51 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-02-09 16:18:52 [main] INFO  o.hibernate.orm.connections.access - HHH10001501: Connection obtained from JdbcConnectionAccess [org.hibernate.engine.jdbc.env.internal.JdbcEnvironmentInitiator$ConnectionProviderJdbcConnectionAccess@2acf3108] for (non-JTA) DDL execution was not in auto-commit mode; the Connection 'local transaction' will be committed and the Connection will be set into auto-commit mode.
+2025-02-09 16:18:52 [main] DEBUG org.hibernate.SQL - alter table if exists mouldings alter column price set data type DECIMAL(10,2)
+2025-02-09 16:18:53 [main] DEBUG org.hibernate.SQL - alter table if exists mouldings alter column price_overall set data type DECIMAL(10,2)
