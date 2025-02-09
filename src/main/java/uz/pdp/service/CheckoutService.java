@@ -101,12 +101,8 @@ public class CheckoutService {
             order.setContactPhone(dto.getPhoneNumber());
             order.setEmail(dto.getEmail());
             
-            // Set customer name with fallback to email username if name is null
-            String customerName = user.getName();
-            if (customerName == null || customerName.trim().isEmpty()) {
-                customerName = "Guest-" + dto.getEmail().split("@")[0];
-            }
-            order.setCustomerName(customerName);
+            // Set customer name from DTO
+            order.setCustomerName(dto.getCustomerName());
             
             // Set order type (default to PURCHASE if not specified)
             order.setOrderType(dto.getOrderType() != null ? dto.getOrderType() : OrderType.FULL_SET);
@@ -133,6 +129,7 @@ public class CheckoutService {
                         <div style="background:#f8f9fa;padding:15px;border-radius:5px;margin:15px 0">
                             <p><strong style="color:#4a90e2">Order ID:</strong> %d</p>
                             <p><strong style="color:#4a90e2">Item:</strong> %s #%d</p>
+                            <p><strong style="color:#4a90e2">Customer Name:</strong> %s</p>
                             <p><strong style="color:#4a90e2">Email:</strong> %s</p>
                             <p><strong style="color:#4a90e2">Phone:</strong> %s</p>
                             <p><strong style="color:#4a90e2">Notes:</strong> %s</p>
@@ -142,7 +139,7 @@ public class CheckoutService {
                 </div>
                 """, 
                 savedOrder.getId(), dto.getItemType(), dto.getItemId(),
-                dto.getEmail(), dto.getPhoneNumber(),
+                dto.getCustomerName(), dto.getEmail(), dto.getPhoneNumber(),
                 dto.getComment() != null ? dto.getComment() : "No special instructions"
             );
             
