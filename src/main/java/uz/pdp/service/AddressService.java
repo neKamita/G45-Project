@@ -142,6 +142,7 @@ public class AddressService {
     /**
      * Retrieves all addresses based on user role.
      * ADMIN users see all addresses, regular users see only their own.
+     * Unauthenticated users see all public addresses.
      *
      * @return EntityResponse with list of addresses
      */
@@ -149,23 +150,24 @@ public class AddressService {
     // Temporarily disabled Redis caching while we sort out serialization issues
     // @Cacheable(value = ADDRESSES_CACHE, key = "'all_' + #username", condition = "@securityService.isAuthenticated()")
     public EntityResponse<List<Address>> getAllAddressesResponse(String username) {
-        if (!securityService.isAuthenticated()) {
-            logger.error("Unauthorized access attempt to get all addresses");
-            return EntityResponse.error("Please log in to view addresses", null);
-        }
-
         try {
-            User currentUser = userService.getCurrentUser();
             List<Address> addresses;
-
-            if (currentUser.getRole() == Role.ADMIN) {
-                // Admin can see all addresses
+            
+            if (username == null) {
+                // For unauthenticated users, return all public addresses
                 addresses = addressRepository.findAll();
-                logger.info("Admin user retrieved all {} addresses", addresses.size());
+                logger.info("Anonymous user retrieved all public addresses");
             } else {
-                // Regular users can only see their own addresses
-                addresses = addressRepository.findByUserId(currentUser.getId());
-                logger.info("User {} retrieved their {} addresses", username, addresses.size());
+                User currentUser = userService.getCurrentUser();
+                if (currentUser.getRole() == Role.ADMIN) {
+                    // Admin can see all addresses
+                    addresses = addressRepository.findAll();
+                    logger.info("Admin user retrieved all {} addresses", addresses.size());
+                } else {
+                    // Regular users can only see their own addresses
+                    addresses = addressRepository.findByUserId(currentUser.getId());
+                    logger.info("User {} retrieved their {} addresses", username, addresses.size());
+                }
             }
 
             return EntityResponse.success("Addresses retrieved successfully", addresses);
@@ -177,30 +179,25 @@ public class AddressService {
 
     /**
      * Retrieves an address by ID.
-     * Users can only access their own addresses unless they are ADMIN.
+     * Public endpoint accessible to all users.
+     * Like finding a specific door in our grand showroom! 🚪
      *
      * @param id Address ID to retrieve
      * @return EntityResponse with retrieved address
      * @throws ResourceNotFoundException if address not found
      */
     @Transactional(readOnly = true)
-    // Temporarily disabled Redis caching while we sort out serialization issues
-    // @Cacheable(value = ADDRESS_CACHE, key = "#id", condition = "@securityService.isAuthenticated()")
     public EntityResponse<Address> getAddressResponse(Long id) {
-        if (!securityService.isAuthenticated()) {
-            logger.error("Unauthorized access attempt to view address with ID: {}", id);
-            return EntityResponse.error("Please log in to view address details", null);
-        }
-
         try {
             logger.info("Fetching address with id: {}", id);
-            Address address = getAddressById(id);
+            Address address = addressRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Address not found with id: " + id));
             return EntityResponse.success("Address retrieved successfully", address);
         } catch (ResourceNotFoundException e) {
             logger.error("Address not found: {}", e.getMessage());
             return EntityResponse.error("Address not found", null);
         } catch (Exception e) {
-            logger.error("Error retrieving address: {}", e.getMessage());
+            logger.error("Error retrieving address with id {}: {}", id, e.getMessage());
             return EntityResponse.error("Failed to retrieve address: " + e.getMessage(), null);
         }
     }

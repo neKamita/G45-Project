@@ -50,12 +50,13 @@ public class ContactController {
      * @return EntityResponse containing a list of addresses
      */
     @GetMapping("/addresses")
-    @PreAuthorize("hasAnyRole('ADMIN', 'USER','SELLER')")
     @Operation(summary = "Get all store addresses")
     public EntityResponse<List<Address>> getAllAddresses() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String username = authentication.getName();
-        logger.info("Fetching store addresses for user: {}", username);
+        String username = authentication != null && !authentication.getPrincipal().equals("anonymousUser") 
+            ? authentication.getName() 
+            : null;
+        logger.info("Fetching store addresses. User: {}", username != null ? username : "anonymous");
         return addressService.getAllAddressesResponse(username);
     }
 
