@@ -70,6 +70,9 @@ public class MyConf {
                         .requestMatchers(HttpMethod.GET,"/api/v1/doors/**").permitAll()
                         .requestMatchers(HttpMethod.GET,"/api/categories/**").permitAll()
                         .requestMatchers(HttpMethod.GET,"/api/contacts/**").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/api/contacts/addresses/**").permitAll()
+
+
 
                         // Swagger/OpenAPI endpoints
                         .requestMatchers(HttpMethod.GET,
