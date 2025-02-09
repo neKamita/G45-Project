@@ -57,6 +57,15 @@ public class MyConf {
                 .csrf(csrf -> csrf.disable())
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(auth -> auth
+
+                        // Protected endpoints
+                        .requestMatchers("/api/doors/**").hasAnyRole("ADMIN", "SELLER")
+                        .requestMatchers("/api/contacts/**").hasRole("ADMIN")
+
+                        // Basket operations
+                        .requestMatchers(HttpMethod.POST, "/api/doors/*/basket").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/api/accessories/*/basket").authenticated()
+
                         // Auth endpoints
                         .requestMatchers("/api/auth/**", "/api/users/verify-seller").permitAll()
 
@@ -65,13 +74,6 @@ public class MyConf {
                         .requestMatchers("/subscriptions/**").permitAll()
 
                         .requestMatchers("/api/v1/additional/**").permitAll()
-
-
-                        .requestMatchers(HttpMethod.GET,"/api/v1/doors/**").permitAll()
-                        .requestMatchers(HttpMethod.GET,"/api/categories/**").permitAll()
-                        .requestMatchers(HttpMethod.GET,"/api/contacts/**").permitAll()
-                        .requestMatchers(HttpMethod.GET,"/api/contacts/addresses/**").permitAll()
-
 
 
                         // Swagger/OpenAPI endpoints
@@ -86,13 +88,14 @@ public class MyConf {
                         .requestMatchers(HttpMethod.GET, "/api/contacts/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/door-accessories/**").permitAll()
 
-                        // Basket operations
-                        .requestMatchers(HttpMethod.POST, "/api/doors/*/basket").authenticated()
-                        .requestMatchers(HttpMethod.POST, "/api/accessories/*/basket").authenticated()
 
-                        // Protected endpoints
-                        .requestMatchers("/api/doors/**").hasAnyRole("ADMIN", "SELLER")
-                        .requestMatchers("/api/contacts/**").hasRole("ADMIN")
+
+
+
+                        .requestMatchers(HttpMethod.GET,"/api/v1/doors/**").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/api/categories/**").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/api/contacts/**").permitAll()
+                        .requestMatchers(HttpMethod.GET,"/api/contacts/addresses/**").permitAll()
 
                         // All other requests need authentication
                         .anyRequest().authenticated())
