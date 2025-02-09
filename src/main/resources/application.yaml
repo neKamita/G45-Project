@@ -32,6 +32,32 @@ spring:
     url: ${DATABASE_URL:jdbc:postgresql://junction.proxy.rlwy.net:48700/railway}
     username: ${POSTGRES_USER:postgres}
     password: ${POSTGRES_PASSWORD:hGevfNzGMrEOCjYMbmRMhljNpbhmgVzg}
+
+    #DATABASE_PUBLIC_URL
+    #postgresql://postgres:hGevfNzGMrEOCjYMbmRMhljNpbhmgVzg@junction.proxy.rlwy.net:48700/railway
+    #DATABASE_URL
+    #postgresql://postgres:hGevfNzGMrEOCjYMbmRMhljNpbhmgVzg@postgres.railway.internal:5432/railway
+    #PGDATA
+    #/var/lib/postgresql/data/pgdata
+    #PGDATABASE
+    #railway
+    #PGHOST
+    #postgres.railway.internal
+    #PGPASSWORD
+    #hGevfNzGMrEOCjYMbmRMhljNpbhmgVzg
+    #PGPORT
+    #5432
+    #PGUSER
+    #postgres
+    #POSTGRES_DB
+    #railway
+    #POSTGRES_PASSWORD
+    #hGevfNzGMrEOCjYMbmRMhljNpbhmgVzg
+    #POSTGRES_USER
+    #postgres
+    #SSL_CERT_DAYS
+    #820
+
     hikari:
       maximum-pool-size: 20
       minimum-idle: 10
