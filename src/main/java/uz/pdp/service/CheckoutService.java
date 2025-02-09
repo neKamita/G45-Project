@@ -100,7 +100,13 @@ public class CheckoutService {
             order.setOrderDate(java.time.ZonedDateTime.now());
             order.setContactPhone(dto.getPhoneNumber());
             order.setEmail(dto.getEmail());
-            order.setCustomerName(user.getName()); // Set customer name from user
+            
+            // Set customer name with fallback to email username if name is null
+            String customerName = user.getName();
+            if (customerName == null || customerName.trim().isEmpty()) {
+                customerName = "Guest-" + dto.getEmail().split("@")[0];
+            }
+            order.setCustomerName(customerName);
             
             // Set order type (default to PURCHASE if not specified)
             order.setOrderType(dto.getOrderType() != null ? dto.getOrderType() : OrderType.FULL_SET);
