@@ -58,9 +58,14 @@ public class MyConf {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(auth -> auth
 
-                        // Protected endpoints
-                        .requestMatchers("/api/doors/**").hasAnyRole("ADMIN", "SELLER")
-                        .requestMatchers("/api/contacts/**").hasRole("ADMIN")
+                        // Protected endpoints for modification operations
+                        .requestMatchers(HttpMethod.POST, "/api/doors/**").hasAnyRole("ADMIN", "SELLER")
+                        .requestMatchers(HttpMethod.PUT, "/api/doors/**").hasAnyRole("ADMIN", "SELLER")
+                        .requestMatchers(HttpMethod.DELETE, "/api/doors/**").hasAnyRole("ADMIN", "SELLER")
+                        
+                        .requestMatchers(HttpMethod.POST, "/api/contacts/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/contacts/**").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/contacts/**").hasRole("ADMIN")
 
                         // Basket operations
                         .requestMatchers(HttpMethod.POST, "/api/doors/*/basket").authenticated()
@@ -75,7 +80,6 @@ public class MyConf {
 
                         .requestMatchers("/api/v1/additional/**").permitAll()
 
-
                         // Swagger/OpenAPI endpoints
                         .requestMatchers(HttpMethod.GET,
                                 "/swagger-ui/**",
@@ -83,19 +87,12 @@ public class MyConf {
                                 "/v3/api-docs/**")
                         .permitAll()
 
-                        // Public API endpoints
+                        // Public API endpoints - GET operations
                         .requestMatchers(HttpMethod.GET, "/api/doors/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/contacts/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/door-accessories/**").permitAll()
-
-
-
-
-
-                        .requestMatchers(HttpMethod.GET,"/api/v1/doors/**").permitAll()
-                        .requestMatchers(HttpMethod.GET,"/api/categories/**").permitAll()
-                        .requestMatchers(HttpMethod.GET,"/api/contacts/**").permitAll()
-                        .requestMatchers(HttpMethod.GET,"/api/contacts/addresses/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/v1/doors/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/categories/**").permitAll()
 
                         // All other requests need authentication
                         .anyRequest().authenticated())
