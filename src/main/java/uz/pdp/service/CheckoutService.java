@@ -48,10 +48,28 @@ public class CheckoutService {
     @Transactional
     public EntityResponse<String> processCheckout(CheckoutDTO dto) {
         try {
-            // Get current user
-            String username = SecurityContextHolder.getContext().getAuthentication().getName();
-            User user = userRepository.findByName(username)
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+            // Get current user if authenticated, otherwise create a temporary user
+            User user = null;
+            try {
+                String username = SecurityContextHolder.getContext().getAuthentication().getName();
+                if (!"anonymousUser".equals(username)) {
+                    user = userRepository.findByName(username)
+                        .orElse(null);
+                }
+            } catch (Exception e) {
+                log.debug("No authenticated user found, proceeding with guest checkout");
+            }
+
+            // For guest checkout or if user not found
+            if (user == null) {
+                user = new User();
+                user.setName(dto.getCustomerName());
+                user.setEmail(dto.getEmail());
+                user.setPhone(dto.getPhoneNumber());
+                // Save temporary user
+                user = userRepository.save(user);
+                log.info("Created temporary user for guest checkout: {}", user.getEmail());
+            }
 
             // Get seller email based on item type
             String sellerEmail = switch (dto.getItemType()) {
@@ -90,7 +108,7 @@ public class CheckoutService {
             }
             
             Order savedOrder = orderRepository.save(order);
-            log.info("Created new order with ID: {} for user: {}", savedOrder.getId(), username);
+            log.info("Created new order with ID: {} for user: {}", savedOrder.getId(), dto.getCustomerName());
 
             // Send email to seller
             String sellerMessage = String.format("""
@@ -108,7 +126,14 @@ public class CheckoutService {
                 dto.getEmail(), dto.getPhoneNumber(), dto.getDeliveryAddress(),
                 dto.getComment() != null ? dto.getComment() : "No comment"
             );
-            emailService.sendHtmlEmail(sellerEmail, "New Order Received!", sellerMessage);
+            
+            try {
+                emailService.sendHtmlEmail(sellerEmail, "New Order Received!", sellerMessage);
+                log.info("Sent order notification email to seller: {}", sellerEmail);
+            } catch (Exception e) {
+                log.error("Failed to send email to seller: {}", e.getMessage());
+                // Don't throw exception, continue with order processing
+            }
 
             // Send confirmation to customer
             String customerMessage = """
@@ -117,11 +142,18 @@ public class CheckoutService {
                 
                 Order Details:
                 """.concat(sellerMessage);
-            emailService.sendHtmlEmail(dto.getEmail(), "Order Confirmation", customerMessage);
+            
+            try {
+                emailService.sendHtmlEmail(dto.getEmail(), "Order Confirmation", customerMessage);
+                log.info("Sent order confirmation email to customer: {}", dto.getEmail());
+            } catch (Exception e) {
+                log.error("Failed to send confirmation email to customer: {}", e.getMessage());
+                // Don't throw exception, continue with order processing
+            }
 
             return new EntityResponse<>("Order placed successfully! Check your email for confirmation. 🎉", true, "ORDER_PLACED");
         } catch (Exception e) {
-            log.error("Error processing checkout: ", e);
+            log.error("Error processing checkout: {}", e.getMessage(), e);
             return new EntityResponse<>("Failed to process order. Please try again. 🔄", false, null);
         }
     }
