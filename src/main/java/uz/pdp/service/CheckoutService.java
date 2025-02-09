@@ -63,16 +63,21 @@ public class CheckoutService {
 
             // For guest checkout or if user not found
             if (user == null) {
-                user = new User();
-                user.setName("Guest-" + dto.getEmail().split("@")[0]); // Set name based on email
-                user.setEmail(dto.getEmail());
-                user.setPhone(dto.getPhoneNumber());
-                user.setRole(Role.USER); // Set default role
-                user.setActive(true); // Set as active
-                user.setPassword(""); // Empty password for guest users
-                // Save temporary user
-                user = userRepository.save(user);
-                log.info("Created temporary user for guest checkout: {}", user.getEmail());
+                // First try to find existing user by email
+                user = userRepository.findByEmail(dto.getEmail())
+                    .orElseGet(() -> {
+                        // Only create new user if one doesn't exist
+                        User newUser = new User();
+                        newUser.setName("Guest-" + dto.getEmail().split("@")[0]); 
+                        newUser.setEmail(dto.getEmail());
+                        newUser.setPhone(dto.getPhoneNumber());
+                        newUser.setRole(Role.USER);
+                        newUser.setActive(true);
+                        newUser.setPassword(""); // Empty password for guest users
+                        return userRepository.save(newUser);
+                    });
+                log.info("Using {} user for guest checkout: {}", 
+                    user.getId() == null ? "new" : "existing", user.getEmail());
             }
 
             // Get seller email based on item type
