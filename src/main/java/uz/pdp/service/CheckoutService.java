@@ -63,7 +63,6 @@ public class CheckoutService {
             // For guest checkout or if user not found
             if (user == null) {
                 user = new User();
-                user.setName(dto.getCustomerName());
                 user.setEmail(dto.getEmail());
                 user.setPhone(dto.getPhoneNumber());
                 // Save temporary user
@@ -89,11 +88,9 @@ public class CheckoutService {
             order.setQuantity(1); // Default to 1 for now
             order.setStatus(Order.OrderStatus.PENDING);
             order.setOrderDate(java.time.ZonedDateTime.now());
-            order.setDeliveryAddress(dto.getDeliveryAddress());
             order.setContactPhone(dto.getPhoneNumber());
             
             // Set customer details
-            order.setCustomerName(dto.getCustomerName());
             order.setEmail(dto.getEmail());
             
             // Set order type (default to PURCHASE if not specified)
@@ -103,12 +100,9 @@ public class CheckoutService {
             if (dto.getComment() != null) {
                 order.setComment(dto.getComment());
             }
-            if (dto.getPreferredDeliveryTime() != null) {
-                order.setPreferredDeliveryTime(dto.getPreferredDeliveryTime());
-            }
             
             Order savedOrder = orderRepository.save(order);
-            log.info("Created new order with ID: {} for user: {}", savedOrder.getId(), dto.getCustomerName());
+            log.info("Created new order with ID: {} for user: {}", savedOrder.getId(), user.getEmail());
 
             // Send email to seller
             String sellerMessage = String.format("""
@@ -120,18 +114,16 @@ public class CheckoutService {
                         <div style="background:#f8f9fa;padding:15px;border-radius:5px;margin:15px 0">
                             <p><strong style="color:#4a90e2">Order ID:</strong> %d</p>
                             <p><strong style="color:#4a90e2">Item:</strong> %s #%d</p>
-                            <p><strong style="color:#4a90e2">Customer:</strong> %s</p>
                             <p><strong style="color:#4a90e2">Email:</strong> %s</p>
                             <p><strong style="color:#4a90e2">Phone:</strong> %s</p>
-                            <p><strong style="color:#4a90e2">Delivery To:</strong> %s</p>
                             <p><strong style="color:#4a90e2">Notes:</strong> %s</p>
                         </div>
                         <p style="text-align:center;color:#666">Please process this order as soon as possible. The customer is waiting! 🏃‍♂️</p>
                     </div>
                 </div>
                 """, 
-                savedOrder.getId(), dto.getItemType(), dto.getItemId(), dto.getCustomerName(),
-                dto.getEmail(), dto.getPhoneNumber(), dto.getDeliveryAddress(),
+                savedOrder.getId(), dto.getItemType(), dto.getItemId(),
+                dto.getEmail(), dto.getPhoneNumber(),
                 dto.getComment() != null ? dto.getComment() : "No special instructions"
             );
             
@@ -152,7 +144,7 @@ public class CheckoutService {
                     </div>
                     <div style="background:#fff;padding:30px;border-radius:0 0 10px 10px;box-shadow:0 2px 5px rgba(0,0,0,0.1)">
                         <div style="font-size:24px;color:#4a90e2;text-align:center;margin:20px 0">
-                            Thank you for your order, %s!
+                            Thank you for your order!
                         </div>
                         
                         <p style="text-align:center">Your door journey has begun! Here's what happens next:</p>
@@ -179,9 +171,7 @@ public class CheckoutService {
                         <div style="background:#f8f9fa;padding:20px;border-radius:8px;margin:20px 0">
                             <h3 style="margin-top:0">Order Summary</h3>
                             <p><strong style="color:#4a90e2">Item:</strong> %s</p>
-                            <p><strong style="color:#4a90e2">Delivery To:</strong> %s</p>
                             <p><strong style="color:#4a90e2">Contact:</strong> %s</p>
-                            <p><strong style="color:#4a90e2">Preferred Time:</strong> %s</p>
                             <p><strong style="color:#4a90e2">Notes:</strong> %s</p>
                         </div>
 
@@ -191,14 +181,9 @@ public class CheckoutService {
                         </div>
                     </div>
                 </div>
-                """,
-                savedOrder.getId(),
-                dto.getCustomerName(),
-                dto.getItemType(),
-                dto.getDeliveryAddress(),
-                dto.getPhoneNumber(),
-                dto.getPreferredDeliveryTime() != null ? dto.getPreferredDeliveryTime().toString() : "To be scheduled",
-                dto.getComment() != null ? dto.getComment() : "No special instructions"
+                """, 
+                savedOrder.getId(), getItemName(dto.getItemId(), dto.getItemType()),
+                dto.getPhoneNumber(), dto.getComment() != null ? dto.getComment() : "No special instructions"
             );
             
             try {
@@ -293,7 +278,6 @@ public class CheckoutService {
                             .quantity(order.getQuantity())
                             .status(order.getStatus().toString())
                             .checkoutTime(order.getOrderDate().toLocalDateTime())
-                            .deliveryAddress(order.getDeliveryAddress())
                             .contactPhone(order.getContactPhone())
                             .build())
                     .collect(Collectors.toList());
