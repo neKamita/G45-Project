@@ -110,8 +110,12 @@ public class CheckoutService {
             
             // Set order type (default to PURCHASE if not specified)
             order.setOrderType(dto.getOrderType() != null ? dto.getOrderType() : OrderType.FULL_SET);
+
+            // Set a default delivery address since it's required
+            order.setDeliveryAddress("To be provided"); // Default value to satisfy not-null constraint
+
             
-            // Set optional fields if provided
+            // Optional comment
             if (dto.getComment() != null) {
                 order.setComment(dto.getComment());
             }

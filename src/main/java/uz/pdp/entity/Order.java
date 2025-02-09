@@ -69,13 +69,11 @@ public class Order {
     @Column(nullable = false)
     private String email;
 
-    @Column(nullable = false)
     private String deliveryAddress;
 
     @Column(nullable = false)
     private String contactPhone;
 
-    @Column(nullable = false)
     private ZonedDateTime orderDate = ZonedDateTime.now();
 
     @Column
