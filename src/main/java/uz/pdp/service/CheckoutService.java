@@ -9,6 +9,7 @@ import uz.pdp.dto.CheckoutHistoryDTO;
 import uz.pdp.entity.*;
 import uz.pdp.enums.ItemType;
 import uz.pdp.enums.OrderType;
+import uz.pdp.enums.Role;
 import uz.pdp.payload.EntityResponse;
 import uz.pdp.repository.*;
 
