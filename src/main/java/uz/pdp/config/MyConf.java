@@ -91,6 +91,7 @@ public class MyConf {
                         .requestMatchers(HttpMethod.GET, "/api/doors/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/contacts/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/door-accessories/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/mouldings/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/v1/doors/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/categories/**").permitAll()
 

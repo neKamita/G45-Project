@@ -60,11 +60,9 @@ public class MouldingController {
      * Serving your mouldings one page at a time! 
      */
     @GetMapping
-    @PreAuthorize("hasAnyRole('USER', 'ADMIN', 'SELLER')")
     @Operation(summary = "Get all mouldings", description = "Retrieves a paginated list of all mouldings")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Successfully retrieved mouldings"),
-        @ApiResponse(responseCode = "401", description = "Not authorized to view mouldings")
+        @ApiResponse(responseCode = "200", description = "Successfully retrieved mouldings")
     })
     public EntityResponse<Page<MouldingDTO>> getAllMouldings(
             @RequestParam(defaultValue = "0") int page,
@@ -115,14 +113,18 @@ public class MouldingController {
         }
     }
 
+    /**
+     * Get a specific moulding by ID.
+     * Finding that perfect moulding is like finding a needle in a haystack,
+     * but we make it easy! 🎯
+     */
     @GetMapping("/{id}")
-    @PreAuthorize("hasAnyRole('USER', 'ADMIN', 'SELLER')")
     @Operation(summary = "Get moulding by ID", description = "Retrieves a specific moulding by its ID")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Successfully retrieved moulding"),
         @ApiResponse(responseCode = "404", description = "Moulding not found")
     })
-    public EntityResponse<?> getMouldingById(@Parameter(description = "ID of the moulding") @PathVariable Long id) {
+    public EntityResponse<MouldingDTO> getMouldingById(@Parameter(description = "ID of the moulding") @PathVariable Long id) {
         Optional<Moulding> moulding = mouldingService.getMouldingById(id);
         if (moulding.isPresent()) {
             return EntityResponse.success("Moulding retrieved successfully", mouldingService.toDTO(moulding.get()));
