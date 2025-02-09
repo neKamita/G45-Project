@@ -63,8 +63,12 @@ public class CheckoutService {
             // For guest checkout or if user not found
             if (user == null) {
                 user = new User();
+                user.setName("Guest-" + dto.getEmail().split("@")[0]); // Set name based on email
                 user.setEmail(dto.getEmail());
                 user.setPhone(dto.getPhoneNumber());
+                user.setRole(Role.USER); // Set default role
+                user.setActive(true); // Set as active
+                user.setPassword(""); // Empty password for guest users
                 // Save temporary user
                 user = userRepository.save(user);
                 log.info("Created temporary user for guest checkout: {}", user.getEmail());
@@ -89,8 +93,6 @@ public class CheckoutService {
             order.setStatus(Order.OrderStatus.PENDING);
             order.setOrderDate(java.time.ZonedDateTime.now());
             order.setContactPhone(dto.getPhoneNumber());
-            
-            // Set customer details
             order.setEmail(dto.getEmail());
             
             // Set order type (default to PURCHASE if not specified)
