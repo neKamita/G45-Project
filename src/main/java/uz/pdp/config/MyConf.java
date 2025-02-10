@@ -120,6 +120,7 @@ public class MyConf {
         config.setAllowedOrigins(List.of(
                 "http://localhost:8080",
                 "https://etadoor.up.railway.app",
+                "https://etadoor-project.vercel.app",
                 "http://localhost:5173"));
         config.setAllowCredentials(true);
         source.registerCorsConfiguration("/**", config);

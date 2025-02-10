@@ -10,7 +10,7 @@ import uz.pdp.enums.Socials;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-02-10T14:29:31+0500",
+    date = "2025-02-10T15:53:49+0500",
     comments = "version: 1.5.5.Final, compiler: Eclipse JDT (IDE) 3.41.0.z20250115-2156, environment: Java 21.0.5 (Eclipse Adoptium)"
 )
 @Component
@@ -50,7 +50,6 @@ public class AddressMapperImpl implements AddressMapper {
 
         address.setLocation( dtoToLocation( dto.getLocation() ) );
         address.setCity( dto.getCity() );
-        address.setDefault( dto.isDefault() );
         address.setEmail( dto.getEmail() );
         address.setName( dto.getName() );
         address.setPhoneNumber( dto.getPhoneNumber() );
@@ -60,6 +59,7 @@ public class AddressMapperImpl implements AddressMapper {
         }
         address.setStreet( dto.getStreet() );
         address.setWorkingHours( dto.getWorkingHours() );
+        address.setDefault( dto.isDefault() );
 
         return address;
     }
@@ -72,7 +72,6 @@ public class AddressMapperImpl implements AddressMapper {
 
         address.setLocation( dtoToLocation( dto.getLocation() ) );
         address.setCity( dto.getCity() );
-        address.setDefault( dto.isDefault() );
         address.setEmail( dto.getEmail() );
         address.setName( dto.getName() );
         address.setPhoneNumber( dto.getPhoneNumber() );
@@ -94,5 +93,6 @@ public class AddressMapperImpl implements AddressMapper {
         }
         address.setStreet( dto.getStreet() );
         address.setWorkingHours( dto.getWorkingHours() );
+        address.setDefault( dto.isDefault() );
     }
 }

@@ -115,7 +115,7 @@ public class StorageService {
             return updateStorage(id, updatedStorage);
         } catch (Exception e) {
             logger.error("Error updating storage with id: {}", id, e);
-            throw new RuntimeException("Failed to update storage location. Please check your input and try again.");
+            throw new RuntimeException("Failed to  update storage location. Please check your input and try again.");
         }
     }
 
