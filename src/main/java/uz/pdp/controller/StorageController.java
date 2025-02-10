@@ -1,5 +1,6 @@
 package uz.pdp.controller;
 
+import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -27,9 +28,9 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("/api/storages")
+@Hidden
 @Tag(name = "Storage Management", description = "APIs for managing product storage locations")
 public class StorageController {
-
     private static final Logger logger = LoggerFactory.getLogger(StorageController.class);
     private final StorageService storageService;
 
