@@ -71,6 +71,12 @@ public class MyConf {
                         .requestMatchers(HttpMethod.POST, "/api/doors/*/basket").authenticated()
                         .requestMatchers(HttpMethod.POST, "/api/accessories/*/basket").authenticated()
 
+                        // Storage operations
+                        .requestMatchers(HttpMethod.POST, "/api/storages/**").hasAnyRole("ADMIN", "SELLER")
+                        .requestMatchers(HttpMethod.PUT, "/api/storages/**").hasAnyRole("ADMIN", "SELLER")
+                        .requestMatchers(HttpMethod.DELETE, "/api/storages/**").hasAnyRole("ADMIN", "SELLER")
+
+
                         // Auth endpoints
                         .requestMatchers("/api/auth/**", "/api/users/verify-seller").permitAll()
 
@@ -94,6 +100,7 @@ public class MyConf {
                         .requestMatchers(HttpMethod.GET, "/api/mouldings/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/v1/doors/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/categories/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/storages/**").permitAll()
 
                         // All other requests need authentication
                         .anyRequest().authenticated())

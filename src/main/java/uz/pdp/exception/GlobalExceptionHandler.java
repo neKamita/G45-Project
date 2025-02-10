@@ -100,6 +100,42 @@ public class GlobalExceptionHandler {
     }
 
     /**
+     * Exception for when a storage location is playing hide and seek.
+     * Because sometimes storage spaces need a vacation too! 🏪
+     */
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public static class StorageNotFoundException extends BaseException {
+        public StorageNotFoundException(Long id) {
+            super(String.format(" Oops! Storage #%d seems to have gone on vacation. We couldn't find it in our warehouse!", id),
+                  HttpStatus.NOT_FOUND);
+        }
+    }
+
+    /**
+     * Exception for when a storage location is already occupied.
+     * When two storage spaces try to share the same spot! 📦
+     */
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public static class StorageAlreadyExistsException extends BaseException {
+        public StorageAlreadyExistsException(String location) {
+            super(String.format(" Sorry! The storage at %s is already taken. Our warehouses don't like to share addresses!", location),
+                  HttpStatus.CONFLICT);
+        }
+    }
+
+    /**
+     * Exception for invalid storage operations.
+     * When someone tries to store air in our warehouse! 🌬️
+     */
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public static class InvalidStorageOperationException extends BaseException {
+        public InvalidStorageOperationException(String message) {
+            super(String.format(" Whoops! %s. Our warehouse manager is very particular about these things!", message),
+                  HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    /**
      * Handles all custom base exceptions.
      * One handler to catch them all! 
      */
