@@ -1,6 +1,5 @@
 # Etadoor - Online Door Marketplace
 
-
 [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.2.1-brightgreen.svg)](https://spring.io/projects/spring-boot)
 [![GraphQL](https://img.shields.io/badge/GraphQL-Enabled-e10098.svg)](https://graphql.org)
 [![Version](https://img.shields.io/badge/version-1.2.5-blue.svg)](CHANGELOG.md)
@@ -9,30 +8,54 @@
 [![Tests](https://img.shields.io/badge/Tests-Passing-success.svg)](README.md#testing)
 
 ## Overview
-Etadoor is a door marketplace platform built with Spring Boot, offering both REST and GraphQL APIs. The platform allows users to browse and configure custom doors with various specifications.
+Etadoor is a comprehensive door marketplace platform built with Spring Boot, offering both REST and GraphQL APIs. The platform allows users to browse, configure, and purchase custom doors, accessories, and mouldings with advanced management features.
 
 ## Key Features
 
 ### Core Functionality
-- Door catalog with customization options
+- Door catalog with advanced customization options
+  - Color variants and custom color support
+  - Size customization with dynamic pricing
+  - Multiple image support with AWS S3 integration
+- Door Accessories Management
+  - Furniture and hardware options
+  - Category-based organization
+- Moulding System
+  - Custom moulding configurations
+  - Integrated pricing calculator
+- Storage and Inventory Management
+  - Multiple storage location support
+  - Nearest storage finder
 - Dynamic price calculation system
+- Comprehensive contact management
+  - Address geolocation support
+  - Interactive map integration
+- Advanced basket and checkout system
+  - Multi-item checkout support
+  - Checkout history tracking
 - User authentication with JWT
 - Role-based access control (USER, ADMIN, SELLER)
-- GraphQL API support
 
 ### Technical Features
 - REST API with Swagger documentation
 - GraphQL API with GraphiQL interface
+- Redis Cloud caching integration
+- AWS S3 for image storage
+- Standardized EntityResponse pattern
 - JWT-based authentication
 - Name-based user identification
 - PostgreSQL database integration
+- Comprehensive test coverage
+- Docker containerization
 
 ## Technology Stack
-- Java Spring Boot 3.4.1
+- Java Spring Boot 3.2.1
 - Spring Security with JWT
 - Spring GraphQL
 - Spring Data JPA
 - PostgreSQL
+- Redis Cloud
+- AWS S3
 - Swagger UI
 - Docker
 
@@ -43,6 +66,8 @@ Etadoor is a door marketplace platform built with Spring Boot, offering both RES
 - PostgreSQL 12+
 - Maven 3.6+
 - Docker
+- Redis (local or cloud)
+- AWS Account (for S3)
 
 ### Setup
 1. Clone the repository
@@ -51,11 +76,28 @@ git clone https://github.com/neKamita/G45-Project.git
 cd etadoor
 ```
 
-2. Configure database connection in `application.properties`
+2. Configure environment variables
 ```properties
-spring.datasource.url=jdbc:postgresql://localhost:5432/etadoor # Change to your database URL for local setup
-spring.datasource.username=your_username # Change to your database username for local setup
-spring.datasource.password=your_password # Change to your database password for local setup
+# Database Configuration
+DATABASE_URL=jdbc:postgresql://localhost:5432/etadoor
+DATABASE_USERNAME=your_username
+DATABASE_PASSWORD=your_password
+
+# Redis Configuration
+REDIS_HOST=your_redis_host
+REDIS_PORT=your_redis_port
+REDIS_PASSWORD=your_redis_password
+
+# AWS Configuration
+AWS_ACCESS_KEY=your_aws_access_key
+AWS_SECRET_KEY=your_aws_secret_key
+AWS_BUCKET_NAME=your_s3_bucket_name
+
+# Email Configuration
+MAIL_HOST=your_smtp_host
+MAIL_PORT=your_smtp_port
+MAIL_USERNAME=your_email
+MAIL_PASSWORD=your_email_password
 ```
 
 3. Build and run
@@ -66,131 +108,147 @@ mvn spring-boot:run
 
 4. Docker Setup
 ```bash
-docker build -t etadoor:latest . 
-docker run -p 8080:8080 etadoor:latest
-
+docker build -t etadoor:latest .
+docker run -p 8080:8080 --env-file .env etadoor:latest
 ```
 
-### Redis Cache Setup Arch Linux
+### Redis Setup
+
+#### Local Setup (Arch Linux)
 1. Install Redis:
 ```bash
 sudo pacman -S redis
 ```
-2. Start Redis:
+2. Start Redis:git
 ```bash
 sudo systemctl start redis
 sudo systemctl enable redis
 ```
-3. Veirfy Redis:
+3. Verify Redis:
 ```bash
 redis-cli ping # SHOULD RETURN PONG
 ```
 
-#### For Windows Users:
-1. Download Redis for Windows:
-   - Download the latest Redis version for Windows from [GitHub Releases](https://github.com/microsoftarchive/redis/releases)
-   - Download the `.msi` file (e.g., `Redis-x64-3.0.504.msi`)
-   - Run the installer
-
-2. Start Redis:
-   - Redis will be installed as a Windows service and start automatically
-   - To manually start: `net start Redis`
-   - To manually stop: `net stop Redis`
-
-3. Verify Redis:
+#### Windows Setup:
+1. Download Redis for Windows from [GitHub Releases](https://github.com/microsoftarchive/redis/releases)
+2. Install and start Redis service
+3. Verify installation:
 ```cmd
 redis-cli ping # SHOULD RETURN PONG
 ```
 
 ### Redis Cloud Setup (Production)
-1. Using Redis Enterprise Cloud:
-   - Database: cache-M5NOIOBN
-   - Endpoint: redis-15073.crce175.eu-north-1-1.ec2.redns.redis-cloud.com:15073
-   - Password: [Secured]
-
-
+- Database: cache-M5NOIOBN
+- Endpoint: redis-15073.crce175.eu-north-1-1.ec2.redns.redis-cloud.com:15073
+- Password: [Configure in environment variables]
 
 ## API Documentation
-- REST API: https://etadoor.koyeb.app/swagger-ui/index.html or http://localhost:8080/swagger-ui/index.html
-- GraphQL API: https://etadoor.koyeb.app/graphiql or http://localhost:8080/graphiql
+- REST API: https://etadoor.koyeb.app/swagger-ui/index.html
+- GraphQL API: https://etadoor.koyeb.app/graphiql
 
-### GraphQL Example Queries
+### REST API Examples
+
+#### Door Management
+```http
+# Create Door
+POST /api/doors
+Content-Type: application/json
+
+{
+  "name": "Classic Wood Door",
+  "material": "WOOD",
+  "color": "BROWN",
+  "size": "STANDARD"
+}
+
+# Add Color Variant
+POST /api/doors/{id}/colors
+Content-Type: application/json
+
+{
+  "color": "BLACK",
+  "price": 299.99
+}
+```
+
+#### Door Accessories
+```http
+# Create Accessory
+POST /api/accessories
+Content-Type: application/json
+
+{
+  "name": "Premium Handle",
+  "type": "HANDLE",
+  "price": 49.99
+}
+```
+
+### GraphQL Examples
 ```graphql
-# Get door details
-query GetDoor {
+# Get door with variants
+query GetDoorWithVariants {
   door(id: 1) {
     id
     name
     size
     color
+    variants {
+      color
+      price
+    }
     finalPrice
   }
 }
 
-# Configure door
-mutation ConfigureDoor {
+# Configure door with accessories
+mutation ConfigureDoorWithAccessories {
   configureDoor(input: {
     id: 1
     size: CUSTOM
     color: BLACK
     width: 250
     height: 220
+    accessories: [1, 2]
   }) {
     id
     finalPrice
+    accessories {
+      id
+      name
+      price
+    }
   }
 }
 ```
 
 ## Project Structure
-- `src/main/java/uz/pdp/controller` - REST and GraphQL controllers
-- `src/main/java/uz/pdp/entity` - Domain entities
-- `src/main/java/uz/pdp/service` - Business logic
-- `src/main/java/uz/pdp/config` - Configuration classes
-- `src/main/resources/graphql` - GraphQL schema
-- `src/test/java/uz/pdp/service` - Unit tests for services
-
-## Testing (UPDATE 1.1.9 NO TESTS MORE)
-The project includes comprehensive unit tests for core services:
-
-### AuthService Tests
-- Sign-in functionality
-- Sign-up process
-- Authentication validation
-- JWT token generation
-
-### DoorService Tests
-- CRUD operations (Create, Read, Update, Delete)
-- Door configuration
-- Custom size handling
-- Error scenarios
-
-To run the tests:
-```bash
-./mvnw test
 ```
-# Build the project
-.\mvnw.cmd clean install
+src/main/java/uz/pdp/
+├── config/          # Configuration classes
+├── controller/      # REST and GraphQL controllers
+├── dto/            # Data Transfer Objects
+├── entity/         # Domain entities
+├── enums/          # Enumerations
+├── exception/      # Custom exceptions
+├── mapper/         # Object mappers
+├── repository/     # Data access layer
+├── security/       # Security configurations
+└── service/        # Business logic
+```
 
-# Run the application
-.\mvnw.cmd spring-boot:run
-
-## Recent Updates
-- Added comprehensive contact management system
-- Enhanced door management with seller-specific access control
-- Migrated deployment to Koyeb platform
-
-## Contact Management
-The application now includes a full-featured contact management system:
-- Interactive map with location markers
-- Address management with geolocation
-- Contact details storage
-- Search functionality by city/location
-
-## Access Control
-- Sellers can manage only their own doors
-- Admins have full access to all doors
-- Public access to view doors and contact information
+### Key Components
+- `controller/`: REST endpoints and GraphQL resolvers
+  - DoorController: Door management
+  - DoorAccessoryController: Accessories management
+  - StorageController: Storage management
+  - BasketController: Shopping operations
+  - ContactController: Address management
+- `service/`: Business logic implementation
+  - DoorService: Door operations and variants
+  - StorageService: Inventory management
+  - BasketService: Shopping cart operations
+  - ImageStorageService: AWS S3 integration
 
 ## Environment Variables
 ```env
@@ -204,15 +262,23 @@ REDIS_HOST=redis-15073.crce175.eu-north-1-1.ec2.redns.redis-cloud.com
 REDIS_PORT=15073
 REDIS_PASSWORD=[Secured]
 
+# AWS Configuration
+AWS_ACCESS_KEY=[Secured]
+AWS_SECRET_KEY=[Secured]
+AWS_BUCKET_NAME=etadoor-images
+
+# Email Configuration
+MAIL_HOST=smtp.gmail.com
+MAIL_PORT=587
+MAIL_USERNAME=[Secured]
+MAIL_PASSWORD=[Secured]
+
 # Application URL
 APP_URL=https://etadoor.koyeb.app
 ```
 
 ## Recent Updates
-See [CHANGELOG.md](CHANGELOG.md) for detailed version history
-
+See [CHANGELOG.md](CHANGELOG.md) for detailed version history.
 
 ## Contact
 For support or queries, please open an issue in the repository.
-
-
