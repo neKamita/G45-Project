@@ -22,6 +22,7 @@ import graphql.schema.Coercing;
     "uz.pdp.mapper",
     "uz.pdp"
 })
+@EnableAdminServer
 @EntityScan(basePackages = "uz.pdp.entity")
 @EnableJpaRepositories(basePackages = "uz.pdp.repository")
 public class ProjectModul10Application {
