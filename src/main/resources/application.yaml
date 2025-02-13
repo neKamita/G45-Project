@@ -1,4 +1,7 @@
 spring:
+  boot:
+    admin:
+      context-path: /admin  #A different context path for Spring boot admin
   graphql:
     graphiql:
       enabled: true
